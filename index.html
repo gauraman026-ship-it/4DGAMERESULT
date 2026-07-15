@@ -40,6 +40,8 @@
         <textarea id="block50" placeholder="Block 50-59 Suffix (e.g. 23)"></textarea><br>
         <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #f00; color: #fff; border:none; font-weight:bold;">SAVE SETTINGS</button>
     </div>
+    
+    <!-- 3-Click Admin Area -->
     <div style="position:fixed; bottom:0; right:0; width:100px; height:100px;" onclick="handleAdmin()"></div>
 
     <script>
@@ -47,7 +49,16 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        function handleAdmin() { if(prompt("Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block'; }
+        // 3-Click Logic
+        let clickCount = 0;
+        function handleAdmin() {
+            clickCount++;
+            if (clickCount === 3) {
+                if(prompt("Enter Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block';
+                clickCount = 0;
+            }
+            setTimeout(() => { clickCount = 0; }, 3000);
+        }
 
         function saveSettings() {
             db.ref('settings').set({
@@ -100,22 +111,30 @@
             if(snap.exists()) document.getElementById('today-container').innerHTML = snap.val().html;
         });
 
-        // Timing Logic
+        // 9:00 AM se 10:00 PM Timing Logic
         setInterval(() => {
             let now = new Date();
+            let h = now.getHours();
             let m = now.getMinutes();
             let s = now.getSeconds();
-            document.getElementById('timer').innerText = `Next Draw: ${14 - (m % 15)}m ${59 - s}s`;
 
-            if (m % 15 === 0 && s === 0) {
-                db.ref('lastGenerated').once('value', (snap) => {
-                    let lastTime = snap.val();
-                    let currentTime = m + "-" + new Date().toDateString();
-                    if (lastTime !== currentTime) {
-                        generateAndSave();
-                        db.ref('lastGenerated').set(currentTime);
-                    }
-                });
+            if (h >= 9 && h < 22) {
+                let remM = 14 - (m % 15);
+                let remS = 59 - s;
+                document.getElementById('timer').innerText = `Next Draw: ${remM}m ${remS}s`;
+
+                if (m % 15 === 0 && s === 0) {
+                    db.ref('lastGenerated').once('value', (snap) => {
+                        let lastTime = snap.val();
+                        let currentTime = h + "-" + m + "-" + now.toDateString();
+                        if (lastTime !== currentTime) {
+                            generateAndSave();
+                            db.ref('lastGenerated').set(currentTime);
+                        }
+                    });
+                }
+            } else {
+                document.getElementById('timer').innerText = "MARKET CLOSED";
             }
         }, 1000);
     </script>
