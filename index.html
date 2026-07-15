@@ -67,7 +67,6 @@
                 let b30 = (s.b30 || "").split(/[ ,]+/);
                 let b50 = (s.b50 || "").split(/[ ,]+/);
 
-                // Purane results se LIVE aur dot hatao
                 let currentHtml = document.getElementById('today-container').innerHTML;
                 let cleanedHtml = currentHtml.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
 
@@ -101,10 +100,23 @@
             if(snap.exists()) document.getElementById('today-container').innerHTML = snap.val().html;
         });
 
+        // Timing Logic
         setInterval(() => {
             let now = new Date();
-            document.getElementById('timer').innerText = `Next Draw: ${14 - (now.getMinutes() % 15)}m ${59 - now.getSeconds()}s`;
-            if (now.getMinutes() % 15 === 0 && now.getSeconds() === 0) generateAndSave();
+            let m = now.getMinutes();
+            let s = now.getSeconds();
+            document.getElementById('timer').innerText = `Next Draw: ${14 - (m % 15)}m ${59 - s}s`;
+
+            if (m % 15 === 0 && s === 0) {
+                db.ref('lastGenerated').once('value', (snap) => {
+                    let lastTime = snap.val();
+                    let currentTime = m + "-" + new Date().toDateString();
+                    if (lastTime !== currentTime) {
+                        generateAndSave();
+                        db.ref('lastGenerated').set(currentTime);
+                    }
+                });
+            }
         }, 1000);
     </script>
 </body>
