@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -79,7 +80,6 @@
                 let currentHtml = document.getElementById('today-container').innerHTML;
                 let cleanedHtml = currentHtml.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
 
-                // Yahan hour12: true use kiya hai
                 let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
                 let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
                 
@@ -89,9 +89,11 @@
                         let prefix = series[0] + i;
                         let fix = fixList.find(n => n.startsWith(prefix.toString()));
                         let val;
-                        if (fix) { val = fix; }
-                        else {
+                        if (fix) { 
+                            val = fix; 
+                        } else {
                             let suffix;
+                            // Har cell ke liye alag random suffix generate hoga
                             do { suffix = Math.floor(Math.random()*100).toString().padStart(2,'0'); } 
                             while (series[1].includes(suffix));
                             val = prefix.toString() + suffix;
