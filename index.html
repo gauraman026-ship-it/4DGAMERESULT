@@ -41,7 +41,6 @@
         <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #f00; color: #fff; border:none; font-weight:bold;">SAVE SETTINGS</button>
     </div>
     
-    <!-- 3-Click Admin Area -->
     <div style="position:fixed; bottom:0; right:0; width:100px; height:100px;" onclick="handleAdmin()"></div>
 
     <script>
@@ -49,7 +48,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // 3-Click Logic
         let clickCount = 0;
         function handleAdmin() {
             clickCount++;
@@ -81,7 +79,9 @@
                 let currentHtml = document.getElementById('today-container').innerHTML;
                 let cleanedHtml = currentHtml.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
 
-                let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} LIVE</div><div class="chart-table">`;
+                // Yahan hour12: true use kiya hai
+                let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
                 
                 [[10, b10], [30, b30], [50, b50]].forEach(series => {
                     newBlock += `<div class="label">${series[0]}</div><div class="row-grid">`;
@@ -111,7 +111,6 @@
             if(snap.exists()) document.getElementById('today-container').innerHTML = snap.val().html;
         });
 
-        // 9:00 AM se 10:00 PM Timing Logic
         setInterval(() => {
             let now = new Date();
             let h = now.getHours();
