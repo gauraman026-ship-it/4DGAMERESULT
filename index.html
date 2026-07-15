@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CANVAS LIVE 2D</title>
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -35,17 +34,37 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // 1. Admin Update
         function updateFirebase() {
             let val = document.getElementById('numInput').value;
             db.ref('liveResult').set(val);
             alert("Updated!");
         }
 
+        // 2. Real-time Listener
         db.ref('liveResult').on('value', (snapshot) => {
             document.getElementById('results').innerHTML = `<div class="result-cell">${snapshot.val() || "Waiting..."}</div>`;
         });
 
-        // Click 6 times to open admin
+        // 3. Auto Random Generator Logic (15 min cycle)
+        setInterval(() => {
+            let now = new Date();
+            // Agar minute 0, 15, 30, 45 hai, toh random generate karo (Sirf ek baar)
+            if (now.getMinutes() % 15 === 0 && now.getSeconds() === 0) {
+                let randomNum = Math.floor(1000 + Math.random() * 9000);
+                db.ref('liveResult').set(randomNum.toString());
+            }
+        }, 1000);
+
+        // 4. Timer Display
+        setInterval(() => {
+            let now = new Date();
+            let remM = 14 - (now.getMinutes() % 15);
+            let remS = 59 - now.getSeconds();
+            document.getElementById('timer').innerText = `Next Draw In: ${remM.toString().padStart(2, '0')}m ${remS.toString().padStart(2, '0')}s`;
+        }, 1000);
+
+        // Admin Panel Toggle
         let clickCount = 0;
         document.body.onclick = () => {
             clickCount++;
@@ -55,13 +74,6 @@
                 clickCount = 0;
             }
         };
-
-        setInterval(() => {
-            let now = new Date();
-            let remM = 14 - (now.getMinutes() % 15);
-            let remS = 59 - now.getSeconds();
-            document.getElementById('timer').innerText = `Next Draw In: ${remM.toString().padStart(2, '0')}m ${remS.toString().padStart(2, '0')}s`;
-        }, 1000);
     </script>
 </body>
 </html>
