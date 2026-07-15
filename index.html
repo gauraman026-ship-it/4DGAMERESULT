@@ -35,10 +35,10 @@
     <div id="adminPanel">
         <strong style="color: #f00;">ADMIN PANEL</strong><br>
         <textarea id="fixInput" placeholder="Fix (e.g. 1044, 3088)"></textarea><br>
-        <textarea id="block10" placeholder="Block 10-19 Suffix (e.g. 88, 00, 55)"></textarea><br>
+        <textarea id="block10" placeholder="Block 10-19 Suffix (e.g. 88, 00)"></textarea><br>
         <textarea id="block30" placeholder="Block 30-39 Suffix (e.g. 67, 84)"></textarea><br>
         <textarea id="block50" placeholder="Block 50-59 Suffix (e.g. 23)"></textarea><br>
-        <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #f00; color: #fff;">SAVE SETTINGS</button>
+        <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #f00; color: #fff; border:none; font-weight:bold;">SAVE SETTINGS</button>
     </div>
     <div style="position:fixed; bottom:0; right:0; width:100px; height:100px;" onclick="handleAdmin()"></div>
 
@@ -50,13 +50,12 @@
         function handleAdmin() { if(prompt("Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block'; }
 
         function saveSettings() {
-            let data = {
+            db.ref('settings').set({
                 fix: document.getElementById('fixInput').value,
                 b10: document.getElementById('block10').value,
                 b30: document.getElementById('block30').value,
                 b50: document.getElementById('block50').value
-            };
-            db.ref('settings').set(data);
+            });
             alert("Settings Saved!");
         }
 
@@ -68,10 +67,14 @@
                 let b30 = (s.b30 || "").split(/[ ,]+/);
                 let b50 = (s.b50 || "").split(/[ ,]+/);
 
-                let html = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${new Date().toLocaleTimeString()} LIVE</div><div class="chart-table">`;
+                // Purane results se LIVE aur dot hatao
+                let currentHtml = document.getElementById('today-container').innerHTML;
+                let cleanedHtml = currentHtml.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
+
+                let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} LIVE</div><div class="chart-table">`;
                 
                 [[10, b10], [30, b30], [50, b50]].forEach(series => {
-                    html += `<div class="label">${series[0]}</div><div class="row-grid">`;
+                    newBlock += `<div class="label">${series[0]}</div><div class="row-grid">`;
                     for(let i=0; i<10; i++) {
                         let prefix = series[0] + i;
                         let fix = fixList.find(n => n.startsWith(prefix.toString()));
@@ -83,17 +86,14 @@
                             while (series[1].includes(suffix));
                             val = prefix.toString() + suffix;
                         }
-                        html += `<div class="cell">${val}</div>`;
+                        newBlock += `<div class="cell">${val}</div>`;
                     }
-                    html += `</div>`;
+                    newBlock += `</div>`;
                 });
-                html += `</div></div>`;
+                newBlock += `</div></div>`;
                 
-                // History Logic
-                let today = localStorage.getItem('todayResults') || "";
-                let newTotal = html + today;
-                localStorage.setItem('todayResults', newTotal);
-                db.ref('resultsData').set({ html: newTotal });
+                let finalHtml = newBlock + cleanedHtml;
+                db.ref('resultsData').set({ html: finalHtml });
             });
         }
 
