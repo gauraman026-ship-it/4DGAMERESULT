@@ -2,78 +2,110 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANVAS LIVE 2D</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CANVAS LIVE 3D</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding: 10px; }
-        .neon-title { font-size: 1.8em; color: #fff; text-shadow: 0 0 10px #f00; margin: 15px 0; }
-        .timer-box { color: #ff0; padding: 15px; border: 2px solid #ff0; font-size: 1.4em; border-radius: 8px; margin-bottom: 20px; }
-        .result-cell { font-size: 2.5em; color: #fff; margin: 20px; border: 2px solid #f00; padding: 20px; border-radius: 10px; display: inline-block; background: #200; }
-        #adminPanel { display:none; margin-top:30px; border: 1px solid #f00; padding: 10px; }
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 10px; }
+        .neon-title { text-align: center; font-size: 1.8em; color: #fff; text-shadow: 0 0 10px #f00; margin: 15px 0; }
+        .timer-box { text-align: center; color: #ff0; font-size: 1.4em; font-weight: bold; background: #300; padding: 10px; border: 2px solid #ff0; border-radius: 8px; }
+        .section-title { color: #f00; font-size: 1.3em; margin: 20px 0 10px; border-left: 4px solid #f00; padding-left: 10px; text-transform: uppercase; font-weight: bold; }
+        .result-block { border: 2px solid #400; margin-bottom: 15px; background: #150000; padding: 10px; border-radius: 8px; }
+        .time-header { color: #f00; font-size: 1.1em; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; }
+        .live-dot { height: 12px; width: 12px; background-color: #f00; border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+        .chart-table { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; }
+        .label { background: #4a4a4a; padding: 10px 0; text-align: center; font-size: 0.9em; font-weight: bold; border: 1px solid #777; }
+        .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
+        .cell { background: #200; padding: 10px 0; text-align: center; font-weight: bold; border: 1px solid #f00; font-size: 1em; }
+        #adminPanel { display: none; margin-top: 20px; padding: 15px; border: 2px solid #f00; background: #300; border-radius: 8px; }
+        textarea { width: 90%; background: #000; color: #fff; border: 1px solid #f00; margin: 5px 0; padding: 5px; }
     </style>
 </head>
 <body>
 
-    <div class="neon-title">CANVAS LIVE 2D</div>
+    <div class="neon-title">CANVAS LIVE 3D</div>
     <div class="timer-box" id="timer">Syncing...</div>
-    <div id="results">Loading result...</div>
+    <div class="section-title">TODAY RESULTS</div>
+    <div id="today-container"></div>
+    <div class="section-title">YESTERDAY RESULTS</div>
+    <div id="yesterday-container"></div>
 
     <div id="adminPanel">
-        <input type="text" id="numInput" placeholder="Enter Result">
-        <button onclick="updateFirebase()">UPDATE FOR ALL</button>
+        <strong style="color: #f00;">ADMIN PANEL</strong><br>
+        <textarea id="fixInput" placeholder="Fix (e.g. 1044, 3088)"></textarea><br>
+        <textarea id="block10" placeholder="Block 10-19 Suffix (e.g. 88, 00, 55)"></textarea><br>
+        <textarea id="block30" placeholder="Block 30-39 Suffix (e.g. 67, 84)"></textarea><br>
+        <textarea id="block50" placeholder="Block 50-59 Suffix (e.g. 23)"></textarea><br>
+        <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #f00; color: #fff;">SAVE SETTINGS</button>
     </div>
+    <div style="position:fixed; bottom:0; right:0; width:100px; height:100px;" onclick="handleAdmin()"></div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q",
-            databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com",
-            projectId: "canvas2d-result"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // 1. Admin Update
-        function updateFirebase() {
-            let val = document.getElementById('numInput').value;
-            db.ref('liveResult').set(val);
-            alert("Updated!");
+        function handleAdmin() { if(prompt("Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block'; }
+
+        function saveSettings() {
+            let data = {
+                fix: document.getElementById('fixInput').value,
+                b10: document.getElementById('block10').value,
+                b30: document.getElementById('block30').value,
+                b50: document.getElementById('block50').value
+            };
+            db.ref('settings').set(data);
+            alert("Settings Saved!");
         }
 
-        // 2. Real-time Listener
-        db.ref('liveResult').on('value', (snapshot) => {
-            document.getElementById('results').innerHTML = `<div class="result-cell">${snapshot.val() || "Waiting..."}</div>`;
+        function generateAndSave() {
+            db.ref('settings').once('value', (snap) => {
+                let s = snap.val() || {};
+                let fixList = (s.fix || "").split(/[ ,]+/);
+                let b10 = (s.b10 || "").split(/[ ,]+/);
+                let b30 = (s.b30 || "").split(/[ ,]+/);
+                let b50 = (s.b50 || "").split(/[ ,]+/);
+
+                let html = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${new Date().toLocaleTimeString()} LIVE</div><div class="chart-table">`;
+                
+                [[10, b10], [30, b30], [50, b50]].forEach(series => {
+                    html += `<div class="label">${series[0]}</div><div class="row-grid">`;
+                    for(let i=0; i<10; i++) {
+                        let prefix = series[0] + i;
+                        let fix = fixList.find(n => n.startsWith(prefix.toString()));
+                        let val;
+                        if (fix) { val = fix; }
+                        else {
+                            let suffix;
+                            do { suffix = Math.floor(Math.random()*100).toString().padStart(2,'0'); } 
+                            while (series[1].includes(suffix));
+                            val = prefix.toString() + suffix;
+                        }
+                        html += `<div class="cell">${val}</div>`;
+                    }
+                    html += `</div>`;
+                });
+                html += `</div></div>`;
+                
+                // History Logic
+                let today = localStorage.getItem('todayResults') || "";
+                let newTotal = html + today;
+                localStorage.setItem('todayResults', newTotal);
+                db.ref('resultsData').set({ html: newTotal });
+            });
+        }
+
+        db.ref('resultsData').on('value', (snap) => {
+            if(snap.exists()) document.getElementById('today-container').innerHTML = snap.val().html;
         });
 
-        // 3. Auto Random Generator Logic (15 min cycle)
         setInterval(() => {
             let now = new Date();
-            // Agar minute 0, 15, 30, 45 hai, toh random generate karo (Sirf ek baar)
-            if (now.getMinutes() % 15 === 0 && now.getSeconds() === 0) {
-                let randomNum = Math.floor(1000 + Math.random() * 9000);
-                db.ref('liveResult').set(randomNum.toString());
-            }
+            document.getElementById('timer').innerText = `Next Draw: ${14 - (now.getMinutes() % 15)}m ${59 - now.getSeconds()}s`;
+            if (now.getMinutes() % 15 === 0 && now.getSeconds() === 0) generateAndSave();
         }, 1000);
-
-        // 4. Timer Display
-        setInterval(() => {
-            let now = new Date();
-            let remM = 14 - (now.getMinutes() % 15);
-            let remS = 59 - now.getSeconds();
-            document.getElementById('timer').innerText = `Next Draw In: ${remM.toString().padStart(2, '0')}m ${remS.toString().padStart(2, '0')}s`;
-        }, 1000);
-
-        // Admin Panel Toggle
-        let clickCount = 0;
-        document.body.onclick = () => {
-            clickCount++;
-            if(clickCount >= 6) {
-                let p = prompt("Admin Password:");
-                if(p === "24081996") document.getElementById('adminPanel').style.display = 'block';
-                clickCount = 0;
-            }
-        };
     </script>
 </body>
 </html>
