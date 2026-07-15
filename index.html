@@ -2,140 +2,65 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CANVAS LIVE 2D</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 10px; width: 100%; min-height: 100vh; }
-        .neon-title { text-align: center; font-size: 1.8em; color: #fff; text-shadow: 0 0 10px #f00; margin: 15px 0; }
-        .timer-box { text-align: center; color: #ff0; font-size: 1.4em; font-weight: bold; background: #300; padding: 15px; border: 2px solid #ff0; border-radius: 8px; margin-bottom: 15px; }
-        .section-title { color: #f00; font-size: 1.3em; margin: 20px 0 10px; border-left: 4px solid #f00; padding-left: 10px; text-transform: uppercase; font-weight: bold; }
-        
-        .result-block { border: 2px solid #400; margin-bottom: 15px; background: #150000; padding: 10px; border-radius: 8px; }
-        .time-header { color: #f00; font-size: 1.1em; margin-bottom: 10px; display: flex; align-items: center; font-weight: bold; }
-        .live-dot { height: 12px; width: 12px; background-color: #f00; border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-        
-        .chart-table { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; }
-        .label { background: #4a4a4a; padding: 10px 0; text-align: center; font-size: 0.9em; border-radius: 4px; font-weight: bold; color: #fff; border: 1px solid #777; }
-        .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
-        .cell { background: #200; padding: 12px 0; text-align: center; font-weight: bold; border: 1px solid #f00; border-radius: 4px; font-size: 1.2em; color: #fff; }
-        
-        #adminPanel { display: none; margin-top: 20px; padding: 15px; border: 2px solid #f00; background: #300; border-radius: 8px; position: relative; z-index: 1000; }
-        textarea { width: 90%; height: 50px; background: #000; color: #fff; border: 1px solid #f00; margin-top: 5px; font-size: 1em; padding: 5px; }
-        .click-area { position: fixed; bottom: 0; right: 0; width: 150px; height: 150px; z-index: 999; }
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding: 10px; }
+        .neon-title { font-size: 1.8em; color: #fff; text-shadow: 0 0 10px #f00; margin: 15px 0; }
+        .timer-box { color: #ff0; padding: 15px; border: 2px solid #ff0; font-size: 1.4em; border-radius: 8px; margin-bottom: 20px; }
+        .result-cell { font-size: 2.5em; color: #fff; margin: 20px; border: 2px solid #f00; padding: 20px; border-radius: 10px; display: inline-block; background: #200; }
+        #adminPanel { display:none; margin-top:30px; border: 1px solid #f00; padding: 10px; }
     </style>
 </head>
 <body>
 
     <div class="neon-title">CANVAS LIVE 2D</div>
     <div class="timer-box" id="timer">Syncing...</div>
-    
-    <div class="section-title">TODAY RESULTS</div>
-    <div id="today-container"></div>
-    
-    <div class="section-title">YESTERDAY RESULTS</div>
-    <div id="yesterday-container"></div>
+    <div id="results">Loading result...</div>
 
     <div id="adminPanel">
-        <strong style="color: #f00;">ADMIN PANEL</strong><br>
-        <textarea id="fixInput" placeholder="Fix Numbers (e.g. 1067, 3088)"></textarea><br>
-        <textarea id="block10" placeholder="Block 10-19 Suffix (e.g. 10, 55, 89)"></textarea><br>
-        <textarea id="block30" placeholder="Block 30-39 Suffix (e.g. 34, 90)"></textarea><br>
-        <textarea id="block50" placeholder="Block 50-59 Suffix (e.g. 47)"></textarea><br>
-        <button onclick="saveAll()" style="width: 100%; padding: 10px; background: #f00; color: #fff; border: none; font-weight: bold;">SAVE SETTINGS</button>
+        <input type="text" id="numInput" placeholder="Enter Result">
+        <button onclick="updateFirebase()">UPDATE FOR ALL</button>
     </div>
 
-    <div class="click-area" onclick="handleHiddenClick()"></div>
-
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q",
+            databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com",
+            projectId: "canvas2d-result"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function updateFirebase() {
+            let val = document.getElementById('numInput').value;
+            db.ref('liveResult').set(val);
+            alert("Updated!");
+        }
+
+        db.ref('liveResult').on('value', (snapshot) => {
+            document.getElementById('results').innerHTML = `<div class="result-cell">${snapshot.val() || "Waiting..."}</div>`;
+        });
+
+        // Click 6 times to open admin
         let clickCount = 0;
-        let lastClickTime = 0;
-        let fixList = [], block10 = [], block30 = [], block50 = [];
-
-        function handleHiddenClick() {
-            let now = new Date().getTime();
-            if (now - lastClickTime < 2000) { clickCount++; } else { clickCount = 1; }
-            lastClickTime = now;
-            if(clickCount >= 3) {
-                let pass = prompt("Enter Password:");
-                if(pass === "24081996") { document.getElementById('adminPanel').style.display = 'block'; clickCount = 0; }
+        document.body.onclick = () => {
+            clickCount++;
+            if(clickCount >= 6) {
+                let p = prompt("Admin Password:");
+                if(p === "24081996") document.getElementById('adminPanel').style.display = 'block';
+                clickCount = 0;
             }
-        }
-
-        function saveAll() {
-            fixList = document.getElementById('fixInput').value.split(/[ ,.]+/).filter(n => n.length > 0);
-            block10 = document.getElementById('block10').value.split(/[ ,]+/).filter(n => n.length > 0);
-            block30 = document.getElementById('block30').value.split(/[ ,]+/).filter(n => n.length > 0);
-            block50 = document.getElementById('block50').value.split(/[ ,]+/).filter(n => n.length > 0);
-            alert("Settings Updated!");
-        }
-
-        function getSafeNumber(prefix, series) {
-            let fix = fixList.find(n => n.startsWith(prefix.toString()));
-            if (fix) return fix;
-            let blocked = (series === 10) ? block10 : (series === 30) ? block30 : block50;
-            let num, suffix, attempts = 0;
-            do {
-                suffix = Math.floor(Math.random() * 100).toString().padStart(2, '0');
-                num = prefix.toString() + suffix;
-                attempts++;
-            } while (blocked.includes(suffix) && attempts < 100);
-            return num;
-        }
-
-        function renderResults() {
-            let containers = document.querySelectorAll('.result-block');
-            containers.forEach(b => { let h = b.querySelector('.time-header'); if(h) h.innerHTML = h.innerText.replace('LIVE', ''); });
-            let timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            let html = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeStr} LIVE</div><div class="chart-table">`;
-            [[10, 10], [30, 30], [50, 50]].forEach(s => {
-                html += `<div class="label">${s[0]}</div><div class="row-grid">`;
-                for(let i=0; i<10; i++) html += `<div class="cell">${getSafeNumber(s[0] + i, s[1])}</div>`;
-                html += `</div>`;
-            });
-            html += `</div></div>`;
-            let container = document.getElementById('today-container');
-            container.insertAdjacentHTML('afterbegin', html);
-            localStorage.setItem('todayResults', container.innerHTML);
-        }
-
-        function checkDate() {
-            let today = new Date().toDateString();
-            if (localStorage.getItem('lastDate') !== today) {
-                localStorage.setItem('yesterdayResults', localStorage.getItem('todayResults') || "");
-                localStorage.setItem('todayResults', "");
-                localStorage.setItem('lastDate', today);
-                location.reload();
-            }
-        }
-
-        window.onload = () => {
-            checkDate();
-            document.getElementById('today-container').innerHTML = localStorage.getItem('todayResults') || "";
-            document.getElementById('yesterday-container').innerHTML = localStorage.getItem('yesterdayResults') || "";
         };
 
-        // Real-time instant trigger logic
         setInterval(() => {
-            checkDate();
             let now = new Date();
-            let hours = now.getHours();
-            
-            if (hours >= 9 && hours < 22) {
-                let mins = now.getMinutes();
-                let secs = now.getSeconds();
-                
-                let remM = 14 - (mins % 15);
-                let remS = 59 - secs;
-                document.getElementById('timer').innerText = `Next Draw In: ${remM.toString().padStart(2, '0')}m ${remS.toString().padStart(2, '0')}s`;
-                
-                // Exact 00 second par turant execute
-                if (mins % 15 === 0 && secs === 0) {
-                    renderResults();
-                }
-            } else {
-                document.getElementById('timer').innerText = "Game Closed (Open 9AM - 10PM)";
-            }
+            let remM = 14 - (now.getMinutes() % 15);
+            let remS = 59 - now.getSeconds();
+            document.getElementById('timer').innerText = `Next Draw In: ${remM.toString().padStart(2, '0')}m ${remS.toString().padStart(2, '0')}s`;
         }, 1000);
     </script>
 </body>
