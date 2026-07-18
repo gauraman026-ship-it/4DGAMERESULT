@@ -12,7 +12,7 @@
         .timer-box { text-align: center; color: #fff; font-size: 1.4em; font-weight: bold; background: #1e2a38; padding: 15px; border: 1px solid #d4af37; border-radius: 12px; }
         .section-title { color: #d4af37; font-size: 1.1em; margin: 25px 0 10px; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; text-align: center; cursor: pointer; }
         .result-block { border: 1px solid #2a3a4a; margin-bottom: 15px; background: #131b26; padding: 12px; border-radius: 10px; }
-        .time-header { color: #d4af37; font-weight: bold; display: flex; align-items: center; margin-bottom: 8px; font-size: 1.1em; }
+        .time-header { font-weight: bold; display: flex; align-items: center; margin-bottom: 8px; font-size: 1.1em; }
         .live-dot { height: 10px; width: 10px; background-color: #d4af37; border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } }
         .chart-table { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; }
@@ -83,9 +83,19 @@
 
                 db.ref('resultsData').once('value', (snapRes) => {
                     let currentHtml = snapRes.val() ? snapRes.val().html : "";
+                    
+                    // Purane blocks ka header color grey karein aur dot hatayein
+                    let cleanedHtml = currentHtml
+                        .replace(/<span class="live-dot"><\/span>/g, '')
+                        .replace(/ LIVE/g, '')
+                        .replace(/class="time-header"/g, 'class="time-header" style="color: #666;"');
+                    
                     let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
                     
-                    let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
+                    let newBlock = `<div class="result-block">
+                        <div class="time-header" style="color: #d4af37;"><span class="live-dot"></span>${timeString} LIVE</div>
+                        <div class="chart-table">`;
+                    
                     [10, 30, 50].forEach(sVal => {
                         newBlock += `<div class="label">${sVal}</div><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
@@ -102,7 +112,7 @@
                         newBlock += `</div>`;
                     });
                     newBlock += `</div></div>`;
-                    db.ref('resultsData').set({ html: newBlock + currentHtml });
+                    db.ref('resultsData').set({ html: newBlock + cleanedHtml });
                 });
             });
         }
@@ -125,7 +135,6 @@
                     db.ref('resultsData').once('value', (snap) => {
                         if(snap.val()) { 
                             let dateStr = new Date().toLocaleDateString();
-                            // CLEANING LOGIC HERE: LIVE dot aur text hataya gaya
                             let cleanHtml = snap.val().html.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
                             db.ref('yesterdayData').set({ html: `<div style="color:#d4af37; margin:10px 0; font-weight:bold;">DATE: ${dateStr}</div>` + cleanHtml }); 
                             db.ref('resultsData').remove(); 
