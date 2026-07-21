@@ -10,7 +10,9 @@
         body { background: #0a0e14; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; }
         .neon-title { text-align: center; font-size: 1.8em; color: #d4af37; text-shadow: 0 0 15px rgba(212,175,55,0.5); margin: 15px 0; font-weight: bold; }
         .timer-box { text-align: center; color: #fff; font-size: 1.4em; font-weight: bold; background: #1e2a38; padding: 15px; border: 1px solid #d4af37; border-radius: 12px; }
-        .section-title { color: #d4af37; font-size: 1.1em; margin: 25px 0 10px; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; text-align: center; cursor: pointer; }
+        .section-title { color: #d4af37; font-size: 1.1em; margin: 25px 0 5px; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; text-align: center; cursor: pointer; }
+        .date-display { text-align: center; color: #888; font-size: 0.9em; margin-bottom: 15px; font-weight: bold; }
+        .result-date-heading { text-align: center; color: #d4af37; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
         .result-block { border: 1px solid #2a3a4a; margin-bottom: 15px; background: #131b26; padding: 12px; border-radius: 10px; }
         .time-header { font-weight: bold; display: flex; align-items: center; margin-bottom: 8px; font-size: 1.1em; }
         .live-dot { height: 10px; width: 10px; background-color: #d4af37; border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; }
@@ -24,25 +26,21 @@
     </style>
 </head>
 <body>
-
     <div class="neon-title">CANVAS LIVE 2D</div>
     <div class="timer-box" id="timer">Syncing...</div>
-    
     <div class="section-title">TODAY RESULTS</div>
+    <div class="date-display" id="date-display"></div>
     <div id="today-container"></div>
-    
     <div class="section-title" onclick="toggleYesterday()">TAP FOR YESTERDAY RESULTS ▾</div>
     <div id="yesterday-container" style="display: none;"></div>
-
     <div id="adminPanel">
         <strong>ADMIN PANEL</strong><br>
         <textarea id="fixInput" placeholder="Fix (e.g. 1044, 3088)"></textarea><br>
-        <textarea id="block10" placeholder="Block 10-19"></textarea><br>
-        <textarea id="block30" placeholder="Block 30-39"></textarea><br>
-        <textarea id="block50" placeholder="Block 50-59"></textarea><br>
-        <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #d4af37; border:none; cursor:pointer;">SAVE SETTINGS</button>
+        <textarea id="block10" placeholder="Block 10-19 (e.g. 1012, 1150)"></textarea><br>
+        <textarea id="block30" placeholder="Block 30-39 (e.g. 3020, 3540)"></textarea><br>
+        <textarea id="block50" placeholder="Block 50-59 (e.g. 5011, 5220)"></textarea><br>
+        <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #d4af37; border:none; cursor:pointer; color:black; font-weight:bold;">SAVE SETTINGS</button>
     </div>
-    
     <div style="position:fixed; bottom:0; right:0; width:100px; height:100px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
@@ -50,14 +48,28 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let clickCount = 0;
-        function handleAdmin() {
-            clickCount++;
-            if (clickCount === 4) {
-                if(prompt("Enter Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block';
-                clickCount = 0;
+        let todayStr = new Date().toLocaleDateString();
+        document.getElementById('date-display').innerText = "DATE: " + todayStr;
+
+        db.ref('lastDate').on('value', (snap) => {
+            let savedDate = snap.val();
+            if (savedDate && savedDate !== todayStr) {
+                db.ref('resultsData').once('value', (resSnap) => {
+                    if (resSnap.exists()) {
+                        let oldData = resSnap.val().html || "";
+                        let yesterdayHeading = `<div class="result-date-heading">DATE: ${savedDate}</div>`;
+                        db.ref('yesterdayData').set({ html: yesterdayHeading + oldData });
+                    }
+                    db.ref('resultsData').remove();
+                    db.ref('lastDate').set(todayStr);
+                });
+            } else if (!savedDate) {
+                db.ref('lastDate').set(todayStr);
             }
-            setTimeout(() => { clickCount = 0; }, 3000);
+        });
+
+        function handleAdmin() {
+            if(prompt("Enter Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block';
         }
 
         function toggleYesterday() {
@@ -72,29 +84,40 @@
                 b30: document.getElementById('block30').value,
                 b50: document.getElementById('block50').value
             });
-            alert("Settings Saved!");
+            alert("Settings & Blocks Saved!");
         }
 
-        function generateAndSave() {
+        function autoGenerateCheck() {
+            let now = new Date();
+            let h = now.getHours();
+            let m = now.getMinutes();
+            let s = now.getSeconds();
+
+            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+
+            if (isMarketOpen) {
+                if (m % 15 === 0 && s === 0) {
+                    triggerAutoGeneration();
+                }
+            }
+        }
+
+        function triggerAutoGeneration() {
             db.ref('settings').once('value', (snap) => {
                 let s = snap.val() || {};
                 let fixList = (s.fix || "").split(/[ ,]+/).filter(x => x.length > 0);
-                let blocks = { '10': (s.b10 || "").split(/[ ,]+/), '30': (s.b30 || "").split(/[ ,]+/), '50': (s.b50 || "").split(/[ ,]+/) };
+                
+                // Block lists read karo
+                let b10List = (s.b10 || "").split(/[ ,]+/).filter(x => x.length > 0);
+                let b30List = (s.b30 || "").split(/[ ,]+/).filter(x => x.length > 0);
+                let b50List = (s.b50 || "").split(/[ ,]+/).filter(x => x.length > 0);
 
                 db.ref('resultsData').once('value', (snapRes) => {
                     let currentHtml = snapRes.val() ? snapRes.val().html : "";
-                    
-                    // Purane blocks ka header color grey karein aur dot hatayein
-                    let cleanedHtml = currentHtml
-                        .replace(/<span class="live-dot"><\/span>/g, '')
-                        .replace(/ LIVE/g, '')
-                        .replace(/class="time-header"/g, 'class="time-header" style="color: #666;"');
+                    let cleanedHtml = currentHtml.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '').replace(/class="time-header"[^>]*>/g, 'class="time-header" style="color: #666;"');
                     
                     let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                    
-                    let newBlock = `<div class="result-block">
-                        <div class="time-header" style="color: #d4af37;"><span class="live-dot"></span>${timeString} LIVE</div>
-                        <div class="chart-table">`;
+                    let newBlock = `<div class="result-block"><div class="time-header" style="color: #d4af37;"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
                     
                     [10, 30, 50].forEach(sVal => {
                         newBlock += `<div class="label">${sVal}</div><div class="row-grid">`;
@@ -102,45 +125,59 @@
                             let prefix = sVal + i;
                             let val;
                             let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
-                            if (fixVal) { val = fixVal; } 
-                            else {
-                                do { val = prefix.toString() + Math.floor(Math.random()*100).toString().padStart(2,'0'); }
-                                while (blocks[sVal.toString()].includes(val.substring(2)));
+                            
+                            // Check block specific lists
+                            let blockVal = null;
+                            if(sVal === 10) blockVal = b10List.find(n => n.startsWith(prefix.toString()));
+                            if(sVal === 30) blockVal = b30List.find(n => n.startsWith(prefix.toString()));
+                            if(sVal === 50) blockVal = b50List.find(n => n.startsWith(prefix.toString()));
+
+                            if (fixVal) {
+                                val = fixVal;
+                            } else if (blockVal) {
+                                val = blockVal;
+                            } else {
+                                val = prefix.toString() + Math.floor(Math.random()*100).toString().padStart(2,'0');
                             }
+
                             newBlock += `<div class="cell">${val}</div>`;
                         }
                         newBlock += `</div>`;
                     });
                     newBlock += `</div></div>`;
+                    
                     db.ref('resultsData').set({ html: newBlock + cleanedHtml });
                 });
             });
         }
 
-        db.ref('resultsData').on('value', (snap) => { if(snap.exists()) document.getElementById('today-container').innerHTML = snap.val().html; });
-        db.ref('yesterdayData').on('value', (snap) => { if(snap.exists()) document.getElementById('yesterday-container').innerHTML = snap.val().html; });
+        db.ref('resultsData').on('value', (snap) => { 
+            if(snap.exists()) {
+                let todayHeading = `<div class="result-date-heading">DATE: ${todayStr}</div>`;
+                document.getElementById('today-container').innerHTML = todayHeading + snap.val().html; 
+            } else {
+                document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
+            }
+        });
+        
+        db.ref('yesterdayData').on('value', (snap) => { 
+            if(snap.exists()) {
+                document.getElementById('yesterday-container').innerHTML = snap.val().html; 
+            } else {
+                document.getElementById('yesterday-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Yesterday Data</div>";
+            }
+        });
 
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            
+            autoGenerateCheck();
+
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
                 document.getElementById('timer').innerText = `Next Draw in ${14 - (m % 15)}m ${59 - s}s`;
-                if (m % 15 === 0 && s === 0) {
-                    let key = now.toDateString() + "-" + h + "-" + m;
-                    db.ref('lastGenerated').once('value', (snap) => { if (snap.val() !== key) { generateAndSave(); db.ref('lastGenerated').set(key); } });
-                }
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
-                if (h === 21 && m === 31 && s === 0) {
-                    db.ref('resultsData').once('value', (snap) => {
-                        if(snap.val()) { 
-                            let dateStr = new Date().toLocaleDateString();
-                            let cleanHtml = snap.val().html.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
-                            db.ref('yesterdayData').set({ html: `<div style="color:#d4af37; margin:10px 0; font-weight:bold;">DATE: ${dateStr}</div>` + cleanHtml }); 
-                            db.ref('resultsData').remove(); 
-                        }
-                    });
-                }
             }
         }, 1000);
     </script>
