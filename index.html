@@ -54,7 +54,7 @@
             border: 1px solid var(--accent-gold); 
             border-radius: 12px; 
             text-align: center; 
-            cursor: pointer; 
+            cursor: pointer;
             text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
@@ -190,9 +190,12 @@
 <body>
     <div class="neon-title">CANVAS LIVE 4D</div>
     <div class="timer-box" id="timer">NEXT DRAW IN: --m --s</div>
-    <div class="section-title">TODAY LIVE RESULTS</div>
+    
+    <!-- Upar ab YESTERDAY RESULTS heading rahegi -->
     <div id="today-container"></div>
-    <div class="section-title" onclick="toggleYesterday()">TAP FOR YESTERDAY RESULTS ▾</div>
+    
+    <!-- Niche ab TAP FOR TODAY RESULTS button rahega -->
+    <div class="section-title" onclick="toggleYesterday()">TAP FOR TODAY RESULTS ▾</div>
     <div id="yesterday-container" style="display: none;"></div>
     
     <div id="adminPanel">
@@ -294,61 +297,55 @@
                 let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
                 let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
-                db.ref('resultsData').once('value', (snapRes) => {
-                    let currentHtml = snapRes.val() ? snapRes.val().html : "";
-                    
-                    let cleanedHtml = currentHtml
-                        .replace(/<span class="live-dot"><\/span>/g, '')
-                        .replace(/ LIVE/g, '');
-                    
-                    let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                    let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
-                    
-                    let rowGroups = [
-                        { label: "10", start: 10, end: 19 },
-                        { label: "30", start: 30, end: 39 },
-                        { label: "50", start: 50, end: 59 }
-                    ];
+                let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
+                
+                let rowGroups = [
+                    { label: "10", start: 10, end: 19 },
+                    { label: "30", start: 30, end: 39 },
+                    { label: "50", start: 50, end: 59 }
+                ];
 
-                    rowGroups.forEach(group => {
-                        newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
-                        for(let num = group.start; num <= group.end; num++) {
-                            let prefix = num.toString();
-                            let assignedVal = "";
+                rowGroups.forEach(group => {
+                    newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
+                    for(let num = group.start; num <= group.end; num++) {
+                        let prefix = num.toString();
+                        let assignedVal = "";
 
-                            let matchedFix = fixList.find(n => n.startsWith(prefix));
-                            if (matchedFix) {
-                                assignedVal = matchedFix;
-                            }
-
-                            if (!assignedVal) {
-                                let attempts = 0;
-                                do {
-                                    let rand1 = Math.floor(Math.random()*10).toString();
-                                    let rand2 = Math.floor(Math.random()*10).toString();
-                                    assignedVal = prefix + rand1 + rand2;
-                                    attempts++;
-                                } while (avoidList.includes(assignedVal) && attempts < 30);
-                            }
-
-                            newBlock += `<div class="cell">${assignedVal}</div>`;
+                        let matchedFix = fixList.find(n => n.startsWith(prefix));
+                        if (matchedFix) {
+                            assignedVal = matchedFix;
                         }
-                        newBlock += `</div></div>`;
-                    });
 
+                        if (!assignedVal) {
+                            let attempts = 0;
+                            do {
+                                let rand1 = Math.floor(Math.random()*10).toString();
+                                let rand2 = Math.floor(Math.random()*10).toString();
+                                assignedVal = prefix + rand1 + rand2;
+                                attempts++;
+                            } while (avoidList.includes(assignedVal) && attempts < 30);
+                        }
+
+                        newBlock += `<div class="cell">${assignedVal}</div>`;
+                    }
                     newBlock += `</div></div>`;
-                    
-                    db.ref('resultsData').set({ html: newBlock + cleanedHtml });
                 });
+
+                newBlock += `</div></div>`;
+                
+                db.ref('resultsData').set({ html: newBlock });
             });
         }
 
+        // Yahan upar ab YESTERDAY RESULTS show hoga jisme results save honge
         db.ref('resultsData').on('value', (snap) => { 
+            let sectionHeader = `<div class="section-title">YESTERDAY RESULTS</div>`;
+            let todayHeading = `<div class="result-date-heading">DATE: ${todayStr}</div>`;
             if(snap.exists()) {
-                let todayHeading = `<div class="result-date-heading">DATE: ${todayStr}</div>`;
-                document.getElementById('today-container').innerHTML = todayHeading + snap.val().html; 
+                document.getElementById('today-container').innerHTML = sectionHeader + todayHeading + snap.val().html; 
             } else {
-                document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
+                document.getElementById('today-container').innerHTML = sectionHeader + todayHeading + "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
             }
         });
         
