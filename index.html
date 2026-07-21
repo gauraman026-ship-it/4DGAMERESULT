@@ -31,15 +31,16 @@
 
         .timer-box { 
             text-align: center; 
-            color: #fff; 
-            font-size: 1.3em; 
-            font-weight: 700; 
-            background: linear-gradient(135deg, #162032 0%, #0d131f 100%); 
+            color: var(--neon-gold); 
+            font-size: 1.2em; 
+            font-weight: 800; 
+            background: var(--card-bg); 
             padding: 16px; 
             border: 1px solid var(--accent-gold); 
-            border-radius: 14px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6), inset 0 0 10px rgba(243,156,18,0.15);
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             letter-spacing: 1px;
+            margin-bottom: 15px;
         }
 
         .section-title { 
@@ -47,22 +48,22 @@
             font-size: 1.05em; 
             font-weight: 800;
             letter-spacing: 1px;
-            margin: 30px 0 10px; 
-            padding: 12px; 
-            background: rgba(22, 32, 50, 0.7);
+            margin: 20px 0 10px; 
+            padding: 14px; 
+            background: var(--card-bg);
             border: 1px solid var(--accent-gold); 
-            border-radius: 8px; 
+            border-radius: 12px; 
             text-align: center; 
             cursor: pointer; 
             text-transform: uppercase;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         .result-date-heading { 
             text-align: center; 
             color: var(--neon-gold); 
-            font-weight: 700; 
-            margin: 20px 0 12px; 
+            font-weight: 800; 
+            margin: 15px 0; 
             font-size: 1.2em; 
             letter-spacing: 1px;
             text-shadow: 0 0 10px rgba(255,183,3,0.3);
@@ -72,24 +73,25 @@
             border: 1px solid rgba(243, 156, 18, 0.3); 
             margin-bottom: 16px; 
             background: var(--card-bg); 
-            padding: 14px; 
-            border-radius: 12px; 
-            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+            padding: 14px 10px; 
+            border-radius: 14px; 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            overflow: hidden;
         }
 
         .time-header { 
             font-weight: 700; 
             display: flex; 
             align-items: center; 
-            margin-bottom: 10px; 
+            margin-bottom: 12px; 
             font-size: 1.15em; 
             color: var(--neon-gold); 
             letter-spacing: 0.5px;
         }
 
         .live-dot { 
-            height: 10px; 
-            width: 10px; 
+            height: 9px; 
+            width: 9px; 
             background-color: #2ecc71; 
             border-radius: 50%; 
             margin-right: 8px; 
@@ -103,36 +105,60 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } 
         }
 
-        .chart-table { display: grid; grid-template-columns: 45px 1fr; gap: 10px; align-items: center; }
+        .table-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .chart-table { 
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 650px; 
+        }
+
+        .row-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         
         .label { 
-            background: linear-gradient(135deg, #1e293b, #0f172a); 
-            padding: 12px 2px; 
+            background: linear-gradient(135deg, #162032, #0d131f); 
+            padding: 9px 12px; 
             text-align: center; 
             font-weight: 800; 
             color: var(--neon-gold); 
-            border: 1px solid rgba(243,156,18,0.3);
-            border-radius: 6px; 
+            border: 1px solid rgba(243,156,18,0.4);
+            border-radius: 8px; 
             font-size: 0.95em;
+            flex-shrink: 0;
+            width: 25px;
         }
 
-        .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+        .row-grid { 
+            display: flex; 
+            gap: 5px; 
+            flex-grow: 1;
+        }
         
         .cell { 
             background: linear-gradient(135deg, #162032, #0d131f); 
-            padding: 9px 1px; 
+            padding: 8px 2px; 
             text-align: center; 
             font-weight: 700; 
-            border-radius: 5px; 
-            font-size: 0.85em; 
+            border-radius: 8px; 
+            font-size: 0.8em; 
             color: #ffffff; 
-            border: 1px solid rgba(255,255,255,0.07);
-            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.08);
+            flex: 1;
+            min-width: 52px;
         }
 
-        .cell:hover {
-            border-color: var(--accent-gold);
-            transform: scale(1.05);
+        .cell.highlight {
+            border: 1px solid var(--neon-gold);
+            box-shadow: 0 0 8px rgba(255, 183, 3, 0.4);
         }
 
         #adminPanel { 
@@ -170,13 +196,11 @@
             box-shadow: 0 4px 15px rgba(243,156,18,0.4);
             transition: filter 0.2s;
         }
-        
-        button:hover { filter: brightness(1.1); }
     </style>
 </head>
 <body>
     <div class="neon-title">CANVAS LIVE 4D</div>
-    <div class="timer-box" id="timer">SYNCING ARENA...</div>
+    <div class="timer-box" id="timer">NEXT DRAW IN: --m --s</div>
     <div class="section-title">TODAY LIVE RESULTS</div>
     <div id="today-container"></div>
     <div class="section-title" onclick="toggleYesterday()">TAP FOR YESTERDAY RESULTS ▾</div>
@@ -185,16 +209,15 @@
     <div id="adminPanel">
         <strong>ADMIN CONFIGURATION PANEL</strong><br>
         
-        <span class="admin-label">1. Block Avoid Numbers (Comma separated):</span>
-        <textarea id="avoidInput" placeholder="e.g. 15, 32, 58"></textarea><br>
+        <span class="admin-label">1. Block Avoid Numbers (Comma/Space separated):</span>
+        <textarea id="avoidInput" placeholder="e.g. 1045, 3033"></textarea><br>
         
-        <span class="admin-label">2. Fixed Result Numbers (Exact override):</span>
-        <textarea id="fixInput" placeholder="e.g. 1044, 3088"></textarea><br>
+        <span class="admin-label">2. Fixed Result Numbers (Exact 4-digit):</span>
+        <textarea id="fixInput" placeholder="e.g. 1045, 5341"></textarea><br>
         
         <button onclick="saveSettings()" style="width: 100%; padding: 12px; border:none; margin-top: 12px;">SAVE SETTINGS</button>
     </div>
     
-    <!-- Hidden 5-Tap Trigger Zone at Bottom-Right -->
     <div style="position:fixed; bottom:0; right:0; width:100px; height:100px; z-index:9999;" onclick="handleAdminTouch()"></div>
 
     <script>
@@ -252,11 +275,13 @@
 
         function saveSettings() {
             db.ref('settings').set({ 
-                fix: document.getElementById('fixInput').value,
-                avoid: document.getElementById('avoidInput').value
+                fix: document.getElementById('fixInput').value.trim(),
+                avoid: document.getElementById('avoidInput').value.trim()
             });
             alert("Settings Saved Successfully!");
         }
+
+        let lastGeneratedMinute = -1;
 
         function autoGenerateCheck() {
             let now = new Date();
@@ -267,7 +292,8 @@
             let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
 
             if (isMarketOpen) {
-                if (m % 15 === 0 && s === 0) {
+                if (m % 15 === 0 && s === 0 && lastGeneratedMinute !== m) {
+                    lastGeneratedMinute = m;
                     triggerAutoGeneration();
                 }
             }
@@ -276,39 +302,54 @@
         function triggerAutoGeneration() {
             db.ref('settings').once('value', (snap) => {
                 let s = snap.val() || {};
-                let fixList = (s.fix || "").split(/[ ,]+/).filter(x => x.length > 0);
-                let avoidList = (s.avoid || "").split(/[ ,]+/).filter(x => x.length > 0);
+                let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
+                let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
                 db.ref('resultsData').once('value', (snapRes) => {
                     let currentHtml = snapRes.val() ? snapRes.val().html : "";
-                    let cleanedHtml = currentHtml.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '').replace(/class="time-header"[^>]*>/g, 'class="time-header" style="color: var(--neon-gold);"');
+                    
+                    let cleanedHtml = currentHtml
+                        .replace(/<span class="live-dot"><\/span>/g, '')
+                        .replace(/ LIVE/g, '');
                     
                     let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                    let newBlock = `<div class="result-block"><div class="time-header" style="color: var(--neon-gold);"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
+                    let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="table-scroll-wrapper"><div class="chart-table">`;
                     
-                    [10, 30, 50].forEach(sVal => {
-                        newBlock += `<div class="label">${sVal}</div><div class="row-grid">`;
-                        for(let i=0; i<10; i++) {
-                            let prefix = sVal + i;
-                            let val;
-                            let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
-                            
-                            if (fixVal) {
-                                val = fixVal;
-                            } else {
-                                let attempts = 0;
-                                do {
-                                    let randVal = prefix.toString() + Math.floor(Math.random()*100).toString().padStart(2,'0');
-                                    val = randVal;
-                                    attempts++;
-                                } while (avoidList.includes(val) && attempts < 30);
+                    let rowGroups = [
+                        { label: "10", start: 10, end: 19 },
+                        { label: "30", start: 30, end: 39 },
+                        { label: "50", start: 50, end: 59 }
+                    ];
+
+                    rowGroups.forEach(group => {
+                        newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
+                        for(let num = group.start; num <= group.end; num++) {
+                            let prefix = num.toString();
+                            let assignedVal = "";
+                            let isHighlighted = "";
+
+                            let matchedFix = fixList.find(n => n.startsWith(prefix));
+                            if (matchedFix) {
+                                assignedVal = matchedFix;
+                                isHighlighted = " highlight";
                             }
 
-                            newBlock += `<div class="cell">${val}</div>`;
+                            if (!assignedVal) {
+                                let attempts = 0;
+                                do {
+                                    let rand1 = Math.floor(Math.random()*10).toString();
+                                    let rand2 = Math.floor(Math.random()*10).toString();
+                                    assignedVal = prefix + rand1 + rand2;
+                                    attempts++;
+                                } while (avoidList.includes(assignedVal) && attempts < 30);
+                            }
+
+                            newBlock += `<div class="cell${isHighlighted}">${assignedVal}</div>`;
                         }
-                        newBlock += `</div>`;
+                        newBlock += `</div></div>`;
                     });
-                    newBlock += `</div></div>`;
+
+                    newBlock += `</div></div></div>`;
                     
                     db.ref('resultsData').set({ html: newBlock + cleanedHtml });
                 });
@@ -347,4 +388,3 @@
     </script>
 </body>
 </html>
-]
