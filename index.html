@@ -191,11 +191,13 @@
     <div class="neon-title">CANVAS LIVE 4D</div>
     <div class="timer-box" id="timer">NEXT DRAW IN: --m --s</div>
     
-    <!-- Upar ab YESTERDAY RESULTS heading rahegi -->
+    <!-- TODAY RESULTS SECTION -->
+    <div class="section-title" style="cursor: default;">TODAY LIVE RESULTS</div>
+    <div id="today-date-heading" class="result-date-heading"></div>
     <div id="today-container"></div>
     
-    <!-- Niche ab TAP FOR TODAY RESULTS button rahega -->
-    <div class="section-title" onclick="toggleYesterday()">TAP FOR TODAY RESULTS ▾</div>
+    <!-- YESTERDAY RESULTS SECTION (COLLAPSIBLE) -->
+    <div class="section-title" onclick="toggleYesterday()">TAP FOR YESTERDAY RESULTS ▾</div>
     <div id="yesterday-container" style="display: none;"></div>
     
     <div id="adminPanel">
@@ -218,6 +220,7 @@
         const db = firebase.database();
 
         let todayStr = new Date().toLocaleDateString();
+        document.getElementById('today-date-heading').innerText = `DATE: ${todayStr}`;
 
         db.ref('lastDate').on('value', (snap) => {
             let savedDate = snap.val();
@@ -334,23 +337,27 @@
 
                 newBlock += `</div></div>`;
                 
-                db.ref('resultsData').set({ html: newBlock });
+                // Append logic so new results stack up properly for today
+                db.ref('resultsData').once('value', (resSnap) => {
+                    let existingHtml = "";
+                    if (resSnap.exists() && resSnap.val().html) {
+                        existingHtml = resSnap.val().html;
+                    }
+                    db.ref('resultsData').set({ html: newBlock + existingHtml });
+                });
             });
         }
 
-        // Yahan upar ab YESTERDAY RESULTS show hoga jisme results save honge
         db.ref('resultsData').on('value', (snap) => { 
-            let sectionHeader = `<div class="section-title">YESTERDAY RESULTS</div>`;
-            let todayHeading = `<div class="result-date-heading">DATE: ${todayStr}</div>`;
-            if(snap.exists()) {
-                document.getElementById('today-container').innerHTML = sectionHeader + todayHeading + snap.val().html; 
+            if(snap.exists() && snap.val().html) {
+                document.getElementById('today-container').innerHTML = snap.val().html; 
             } else {
-                document.getElementById('today-container').innerHTML = sectionHeader + todayHeading + "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
+                document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
             }
         });
         
         db.ref('yesterdayData').on('value', (snap) => { 
-            if(snap.exists()) {
+            if(snap.exists() && snap.val().html) {
                 document.getElementById('yesterday-container').innerHTML = snap.val().html; 
             } else {
                 document.getElementById('yesterday-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Yesterday Data</div>";
