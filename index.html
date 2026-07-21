@@ -8,15 +8,16 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
         body { background: #0a0e14; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; }
-        .neon-title { text-align: center; font-size: 1.8em; color: #d4af37; text-shadow: 0 0 15px rgba(212,175,55,0.5); margin: 15px 0; font-weight: bold; }
+        .neon-title { text-align: center; font-size: 1.8em; color: #d4af37 !important; text-shadow: 0 0 15px rgba(212,175,55,0.6); margin: 15px 0; font-weight: bold; cursor: pointer; user-select: none; }
         .timer-box { text-align: center; color: #fff; font-size: 1.4em; font-weight: bold; background: #1e2a38; padding: 15px; border: 1px solid #d4af37; border-radius: 12px; }
-        .section-title { color: #d4af37; font-size: 1.1em; margin: 25px 0 5px; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; text-align: center; cursor: pointer; }
-        .date-display { text-align: center; color: #888; font-size: 0.9em; margin-bottom: 15px; font-weight: bold; }
-        .result-date-heading { text-align: center; color: #d4af37; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
+        .section-title { color: #d4af37 !important; font-size: 1.1em; margin: 25px 0 5px; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; text-align: center; cursor: pointer; font-weight: bold; }
+        .date-display { text-align: center; color: #d4af37 !important; font-size: 1.1em; margin-bottom: 15px; font-weight: bold; }
+        .result-date-heading { text-align: center; color: #d4af37 !important; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
         .result-block { border: 1px solid #2a3a4a; margin-bottom: 15px; background: #131b26; padding: 12px; border-radius: 10px; }
-        .time-header { font-weight: bold; display: flex; align-items: center; margin-bottom: 8px; font-size: 1.1em; }
+        .time-header { font-weight: bold; display: flex; align-items: center; margin-bottom: 8px; font-size: 1.1em; color: #d4af37 !important; }
         .live-dot { height: 10px; width: 10px; background-color: #d4af37; border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } }
+        .old-dot { height: 8px; width: 8px; background-color: #d4af37; border-radius: 50%; margin-right: 8px; opacity: 0.6; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } }
         .chart-table { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; }
         .label { background: #1e2a38; padding: 10px 2px; text-align: center; font-weight: bold; color: #d4af37; border-radius: 4px; }
         .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
@@ -26,7 +27,7 @@
     </style>
 </head>
 <body>
-    <div class="neon-title">CANVAS LIVE 2D</div>
+    <div class="neon-title" id="mainTitle">CANVAS LIVE 2D</div>
     <div class="timer-box" id="timer">Syncing...</div>
     <div class="section-title">TODAY RESULTS</div>
     <div class="date-display" id="date-display"></div>
@@ -41,7 +42,6 @@
         <textarea id="block50" placeholder="Block 50-59 (e.g. 5011, 5220)"></textarea><br>
         <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #d4af37; border:none; cursor:pointer; color:black; font-weight:bold;">SAVE SETTINGS</button>
     </div>
-    <div style="position:fixed; bottom:0; right:0; width:100px; height:100px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
@@ -50,6 +50,22 @@
 
         let todayStr = new Date().toLocaleDateString();
         document.getElementById('date-display').innerText = "DATE: " + todayStr;
+
+        // Admin trigger on 5 taps of title
+        let tapCount = 0;
+        let tapTimer = null;
+        document.getElementById('mainTitle').addEventListener('click', () => {
+            tapCount++;
+            clearTimeout(tapTimer);
+            tapTimer = setTimeout(() => { tapCount = 0; }, 1000); // Reset if taps take too long
+            
+            if (tapCount >= 5) {
+                tapCount = 0;
+                if(prompt("Enter Password:") === "24081996") {
+                    document.getElementById('adminPanel').style.display = 'block';
+                }
+            }
+        });
 
         db.ref('lastDate').on('value', (snap) => {
             let savedDate = snap.val();
@@ -67,10 +83,6 @@
                 db.ref('lastDate').set(todayStr);
             }
         });
-
-        function handleAdmin() {
-            if(prompt("Enter Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block';
-        }
 
         function toggleYesterday() {
             const y = document.getElementById('yesterday-container');
@@ -107,17 +119,19 @@
                 let s = snap.val() || {};
                 let fixList = (s.fix || "").split(/[ ,]+/).filter(x => x.length > 0);
                 
-                // Block lists read karo
                 let b10List = (s.b10 || "").split(/[ ,]+/).filter(x => x.length > 0);
                 let b30List = (s.b30 || "").split(/[ ,]+/).filter(x => x.length > 0);
                 let b50List = (s.b50 || "").split(/[ ,]+/).filter(x => x.length > 0);
 
                 db.ref('resultsData').once('value', (snapRes) => {
                     let currentHtml = snapRes.val() ? snapRes.val().html : "";
-                    let cleanedHtml = currentHtml.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '').replace(/class="time-header"[^>]*>/g, 'class="time-header" style="color: #666;"');
+                    
+                    let cleanedHtml = currentHtml
+                        .replace(/<span class="live-dot"><\/span>/g, '<span class="old-dot"></span>')
+                        .replace(/ LIVE/g, '');
                     
                     let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                    let newBlock = `<div class="result-block"><div class="time-header" style="color: #d4af37;"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
+                    let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
                     
                     [10, 30, 50].forEach(sVal => {
                         newBlock += `<div class="label">${sVal}</div><div class="row-grid">`;
@@ -126,7 +140,6 @@
                             let val;
                             let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
                             
-                            // Check block specific lists
                             let blockVal = null;
                             if(sVal === 10) blockVal = b10List.find(n => n.startsWith(prefix.toString()));
                             if(sVal === 30) blockVal = b30List.find(n => n.startsWith(prefix.toString()));
@@ -153,8 +166,7 @@
 
         db.ref('resultsData').on('value', (snap) => { 
             if(snap.exists()) {
-                let todayHeading = `<div class="result-date-heading">DATE: ${todayStr}</div>`;
-                document.getElementById('today-container').innerHTML = todayHeading + snap.val().html; 
+                document.getElementById('today-container').innerHTML = snap.val().html; 
             } else {
                 document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
             }
