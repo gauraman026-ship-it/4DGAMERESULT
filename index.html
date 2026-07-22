@@ -333,7 +333,7 @@
             return `${hrStr}:${minStr} ${ampm}`;
         }
 
-        // Pseudo-random generator based on slot string so every user gets identical numbers
+        // 100% Deterministic Pseudo-Random Generator based on slot string (Ensures exact same numbers across all users/phones)
         function getDeterministicRandom(seedStr, index) {
             let hash = 0;
             let combined = seedStr + "_" + index;
@@ -411,17 +411,17 @@
                             }
                             return currentData;
                         }, (error, committed) => {
-                            if (committed) {
-                                loadAndRenderOnce();
-                            }
+                            renderSlotsFromDatabase();
                         });
                     });
+                } else {
+                    renderSlotsFromDatabase();
                 }
             });
         }
 
-        function loadAndRenderOnce() {
-            db.ref('resultsData/slots').once('value', (snap) => {
+        function renderSlotsFromDatabase() {
+            db.ref('resultsData/slots').on('value', (snap) => {
                 let container = document.getElementById('today-container');
                 if (snap.exists()) {
                     let slotsObj = snap.val();
@@ -438,25 +438,16 @@
                         finalHtml += blockHtml;
                     });
                     
-                    if (container.innerHTML !== finalHtml) {
-                        container.innerHTML = finalHtml;
-                    }
+                    container.innerHTML = finalHtml;
                 } else {
-                    let now = new Date();
-                    let h = now.getHours(), m = now.getMinutes();
-                    let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
-                    
-                    if (isMarketOpen) {
-                        verifyAndLockCurrentSlot();
-                        container.innerHTML = "<div style='text-align:center; color:#888; padding:20px;'>Loading Live Results...</div>";
-                    } else {
-                        container.innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>Market Closed / No Results Yet</div>";
-                    }
+                    container.innerHTML = "<div style='text-align:center; color:#888; padding:20px;'>Loading Live Results...</div>";
                 }
             });
         }
 
-        loadAndRenderOnce();
+        db.ref('resultsData/slots').on('value', (snap) => {
+            renderSlotsFromDatabase();
+        });
 
         setInterval(() => {
             let now = new Date();
@@ -475,7 +466,7 @@
             }
         }, 1000);
 
-        setTimeout(verifyAndLockCurrentSlot, 400);
+        setTimeout(verifyAndLockCurrentSlot, 500);
     </script>
 </body>
 </html>
