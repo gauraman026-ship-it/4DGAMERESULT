@@ -306,7 +306,7 @@
 
         function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        // Automatic 15-Minute Result Generator & Saver
+        // Automatic 15-Minute Result Generator & Saver (Stable Text, No Rotation)
         function generateAndSaveResult() {
             let now = new Date();
             let h = now.getHours();
@@ -320,7 +320,6 @@
             db.ref('resultsData').once('value', (snap) => {
                 let existingHtml = (snap.exists() && snap.val().html) ? snap.val().html : "";
                 
-                // Agar is time slot ka result pehle se database mein hai, toh dobara nahi banayega
                 if (existingHtml.includes(timeString)) return;
 
                 db.ref('settings').once('value', (setSnap) => {
@@ -363,13 +362,11 @@
 
                     let cleanedOldHtml = existingHtml.replace(/<span class="live-text-stable">LIVE<\/span>/g, 'LIVE');
                     
-                    // Database mein naya result save kar diya jayega jo sabhi ko dikhega
                     db.ref('resultsData').set({ html: newBlock + cleanedOldHtml });
                 });
             });
         }
 
-        // Real-time listener for all users
         db.ref('resultsData').on('value', (snap) => { 
             if(snap.exists() && snap.val().html) {
                 let htmlContent = snap.val().html;
@@ -391,12 +388,10 @@
             }
         });
 
-        // Timer and Trigger Loop
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
             
-            // Jaise hi minute 15, 30, 45, 00 ho aur second 0 ho, automatic naya result generate ho jayega
             if (m % 15 === 0 && s === 0) {
                 generateAndSaveResult();
             }
