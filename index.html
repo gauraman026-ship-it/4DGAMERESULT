@@ -43,10 +43,7 @@
             margin-bottom: 12px;
         }
 
-        .history-btn-box {
-            text-align: center;
-            margin-bottom: 15px;
-        }
+        .history-btn-box { text-align: center; margin-bottom: 15px; }
 
         .history-btn {
             background: linear-gradient(135deg, #2c3e50, #1a252f);
@@ -58,9 +55,7 @@
             border-radius: 8px;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            transition: 0.2s;
         }
-        .history-btn:active { transform: scale(0.96); }
 
         .section-title { 
             color: var(--neon-gold); 
@@ -96,22 +91,9 @@
             gap: 8px;
         }
 
-        .live-text-blink { 
-            color: #ff3333; 
-            font-weight: 900;
-            text-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
-            animation: red-text-blink 1s ease-in-out infinite; 
-        }
+        .live-text-stable { color: #ff3333; font-weight: 900; }
 
-        @keyframes red-text-blink { 
-            0% { opacity: 0.3; text-shadow: 0 0 2px rgba(255, 51, 51, 0.2); } 
-            50% { opacity: 1; text-shadow: 0 0 12px #ff3333, 0 0 20px #ff3333; } 
-            100% { opacity: 0.3; text-shadow: 0 0 2px rgba(255, 51, 51, 0.2); } 
-        }
-
-        .content-body {
-            margin-top: 10px;
-        }
+        .content-body { margin-top: 10px; }
 
         .row-container {
             display: flex;
@@ -150,7 +132,6 @@
             color: #ffffff; 
             border: 1px solid rgba(255,255,255,0.08);
             flex: 1;
-            overflow: hidden;
         }
 
         #historyModal {
@@ -215,48 +196,38 @@
             border-radius: 6px;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(243,156,18,0.4);
             border: none;
         }
     </style>
 </head>
 <body>
     <div class="neon-title">CANVAS LIVE 4D</div>
-    <div class="timer-box" id="timer">NEXT DRAW IN: --m --s</div>
+    <div class="timer-box" id="timer">MARKET LIVE</div>
     
     <div class="history-btn-box">
         <button class="history-btn" onclick="openHistoryModal()">📅 YESTERDAY HISTORY</button>
     </div>
 
-    <!-- TODAY RESULTS SECTION -->
     <div class="section-title">TODAY LIVE RESULTS</div>
-    <div id="today-container"></div>
+    <div id="today-container"><p style="text-align:center; color:#888;">Connecting to Live Results...</p></div>
     
-    <!-- YESTERDAY HISTORY MODAL -->
     <div id="historyModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeHistoryModal()">CLOSE X</button>
             <h3 style="color: var(--neon-gold); margin-top: 0; text-align: center;">YESTERDAY HISTORY</h3>
-            <div id="history-container">
-                <p style="text-align: center; color: #888;">No history found yet.</p>
-            </div>
+            <div id="history-container"><p style="text-align: center; color: #888;">No history found yet.</p></div>
         </div>
     </div>
 
-    <!-- ADMIN PANEL -->
     <div id="adminPanel">
         <strong>ADMIN CONFIGURATION PANEL</strong><br>
-        
-        <span class="admin-label">1. Block Avoid Numbers (Comma/Space separated):</span>
+        <span class="admin-label">1. Block Avoid Numbers:</span>
         <textarea id="avoidInput" placeholder="e.g. 1045, 3033"></textarea><br>
-        
-        <span class="admin-label">2. Fixed Result Numbers (Exact 4-digit):</span>
+        <span class="admin-label">2. Fixed Result Numbers:</span>
         <textarea id="fixInput" placeholder="e.g. 1045, 5341"></textarea><br>
-        
         <button class="action-btn" onclick="saveSettings()" style="width: 100%; padding: 12px; margin-top: 12px;">SAVE SETTINGS</button>
     </div>
     
-    <!-- Invisible Admin Touch Trigger (Bottom Right Corner - Tap 5 times) -->
     <div style="position:fixed; bottom:0; right:0; width:100px; height:100px; z-index:9999;" onclick="handleAdminTouch()"></div>
 
     <script>
@@ -273,30 +244,12 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let todayStr = new Date().toLocaleDateString();
-
-        db.ref('lastDate').on('value', (snap) => {
-            let savedDate = snap.val();
-            if (savedDate && savedDate !== todayStr) {
-                db.ref('resultsData').once('value', (resSnap) => {
-                    if (resSnap.exists() && resSnap.val().html) {
-                        db.ref('historyData/' + savedDate).set({ html: resSnap.val().html });
-                    }
-                    db.ref('resultsData').remove();
-                    db.ref('lastDate').set(todayStr);
-                });
-            } else if (!savedDate) {
-                db.ref('lastDate').set(todayStr);
-            }
-        });
-
         let touchCount = 0;
         let touchTimer = null;
 
         function handleAdminTouch() {
             touchCount++;
             clearTimeout(touchTimer);
-
             if (touchCount >= 5) {
                 touchCount = 0;
                 if(prompt("Enter Admin Password:") === "24081996") {
@@ -308,9 +261,7 @@
                     });
                 }
             } else {
-                touchTimer = setTimeout(() => {
-                    touchCount = 0;
-                }, 1000);
+                touchTimer = setTimeout(() => { touchCount = 0; }, 1000);
             }
         }
 
@@ -327,109 +278,35 @@
             let d = new Date();
             d.setDate(d.getDate() - 1);
             let yestStr = d.toLocaleDateString();
-
             db.ref('historyData/' + yestStr).once('value', (snap) => {
                 if(snap.exists() && snap.val().html) {
                     document.getElementById('history-container').innerHTML = `<h4 style="color:#fff; text-align:center;">Date: ${yestStr}</h4>` + snap.val().html;
                 } else {
-                    document.getElementById('history-container').innerHTML = `<p style="text-align: center; color: #888;">No history available for yesterday (${yestStr}).</p>`;
+                    document.getElementById('history-container').innerHTML = `<p style="text-align: center; color: #888;">No history available.</p>`;
                 }
             });
         }
 
-        function closeHistoryModal() {
-            document.getElementById('historyModal').style.display = 'none';
-        }
+        function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        let lastGeneratedMinute = -1;
-
-        function autoGenerateCheck() {
-            let now = new Date();
-            let h = now.getHours();
-            let m = now.getMinutes();
-            let s = now.getSeconds();
-
-            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
-
-            if (isMarketOpen) {
-                if (m % 15 === 0 && s === 0 && lastGeneratedMinute !== m) {
-                    lastGeneratedMinute = m;
-                    triggerAutoGeneration();
-                }
-            }
-        }
-
-        function triggerAutoGeneration() {
-            db.ref('settings').once('value', (snap) => {
-                let s = snap.val() || {};
-                let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
-                let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
-
-                let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                
-                let newBlock = `<div class="result-block">
-                    <div class="time-header">${timeString} <span class="live-text-blink">LIVE</span></div>
-                    <div class="content-body">`;
-                
-                let rowGroups = [
-                    { label: "10", start: 10, end: 19 },
-                    { label: "30", start: 30, end: 39 },
-                    { label: "50", start: 50, end: 59 }
-                ];
-
-                rowGroups.forEach(group => {
-                    newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
-                    for(let num = group.start; num <= group.end; num++) {
-                        let prefix = num.toString();
-                        let assignedVal = "";
-
-                        let matchedFix = fixList.find(n => n.startsWith(prefix));
-                        if (matchedFix) {
-                            assignedVal = matchedFix;
-                        }
-
-                        if (!assignedVal) {
-                            let attempts = 0;
-                            do {
-                                let rand1 = Math.floor(Math.random()*10).toString();
-                                let rand2 = Math.floor(Math.random()*10).toString();
-                                assignedVal = prefix + rand1 + rand2;
-                                attempts++;
-                            } while (avoidList.includes(assignedVal) && attempts < 30);
-                        }
-
-                        newBlock += `<div class="cell">${assignedVal}</div>`;
-                    }
-                    newBlock += `</div></div>`;
-                });
-
-                newBlock += `</div></div>`;
-                
-                db.ref('resultsData').once('value', (resSnap) => {
-                    let existingHtml = "";
-                    if (resSnap.exists() && resSnap.val().html) {
-                        existingHtml = resSnap.val().html;
-                        existingHtml = existingHtml.replace(/<span class="live-text-blink">LIVE<\/span>/g, 'LIVE');
-                    }
-                    db.ref('resultsData').set({ html: newBlock + existingHtml });
-                });
-            });
-        }
-
+        // ISME KOI AUTO-GENERATOR NAHI HAI. Yeh sirf database se data read karega.
+        // Isse doosre mobile par link kholne par data kabhi gayab nahi hoga.
         db.ref('resultsData').on('value', (snap) => { 
             if(snap.exists() && snap.val().html) {
-                document.getElementById('today-container').innerHTML = snap.val().html; 
+                let htmlContent = snap.val().html;
+                let container = document.getElementById('today-container');
+                if(container.innerHTML !== htmlContent) {
+                    container.innerHTML = htmlContent;
+                }
             } else {
-                document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
+                document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#888; padding:20px;'>Waiting for Results Publication...</div>";
             }
         });
 
+        // Timer sirf countdown dikhane ke liye hai
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-            
-            autoGenerateCheck();
-
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
                 document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
             } else {
