@@ -245,6 +245,16 @@
         const db = firebase.database();
 
         let todayStr = new Date().toLocaleDateString();
+        let globalSettings = {};
+
+        // Turant render karo taaki loading na aaye
+        renderAllSlots();
+
+        // Background mein settings load karo
+        db.ref('settings').on('value', (snap) => {
+            globalSettings = snap.val() || {};
+            renderAllSlots();
+        });
 
         let touchCount = 0;
         let touchTimer = null;
@@ -256,11 +266,8 @@
                 touchCount = 0;
                 if(prompt("Enter Admin Password:") === "24081996") {
                     document.getElementById('adminPanel').style.display = 'block';
-                    db.ref('settings').once('value', (snap) => {
-                        let s = snap.val() || {};
-                        if(s.fix) document.getElementById('fixInput').value = s.fix;
-                        if(s.avoid) document.getElementById('avoidInput').value = s.avoid;
-                    });
+                    document.getElementById('fixInput').value = globalSettings.fix || "";
+                    document.getElementById('avoidInput').value = globalSettings.avoid || "";
                 }
             } else {
                 touchTimer = setTimeout(() => { touchCount = 0; }, 1000);
@@ -388,29 +395,21 @@
         }
 
         function renderAllSlots() {
-            db.ref('settings').once('value', (setSnap) => {
-                let settings = setSnap.val() || {};
-                let slotTimes = getStandardSlotKeyUpToNow();
-                
-                if (slotTimes.length === 0) {
-                    document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#ffb703; padding:20px; font-weight:700;'>MARKET CLOSED</div>";
-                    return;
-                }
+            let slotTimes = getStandardSlotKeysUpToNow();
+            
+            if (slotTimes.length === 0) {
+                document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#ffb703; padding:20px; font-weight:700;'>MARKET CLOSED</div>";
+                return;
+            }
 
-                let finalHtml = "";
-                slotTimes.forEach((slotTime, index) => {
-                    let isLive = (index === 0);
-                    finalHtml += generateSlotHtml(slotTime, isLive, settings);
-                });
-
-                document.getElementById('today-container').innerHTML = finalHtml;
+            let finalHtml = "";
+            slotTimes.forEach((slotTime, index) => {
+                let isLive = (index === 0);
+                finalHtml += generateSlotHtml(slotTime, isLive, globalSettings);
             });
-        }
 
-        // Realtime listener taaki settings ya data change hone par turant update ho jaye
-        db.ref('settings').on('value', () => {
-            renderAllSlots();
-        });
+            document.getElementById('today-container').innerHTML = finalHtml;
+        }
 
         setInterval(() => {
             let now = new Date();
@@ -429,8 +428,6 @@
                 document.getElementById('timer').innerText = "MARKET CLOSED";
             }
         }, 1000);
-
-        setTimeout(renderAllSlots, 300);
     </script>
 </body>
 </html>
