@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CANVAS LIVE 4D</title>
+    <title>CANVAS LIVE 2D</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -25,7 +25,7 @@
 </head>
 <body>
 
-    <div class="neon-title">CANVAS LIVE 4D</div>
+    <div class="neon-title">CANVAS LIVE 2D</div>
     <div class="timer-box" id="timer">Syncing...</div>
     
     <div class="section-title">TODAY RESULTS</div>
@@ -133,7 +133,9 @@
                 if (h === 21 && m === 31 && s === 0) {
                     db.ref('resultsData').once('value', (snap) => {
                         if(snap.val()) { 
-                            let dateStr = new Date().toLocaleDateString();
+                            let yDate = new Date();
+                            yDate.setDate(yDate.getDate() - 1); // यह सही से पिछले दिन की तारीख सेट करेगा
+                            let dateStr = yDate.toLocaleDateString();
                             let cleanHtml = snap.val().html.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
                             db.ref('yesterdayData').set({ html: `<div style="color:#d4af37; margin:10px 0; font-weight:bold;">DATE: ${dateStr}</div>` + cleanHtml }); 
                             db.ref('resultsData').remove(); 
