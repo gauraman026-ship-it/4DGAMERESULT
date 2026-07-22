@@ -385,7 +385,6 @@
                         });
                         newBlock += `</div></div>`;
 
-                        // Transaction lock taaki ek hi baar server par permanent save ho
                         slotRef.transaction((currentData) => {
                             if (currentData === null) {
                                 return {
@@ -404,8 +403,6 @@
                 }
             });
         }
-
-        let isLoadedOnce = false;
 
         function loadAndRenderOnce() {
             db.ref('resultsData/slots').once('value', (snap) => {
@@ -443,7 +440,6 @@
             });
         }
 
-        // Page khulte hi ek baar data load hoga, ab live listener hatakar ise puri tarah freeze kar diya hai
         loadAndRenderOnce();
 
         setInterval(() => {
