@@ -246,21 +246,6 @@
 
         let todayStr = new Date().toLocaleDateString();
 
-        db.ref('lastDate').on('value', (snap) => {
-            let savedDate = snap.val();
-            if (savedDate && savedDate !== todayStr) {
-                db.ref('resultsData').once('value', (resSnap) => {
-                    if (resSnap.exists() && resSnap.val().slots) {
-                        db.ref('historyData/' + savedDate).set(resSnap.val().slots);
-                    }
-                    db.ref('resultsData').remove();
-                    db.ref('lastDate').set(todayStr);
-                });
-            } else if (!savedDate) {
-                db.ref('lastDate').set(todayStr);
-            }
-        });
-
         let touchCount = 0;
         let touchTimer = null;
 
@@ -312,28 +297,41 @@
 
         function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        function getStandardSlotKey(dateObj) {
-            let h = dateObj.getHours();
-            let m = dateObj.getMinutes();
-            let roundedMin = Math.floor(m / 15) * 15;
+        function getStandardSlotKeysUpToNow() {
+            let slots = [];
+            let now = new Date();
+            let h = now.getHours();
+            let m = now.getMinutes();
             
-            let tempDate = new Date(dateObj);
-            tempDate.setMinutes(roundedMin);
-            tempDate.setSeconds(0);
-            tempDate.setMilliseconds(0);
+            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+            if (!isMarketOpen && h < 10) return slots;
 
-            let hr = tempDate.getHours();
-            let min = tempDate.getMinutes();
+            let loopTime = new Date(now);
+            loopTime.setHours(9, 0, 0, 0);
+
+            let maxTime = new Date(now);
+            if (h >= 21 && m > 30) {
+                maxTime.setHours(21, 30, 0, 0);
+            }
+
+            while (loopTime <= maxTime) {
+                slots.push(formatTimeLabel(loopTime));
+                loopTime.setMinutes(loopTime.getMinutes() + 15);
+            }
+            return slots.reverse();
+        }
+
+        function formatTimeLabel(dateObj) {
+            let hr = dateObj.getHours();
+            let min = dateObj.getMinutes();
             let ampm = hr >= 12 ? 'PM' : 'AM';
             hr = hr % 12;
             hr = hr ? hr : 12;
             let minStr = min < 10 ? '0' + min : min;
             let hrStr = hr < 10 ? '0' + hr : hr;
-
             return `${hrStr}:${minStr} ${ampm}`;
         }
 
-        // 100% Deterministic Pseudo-Random Generator based on slot string (Ensures exact same numbers across all users/phones)
         function getDeterministicRandom(seedStr, index) {
             let hash = 0;
             let combined = seedStr + "_" + index;
@@ -345,108 +343,73 @@
             return x - Math.floor(x);
         }
 
-        function verifyAndLockCurrentSlot() {
-            let now = new Date();
-            let h = now.getHours();
-            let m = now.getMinutes();
-            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+        function generateSlotHtml(currentSlotTime, isLive, settings) {
+            let fixList = (settings.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
+            let avoidList = (settings.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
-            if (!isMarketOpen) return;
+            let liveTag = isLive ? `<span class="live-text-stable">LIVE</span>` : '';
+            let newBlock = `<div class="result-block">
+                <div class="time-header">${currentSlotTime} ${liveTag}</div>
+                <div class="content-body">`;
+            
+            let rowGroups = [
+                { label: "10", start: 10, end: 19 },
+                { label: "30", start: 30, end: 39 },
+                { label: "50", start: 50, end: 59 }
+            ];
 
-            let currentSlotTime = getStandardSlotKey(now);
-            let safeKey = currentSlotTime.replace(/:/g, '-').replace(' ', '_');
-            let slotRef = db.ref('resultsData/slots/' + safeKey);
+            let seedBase = todayStr + "_" + currentSlotTime;
+            let cellIdx = 0;
 
-            slotRef.once('value', (snap) => {
-                if (!snap.exists()) {
-                    db.ref('settings').once('value', (setSnap) => {
-                        let s = setSnap.val() || {};
-                        let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
-                        let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
+            rowGroups.forEach(group => {
+                newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
+                for(let num = group.start; num <= group.end; num++) {
+                    let prefix = num.toString();
+                    let assignedVal = "";
+                    let matchedFix = fixList.find(n => n.startsWith(prefix));
+                    if (matchedFix) assignedVal = matchedFix;
 
-                        let newBlock = `<div class="result-block">
-                            <div class="time-header">${currentSlotTime} <span class="live-text-stable">LIVE</span></div>
-                            <div class="content-body">`;
-                        
-                        let rowGroups = [
-                            { label: "10", start: 10, end: 19 },
-                            { label: "30", start: 30, end: 39 },
-                            { label: "50", start: 50, end: 59 }
-                        ];
-
-                        let seedBase = todayStr + "_" + currentSlotTime;
-                        let cellIdx = 0;
-
-                        rowGroups.forEach(group => {
-                            newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
-                            for(let num = group.start; num <= group.end; num++) {
-                                let prefix = num.toString();
-                                let assignedVal = "";
-                                let matchedFix = fixList.find(n => n.startsWith(prefix));
-                                if (matchedFix) assignedVal = matchedFix;
-
-                                if (!assignedVal) {
-                                    let attempts = 0;
-                                    do {
-                                        cellIdx++;
-                                        let rand1 = Math.floor(getDeterministicRandom(seedBase, cellIdx) * 10).toString();
-                                        let rand2 = Math.floor(getDeterministicRandom(seedBase, cellIdx + 50) * 10).toString();
-                                        assignedVal = prefix + rand1 + rand2;
-                                        attempts++;
-                                    } while (avoidList.includes(assignedVal) && attempts < 30);
-                                }
-                                newBlock += `<div class="cell">${assignedVal}</div>`;
-                            }
-                            newBlock += `</div></div>`;
-                        });
-                        newBlock += `</div></div>`;
-
-                        slotRef.transaction((currentData) => {
-                            if (currentData === null) {
-                                return {
-                                    time: currentSlotTime,
-                                    html: newBlock,
-                                    timestamp: Date.now()
-                                };
-                            }
-                            return currentData;
-                        }, (error, committed) => {
-                            renderSlotsFromDatabase();
-                        });
-                    });
-                } else {
-                    renderSlotsFromDatabase();
+                    if (!assignedVal) {
+                        let attempts = 0;
+                        do {
+                            cellIdx++;
+                            let rand1 = Math.floor(getDeterministicRandom(seedBase, cellIdx) * 10).toString();
+                            let rand2 = Math.floor(getDeterministicRandom(seedBase, cellIdx + 50) * 10).toString();
+                            assignedVal = prefix + rand1 + rand2;
+                            attempts++;
+                        } while (avoidList.includes(assignedVal) && attempts < 30);
+                    }
+                    newBlock += `<div class="cell">${assignedVal}</div>`;
                 }
+                newBlock += `</div></div>`;
+            });
+            newBlock += `</div></div>`;
+            return newBlock;
+        }
+
+        function renderAllSlots() {
+            db.ref('settings').once('value', (setSnap) => {
+                let settings = setSnap.val() || {};
+                let slotTimes = getStandardSlotKeyUpToNow();
+                
+                if (slotTimes.length === 0) {
+                    document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#ffb703; padding:20px; font-weight:700;'>MARKET CLOSED</div>";
+                    return;
+                }
+
+                let finalHtml = "";
+                slotTimes.forEach((slotTime, index) => {
+                    let isLive = (index === 0);
+                    finalHtml += generateSlotHtml(slotTime, isLive, settings);
+                });
+
+                document.getElementById('today-container').innerHTML = finalHtml;
             });
         }
 
-        function renderSlotsFromDatabase() {
-            db.ref('resultsData/slots').on('value', (snap) => {
-                let container = document.getElementById('today-container');
-                if (snap.exists()) {
-                    let slotsObj = snap.val();
-                    let keys = Object.keys(slotsObj).sort((a, b) => {
-                        return slotsObj[b].timestamp - slotsObj[a].timestamp;
-                    });
-
-                    let finalHtml = "";
-                    keys.forEach((k, index) => {
-                        let blockHtml = slotsObj[k].html;
-                        if (index > 0) {
-                            blockHtml = blockHtml.replace('<span class="live-text-stable">LIVE</span>', '');
-                        }
-                        finalHtml += blockHtml;
-                    });
-                    
-                    container.innerHTML = finalHtml;
-                } else {
-                    container.innerHTML = "<div style='text-align:center; color:#888; padding:20px;'>Loading Live Results...</div>";
-                }
-            });
-        }
-
-        db.ref('resultsData/slots').on('value', (snap) => {
-            renderSlotsFromDatabase();
+        // Realtime listener taaki settings ya data change hone par turant update ho jaye
+        db.ref('settings').on('value', () => {
+            renderAllSlots();
         });
 
         setInterval(() => {
@@ -454,10 +417,11 @@
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
             
             if (m % 15 === 0 && s === 0) {
-                verifyAndLockCurrentSlot();
+                renderAllSlots();
             }
 
-            if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
+            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+            if (isMarketOpen) {
                 let nextMinBlock = 14 - (m % 15);
                 let nextSecBlock = 59 - s;
                 document.getElementById('timer').innerText = `NEXT DRAW IN: ${nextMinBlock}m ${nextSecBlock}s`;
@@ -466,7 +430,7 @@
             }
         }, 1000);
 
-        setTimeout(verifyAndLockCurrentSlot, 500);
+        setTimeout(renderAllSlots, 300);
     </script>
 </body>
 </html>
