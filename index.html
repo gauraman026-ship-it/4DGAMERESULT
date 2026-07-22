@@ -312,8 +312,9 @@
 
         function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        // Standardized 15-minute slot key independent of minor device variations
-        function getStandardSlotKey(dateObj) {
+        // Slot key generator based on strict mathematical rounded time to avoid any device conflict
+        function getSlotKeyFromTimestamp(timestamp) {
+            let dateObj = new Date(timestamp);
             let h = dateObj.getHours();
             let m = dateObj.getMinutes();
             let roundedMin = Math.floor(m / 15) * 15;
@@ -327,7 +328,7 @@
             let min = tempDate.getMinutes();
             let ampm = hr >= 12 ? 'PM' : 'AM';
             hr = hr % 12;
-            hr = hr ? hr : 12; // the hour '0' should be '12'
+            hr = hr ? hr : 12;
             let minStr = min < 10 ? '0' + min : min;
             let hrStr = hr < 10 ? '0' + hr : hr;
 
@@ -335,72 +336,76 @@
         }
 
         function checkAndGenerateSlot() {
-            let now = new Date();
-            let h = now.getHours();
-            let m = now.getMinutes();
-            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+            // Firebase server time offset use karne ke liye request bhejte hain taaki mobile ka galat time avoid ho
+            let offsetRef = db.database().ref(".info/serverTimeOffset");
+            offsetRef.once("value", function(offsetSnap) {
+                let offset = offsetSnap.val() || 0;
+                let exactServerTime = Date.now() + offset;
+                let now = new Date(exactServerTime);
 
-            if (!isMarketOpen) return;
+                let h = now.getHours();
+                let m = now.getMinutes();
+                let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
 
-            let currentSlotTime = getStandardSlotKey(now);
-            let safeKey = currentSlotTime.replace(/:/g, '-').replace(' ', '_');
+                if (!isMarketOpen) return;
 
-            // Pehle check karo ki Firebase mein yeh slot pehle se exist karta hai ya nahi
-            db.ref('resultsData/slots/' + safeKey).once('value', (snap) => {
-                if (snap.exists()) {
-                    // Agar pehle se bna hua hai, toh kuch mat karo (kabhi nahi ghumegea)
-                    return;
-                }
+                let currentSlotTime = getSlotKeyFromTimestamp(exactServerTime);
+                let safeKey = currentSlotTime.replace(/:/g, '-').replace(' ', '_');
 
-                // Agar nahi bana hai, toh settings laakar naya slot sirf ek hi baar banayein
-                db.ref('settings').once('value', (setSnap) => {
-                    let s = setSnap.val() || {};
-                    let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
-                    let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
+                db.ref('resultsData/slots/' + safeKey).once('value', (snap) => {
+                    if (snap.exists()) {
+                        return; // Agar pehle se bna hua hai toh bilkul touch mat karo
+                    }
 
-                    let newBlock = `<div class="result-block">
-                        <div class="time-header">${currentSlotTime} <span class="live-text-stable">LIVE</span></div>
-                        <div class="content-body">`;
-                    
-                    let rowGroups = [
-                        { label: "10", start: 10, end: 19 },
-                        { label: "30", start: 30, end: 39 },
-                        { label: "50", start: 50, end: 59 }
-                    ];
+                    db.ref('settings').once('value', (setSnap) => {
+                        let s = setSnap.val() || {};
+                        let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
+                        let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
-                    rowGroups.forEach(group => {
-                        newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
-                        for(let num = group.start; num <= group.end; num++) {
-                            let prefix = num.toString();
-                            let assignedVal = "";
-                            let matchedFix = fixList.find(n => n.startsWith(prefix));
-                            if (matchedFix) assignedVal = matchedFix;
+                        let newBlock = `<div class="result-block">
+                            <div class="time-header">${currentSlotTime} <span class="live-text-stable">LIVE</span></div>
+                            <div class="content-body">`;
+                        
+                        let rowGroups = [
+                            { label: "10", start: 10, end: 19 },
+                            { label: "30", start: 30, end: 39 },
+                            { label: "50", start: 50, end: 59 }
+                        ];
 
-                            if (!assignedVal) {
-                                let attempts = 0;
-                                do {
-                                    let rand1 = Math.floor(Math.random()*10).toString();
-                                    let rand2 = Math.floor(Math.random()*10).toString();
-                                    assignedVal = prefix + rand1 + rand2;
-                                    attempts++;
-                                } while (avoidList.includes(assignedVal) && attempts < 30);
+                        rowGroups.forEach(group => {
+                            newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
+                            for(let num = group.start; num <= group.end; num++) {
+                                let prefix = num.toString();
+                                let assignedVal = "";
+                                let matchedFix = fixList.find(n => n.startsWith(prefix));
+                                if (matchedFix) assignedVal = matchedFix;
+
+                                if (!assignedVal) {
+                                    let attempts = 0;
+                                    do {
+                                        let rand1 = Math.floor(Math.random()*10).toString();
+                                        let rand2 = Math.floor(Math.random()*10).toString();
+                                        assignedVal = prefix + rand1 + rand2;
+                                        attempts++;
+                                    } while (avoidList.includes(assignedVal) && attempts < 30);
+                                }
+                                newBlock += `<div class="cell">${assignedVal}</div>`;
                             }
-                            newBlock += `<div class="cell">${assignedVal}</div>`;
-                        }
+                            newBlock += `</div></div>`;
+                        });
                         newBlock += `</div></div>`;
-                    });
-                    newBlock += `</div></div>`;
 
-                    // Transaction ya set use karke ensure karein ki duplicate overwrite na ho
-                    db.ref('resultsData/slots/' + safeKey).transaction((currentData) => {
-                        if (currentData === null) {
-                            return {
-                                time: currentSlotTime,
-                                html: newBlock,
-                                timestamp: Date.now()
-                            };
-                        }
-                        return currentData; // Agar pehle se ban gaya hai toh change mat karo
+                        // Strict Firebase Transaction Lock
+                        db.ref('resultsData/slots/' + safeKey).transaction((currentData) => {
+                            if (currentData === null) {
+                                return {
+                                    time: currentSlotTime,
+                                    html: newBlock,
+                                    timestamp: exactServerTime
+                                };
+                            }
+                            return currentData;
+                        });
                     });
                 });
             });
