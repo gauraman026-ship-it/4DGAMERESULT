@@ -312,9 +312,7 @@
 
         function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        // Slot key generator based on strict mathematical rounded time to avoid any device conflict
-        function getSlotKeyFromTimestamp(timestamp) {
-            let dateObj = new Date(timestamp);
+        function getStandardSlotKey(dateObj) {
             let h = dateObj.getHours();
             let m = dateObj.getMinutes();
             let roundedMin = Math.floor(m / 15) * 15;
@@ -335,34 +333,26 @@
             return `${hrStr}:${minStr} ${ampm}`;
         }
 
-        function checkAndGenerateSlot() {
-            // Firebase server time offset use karne ke liye request bhejte hain taaki mobile ka galat time avoid ho
-            let offsetRef = db.database().ref(".info/serverTimeOffset");
-            offsetRef.once("value", function(offsetSnap) {
-                let offset = offsetSnap.val() || 0;
-                let exactServerTime = Date.now() + offset;
-                let now = new Date(exactServerTime);
+        function verifyAndLockCurrentSlot() {
+            let now = new Date();
+            let h = now.getHours();
+            let m = now.getMinutes();
+            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
 
-                let h = now.getHours();
-                let m = now.getMinutes();
-                let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+            if (!isMarketOpen) return;
 
-                if (!isMarketOpen) return;
+            let currentSlotTime = getStandardSlotKey(now);
+            let safeKey = currentSlotTime.replace(/:/g, '-').replace(' ', '_');
+            let slotRef = db.ref('resultsData/slots/' + safeKey);
 
-                let currentSlotTime = getSlotKeyFromTimestamp(exactServerTime);
-                let safeKey = currentSlotTime.replace(/:/g, '-').replace(' ', '_');
-
-                db.ref('resultsData/slots/' + safeKey).once('value', (snap) => {
-                    if (snap.exists()) {
-                        return; // Agar pehle se bna hua hai toh bilkul touch mat karo
-                    }
-
+            slotRef.once('value', (snap) => {
+                if (!snap.exists()) {
                     db.ref('settings').once('value', (setSnap) => {
                         let s = setSnap.val() || {};
                         let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
                         let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
-                        let newBlock = `<div class="result-block">
+                        let newBlock = `<div class="result-block" id="slot-${safeKey}">
                             <div class="time-header">${currentSlotTime} <span class="live-text-stable">LIVE</span></div>
                             <div class="content-body">`;
                         
@@ -395,23 +385,37 @@
                         });
                         newBlock += `</div></div>`;
 
-                        // Strict Firebase Transaction Lock
-                        db.ref('resultsData/slots/' + safeKey).transaction((currentData) => {
+                        slotRef.transaction((currentData) => {
                             if (currentData === null) {
                                 return {
                                     time: currentSlotTime,
                                     html: newBlock,
-                                    timestamp: exactServerTime
+                                    timestamp: Date.now()
                                 };
                             }
                             return currentData;
                         });
                     });
-                });
+                }
             });
         }
 
-        db.ref('resultsData/slots').on('value', (snap) => {
+        // Initial load sirf ek baar chalega
+        let isInitialLoaded = false;
+        db.ref('resultsData/slots').once('value', (snap) => {
+            isInitialLoaded = true;
+            renderAllResults(snap);
+        });
+
+        // Jab naya slot database mein aayega, tabhi yeh chalega aur purane render ko chhedega nahi
+        db.ref('resultsData/slots').on('child_added', (snap) => {
+            if (!isInitialLoaded) return;
+            db.ref('resultsData/slots').once('value', (fullSnap) => {
+                renderAllResults(fullSnap);
+            });
+        });
+
+        function renderAllResults(snap) {
             let container = document.getElementById('today-container');
             if (snap.exists()) {
                 let slotsObj = snap.val();
@@ -422,31 +426,37 @@
                 let finalHtml = "";
                 keys.forEach((k, index) => {
                     let blockHtml = slotsObj[k].html;
+                    // Sirf sabse upar wale (latest) par LIVE tag rahega, baaki sab se hat jayega
                     if (index > 0) {
                         blockHtml = blockHtml.replace('<span class="live-text-stable">LIVE</span>', '');
                     }
                     finalHtml += blockHtml;
                 });
-                container.innerHTML = finalHtml;
+                
+                // Agar container ka content pehle se alag hai tabhi update karega taaki flicker na ho
+                if(container.innerHTML !== finalHtml) {
+                    container.innerHTML = finalHtml;
+                }
             } else {
                 let now = new Date();
                 let h = now.getHours(), m = now.getMinutes();
                 let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
                 
                 if (isMarketOpen) {
-                    checkAndGenerateSlot();
+                    verifyAndLockCurrentSlot();
+                    container.innerHTML = "<div style='text-align:center; color:#888; padding:20px;'>Loading Live Results...</div>";
                 } else {
                     container.innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>Market Closed / No Results Yet</div>";
                 }
             }
-        });
+        }
 
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
             
             if (m % 15 === 0 && s === 0) {
-                checkAndGenerateSlot();
+                verifyAndLockCurrentSlot();
             }
 
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
@@ -458,7 +468,7 @@
             }
         }, 1000);
 
-        setTimeout(checkAndGenerateSlot, 1000);
+        setTimeout(verifyAndLockCurrentSlot, 400);
     </script>
 </body>
 </html>
