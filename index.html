@@ -299,7 +299,6 @@
                 if(snap.exists()) {
                     let slotsObj = snap.val();
                     let htmlContent = "";
-                    // Sort slots descending for history
                     let sortedTimes = Object.keys(slotsObj).sort().reverse();
                     sortedTimes.forEach(t => {
                         htmlContent += slotsObj[t].html;
@@ -313,8 +312,8 @@
 
         function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        // Get exact rounded 15-min slot key (e.g., "0330 PM" or standardized format)
-        function getSlotKey(dateObj) {
+        // Strict Uppercase Slot Key Generator (e.g. "03:45 PM")
+        function getStrictSlotKey(dateObj) {
             let h = dateObj.getHours();
             let m = dateObj.getMinutes();
             let roundedMin = Math.floor(m / 15) * 15;
@@ -324,10 +323,10 @@
             tempDate.setSeconds(0);
             tempDate.setMilliseconds(0);
 
-            return tempDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+            let timeStr = tempDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+            return timeStr.toUpperCase(); // Hamesha PM/AM uppercase rakhega taaki duplicate na ho
         }
 
-        // Strict Slot-based Generator (No Shuffling)
         function checkAndGenerateSlot() {
             let now = new Date();
             let h = now.getHours();
@@ -336,10 +335,11 @@
 
             if (!isMarketOpen) return;
 
-            let currentSlotTime = getSlotKey(now);
+            let currentSlotTime = getStrictSlotKey(now);
+            let safeKey = currentSlotTime.replace(/:/g, '-'); // Firebase key safe banane ke liye
 
-            db.ref('resultsData/slots/' + CSS.escape(currentSlotTime)).once('value', (snap) => {
-                // Agar is exact slot ka result pehle se database mein hai, toh kuch mat karo (Bilkul nahi ghumega)
+            db.ref('resultsData/slots/' + safeKey).once('value', (snap) => {
+                // Agar pehle se bacha hua hai, toh dobara random generate mat karo (bilkul stable rahega)
                 if (snap.exists()) return;
 
                 db.ref('settings').once('value', (setSnap) => {
@@ -380,8 +380,8 @@
                     });
                     newBlock += `</div></div>`;
 
-                    // Save this specific slot permanently in Firebase so it never changes again today
-                    db.ref('resultsData/slots/' + currentSlotTime).set({
+                    // Firebase mein save karo
+                    db.ref('resultsData/slots/' + safeKey).set({
                         time: currentSlotTime,
                         html: newBlock,
                         timestamp: Date.now()
@@ -390,7 +390,6 @@
             });
         }
 
-        // Listen to slots data and render UI properly sorted (latest on top)
         db.ref('resultsData/slots').on('value', (snap) => {
             let container = document.getElementById('today-container');
             if (snap.exists()) {
@@ -402,7 +401,6 @@
                 let finalHtml = "";
                 keys.forEach((k, index) => {
                     let blockHtml = slotsObj[k].html;
-                    // Sirf sabse latest wale mein 'LIVE' dikhao, baaki purane wale se LIVE hata do
                     if (index > 0) {
                         blockHtml = blockHtml.replace('<span class="live-text-stable">LIVE</span>', '');
                     }
@@ -422,13 +420,12 @@
             }
         });
 
-        // Check every second to trigger slot generation right when 15 min hits
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
             
             if (m % 15 === 0 && s === 0) {
-                checkAndGenerateSlot();
+                checkAndNewSlot = checkAndGenerateSlot();
             }
 
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
@@ -440,7 +437,6 @@
             }
         }, 1000);
 
-        // Run once on load to ensure current slot exists
         setTimeout(checkAndGenerateSlot, 1000);
     </script>
 </body>
