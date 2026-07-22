@@ -202,14 +202,14 @@
 </head>
 <body>
     <div class="neon-title">CANVAS LIVE 4D</div>
-    <div class="timer-box" id="timer">MARKET LIVE</div>
+    <div class="timer-box" id="timer">NEXT DRAW IN: --m --s</div>
     
     <div class="history-btn-box">
         <button class="history-btn" onclick="openHistoryModal()">📅 YESTERDAY HISTORY</button>
     </div>
 
     <div class="section-title">TODAY LIVE RESULTS</div>
-    <div id="today-container"><p style="text-align:center; color:#888;">Connecting to Live Results...</p></div>
+    <div id="today-container"><p style="text-align:center; color:#888;">Loading Results...</p></div>
     
     <div id="historyModal">
         <div class="modal-content">
@@ -243,6 +243,23 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+
+        let todayStr = new Date().toLocaleDateString();
+
+        db.ref('lastDate').on('value', (snap) => {
+            let savedDate = snap.val();
+            if (savedDate && savedDate !== todayStr) {
+                db.ref('resultsData').once('value', (resSnap) => {
+                    if (resSnap.exists() && resSnap.val().html) {
+                        db.ref('historyData/' + savedDate).set({ html: resSnap.val().html });
+                    }
+                    db.ref('resultsData').remove();
+                    db.ref('lastDate').set(todayStr);
+                });
+            } else if (!savedDate) {
+                db.ref('lastDate').set(todayStr);
+            }
+        });
 
         let touchCount = 0;
         let touchTimer = null;
@@ -289,8 +306,70 @@
 
         function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        // ISME KOI AUTO-GENERATOR NAHI HAI. Yeh sirf database se data read karega.
-        // Isse doosre mobile par link kholne par data kabhi gayab nahi hoga.
+        // Automatic 15-Minute Result Generator & Saver
+        function generateAndSaveResult() {
+            let now = new Date();
+            let h = now.getHours();
+            let m = now.getMinutes();
+            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+
+            if (!isMarketOpen) return;
+
+            let timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+
+            db.ref('resultsData').once('value', (snap) => {
+                let existingHtml = (snap.exists() && snap.val().html) ? snap.val().html : "";
+                
+                // Agar is time slot ka result pehle se database mein hai, toh dobara nahi banayega
+                if (existingHtml.includes(timeString)) return;
+
+                db.ref('settings').once('value', (setSnap) => {
+                    let s = setSnap.val() || {};
+                    let fixList = (s.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
+                    let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
+
+                    let newBlock = `<div class="result-block">
+                        <div class="time-header">${timeString} <span class="live-text-stable">LIVE</span></div>
+                        <div class="content-body">`;
+                    
+                    let rowGroups = [
+                        { label: "10", start: 10, end: 19 },
+                        { label: "30", start: 30, end: 39 },
+                        { label: "50", start: 50, end: 59 }
+                    ];
+
+                    rowGroups.forEach(group => {
+                        newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
+                        for(let num = group.start; num <= group.end; num++) {
+                            let prefix = num.toString();
+                            let assignedVal = "";
+                            let matchedFix = fixList.find(n => n.startsWith(prefix));
+                            if (matchedFix) assignedVal = matchedFix;
+
+                            if (!assignedVal) {
+                                let attempts = 0;
+                                do {
+                                    let rand1 = Math.floor(Math.random()*10).toString();
+                                    let rand2 = Math.floor(Math.random()*10).toString();
+                                    assignedVal = prefix + rand1 + rand2;
+                                    attempts++;
+                                } while (avoidList.includes(assignedVal) && attempts < 30);
+                            }
+                            newBlock += `<div class="cell">${assignedVal}</div>`;
+                        }
+                        newBlock += `</div></div>`;
+                    });
+                    newBlock += `</div></div>`;
+
+                    let cleanedOldHtml = existingHtml.replace(/<span class="live-text-stable">LIVE<\/span>/g, 'LIVE');
+                    
+                    // Database mein naya result save kar diya jayega jo sabhi ko dikhega
+                    db.ref('resultsData').set({ html: newBlock + cleanedOldHtml });
+                });
+            });
+        }
+
+        // Real-time listener for all users
         db.ref('resultsData').on('value', (snap) => { 
             if(snap.exists() && snap.val().html) {
                 let htmlContent = snap.val().html;
@@ -299,14 +378,29 @@
                     container.innerHTML = htmlContent;
                 }
             } else {
-                document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#888; padding:20px;'>Waiting for Results Publication...</div>";
+                let now = new Date();
+                let h = now.getHours();
+                let m = now.getMinutes();
+                let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
+                
+                if (isMarketOpen) {
+                    generateAndSaveResult();
+                } else {
+                    document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>Market Closed / No Results Yet</div>";
+                }
             }
         });
 
-        // Timer sirf countdown dikhane ke liye hai
+        // Timer and Trigger Loop
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            
+            // Jaise hi minute 15, 30, 45, 00 ho aur second 0 ho, automatic naya result generate ho jayega
+            if (m % 15 === 0 && s === 0) {
+                generateAndSaveResult();
+            }
+
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
                 document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
             } else {
