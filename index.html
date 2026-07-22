@@ -43,6 +43,25 @@
             margin-bottom: 12px;
         }
 
+        .history-btn-box {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .history-btn {
+            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            color: var(--neon-gold);
+            border: 1px solid var(--accent-gold);
+            padding: 10px 20px;
+            font-size: 0.95em;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transition: 0.2s;
+        }
+        .history-btn:active { transform: scale(0.96); }
+
         .section-title { 
             color: var(--neon-gold); 
             font-size: 1em; 
@@ -54,61 +73,44 @@
             border: 1px solid var(--accent-gold); 
             border-radius: 12px; 
             text-align: center; 
-            cursor: pointer;
             text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .result-date-heading { 
-            text-align: center; 
-            color: var(--neon-gold); 
-            font-weight: 800; 
-            margin: 12px 0; 
-            font-size: 1.1em; 
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255,183,3,0.3);
-        }
-
         .result-block { 
             border: 1px solid rgba(243, 156, 18, 0.3); 
-            margin-bottom: 14px; 
+            margin-bottom: 10px; 
             background: var(--card-bg); 
-            padding: 10px 8px; 
-            border-radius: 14px; 
-            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            padding: 12px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         .time-header { 
             font-weight: 700; 
             display: flex; 
             align-items: center; 
-            margin-bottom: 10px; 
             font-size: 1.1em; 
             color: var(--neon-gold); 
             letter-spacing: 0.5px;
+            gap: 8px;
         }
 
-        .live-dot { 
-            height: 8px; 
-            width: 8px; 
-            background-color: #2ecc71; 
-            border-radius: 50%; 
-            margin-right: 8px; 
-            box-shadow: 0 0 8px #2ecc71;
-            animation: pulse-glow 1.2s infinite; 
+        .live-text-blink { 
+            color: #ff3333; 
+            font-weight: 900;
+            text-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+            animation: red-text-blink 1s ease-in-out infinite; 
         }
 
-        @keyframes pulse-glow { 
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); } 
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } 
+        @keyframes red-text-blink { 
+            0% { opacity: 0.3; text-shadow: 0 0 2px rgba(255, 51, 51, 0.2); } 
+            50% { opacity: 1; text-shadow: 0 0 12px #ff3333, 0 0 20px #ff3333; } 
+            100% { opacity: 0.3; text-shadow: 0 0 2px rgba(255, 51, 51, 0.2); } 
         }
 
-        .chart-table { 
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            width: 100%;
+        .content-body {
+            margin-top: 10px;
         }
 
         .row-container {
@@ -116,6 +118,7 @@
             align-items: center;
             gap: 5px;
             width: 100%;
+            margin-bottom: 6px;
         }
         
         .label { 
@@ -150,6 +153,36 @@
             overflow: hidden;
         }
 
+        #historyModal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 9998;
+            overflow-y: auto;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .modal-content {
+            background: var(--bg-color);
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+        }
+        .close-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-weight: 700;
+            border-radius: 6px;
+            float: right;
+            cursor: pointer;
+        }
+
         #adminPanel { 
             display: none; 
             margin-top: 25px; 
@@ -174,7 +207,7 @@
 
         .admin-label { color: var(--neon-gold); font-size: 0.9em; font-weight: 700; display: block; margin-top: 10px; }
         
-        button {
+        button.action-btn {
             background: linear-gradient(135deg, var(--accent-gold), #d35400);
             color: #fff;
             font-weight: 800;
@@ -183,7 +216,7 @@
             cursor: pointer;
             text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(243,156,18,0.4);
-            transition: filter 0.2s;
+            border: none;
         }
     </style>
 </head>
@@ -191,15 +224,26 @@
     <div class="neon-title">CANVAS LIVE 4D</div>
     <div class="timer-box" id="timer">NEXT DRAW IN: --m --s</div>
     
+    <div class="history-btn-box">
+        <button class="history-btn" onclick="openHistoryModal()">📅 YESTERDAY HISTORY</button>
+    </div>
+
     <!-- TODAY RESULTS SECTION -->
-    <div class="section-title" style="cursor: default;">TODAY LIVE RESULTS</div>
-    <div id="today-date-heading" class="result-date-heading"></div>
+    <div class="section-title">TODAY LIVE RESULTS</div>
     <div id="today-container"></div>
     
-    <!-- YESTERDAY RESULTS SECTION (COLLAPSIBLE) -->
-    <div class="section-title" onclick="toggleYesterday()">TAP FOR YESTERDAY RESULTS ▾</div>
-    <div id="yesterday-container" style="display: none;"></div>
-    
+    <!-- YESTERDAY HISTORY MODAL -->
+    <div id="historyModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeHistoryModal()">CLOSE X</button>
+            <h3 style="color: var(--neon-gold); margin-top: 0; text-align: center;">YESTERDAY HISTORY</h3>
+            <div id="history-container">
+                <p style="text-align: center; color: #888;">No history found yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
     <div id="adminPanel">
         <strong>ADMIN CONFIGURATION PANEL</strong><br>
         
@@ -209,27 +253,34 @@
         <span class="admin-label">2. Fixed Result Numbers (Exact 4-digit):</span>
         <textarea id="fixInput" placeholder="e.g. 1045, 5341"></textarea><br>
         
-        <button onclick="saveSettings()" style="width: 100%; padding: 12px; border:none; margin-top: 12px;">SAVE SETTINGS</button>
+        <button class="action-btn" onclick="saveSettings()" style="width: 100%; padding: 12px; margin-top: 12px;">SAVE SETTINGS</button>
     </div>
     
+    <!-- Invisible Admin Touch Trigger (Bottom Right Corner - Tap 5 times) -->
     <div style="position:fixed; bottom:0; right:0; width:100px; height:100px; z-index:9999;" onclick="handleAdminTouch()"></div>
 
     <script>
-        const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
+        const firebaseConfig = {
+            apiKey: "AIzaSyB177VZR1JOVCXKM2hW19Brbhn6Ozv5SpA",
+            authDomain: "canvas2d-result-f4d7d.firebaseapp.com",
+            databaseURL: "https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com",
+            projectId: "canvas2d-result-f4d7d",
+            storageBucket: "canvas2d-result-f4d7d.firebasestorage.app",
+            messagingSenderId: "848611628724",
+            appId: "1:848611628724:web:15929f30ce2c6118a469e1",
+            measurementId: "G-RVXDKT2FVG"
+        };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
         let todayStr = new Date().toLocaleDateString();
-        document.getElementById('today-date-heading').innerText = `DATE: ${todayStr}`;
 
         db.ref('lastDate').on('value', (snap) => {
             let savedDate = snap.val();
             if (savedDate && savedDate !== todayStr) {
                 db.ref('resultsData').once('value', (resSnap) => {
-                    if (resSnap.exists()) {
-                        let oldData = resSnap.val().html || "";
-                        let yesterdayHeading = `<div class="result-date-heading">DATE: ${savedDate}</div>`;
-                        db.ref('yesterdayData').set({ html: yesterdayHeading + oldData });
+                    if (resSnap.exists() && resSnap.val().html) {
+                        db.ref('historyData/' + savedDate).set({ html: resSnap.val().html });
                     }
                     db.ref('resultsData').remove();
                     db.ref('lastDate').set(todayStr);
@@ -263,17 +314,31 @@
             }
         }
 
-        function toggleYesterday() {
-            const y = document.getElementById('yesterday-container');
-            y.style.display = (y.style.display === 'none') ? 'block' : 'none';
-        }
-
         function saveSettings() {
             db.ref('settings').set({ 
                 fix: document.getElementById('fixInput').value.trim(),
                 avoid: document.getElementById('avoidInput').value.trim()
             });
             alert("Settings Saved Successfully!");
+        }
+
+        function openHistoryModal() {
+            document.getElementById('historyModal').style.display = 'block';
+            let d = new Date();
+            d.setDate(d.getDate() - 1);
+            let yestStr = d.toLocaleDateString();
+
+            db.ref('historyData/' + yestStr).once('value', (snap) => {
+                if(snap.exists() && snap.val().html) {
+                    document.getElementById('history-container').innerHTML = `<h4 style="color:#fff; text-align:center;">Date: ${yestStr}</h4>` + snap.val().html;
+                } else {
+                    document.getElementById('history-container').innerHTML = `<p style="text-align: center; color: #888;">No history available for yesterday (${yestStr}).</p>`;
+                }
+            });
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').style.display = 'none';
         }
 
         let lastGeneratedMinute = -1;
@@ -301,7 +366,10 @@
                 let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
                 let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                let newBlock = `<div class="result-block"><div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div><div class="chart-table">`;
+                
+                let newBlock = `<div class="result-block">
+                    <div class="time-header">${timeString} <span class="live-text-blink">LIVE</span></div>
+                    <div class="content-body">`;
                 
                 let rowGroups = [
                     { label: "10", start: 10, end: 19 },
@@ -337,11 +405,11 @@
 
                 newBlock += `</div></div>`;
                 
-                // Append logic so new results stack up properly for today
                 db.ref('resultsData').once('value', (resSnap) => {
                     let existingHtml = "";
                     if (resSnap.exists() && resSnap.val().html) {
                         existingHtml = resSnap.val().html;
+                        existingHtml = existingHtml.replace(/<span class="live-text-blink">LIVE<\/span>/g, 'LIVE');
                     }
                     db.ref('resultsData').set({ html: newBlock + existingHtml });
                 });
@@ -353,14 +421,6 @@
                 document.getElementById('today-container').innerHTML = snap.val().html; 
             } else {
                 document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Results Today Yet</div>";
-            }
-        });
-        
-        db.ref('yesterdayData').on('value', (snap) => { 
-            if(snap.exists() && snap.val().html) {
-                document.getElementById('yesterday-container').innerHTML = snap.val().html; 
-            } else {
-                document.getElementById('yesterday-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>No Yesterday Data</div>";
             }
         });
 
