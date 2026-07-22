@@ -333,6 +333,18 @@
             return `${hrStr}:${minStr} ${ampm}`;
         }
 
+        // Pseudo-random generator based on slot string so every user gets identical numbers
+        function getDeterministicRandom(seedStr, index) {
+            let hash = 0;
+            let combined = seedStr + "_" + index;
+            for (let i = 0; i < combined.length; i++) {
+                hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+                hash |= 0;
+            }
+            let x = Math.sin(hash++) * 10000;
+            return x - Math.floor(x);
+        }
+
         function verifyAndLockCurrentSlot() {
             let now = new Date();
             let h = now.getHours();
@@ -362,6 +374,9 @@
                             { label: "50", start: 50, end: 59 }
                         ];
 
+                        let seedBase = todayStr + "_" + currentSlotTime;
+                        let cellIdx = 0;
+
                         rowGroups.forEach(group => {
                             newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
                             for(let num = group.start; num <= group.end; num++) {
@@ -373,8 +388,9 @@
                                 if (!assignedVal) {
                                     let attempts = 0;
                                     do {
-                                        let rand1 = Math.floor(Math.random()*10).toString();
-                                        let rand2 = Math.floor(Math.random()*10).toString();
+                                        cellIdx++;
+                                        let rand1 = Math.floor(getDeterministicRandom(seedBase, cellIdx) * 10).toString();
+                                        let rand2 = Math.floor(getDeterministicRandom(seedBase, cellIdx + 50) * 10).toString();
                                         assignedVal = prefix + rand1 + rand2;
                                         attempts++;
                                     } while (avoidList.includes(assignedVal) && attempts < 30);
