@@ -7,488 +7,141 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
-        :root {
-            --bg-color: #07090e;
-            --card-bg: #101622;
-            --accent-gold: #f39c12;
-            --neon-gold: #ffb703;
-            --text-main: #f1f5f9;
-        }
-        body { background: var(--bg-color); color: var(--text-main); font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 10px; }
-        
-        .neon-title { 
-            text-align: center; 
-            font-size: 2.2em; 
-            font-weight: 900; 
-            letter-spacing: 2px;
-            background: linear-gradient(180deg, #fff 20%, var(--neon-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 25px rgba(255, 183, 3, 0.4);
-            margin: 15px 0 10px;
-            text-transform: uppercase;
-        }
-
-        .timer-box { 
-            text-align: center; 
-            color: var(--neon-gold); 
-            font-size: 1.1em; 
-            font-weight: 800; 
-            background: var(--card-bg); 
-            padding: 14px; 
-            border: 1px solid var(--accent-gold); 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .history-btn-box { text-align: center; margin-bottom: 15px; }
-
-        .history-btn {
-            background: linear-gradient(135deg, #2c3e50, #1a252f);
-            color: var(--neon-gold);
-            border: 1px solid var(--accent-gold);
-            padding: 10px 20px;
-            font-size: 0.95em;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        .section-title { 
-            color: var(--neon-gold); 
-            font-size: 1em; 
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin: 15px 0 10px; 
-            padding: 12px; 
-            background: var(--card-bg);
-            border: 1px solid var(--accent-gold); 
-            border-radius: 12px; 
-            text-align: center; 
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .result-block { 
-            border: 1px solid rgba(243, 156, 18, 0.3); 
-            margin-bottom: 10px; 
-            background: var(--card-bg); 
-            padding: 12px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .time-header { 
-            font-weight: 700; 
-            display: flex; 
-            align-items: center; 
-            font-size: 1.1em; 
-            color: var(--neon-gold); 
-            letter-spacing: 0.5px;
-            gap: 8px;
-        }
-
-        .live-text-stable { color: #ff3333; font-weight: 900; }
-
-        .content-body { margin-top: 10px; }
-
-        .row-container {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            width: 100%;
-            margin-bottom: 6px;
-        }
-        
-        .label { 
-            background: linear-gradient(135deg, #162032, #0d131f); 
-            padding: 7px 4px; 
-            text-align: center; 
-            font-weight: 800; 
-            color: var(--neon-gold); 
-            border: 1px solid rgba(243,156,18,0.4);
-            border-radius: 6px; 
-            font-size: 0.85em;
-            flex: 0 0 24px;
-        }
-
-        .row-grid { 
-            display: flex; 
-            gap: 3px; 
-            flex-grow: 1;
-            width: calc(100% - 29px);
-        }
-        
-        .cell { 
-            background: linear-gradient(135deg, #162032, #0d131f); 
-            padding: 7px 0; 
-            text-align: center; 
-            font-weight: 700; 
-            border-radius: 6px; 
-            font-size: 0.72em; 
-            color: #ffffff; 
-            border: 1px solid rgba(255,255,255,0.08);
-            flex: 1;
-        }
-
-        #historyModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 9998;
-            overflow-y: auto;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        .modal-content {
-            background: var(--bg-color);
-            border: 1px solid var(--accent-gold);
-            border-radius: 12px;
-            max-width: 500px;
-            margin: 30px auto;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-        }
-        .close-btn {
-            background: #c0392b;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            font-weight: 700;
-            border-radius: 6px;
-            float: right;
-            cursor: pointer;
-        }
-
-        #adminPanel { 
-            display: none; 
-            margin-top: 25px; 
-            padding: 18px; 
-            border: 1px solid var(--accent-gold); 
-            background: var(--card-bg); 
-            border-radius: 12px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-
-        textarea { 
-            width: 95%; 
-            background: #07090e; 
-            color: #fff; 
-            border: 1px solid rgba(243,156,18,0.4); 
-            margin: 6px 0; 
-            padding: 10px; 
-            font-size: 0.95em; 
-            border-radius: 6px;
-            outline: none;
-        }
-
-        .admin-label { color: var(--neon-gold); font-size: 0.9em; font-weight: 700; display: block; margin-top: 10px; }
-        
-        button.action-btn {
-            background: linear-gradient(135deg, var(--accent-gold), #d35400);
-            color: #fff;
-            font-weight: 800;
-            letter-spacing: 1px;
-            border-radius: 6px;
-            cursor: pointer;
-            text-transform: uppercase;
-            border: none;
-        }
+        body { background: #0a0e14; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; }
+        .neon-title { text-align: center; font-size: 1.8em; color: #d4af37; text-shadow: 0 0 15px rgba(212,175,55,0.5); margin: 15px 0; font-weight: bold; }
+        .timer-box { text-align: center; color: #fff; font-size: 1.4em; font-weight: bold; background: #1e2a38; padding: 15px; border: 1px solid #d4af37; border-radius: 12px; }
+        .section-title { color: #d4af37; font-size: 1.1em; margin: 25px 0 10px; padding: 10px; border: 1px solid #d4af37; border-radius: 5px; text-align: center; cursor: pointer; }
+        .result-block { border: 1px solid #2a3a4a; margin-bottom: 15px; background: #131b26; padding: 12px; border-radius: 10px; }
+        .time-header { font-weight: bold; display: flex; align-items: center; margin-bottom: 8px; font-size: 1.1em; }
+        .live-dot { height: 10px; width: 10px; background-color: #d4af37; border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } }
+        .chart-table { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; }
+        .label { background: #1e2a38; padding: 10px 2px; text-align: center; font-weight: bold; color: #d4af37; border-radius: 4px; }
+        .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3px; }
+        .cell { background: #1e2a38; padding: 8px 1px; text-align: center; font-weight: bold; border-radius: 3px; font-size: 0.85em; }
+        #adminPanel { display: none; margin-top: 20px; padding: 15px; border: 1px solid #d4af37; background: #131b26; border-radius: 10px; }
+        textarea { width: 90%; background: #0a0e14; color: #fff; border: 1px solid #333; margin: 5px 0; padding: 8px; }
     </style>
 </head>
 <body>
-    <div class="neon-title">CANVAS LIVE 4D</div>
-    <div class="timer-box" id="timer">NEXT DRAW IN: --m --s</div>
-    
-    <div class="history-btn-box">
-        <button class="history-btn" onclick="openHistoryModal()">📅 YESTERDAY HISTORY</button>
-    </div>
 
-    <div class="section-title">TODAY LIVE RESULTS</div>
-    <div id="today-container"><p style="text-align:center; color:#888;">Loading Results...</p></div>
+    <div class="neon-title">CANVAS LIVE 4D</div>
+    <div class="timer-box" id="timer">Syncing...</div>
     
-    <div id="historyModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeHistoryModal()">CLOSE X</button>
-            <h3 style="color: var(--neon-gold); margin-top: 0; text-align: center;">YESTERDAY HISTORY</h3>
-            <div id="history-container"><p style="text-align: center; color: #888;">No history found yet.</p></div>
-        </div>
-    </div>
+    <div class="section-title">TODAY RESULTS</div>
+    <div id="today-container"></div>
+    
+    <div class="section-title" onclick="toggleYesterday()">TAP FOR YESTERDAY RESULTS ▾</div>
+    <div id="yesterday-container" style="display: none;"></div>
 
     <div id="adminPanel">
-        <strong>ADMIN CONFIGURATION PANEL</strong><br>
-        <span class="admin-label">1. Block Avoid Numbers:</span>
-        <textarea id="avoidInput" placeholder="e.g. 1045, 3033"></textarea><br>
-        <span class="admin-label">2. Fixed Result Numbers:</span>
-        <textarea id="fixInput" placeholder="e.g. 1045, 5341"></textarea><br>
-        <button class="action-btn" onclick="saveSettings()" style="width: 100%; padding: 12px; margin-top: 12px;">SAVE SETTINGS</button>
+        <strong>ADMIN PANEL</strong><br>
+        <textarea id="fixInput" placeholder="Fix (e.g. 1044, 3088)"></textarea><br>
+        <textarea id="block10" placeholder="Block 10-19"></textarea><br>
+        <textarea id="block30" placeholder="Block 30-39"></textarea><br>
+        <textarea id="block50" placeholder="Block 50-59"></textarea><br>
+        <button onclick="saveSettings()" style="width: 100%; padding: 10px; background: #d4af37; border:none; cursor:pointer;">SAVE SETTINGS</button>
     </div>
     
-    <div style="position:fixed; bottom:0; right:0; width:100px; height:100px; z-index:9999;" onclick="handleAdminTouch()"></div>
+    <div style="position:fixed; bottom:0; right:0; width:100px; height:100px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyB177VZR1JOVCXKM2hW19Brbhn6Ozv5SpA",
-            authDomain: "canvas2d-result-f4d7d.firebaseapp.com",
-            databaseURL: "https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com",
-            projectId: "canvas2d-result-f4d7d",
-            storageBucket: "canvas2d-result-f4d7d.firebasestorage.app",
-            messagingSenderId: "848611628724",
-            appId: "1:848611628724:web:15929f30ce2c6118a469e1",
-            measurementId: "G-RVXDKT2FVG"
-        };
+        const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let todayStr = new Date().toLocaleDateString();
-        let isAdminLoggedIn = localStorage.getItem("isAdminCanvas") === "true";
-
-        let touchCount = 0;
-        let touchTimer = null;
-
-        function handleAdminTouch() {
-            touchCount++;
-            clearTimeout(touchTimer);
-            if (touchCount >= 5) {
-                touchCount = 0;
-                if(prompt("Enter Admin Password:") === "24081996") {
-                    isAdminLoggedIn = true;
-                    localStorage.setItem("isAdminCanvas", "true");
-                    document.getElementById('adminPanel').style.display = 'block';
-                    db.ref('settings').once('value', (snap) => {
-                        let s = snap.val() || {};
-                        if(s.fix) document.getElementById('fixInput').value = s.fix;
-                        if(s.avoid) document.getElementById('avoidInput').value = s.avoid;
-                    });
-                    alert("Admin Mode Activated on this device!");
-                }
-            } else {
-                touchTimer = setTimeout(() => { touchCount = 0; }, 1000);
+        let clickCount = 0;
+        function handleAdmin() {
+            clickCount++;
+            if (clickCount === 4) {
+                if(prompt("Enter Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block';
+                clickCount = 0;
             }
+            setTimeout(() => { clickCount = 0; }, 3000);
         }
 
-        // Auto open admin panel if already logged in on admin phone
-        window.addEventListener('DOMContentLoaded', () => {
-            if(isAdminLoggedIn) {
-                document.getElementById('adminPanel').style.display = 'block';
-                db.ref('settings').once('value', (snap) => {
-                    let s = snap.val() || {};
-                    if(s.fix) document.getElementById('fixInput').value = s.fix;
-                    if(s.avoid) document.getElementById('avoidInput').value = s.avoid;
-                });
-            }
-        });
+        function toggleYesterday() {
+            const y = document.getElementById('yesterday-container');
+            y.style.display = (y.style.display === 'none') ? 'block' : 'none';
+        }
 
         function saveSettings() {
             db.ref('settings').set({ 
-                fix: document.getElementById('fixInput').value.trim(),
-                avoid: document.getElementById('avoidInput').value.trim()
+                fix: document.getElementById('fixInput').value,
+                b10: document.getElementById('block10').value,
+                b30: document.getElementById('block30').value,
+                b50: document.getElementById('block50').value
             });
-            alert("Settings Saved Successfully!");
+            alert("Settings Saved!");
         }
 
-        function openHistoryModal() {
-            document.getElementById('historyModal').style.display = 'block';
-            let d = new Date();
-            d.setDate(d.getDate() - 1);
-            let yestStr = d.toLocaleDateString();
-            db.ref('historyData/' + yestStr).once('value', (snap) => {
-                if(snap.exists()) {
-                    let slotsObj = snap.val();
-                    let htmlContent = "";
-                    let sortedTimes = Object.keys(slotsObj).sort().reverse();
-                    sortedTimes.forEach(t => {
-                        htmlContent += slotsObj[t].html;
-                    });
-                    document.getElementById('history-container').innerHTML = `<h4 style="color:#fff; text-align:center;">Date: ${yestStr}</h4>` + htmlContent;
-                } else {
-                    document.getElementById('history-container').innerHTML = `<p style="text-align: center; color: #888;">No history available.</p>`;
-                }
-            });
-        }
+        function generateAndSave() {
+            db.ref('settings').once('value', (snap) => {
+                let s = snap.val() || {};
+                let fixList = (s.fix || "").split(/[ ,]+/).filter(x => x.length > 0);
+                let blocks = { '10': (s.b10 || "").split(/[ ,]+/), '30': (s.b30 || "").split(/[ ,]+/), '50': (s.b50 || "").split(/[ ,]+/) };
 
-        function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
-
-        function getStandardSlotKeysUpToNow() {
-            let slots = [];
-            let now = new Date();
-            let h = now.getHours();
-            let m = now.getMinutes();
-            
-            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
-            if (!isMarketOpen && h < 10) return slots;
-
-            let loopTime = new Date(now);
-            loopTime.setHours(9, 0, 0, 0);
-
-            let maxTime = new Date(now);
-            if (h >= 21 && m > 30) {
-                maxTime.setHours(21, 30, 0, 0);
-            }
-
-            while (loopTime <= maxTime) {
-                slots.push(formatTimeLabel(loopTime));
-                loopTime.setMinutes(loopTime.getMinutes() + 15);
-            }
-            return slots.reverse();
-        }
-
-        function formatTimeLabel(dateObj) {
-            let hr = dateObj.getHours();
-            let min = dateObj.getMinutes();
-            let ampm = hr >= 12 ? 'PM' : 'AM';
-            hr = hr % 12;
-            hr = hr ? hr : 12;
-            let minStr = min < 10 ? '0' + min : min;
-            let hrStr = hr < 10 ? '0' + hr : hr;
-            return `${hrStr}:${minStr} ${ampm}`;
-        }
-
-        function getDeterministicRandom(seedStr, index) {
-            let hash = 0;
-            let combined = seedStr + "_" + index;
-            for (let i = 0; i < combined.length; i++) {
-                hash = ((hash << 5) - hash) + combined.charCodeAt(i);
-                hash |= 0;
-            }
-            let x = Math.sin(hash++) * 10000;
-            return x - Math.floor(x);
-        }
-
-        function generateSlotHtml(currentSlotTime, isLive, settings) {
-            let fixList = (settings.fix || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length === 4);
-            let avoidList = (settings.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
-
-            let liveTag = isLive ? `<span class="live-text-stable">LIVE</span>` : '';
-            let newBlock = `<div class="result-block">
-                <div class="time-header">${currentSlotTime} ${liveTag}</div>
-                <div class="content-body">`;
-            
-            let rowGroups = [
-                { label: "10", start: 10, end: 19 },
-                { label: "30", start: 30, end: 39 },
-                { label: "50", start: 50, end: 59 }
-            ];
-
-            let seedBase = todayStr + "_" + currentSlotTime;
-            let cellIdx = 0;
-
-            rowGroups.forEach(group => {
-                newBlock += `<div class="row-container"><div class="label">${group.label}</div><div class="row-grid">`;
-                for(let num = group.start; num <= group.end; num++) {
-                    let prefix = num.toString();
-                    let assignedVal = "";
-                    let matchedFix = fixList.find(n => n.startsWith(prefix));
-                    if (matchedFix) assignedVal = matchedFix;
-
-                    if (!assignedVal) {
-                        let attempts = 0;
-                        do {
-                            cellIdx++;
-                            let rand1 = Math.floor(getDeterministicRandom(seedBase, cellIdx) * 10).toString();
-                            let rand2 = Math.floor(getDeterministicRandom(seedBase, cellIdx + 50) * 10).toString();
-                            assignedVal = prefix + rand1 + rand2;
-                            attempts++;
-                        } while (avoidList.includes(assignedVal) && attempts < 30);
-                    }
-                    newBlock += `<div class="cell">${assignedVal}</div>`;
-                }
-                newBlock += `</div></div>`;
-            });
-            newBlock += `</div></div>`;
-            return newBlock;
-        }
-
-        // ONLY ADMIN CAN GENERATE AND PUSH TO DATABASE. USERS ONLY READ.
-        function checkAndPublishSlots() {
-            if (!isAdminLoggedIn) return; // Normal users can never write/generate to DB
-
-            db.ref('settings').once('value', (setSnap) => {
-                let settings = setSnap.val() || {};
-                let slotTimes = getStandardSlotKeysUpToNow();
-                if (slotTimes.length === 0) return;
-
-                db.ref('resultsData/slots').once('value', (slotsSnap) => {
-                    let dbSlots = slotsSnap.val() || {};
-                    let updates = {};
-                    let needsUpdate = false;
-
-                    slotTimes.forEach((slotTime) => {
-                        let safeKey = slotTime.replace(/:/g, '-').replace(' ', '_');
-                        if (!dbSlots[safeKey]) {
-                            let isLiveSlot = (slotTime === slotTimes[0]);
-                            let htmlContent = generateSlotHtml(slotTime, isLiveSlot, settings);
-                            updates[safeKey] = {
-                                time: slotTime,
-                                html: htmlContent,
-                                timestamp: Date.now()
-                            };
-                            needsUpdate = true;
+                db.ref('resultsData').once('value', (snapRes) => {
+                    let currentHtml = snapRes.val() ? snapRes.val().html : "";
+                    
+                    let cleanedHtml = currentHtml
+                        .replace(/<span class="live-dot"><\/span>/g, '')
+                        .replace(/ LIVE/g, '')
+                        .replace(/class="time-header"/g, 'class="time-header" style="color: #666;"');
+                    
+                    let timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                    
+                    let newBlock = `<div class="result-block">
+                        <div class="time-header" style="color: #d4af37;"><span class="live-dot"></span>${timeString} LIVE</div>
+                        <div class="chart-table">`;
+                    
+                    [10, 30, 50].forEach(sVal => {
+                        newBlock += `<div class="label">${sVal}</div><div class="row-grid">`;
+                        for(let i=0; i<10; i++) {
+                            let prefix = sVal + i;
+                            let val;
+                            let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
+                            if (fixVal) { val = fixVal; } 
+                            else {
+                                do { val = prefix.toString() + Math.floor(Math.random()*100).toString().padStart(2,'0'); }
+                                while (blocks[sVal.toString()].includes(val.substring(2)));
+                            }
+                            newBlock += `<div class="cell">${val}</div>`;
                         }
+                        newBlock += `</div>`;
                     });
-
-                    if (needsUpdate) {
-                        db.ref('resultsData/slots').update(updates);
-                    }
+                    newBlock += `</div></div>`;
+                    db.ref('resultsData').set({ html: newBlock + cleanedHtml });
                 });
             });
         }
 
-        // Listen to database slots for rendering on all devices
-        db.ref('resultsData/slots').on('value', (snap) => {
-            let container = document.getElementById('today-container');
-            if (snap.exists()) {
-                let slotsObj = snap.val();
-                let keys = Object.keys(slotsObj).sort((a, b) => {
-                    return slotsObj[b].timestamp - slotsObj[a].timestamp;
-                });
-
-                let finalHtml = "";
-                keys.forEach((k, index) => {
-                    let blockHtml = slotsObj[k].html;
-                    if (index > 0) {
-                        blockHtml = blockHtml.replace('<span class="live-text-stable">LIVE</span>', '');
-                    }
-                    finalHtml += blockHtml;
-                });
-                container.innerHTML = finalHtml;
-            } else {
-                container.innerHTML = "<div style='text-align:center; color:#888;'>Waiting for Admin to open...</div>";
-            }
-        });
+        db.ref('resultsData').on('value', (snap) => { if(snap.exists()) document.getElementById('today-container').innerHTML = snap.val().html; });
+        db.ref('yesterdayData').on('value', (snap) => { if(snap.exists()) document.getElementById('yesterday-container').innerHTML = snap.val().html; });
 
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-            
-            if (m % 15 === 0 && s === 0) {
-                checkAndPublishSlots();
-            }
-
-            let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
-            if (isMarketOpen) {
-                let nextMinBlock = 14 - (m % 15);
-                let nextSecBlock = 59 - s;
-                document.getElementById('timer').innerText = `NEXT DRAW IN: ${nextMinBlock}m ${nextSecBlock}s`;
-                
-                // If admin is active, keep checking and pushing slots
-                if (isAdminLoggedIn && s % 5 === 0) {
-                    checkAndPublishSlots();
+            if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
+                document.getElementById('timer').innerText = `Next Draw in ${14 - (m % 15)}m ${59 - s}s`;
+                if (m % 15 === 0 && s === 0) {
+                    let key = now.toDateString() + "-" + h + "-" + m;
+                    db.ref('lastGenerated').once('value', (snap) => { if (snap.val() !== key) { generateAndSave(); db.ref('lastGenerated').set(key); } });
                 }
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
+                if (h === 21 && m === 31 && s === 0) {
+                    db.ref('resultsData').once('value', (snap) => {
+                        if(snap.val()) { 
+                            let dateStr = new Date().toLocaleDateString();
+                            let cleanHtml = snap.val().html.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
+                            db.ref('yesterdayData').set({ html: `<div style="color:#d4af37; margin:10px 0; font-weight:bold;">DATE: ${dateStr}</div>` + cleanHtml }); 
+                            db.ref('resultsData').remove(); 
+                        }
+                    });
+                }
             }
         }, 1000);
-
-        setTimeout(() => {
-            if (isAdminLoggedIn) {
-                checkAndPublishSlots();
-            }
-        }, 500);
     </script>
 </body>
 </html>
