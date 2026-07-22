@@ -250,8 +250,8 @@
             let savedDate = snap.val();
             if (savedDate && savedDate !== todayStr) {
                 db.ref('resultsData').once('value', (resSnap) => {
-                    if (resSnap.exists() && resSnap.val().html) {
-                        db.ref('historyData/' + savedDate).set({ html: resSnap.val().html });
+                    if (resSnap.exists() && resSnap.val().slots) {
+                        db.ref('historyData/' + savedDate).set(resSnap.val().slots);
                     }
                     db.ref('resultsData').remove();
                     db.ref('lastDate').set(todayStr);
@@ -296,8 +296,15 @@
             d.setDate(d.getDate() - 1);
             let yestStr = d.toLocaleDateString();
             db.ref('historyData/' + yestStr).once('value', (snap) => {
-                if(snap.exists() && snap.val().html) {
-                    document.getElementById('history-container').innerHTML = `<h4 style="color:#fff; text-align:center;">Date: ${yestStr}</h4>` + snap.val().html;
+                if(snap.exists()) {
+                    let slotsObj = snap.val();
+                    let htmlContent = "";
+                    // Sort slots descending for history
+                    let sortedTimes = Object.keys(slotsObj).sort().reverse();
+                    sortedTimes.forEach(t => {
+                        htmlContent += slotsObj[t].html;
+                    });
+                    document.getElementById('history-container').innerHTML = `<h4 style="color:#fff; text-align:center;">Date: ${yestStr}</h4>` + htmlContent;
                 } else {
                     document.getElementById('history-container').innerHTML = `<p style="text-align: center; color: #888;">No history available.</p>`;
                 }
@@ -306,8 +313,22 @@
 
         function closeHistoryModal() { document.getElementById('historyModal').style.display = 'none'; }
 
-        // Automatic 15-Minute Result Generator & Saver (Stable Text, No Rotation)
-        function generateAndSaveResult() {
+        // Get exact rounded 15-min slot key (e.g., "0330 PM" or standardized format)
+        function getSlotKey(dateObj) {
+            let h = dateObj.getHours();
+            let m = dateObj.getMinutes();
+            let roundedMin = Math.floor(m / 15) * 15;
+            
+            let tempDate = new Date(dateObj);
+            tempDate.setMinutes(roundedMin);
+            tempDate.setSeconds(0);
+            tempDate.setMilliseconds(0);
+
+            return tempDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+        }
+
+        // Strict Slot-based Generator (No Shuffling)
+        function checkAndGenerateSlot() {
             let now = new Date();
             let h = now.getHours();
             let m = now.getMinutes();
@@ -315,12 +336,11 @@
 
             if (!isMarketOpen) return;
 
-            let timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+            let currentSlotTime = getSlotKey(now);
 
-            db.ref('resultsData').once('value', (snap) => {
-                let existingHtml = (snap.exists() && snap.val().html) ? snap.val().html : "";
-                
-                if (existingHtml.includes(timeString)) return;
+            db.ref('resultsData/slots/' + CSS.escape(currentSlotTime)).once('value', (snap) => {
+                // Agar is exact slot ka result pehle se database mein hai, toh kuch mat karo (Bilkul nahi ghumega)
+                if (snap.exists()) return;
 
                 db.ref('settings').once('value', (setSnap) => {
                     let s = setSnap.val() || {};
@@ -328,7 +348,7 @@
                     let avoidList = (s.avoid || "").split(/[ ,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
                     let newBlock = `<div class="result-block">
-                        <div class="time-header">${timeString} <span class="live-text-stable">LIVE</span></div>
+                        <div class="time-header">${currentSlotTime} <span class="live-text-stable">LIVE</span></div>
                         <div class="content-body">`;
                     
                     let rowGroups = [
@@ -360,48 +380,68 @@
                     });
                     newBlock += `</div></div>`;
 
-                    let cleanedOldHtml = existingHtml.replace(/<span class="live-text-stable">LIVE<\/span>/g, 'LIVE');
-                    
-                    db.ref('resultsData').set({ html: newBlock + cleanedOldHtml });
+                    // Save this specific slot permanently in Firebase so it never changes again today
+                    db.ref('resultsData/slots/' + currentSlotTime).set({
+                        time: currentSlotTime,
+                        html: newBlock,
+                        timestamp: Date.now()
+                    });
                 });
             });
         }
 
-        db.ref('resultsData').on('value', (snap) => { 
-            if(snap.exists() && snap.val().html) {
-                let htmlContent = snap.val().html;
-                let container = document.getElementById('today-container');
-                if(container.innerHTML !== htmlContent) {
-                    container.innerHTML = htmlContent;
-                }
+        // Listen to slots data and render UI properly sorted (latest on top)
+        db.ref('resultsData/slots').on('value', (snap) => {
+            let container = document.getElementById('today-container');
+            if (snap.exists()) {
+                let slotsObj = snap.val();
+                let keys = Object.keys(slotsObj).sort((a, b) => {
+                    return slotsObj[b].timestamp - slotsObj[a].timestamp;
+                });
+
+                let finalHtml = "";
+                keys.forEach((k, index) => {
+                    let blockHtml = slotsObj[k].html;
+                    // Sirf sabse latest wale mein 'LIVE' dikhao, baaki purane wale se LIVE hata do
+                    if (index > 0) {
+                        blockHtml = blockHtml.replace('<span class="live-text-stable">LIVE</span>', '');
+                    }
+                    finalHtml += blockHtml;
+                });
+                container.innerHTML = finalHtml;
             } else {
                 let now = new Date();
-                let h = now.getHours();
-                let m = now.getMinutes();
+                let h = now.getHours(), m = now.getMinutes();
                 let isMarketOpen = (h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30));
                 
                 if (isMarketOpen) {
-                    generateAndSaveResult();
+                    checkAndGenerateSlot();
                 } else {
-                    document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>Market Closed / No Results Yet</div>";
+                    container.innerHTML = "<div style='text-align:center; color:#666; padding:20px;'>Market Closed / No Results Yet</div>";
                 }
             }
         });
 
+        // Check every second to trigger slot generation right when 15 min hits
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
             
             if (m % 15 === 0 && s === 0) {
-                generateAndSaveResult();
+                checkAndGenerateSlot();
             }
 
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
-                document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
+                let nextMinBlock = 14 - (m % 15);
+                let nextSecBlock = 59 - s;
+                document.getElementById('timer').innerText = `NEXT DRAW IN: ${nextMinBlock}m ${nextSecBlock}s`;
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
             }
         }, 1000);
+
+        // Run once on load to ensure current slot exists
+        setTimeout(checkAndGenerateSlot, 1000);
     </script>
 </body>
 </html>
