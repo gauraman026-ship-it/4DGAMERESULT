@@ -146,7 +146,6 @@
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m === 0))) {
                 document.getElementById('timer').innerText = `Next Draw in ${14 - (m % 15)}m ${59 - s}s`;
                 
-                // ड्रा केवल सही 15 मिनट के अंतराल पर ही बनेगा (जैसे 9:00, 9:15, 9:30...)[span_2](start_span)[span_2](end_span)
                 if ((m % 15 === 0) && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
                     db.ref('lastGenerated').once('value', (snap) => { 
@@ -159,13 +158,11 @@
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
                 
-                // रात 10:01 बजे आज का रिजल्ट अपने आप यस्टरडे में सेव हो जाएगा[span_3](start_span)[span_3](end_span)
+                // रात 10:01 बजे आज का रिजल्ट सही तारीख के साथ यस्टरडे में सेव होगा
                 if (h === 22 && m === 1 && s === 0) {
                     db.ref('resultsData').once('value', (snap) => {
                         if(snap.val()) { 
-                            let yDate = new Date();
-                            yDate.setDate(yDate.getDate() - 1);
-                            let dateStr = yDate.toLocaleDateString();
+                            let dateStr = new Date().toLocaleDateString(); // यहाँ से -1 हटा दिया गया है ताकि सही ताज़ा तारीख आए
                             let cleanHtml = snap.val().html.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
                             db.ref('yesterdayData').set({ html: `<div style="color:#d4af37; margin:10px 0; font-weight:bold;">DATE: ${dateStr}</div>` + cleanHtml }); 
                             db.ref('resultsData').remove(); 
