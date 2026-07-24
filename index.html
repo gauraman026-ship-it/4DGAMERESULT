@@ -141,15 +141,26 @@
         setInterval(() => {
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-            if ((h > 9 || (h === 9 && m >= 0)) && (h < 21 || (h === 21 && m <= 30))) {
+            
+            // समय सुबह 9:00 बजे से रात 10:00 बजे (22:00) तक
+            if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m === 0))) {
                 document.getElementById('timer').innerText = `Next Draw in ${14 - (m % 15)}m ${59 - s}s`;
-                if (m % 15 === 0 && s === 0) {
+                
+                // ड्रा केवल सही 15 मिनट के अंतराल पर ही बनेगा (जैसे 9:00, 9:15, 9:30...)[span_2](start_span)[span_2](end_span)
+                if ((m % 15 === 0) && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
-                    db.ref('lastGenerated').once('value', (snap) => { if (snap.val() !== key) { generateAndSave(); db.ref('lastGenerated').set(key); } });
+                    db.ref('lastGenerated').once('value', (snap) => { 
+                        if (snap.val() !== key) { 
+                            generateAndSave(); 
+                            db.ref('lastGenerated').set(key); 
+                        } 
+                    });
                 }
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
-                if (h === 21 && m === 31 && s === 0) {
+                
+                // रात 10:01 बजे आज का रिजल्ट अपने आप यस्टरडे में सेव हो जाएगा[span_3](start_span)[span_3](end_span)
+                if (h === 22 && m === 1 && s === 0) {
                     db.ref('resultsData').once('value', (snap) => {
                         if(snap.val()) { 
                             let yDate = new Date();
