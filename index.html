@@ -50,6 +50,7 @@
     <div class="section-title">TODAY LIVE RESULTS</div>
     <div id="today-container"></div>
     
+    <!-- यस्टरडे रिजल्ट्स देखने का बटन यहाँ मौजूद रहेगा -->
     <div class="section-title" onclick="toggleYesterday()">TAP FOR YESTERDAY RESULTS ▾</div>
     <div id="yesterday-container" style="display: none;"></div>
 
@@ -142,7 +143,6 @@
             let now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
             
-            // समय सुबह 9:00 बजे से रात 10:00 बजे (22:00) तक
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m === 0))) {
                 document.getElementById('timer').innerText = `Next Draw in ${14 - (m % 15)}m ${59 - s}s`;
                 
@@ -158,13 +158,11 @@
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
                 
-                // रात 10:01 बजे आज का रिजल्ट सही तारीख के साथ यस्टरडे में सेव होगा
                 if (h === 22 && m === 1 && s === 0) {
                     db.ref('resultsData').once('value', (snap) => {
                         if(snap.val()) { 
-                            let dateStr = new Date().toLocaleDateString(); // यहाँ से -1 हटा दिया गया है ताकि सही ताज़ा तारीख आए
                             let cleanHtml = snap.val().html.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
-                            db.ref('yesterdayData').set({ html: `<div style="color:#d4af37; margin:10px 0; font-weight:bold;">DATE: ${dateStr}</div>` + cleanHtml }); 
+                            db.ref('yesterdayData').set({ html: cleanHtml }); // बिना तारीख के सीधे रिजल्ट सेव होगा
                             db.ref('resultsData').remove(); 
                         }
                     });
