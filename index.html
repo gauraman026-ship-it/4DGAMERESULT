@@ -44,7 +44,6 @@
             min-height: 100vh;
         }
 
-        /* Elite Header Style */
         .header-container {
             text-align: center;
             margin: 4px 0 10px 0;
@@ -82,13 +81,13 @@
         }
 
         .verified-badge {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            background: linear-gradient(135deg, #d35400, #e67e22);
             color: #fff;
             font-size: 0.32em;
             padding: 3px 8px;
             border-radius: 20px;
             font-weight: 800;
-            box-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
+            box-shadow: 0 0 10px rgba(230, 126, 34, 0.7);
             letter-spacing: 0.5px;
             text-transform: uppercase;
             vertical-align: middle;
@@ -104,7 +103,16 @@
             font-size: 0.75em;
             color: var(--text-muted);
             font-weight: 600;
+            flex-direction: column;
         }
+
+        .kohinoor-sub {
+            color: var(--gold-primary);
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
         .live-server-tag {
             color: var(--accent-green);
             font-weight: 700;
@@ -121,7 +129,6 @@
             animation: pulse-dot 1.2s infinite;
         }
 
-        /* Elite Timer Box Style */
         .timer-box {
             text-align: center;
             color: #ffffff;
@@ -154,7 +161,6 @@
             width: 100%;
         }
         
-        /* Result Blocks Style */
         .result-block {
             border: 1px solid rgba(241, 196, 15, 0.25);
             margin-bottom: 12px;
@@ -192,7 +198,6 @@
             100% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
         
-        /* Single-Line 10-Column Grid Layout Restored with Crisp Clarity */
         .chart-table { 
             display: grid; 
             grid-template-columns: 28px 1fr; 
@@ -223,7 +228,7 @@
             text-align: center; 
             font-weight: 950; 
             border-radius: 4px; 
-            font-size: 0.72em; /* Ekdum saaf aur readable size */
+            font-size: 0.72em; 
             color: #ffffff; 
             border: 1px solid #324975;
             box-shadow: 0 2px 5px rgba(0,0,0,0.5);
@@ -232,7 +237,6 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
         
-        /* Elite Admin Control Deck */
         #adminPanel { 
             display: none; 
             margin-top: 20px; 
@@ -275,11 +279,14 @@
 <body>
 
     <div class="header-container">
-        <div class="neon-title">CANVAS LIVE 4D <span class="verified-badge">✔ ELITE</span></div>
+        <div class="neon-title">CANVAS LIVE 4D <span class="verified-badge">⚡ VIP LIVE</span></div>
         <div class="sub-header">
-            <span>Next-Gen High Frequency Terminal</span>
-            <span>•</span>
-            <span class="live-server-tag"><span class="mini-dot"></span> Secure Node</span>
+            <span class="kohinoor-sub">Kohinoor Enterprises</span>
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+                <span>Next-Gen High Frequency Terminal</span>
+                <span>•</span>
+                <span class="live-server-tag"><span class="mini-dot"></span> Secure Node</span>
+            </div>
         </div>
     </div>
 
@@ -357,26 +364,28 @@
                     '50': (s.b50 || "").split(/[ ,]+/).filter(x => x.length > 0) 
                 };
 
-                db.ref('resultsData').once('value', (snapRes) => {
-                    let currentHtml = snapRes.val() ? snapRes.val().html : "";
-                    
-                    let cleanedHtml = currentHtml
-                        .replace(/<span class="live-dot"><\/span>/g, '')
-                        .replace(/ LIVE/g, '')
-                        .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
-                    
-                    let timeString;
-                    if (customTimeString) {
-                        let [h, m] = customTimeString.split(':');
-                        let d = new Date();
-                        d.setHours(h);
-                        d.setMinutes(m);
-                        timeString = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                    } else {
-                        timeString = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                let timeString, timeKey;
+                let now = new Date();
+
+                if (customTimeString) {
+                    let [h, m] = customTimeString.split(':');
+                    now.setHours(h);
+                    now.setMinutes(m);
+                    timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                    timeKey = "CUSTOM_" + h + "_" + m;
+                } else {
+                    timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                    let h = now.getHours();
+                    let m = Math.floor(now.getMinutes() / 15) * 15;
+                    timeKey = now.toDateString().replace(/ /g, "_") + "_" + h + "_" + m;
+                }
+
+                db.ref('resultsData/blocks/' + timeKey).once('value', (timeSnap) => {
+                    if (timeSnap.exists() && !customTimeString) {
+                        return;
                     }
-                    
-                    let newBlock = `<div class="result-block">
+
+                    let newBlock = `<div class="result-block" id="block-${timeKey}">
                         <div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div>
                         <div class="chart-table">`;
                     
@@ -400,7 +409,12 @@
                         newBlock += `</div>`;
                     });
                     newBlock += `</div></div>`;
-                    db.ref('resultsData').set({ html: newBlock + cleanedHtml });
+
+                    db.ref('resultsData/blocks/' + timeKey).set({
+                        html: newBlock,
+                        timestamp: now.getTime()
+                    });
+
                     if(customTimeString) alert("Result successfully generated for " + timeString);
                 });
             });
@@ -415,8 +429,34 @@
             generateAndSave(tVal);
         }
 
-        db.ref('resultsData').on('value', (snap) => { if(snap.exists()) document.getElementById('today-container').innerHTML = snap.val().html; });
-        db.ref('yesterdayData').on('value', (snap) => { if(snap.exists()) document.getElementById('yesterday-container').innerHTML = snap.val().html; });
+        db.ref('resultsData/blocks').on('value', (snap) => {
+            if(snap.exists()) {
+                let blocksObj = snap.val();
+                let keys = Object.keys(blocksObj);
+                
+                keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+
+                let combinedHtml = "";
+                keys.forEach((key, index) => {
+                    let blockHtml = blocksObj[key].html;
+                    if (index > 0) {
+                        blockHtml = blockHtml
+                            .replace(/<span class="live-dot"><\/span>/g, '')
+                            .replace(/ LIVE/g, '')
+                            .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
+                    }
+                    combinedHtml += blockHtml;
+                });
+
+                document.getElementById('today-container').innerHTML = combinedHtml;
+            } else {
+                document.getElementById('today-container').innerHTML = "";
+            }
+        });
+
+        db.ref('yesterdayData').on('value', (snap) => { 
+            if(snap.exists()) document.getElementById('yesterday-container').innerHTML = snap.val().html; 
+        });
 
         setInterval(() => {
             let now = new Date();
@@ -440,9 +480,23 @@
                 if (h === 22 && m === 1 && s === 0) {
                     db.ref('resultsData').once('value', (snap) => {
                         if(snap.val()) { 
-                            let cleanHtml = snap.val().html.replace(/<span class="live-dot"><\/span>/g, '').replace(/ LIVE/g, '');
-                            db.ref('yesterdayData').set({ html: cleanHtml });
-                            db.ref('resultsData').remove(); 
+                            db.ref('resultsData/blocks').once('value', (blockSnap) => {
+                                if(blockSnap.exists()) {
+                                    let blocksObj = blockSnap.val();
+                                    let keys = Object.keys(blocksObj);
+                                    keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+                                    let cleanHtml = "";
+                                    keys.forEach(k => {
+                                        let bh = blocksObj[k].html
+                                            .replace(/<span class="live-dot"><\/span>/g, '')
+                                            .replace(/ LIVE/g, '')
+                                            .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
+                                        cleanHtml += bh;
+                                    });
+                                    db.ref('yesterdayData').set({ html: cleanHtml });
+                                    db.ref('resultsData').remove();
+                                }
+                            });
                         }
                     });
                 }
