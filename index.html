@@ -39,18 +39,18 @@
                 linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 6px;
+            padding: 4px;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
         }
 
         .header-container {
             text-align: center;
-            margin: 4px 0 10px 0;
+            margin: 4px 0 8px 0;
             background: var(--card-bg);
             backdrop-filter: blur(14px);
-            padding: 14px 8px;
-            border-radius: 12px;
+            padding: 12px 6px;
+            border-radius: 10px;
             border: 1px solid var(--border-glow);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), inset 0 0 15px var(--gold-glow);
             position: relative;
@@ -65,13 +65,13 @@
         }
 
         .neon-title {
-            font-size: 1.55em;
+            font-size: 1.45em;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             color: #fff9e6;
             text-transform: uppercase;
             text-shadow: 
@@ -98,9 +98,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-            font-size: 0.75em;
+            gap: 6px;
+            margin-top: 6px;
+            font-size: 0.72em;
             color: var(--text-muted);
             font-weight: 600;
             flex-direction: column;
@@ -118,11 +118,11 @@
             font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
         .mini-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: var(--accent-green);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--accent-green);
@@ -132,30 +132,30 @@
         .timer-box {
             text-align: center;
             color: #ffffff;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 900;
             background: linear-gradient(145deg, #0d1424, #060911);
-            padding: 12px;
+            padding: 10px;
             border: 1px solid var(--border-glow);
-            border-radius: 12px;
+            border-radius: 10px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.7), inset 0 0 12px var(--gold-glow);
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             width: 100%;
             margin-bottom: 4px;
         }
         
         .section-title {
             color: var(--gold-primary);
-            font-size: 0.95em;
-            margin: 16px 0 10px;
-            padding: 10px;
+            font-size: 0.9em;
+            margin: 12px 0 8px;
+            padding: 8px;
             background: linear-gradient(90deg, rgba(13,20,33,0.9), rgba(23,34,55,0.9), rgba(13,20,33,0.9));
             border: 1px solid var(--border-glow);
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             text-transform: uppercase;
             width: 100%;
@@ -163,11 +163,11 @@
         
         .result-block {
             border: 1px solid rgba(241, 196, 15, 0.25);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             background: var(--card-bg);
             backdrop-filter: blur(10px);
-            padding: 10px;
-            border-radius: 12px;
+            padding: 8px;
+            border-radius: 10px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.7);
             width: 100%;
         }
@@ -175,19 +175,19 @@
             font-weight: 800;
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
-            font-size: 1em;
+            margin-bottom: 6px;
+            font-size: 0.95em;
             color: var(--gold-primary);
             border-bottom: 1px solid rgba(255,255,255,0.08);
-            padding-bottom: 6px;
+            padding-bottom: 5px;
             letter-spacing: 0.5px;
         }
         .live-dot {
-            height: 8px;
-            width: 8px;
+            height: 7px;
+            width: 7px;
             background-color: var(--accent-red);
             border-radius: 50%;
-            margin-right: 7px;
+            margin-right: 6px;
             box-shadow: 0 0 8px var(--accent-red);
             animation: pulse-dot 1s infinite;
         }
@@ -201,7 +201,7 @@
         .chart-table { 
             display: grid; 
             grid-template-columns: 28px 1fr; 
-            gap: 4px; 
+            gap: 3px; 
             align-items: center; 
             width: 100%;
         }
@@ -211,7 +211,7 @@
             text-align: center; 
             font-weight: 900; 
             color: var(--gold-primary); 
-            border-radius: 4px; 
+            border-radius: 5px; 
             border: 1px solid rgba(241, 196, 15, 0.35); 
             font-size: 0.75em;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
@@ -222,19 +222,29 @@
             gap: 2px; 
             width: 100%;
         }
+        
+        /* Bada font aur poora fit dikhne ke liye optimized cell style */
         .cell { 
             background: linear-gradient(145deg, #131c2d, #080d17); 
             padding: 7px 0px; 
             text-align: center; 
-            font-weight: 950; 
+            font-weight: 900; 
             border-radius: 4px; 
-            font-size: 0.72em; 
+            font-size: 0.76em; 
             color: #ffffff; 
-            border: 1px solid #324975;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-            letter-spacing: -0.4px;
+            border: 1px solid #3c578a;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+            letter-spacing: -0.7px;
             white-space: nowrap;
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+        }
+
+        /* Double Digit Red Highlight Style */
+        .cell.red-dp {
+            color: #ff4d4d !important;
+            background: linear-gradient(145deg, #220f12, #120507);
+            border-color: rgba(255, 77, 77, 0.6);
+            text-shadow: 0 0 10px rgba(255, 77, 77, 0.7) !important;
         }
         
         #adminPanel { 
@@ -371,12 +381,14 @@
                     let [h, m] = customTimeString.split(':');
                     now.setHours(h);
                     now.setMinutes(m);
-                    timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
                     timeKey = "CUSTOM_" + h + "_" + m;
                 } else {
-                    timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
-                    let h = now.getHours();
-                    let m = Math.floor(now.getMinutes() / 15) * 15;
+                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
+                    let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
+                    let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
+                    let h = parseInt(formatterH.format(now));
+                    let m = Math.floor(parseInt(formatterM.format(now)) / 15) * 15;
                     timeKey = now.toDateString().replace(/ /g, "_") + "_" + h + "_" + m;
                 }
 
@@ -404,7 +416,13 @@
                                     count++;
                                 } while (blockArr.includes(val.substring(2)) && count < 50);
                             }
-                            newBlock += `<div class="cell">${val}</div>`;
+
+                            // Check if last two digits are same (Double Digit / DP)
+                            let suffix = val.slice(-2);
+                            let isDouble = suffix[0] === suffix[1];
+                            let cellClass = isDouble ? "cell red-dp" : "cell";
+
+                            newBlock += `<div class="${cellClass}">${val}</div>`;
                         }
                         newBlock += `</div>`;
                     });
@@ -460,7 +478,13 @@
 
         setInterval(() => {
             let now = new Date();
-            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
+            let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
+            let formatterS = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' });
+            
+            let h = parseInt(formatterH.format(now));
+            let m = parseInt(formatterM.format(now));
+            let s = parseInt(formatterS.format(now));
             
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m === 0))) {
                 document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
