@@ -39,7 +39,7 @@
                 linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 3px;
+            padding: 6px;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
         }
@@ -141,7 +141,42 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.7), inset 0 0 12px var(--gold-glow);
             letter-spacing: 0.8px;
             width: 100%;
-            margin-bottom: 4px;
+            margin-bottom: 10px;
+        }
+
+        /* Series Navigation Tabs - Centered & Spaced */
+        .series-tabs-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 12px 0 14px 0;
+        }
+        .series-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            width: 100%;
+            max-width: 500px;
+        }
+        .tab-btn {
+            background: #0d1424;
+            color: var(--text-muted);
+            border: 1px solid rgba(241, 196, 15, 0.25);
+            padding: 9px 4px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.8em;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f1c40f, #d4ac0d);
+            color: #07090f;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 12px var(--gold-glow);
         }
         
         .section-title {
@@ -204,6 +239,7 @@
             gap: 2px; 
             align-items: center; 
             width: 100%;
+            margin-bottom: 8px;
         }
         
         .label { 
@@ -226,7 +262,6 @@
             width: 100%;
         }
         
-        /* Adjusted padding and letter spacing so full 4 digits fit clearly without cutting */
         .cell { 
             background: linear-gradient(145deg, #181d26, #0e1218); 
             padding: 8px 0px; 
@@ -242,10 +277,23 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* Plain Red Color for Last 2 Digits */
         .cell .red-dp {
             color: #ff4d4d !important;
             text-shadow: none !important;
+        }
+
+        .archive-select {
+            width: 100%;
+            background: #0d1424;
+            color: var(--gold-primary);
+            border: 1px solid var(--border-glow);
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            outline: none;
+            text-align: center;
         }
         
         #adminPanel { 
@@ -302,26 +350,41 @@
     </div>
 
     <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
+
+    <!-- Centered Series Selector Tabs -->
+    <div class="series-tabs-wrapper">
+        <div class="series-tabs">
+            <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All</div>
+            <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 Ser</div>
+            <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 Ser</div>
+            <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Ser</div>
+        </div>
+    </div>
     
     <div class="section-title">TODAY LIVE DRAW RESULTS</div>
     <div id="today-container"></div>
     
-    <div class="section-title" onclick="toggleYesterday()">VIEW YESTERDAY ARCHIVE ▾</div>
-    <div id="yesterday-container" style="display: none;"></div>
+    <div class="section-title" onclick="toggleArchive()">VIEW 15 DAYS ARCHIVE ▾</div>
+    <div id="archive-section" style="display: none;">
+        <select id="archiveDateSelect" class="archive-select" onchange="loadArchiveDate(this.value)">
+            <option value="">-- Select Date to View Record --</option>
+        </select>
+        <div id="archive-container"></div>
+    </div>
 
     <div id="adminPanel">
         <strong style="color: var(--gold-primary); font-size: 1.1em; letter-spacing: 0.5px;">SYSTEM CONTROL DECK</strong><br><br>
         
-        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Fix Numbers (e.g. 1044, 3088):</label>
+        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Fix Numbers:</label>
         <textarea id="fixInput" placeholder="Enter fixed numbers..."></textarea>
         
-        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Block 10 Series (e.g. 15, 22):</label>
+        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Block 10 Series:</label>
         <textarea id="block10" placeholder="Blocked suffixes for 10 series..."></textarea>
         
-        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Block 30 Series (e.g. 40, 88):</label>
+        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Block 30 Series:</label>
         <textarea id="block30" placeholder="Blocked suffixes for 30 series..."></textarea>
         
-        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Block 50 Series (e.g. 05, 99):</label>
+        <label style="font-size: 0.8em; color: var(--text-muted); font-weight: 600;">Block 50 Series:</label>
         <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #07090f;" onclick="saveSettings()">SAVE CONFIGURATION</button>
@@ -340,6 +403,35 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        let currentSeriesFilter = 'all';
+
+        function switchSeries(series) {
+            currentSeriesFilter = series;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tab-' + series).classList.add('active');
+
+            let blocks = document.querySelectorAll('.result-block');
+            blocks.forEach(block => {
+                let s10 = block.querySelector('.series-10');
+                let s30 = block.querySelector('.series-30');
+                let s50 = block.querySelector('.series-50');
+
+                if(series === 'all') {
+                    if(s10) s10.style.display = 'grid';
+                    if(s30) s30.style.display = 'grid';
+                    if(s50) s50.style.display = 'grid';
+                    block.style.display = 'block';
+                } else {
+                    if(s10) s10.style.display = (series === '10') ? 'grid' : 'none';
+                    if(s30) s30.style.display = (series === '30') ? 'grid' : 'none';
+                    if(s50) s50.style.display = (series === '50') ? 'grid' : 'none';
+                    
+                    let targetSection = block.querySelector('.series-' + series);
+                    block.style.display = targetSection ? 'block' : 'none';
+                }
+            });
+        }
+
         let clickCount = 0;
         function handleAdmin() {
             clickCount++;
@@ -350,9 +442,9 @@
             setTimeout(() => { clickCount = 0; }, 3000);
         }
 
-        function toggleYesterday() {
-            const y = document.getElementById('yesterday-container');
-            y.style.display = (y.style.display === 'none') ? 'block' : 'none';
+        function toggleArchive() {
+            const sec = document.getElementById('archive-section');
+            sec.style.display = (sec.style.display === 'none') ? 'block' : 'none';
         }
 
         function saveSettings() {
@@ -368,11 +460,11 @@
         function generateAndSave(customTimeString = null) {
             db.ref('settings').once('value', (snap) => {
                 let s = snap.val() || {};
-                let fixList = (s.fix || "").split(/[ ,]+/).filter(x => x.length > 0);
+                let fixList = (s.fix || "").split(/[\s,]+/).filter(x => x.length > 0);
                 let blocks = { 
-                    '10': (s.b10 || "").split(/[ ,]+/).filter(x => x.length > 0), 
-                    '30': (s.b30 || "").split(/[ ,]+/).filter(x => x.length > 0), 
-                    '50': (s.b50 || "").split(/[ ,]+/).filter(x => x.length > 0) 
+                    '10': (s.b10 || "").split(/[\s,]+/).filter(x => x.length > 0), 
+                    '30': (s.b30 || "").split(/[\s,]+/).filter(x => x.length > 0), 
+                    '50': (s.b50 || "").split(/[\s,]+/).filter(x => x.length > 0) 
                 };
 
                 let timeString, timeKey;
@@ -399,11 +491,11 @@
                     }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div>
-                        <div class="chart-table">`;
+                        <div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div>`;
                     
                     [10, 30, 50].forEach(sVal => {
-                        newBlock += `<div class="label">${sVal}</div><div class="row-grid">`;
+                        newBlock += `<div class="chart-table series-${sVal}">
+                            <div class="label">${sVal}</div><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
                             let prefix = sVal + i;
                             let val;
@@ -425,9 +517,9 @@
                             let formattedVal = isDouble ? `${firstPart}<span class="red-dp">${suffix}</span>` : val;
                             newBlock += `<div class="cell">${formattedVal}</div>`;
                         }
-                        newBlock += `</div>`;
+                        newBlock += `</div></div>`;
                     });
-                    newBlock += `</div></div>`;
+                    newBlock += `</div>`;
 
                     db.ref('resultsData/blocks/' + timeKey).set({
                         html: newBlock,
@@ -452,7 +544,6 @@
             if(snap.exists()) {
                 let blocksObj = snap.val();
                 let keys = Object.keys(blocksObj);
-                
                 keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
 
                 let combinedHtml = "";
@@ -468,14 +559,42 @@
                 });
 
                 document.getElementById('today-container').innerHTML = combinedHtml;
+                switchSeries(currentSeriesFilter);
             } else {
                 document.getElementById('today-container').innerHTML = "";
             }
         });
 
-        db.ref('yesterdayData').on('value', (snap) => { 
-            if(snap.exists()) document.getElementById('yesterday-container').innerHTML = snap.val().html; 
+        db.ref('monthlyArchive').on('value', (snap) => {
+            let select = document.getElementById('archiveDateSelect');
+            select.innerHTML = '<option value="">-- Select Date to View Record --</option>';
+            if(snap.exists()) {
+                let datesObj = snap.val();
+                let dateKeys = Object.keys(datesObj);
+                dateKeys.sort().reverse();
+                dateKeys.forEach(dateStr => {
+                    let opt = document.createElement('option');
+                    opt.value = dateStr;
+                    opt.innerText = dateStr.replace(/_/g, ' ');
+                    select.appendChild(opt);
+                });
+            }
         });
+
+        function loadArchiveDate(dateKey) {
+            if(!dateKey) {
+                document.getElementById('archive-container').innerHTML = "";
+                return;
+            }
+            db.ref('monthlyArchive/' + dateKey).once('value', (snap) => {
+                if(snap.exists()) {
+                    document.getElementById('archive-container').innerHTML = snap.val().html;
+                    switchSeries(currentSeriesFilter);
+                } else {
+                    document.getElementById('archive-container').innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px;'>No data found for this date.</div>";
+                }
+            });
+        }
 
         setInterval(() => {
             let now = new Date();
@@ -503,25 +622,35 @@
                 document.getElementById('timer').innerText = "MARKET CLOSED";
                 
                 if (h === 22 && m === 1 && s === 0) {
-                    db.ref('resultsData').once('value', (snap) => {
-                        if(snap.val()) { 
-                            db.ref('resultsData/blocks').once('value', (blockSnap) => {
-                                if(blockSnap.exists()) {
-                                    let blocksObj = blockSnap.val();
-                                    let keys = Object.keys(blocksObj);
-                                    keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
-                                    let cleanHtml = "";
-                                    keys.forEach(k => {
-                                        let bh = blocksObj[k].html
-                                            .replace(/<span class="live-dot"><\/span>/g, '')
-                                            .replace(/ LIVE/g, '')
-                                            .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
-                                        cleanHtml += bh;
-                                    });
-                                    db.ref('yesterdayData').set({ html: cleanHtml });
-                                    db.ref('resultsData').remove();
+                    db.ref('resultsData/blocks').once('value', (blockSnap) => {
+                        if(blockSnap.exists()) {
+                            let blocksObj = blockSnap.val();
+                            let keys = Object.keys(blocksObj);
+                            keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+                            let cleanHtml = "";
+                            keys.forEach(k => {
+                                let bh = blocksObj[k].html
+                                    .replace(/<span class="live-dot"><\/span>/g, '')
+                                    .replace(/ LIVE/g, '')
+                                    .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
+                                cleanHtml += bh;
+                            });
+
+                            let dateKeyString = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                            
+                            db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
+
+                            db.ref('monthlyArchive').once('value', (allArchSnap) => {
+                                if(allArchSnap.exists()) {
+                                    let allDates = Object.keys(allArchSnap.val());
+                                    if(allDates.length > 15) {
+                                        allDates.sort();
+                                        db.ref('monthlyArchive/' + allDates[0]).remove();
+                                    }
                                 }
                             });
+
+                            db.ref('resultsData').remove();
                         }
                     });
                 }
