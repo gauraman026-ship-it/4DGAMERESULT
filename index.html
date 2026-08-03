@@ -407,6 +407,29 @@
 
         let currentSeriesFilter = 'all';
 
+        // Screen Wake Lock API to keep screen ON without needing a charger
+        let wakeLock = null;
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Screen Wake Lock active');
+                }
+            } catch (err) {
+                console.error(`${err.name}, ${err.message}`);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            requestWakeLock();
+        });
+
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') {
+                await requestWakeLock();
+            }
+        });
+
         function switchSeries(series) {
             currentSeriesFilter = series;
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -648,7 +671,6 @@
                             db.ref('monthlyArchive').on('value', (allArchSnap) => {
                                 if(allArchSnap.exists()) {
                                     let allDates = Object.keys(allArchSnap.val());
-                                    // यहाँ 15 की जगह 30 दिन का डेटा सेव रखने की सीमा सेट की गई है
                                     if(allDates.length > 30) {
                                         allDates.sort();
                                         db.ref('monthlyArchive/' + allDates[0]).remove();
