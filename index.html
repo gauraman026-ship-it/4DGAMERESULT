@@ -284,7 +284,7 @@
             text-shadow: none !important;
         }
 
-        .archive-select {
+        .archive-input {
             width: 100%;
             background: #0d1424;
             color: var(--gold-primary);
@@ -292,10 +292,11 @@
             padding: 8px;
             border-radius: 6px;
             font-weight: 800;
-            font-size: 0.85em;
+            font-size: 0.9em;
             margin-bottom: 6px;
             outline: none;
             text-align: center;
+            color-scheme: dark;
         }
         
         #adminPanel { 
@@ -362,16 +363,15 @@
         </div>
     </div>
     
-    <div class="section-title">TODAY LIVE DRAW RESULTS</div>
-    <div id="today-container"></div>
-    
-    <div class="section-title" onclick="toggleArchive()">VIEW 15 DAYS ARCHIVE ▾</div>
+    <!-- CALENDAR ARCHIVE SECTION -->
+    <div class="section-title" onclick="toggleArchive()">SELECT DATE CALENDAR ▾</div>
     <div id="archive-section" style="display: none;">
-        <select id="archiveDateSelect" class="archive-select" onchange="loadArchiveDate(this.value)">
-            <option value="">-- Select Date to View Record --</option>
-        </select>
+        <input type="date" id="archiveDateInput" class="archive-input" onchange="loadArchiveDate(this.value)">
         <div id="archive-container"></div>
     </div>
+
+    <div class="section-title">TODAY LIVE DRAW RESULTS</div>
+    <div id="today-container"></div>
 
     <div id="adminPanel">
         <strong style="color: var(--gold-primary); font-size: 1.05em; letter-spacing: 0.5px;">SYSTEM CONTROL DECK</strong><br><br>
@@ -474,15 +474,18 @@
                 if (customTimeString) {
                     let [h, m] = customTimeString.split(':');
                     now.setHours(h);
-                    now.setMinutes(m);
+                    now.setMinutes(Math.floor(parseInt(m) / 15) * 15);
                     timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
-                    timeKey = "CUSTOM_" + h + "_" + m;
+                    timeKey = now.toDateString().replace(/ /g, "_") + "_" + now.getHours() + "_" + now.getMinutes();
                 } else {
-                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
                     let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
                     let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
                     let h = parseInt(formatterH.format(now));
                     let m = Math.floor(parseInt(formatterM.format(now)) / 15) * 15;
+                    
+                    now.setHours(h);
+                    now.setMinutes(m);
+                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
                     timeKey = now.toDateString().replace(/ /g, "_") + "_" + h + "_" + m;
                 }
 
@@ -566,28 +569,17 @@
             }
         });
 
-        db.ref('monthlyArchive').on('value', (snap) => {
-            let select = document.getElementById('archiveDateSelect');
-            select.innerHTML = '<option value="">-- Select Date to View Record --</option>';
-            if(snap.exists()) {
-                let datesObj = snap.val();
-                let dateKeys = Object.keys(datesObj);
-                dateKeys.sort().reverse();
-                dateKeys.forEach(dateStr => {
-                    let opt = document.createElement('option');
-                    opt.value = dateStr;
-                    opt.innerText = dateStr.replace(/_/g, ' ');
-                    select.appendChild(opt);
-                });
-            }
-        });
-
-        function loadArchiveDate(dateKey) {
-            if(!dateKey) {
+        function loadArchiveDate(dateVal) {
+            if(!dateVal) {
                 document.getElementById('archive-container').innerHTML = "";
                 return;
             }
-            db.ref('monthlyArchive/' + dateKey).once('value', (snap) => {
+            // dateVal format comes as YYYY-MM-DD, convert to match storage key format if needed (e.g., 03_Aug_2026)
+            let parts = dateVal.split('-');
+            let dObj = new Date(parts[0], parts[1] - 1, parts[2]);
+            let dateKeyString = dObj.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+
+            db.ref('monthlyArchive/' + dateKeyString).once('value', (snap) => {
                 if(snap.exists()) {
                     document.getElementById('archive-container').innerHTML = snap.val().html;
                     switchSeries(currentSeriesFilter);
@@ -641,10 +633,11 @@
                             
                             db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
 
+                            // 30 Days Limit Maintenance
                             db.ref('monthlyArchive').once('value', (allArchSnap) => {
                                 if(allArchSnap.exists()) {
                                     let allDates = Object.keys(allArchSnap.val());
-                                    if(allDates.length > 15) {
+                                    if(allDates.length > 30) {
                                         allDates.sort();
                                         db.ref('monthlyArchive/' + allDates[0]).remove();
                                     }
