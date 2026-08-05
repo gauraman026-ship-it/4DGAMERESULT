@@ -284,7 +284,6 @@
             text-shadow: none !important;
         }
 
-        /* Styling for Date Picker UI based on design preference */
         .archive-select-wrapper {
             position: relative;
             width: 100%;
@@ -414,13 +413,16 @@
         <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Fix Numbers:</label>
         <textarea id="fixInput" placeholder="Enter fixed numbers..."></textarea>
         
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 10 Series:</label>
+        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block Full 4-Digit / Exact Numbers (e.g., 1000, 3055):</label>
+        <textarea id="blockExact" placeholder="Exact numbers that should never appear in their respective series..."></textarea>
+        
+        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 10 Series Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block10" placeholder="Blocked suffixes for 10 series..."></textarea>
         
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 30 Series:</label>
+        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 30 Series Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block30" placeholder="Blocked suffixes for 30 series..."></textarea>
         
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 50 Series:</label>
+        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 50 Series Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #07090f;" onclick="saveSettings()">SAVE CONFIGURATION</button>
@@ -478,7 +480,7 @@
             document.getElementById('tab-' + series).classList.add('active');
 
             let blocks = document.querySelectorAll('.result-block');
-            blocks.forEach(block => {
+            blocks.exports?.forEach ? null : blocks.forEach(block => {
                 let s10 = block.querySelector('.series-10');
                 let s30 = block.querySelector('.series-30');
                 let s50 = block.querySelector('.series-50');
@@ -517,6 +519,7 @@
         function saveSettings() {
             db.ref('settings').set({ 
                 fix: document.getElementById('fixInput').value,
+                bExact: document.getElementById('blockExact').value,
                 b10: document.getElementById('block10').value,
                 b30: document.getElementById('block30').value,
                 b50: document.getElementById('block50').value
@@ -524,14 +527,28 @@
             alert("Configuration Saved Successfully!");
         }
 
+        // Load saved settings into admin panel on startup
+        db.ref('settings').on('value', (snap) => {
+            if(snap.exists()) {
+                let s = snap.val();
+                if(s.fix !== undefined) document.getElementById('fixInput').value = s.fix;
+                if(s.bExact !== undefined) document.getElementById('blockExact').value = s.bExact;
+                if(s.b10 !== undefined) document.getElementById('block10').value = s.b10;
+                if(s.b30 !== undefined) document.getElementById('block30').value = s.b30;
+                if(s.b50 !== undefined) document.getElementById('block50').value = s.b50;
+            }
+        });
+
         function generateAndSave(customTimeString = null) {
             db.ref('settings').once('value', (snap) => {
                 let s = snap.val() || {};
                 let fixList = (s.fix || "").split(/[\s,]+/).filter(x => x.length > 0);
+                let exactBlockList = (s.bExact || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
+                
                 let blocks = { 
-                    '10': (s.b10 || "").split(/[\s,]+/).filter(x => x.length > 0), 
-                    '30': (s.b30 || "").split(/[\s,]+/).filter(x => x.length > 0), 
-                    '50': (s.b50 || "").split(/[\s,]+/).filter(x => x.length > 0) 
+                    '10': (s.b10 || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0), 
+                    '30': (s.b30 || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0), 
+                    '50': (s.b50 || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0) 
                 };
 
                 let timeString, timeKey;
@@ -563,21 +580,29 @@
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
                         <div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div>`;
                     
-                    [10, 30, 50].forEach(sVal => {
-                        newBlock += `<div class="chart-table series-${sVal}">
-                            <div class="label">${sVal}</div><div class="row-grid">`;
+                    [10, 30, 50].forEach(baseVal => {
+                        let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
+                        let blockArr = blocks[seriesKey] || [];
+
+                        newBlock += `<div class="chart-table series-${baseVal}">
+                            <div class="label">${baseVal}</div><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
-                            let prefix = sVal + i;
+                            let prefix = baseVal + i; 
                             let val;
                             let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
-                            if (fixVal) { val = fixVal; } 
-                            else {
-                                let blockArr = blocks[sVal.toString()] || [];
+                            if (fixVal) { 
+                                val = fixVal; 
+                            } else {
                                 let count = 0;
                                 do { 
-                                    val = prefix.toString() + Math.floor(Math.random()*100).toString().padStart(2,'0'); 
+                                    let randSuffix = Math.floor(Math.random()*100).toString().padStart(2,'0');
+                                    val = prefix.toString() + randSuffix; 
                                     count++;
-                                } while (blockArr.includes(val.substring(2)) && count < 50);
+                                    if(count > 1000) break; 
+                                } while (
+                                    exactBlockList.includes(val) || 
+                                    blockArr.some(b => val === b || val.slice(-2) === b || (b.length === 2 && val.slice(-2) === b))
+                                );
                             }
 
                             let firstPart = val.slice(0, -2);
@@ -698,7 +723,7 @@
                             let keys = Object.keys(blocksObj);
                             keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
                             let cleanHtml = "";
-                            keys.forEach(k => {
+                            keys.filter(Boolean).forEach(k => {
                                 let bh = blocksObj[k].html
                                     .replace(/<span class="live-dot"><\/span>/g, '')
                                     .replace(/ LIVE/g, '')
