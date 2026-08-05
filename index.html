@@ -284,18 +284,42 @@
             text-shadow: none !important;
         }
 
-        .archive-select {
+        /* Styling for Date Picker UI based on design preference */
+        .archive-select-wrapper {
+            position: relative;
             width: 100%;
             background: #0d1424;
+            border: 1px solid var(--border-glow);
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .archive-select-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gold-primary);
+            font-weight: 800;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        .archive-select {
+            background: transparent;
             color: var(--gold-primary);
             border: 1px solid var(--border-glow);
-            padding: 8px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-weight: 800;
             font-size: 0.85em;
-            margin-bottom: 6px;
             outline: none;
             text-align: center;
+            cursor: pointer;
         }
         
         #adminPanel { 
@@ -339,6 +363,11 @@
 </head>
 <body>
 
+    <!-- Hidden Video Element to Prevent Screen Sleep on all Mobile Browsers -->
+    <video id="noSleepVideo" loop muted playsinline style="display:none; width:1px; height:1px;">
+        <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
+    </video>
+
     <div class="header-container">
         <div class="neon-title">CANVAS LIVE 4D <span class="verified-badge">⚡ VIP LIVE</span></div>
         <div class="sub-header">
@@ -365,9 +394,14 @@
     <!-- 30 DAYS RESULT SECTION -->
     <div class="section-title" onclick="toggleArchive()">VIEW 30 DAYS RESULT ▾</div>
     <div id="archive-section" style="display: none;">
-        <select id="archiveDateSelect" class="archive-select" onchange="loadArchiveDate(this.value)">
-            <option value="">-- Select Date to View Record --</option>
-        </select>
+        <div class="archive-select-wrapper">
+            <div class="archive-select-label">
+                <span>📅</span> SELECT DATE:
+            </div>
+            <select id="archiveDateSelect" class="archive-select" onchange="loadArchiveDate(this.value)">
+                <option value="">-- Select Date --</option>
+            </select>
+        </div>
         <div id="archive-container"></div>
     </div>
 
@@ -407,26 +441,34 @@
 
         let currentSeriesFilter = 'all';
 
-        // Screen Wake Lock API to keep screen ON without needing a charger
+        // Dual Screen Stay Awake (Wake Lock API + Hidden Video Trick)
         let wakeLock = null;
-        async function requestWakeLock() {
+        async function enableScreenKeepAlive() {
             try {
                 if ('wakeLock' in navigator) {
                     wakeLock = await navigator.wakeLock.request('screen');
-                    console.log('Screen Wake Lock active');
                 }
             } catch (err) {
-                console.error(`${err.name}, ${err.message}`);
+                console.log(err);
+            }
+
+            let videoEl = document.getElementById('noSleepVideo');
+            if (videoEl) {
+                videoEl.play().catch(() => {});
             }
         }
 
+        window.addEventListener('click', () => {
+            enableScreenKeepAlive();
+        }, { once: true });
+
         window.addEventListener('load', () => {
-            requestWakeLock();
+            enableScreenKeepAlive();
         });
 
         document.addEventListener('visibilitychange', async () => {
-            if (wakeLock !== null && document.visibilityState === 'visible') {
-                await requestWakeLock();
+            if (document.visibilityState === 'visible') {
+                enableScreenKeepAlive();
             }
         });
 
@@ -595,7 +637,7 @@
 
         db.ref('monthlyArchive').on('value', (snap) => {
             let select = document.getElementById('archiveDateSelect');
-            select.innerHTML = '<option value="">-- Select Date to View Record --</option>';
+            select.innerHTML = '<option value="">-- Select Date --</option>';
             if(snap.exists()) {
                 let datesObj = snap.val();
                 let dateKeys = Object.keys(datesObj);
