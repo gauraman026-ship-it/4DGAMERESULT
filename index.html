@@ -187,12 +187,58 @@
             border: 1px solid var(--border-glow);
             border-radius: 6px;
             text-align: center;
-            cursor: pointer;
             font-weight: 800;
             letter-spacing: 0.8px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.5);
             text-transform: uppercase;
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .archive-section-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 8px 0 6px;
+        }
+
+        .archive-title {
+            color: var(--gold-primary);
+            font-size: 0.8em;
+            padding: 5px 12px;
+            background: linear-gradient(90deg, rgba(13,20,33,0.9), rgba(23,34,55,0.9), rgba(13,20,33,0.9));
+            border: 1px solid var(--border-glow);
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            width: 100%;
+            max-width: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .archive-title input[type="date"] {
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid var(--border-glow);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-size: 0.85em;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+            color-scheme: dark;
+            width: 130px;
         }
         
         .result-block {
@@ -283,44 +329,118 @@
             color: #ff4d4d !important;
             text-shadow: none !important;
         }
-
-        .archive-select-wrapper {
-            position: relative;
-            width: 100%;
-            background: #0d1424;
-            border: 1px solid var(--border-glow);
-            border-radius: 6px;
-            padding: 6px 10px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .archive-select-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--gold-primary);
-            font-weight: 800;
-            font-size: 0.85em;
-            letter-spacing: 0.5px;
-        }
-
-        .archive-select {
-            background: transparent;
-            color: var(--gold-primary);
-            border: 1px solid var(--border-glow);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 0.85em;
-            outline: none;
-            text-align: center;
-            cursor: pointer;
-        }
         
+        /* FOOTER & MODAL STYLING */
+        .site-footer {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 12px 8px;
+            margin: 12px 0 6px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 12px;
+            margin-bottom: 8px;
+        }
+        .footer-links a {
+            color: #ffffff;
+            background: #000000;
+            border: 1px solid var(--border-glow);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.72em;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .footer-links a:hover {
+            background: #0f172a;
+            color: var(--gold-primary);
+            border-color: var(--gold-primary);
+        }
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.7em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 8px;
+        }
+
+        /* MODAL STYLES */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 8, 14, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        .modal-card {
+            background: linear-gradient(145deg, #0d1424, #07090f);
+            border: 1px solid var(--gold-primary);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px var(--gold-glow);
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(241, 196, 15, 0.3);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+        .modal-title {
+            color: var(--gold-primary);
+            font-size: 0.95em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-size: 1.2em;
+            font-weight: 900;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+        .modal-body {
+            color: #d1d5db;
+            font-size: 0.8em;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        .modal-body p {
+            margin-bottom: 8px;
+        }
+        .modal-body ul {
+            margin-left: 15px;
+            margin-bottom: 8px;
+        }
+        .modal-body li {
+            margin-bottom: 4px;
+        }
+
         #adminPanel { 
             display: none; 
             margin-top: 15px; 
@@ -331,7 +451,7 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.95); 
             width: 100%;
         }
-        textarea, input[type="time"] { 
+        textarea, input[type="time"], input[type="date"] { 
             width: 100%; 
             background: #020407; 
             color: #fff; 
@@ -342,7 +462,7 @@
             font-size: 0.85em; 
             outline: none; 
         }
-        textarea:focus, input[type="time"]:focus { 
+        textarea:focus, input[type="time"]:focus, input[type="date"]:focus { 
             border-color: var(--gold-primary); 
             box-shadow: 0 0 8px var(--gold-glow); 
         }
@@ -389,23 +509,114 @@
             <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Ser</div>
         </div>
     </div>
+
+    <!-- Marquee / Flowing Text -->
+    <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.2), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 3px 10px rgba(0,0,0,0.5);">
+        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.8em; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase;">
+            ✨ WELCOME TO CANVAS LIVE 4D &nbsp;&bull;&nbsp; ENTER THE LIVE EXPERIENCE &nbsp;&bull;&nbsp; ⚡ LIVE UPDATES &nbsp;&bull;&nbsp; 🎯 RESULTS &nbsp;&bull;&nbsp; 🔔 STAY CONNECTED &nbsp;&bull;&nbsp; 18+ ONLY
+        </marquee>
+    </div>
     
-    <!-- 30 DAYS RESULT SECTION -->
-    <div class="section-title" onclick="toggleArchive()">VIEW 30 DAYS RESULT ▾</div>
-    <div id="archive-section" style="display: none;">
-        <div class="archive-select-wrapper">
-            <div class="archive-select-label">
-                <span>📅</span> SELECT DATE:
-            </div>
-            <select id="archiveDateSelect" class="archive-select" onchange="loadArchiveDate(this.value)">
-                <option value="">-- Select Date --</option>
-            </select>
+    <!-- ARCHIVE CALENDAR SECTION -->
+    <div class="archive-section-wrapper">
+        <div class="archive-title" onclick="triggerCalendar(event)">
+            <span>📅</span> 
+            <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
         </div>
-        <div id="archive-container"></div>
+    </div>
+    <div id="archive-container"></div>
+
+    <div class="section-title" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
+    <div id="today-container"></div>
+
+    <!-- PROFESSIONAL FOOTER SECTION -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a onclick="openModal('aboutModal')">About Us</a>
+            <a onclick="openModal('rulesModal')">Game Rules</a>
+            <a onclick="openModal('supportModal')">Support</a>
+            <a onclick="openModal('privacyModal')">Privacy Policy</a>
+            <a onclick="openModal('termsModal')">Terms & Conditions</a>
+        </div>
+        <div class="footer-copy">
+            &copy; 2026 CANVAS LIVE 4D &bull; All Rights Reserved
+        </div>
+    </footer>
+
+    <!-- MODALS CONTAINER -->
+    <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">About Us</span>
+                <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to <strong>CANVAS LIVE 4D</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Our infrastructure operates on high-security nodes designed for seamless mobile performance, ensuring uninterrupted tracking and absolute reliability for our community worldwide.</p>
+            </div>
+        </div>
     </div>
 
-    <div class="section-title">TODAY LIVE DRAW RESULTS</div>
-    <div id="today-container"></div>
+    <div id="rulesModal" class="modal-overlay" onclick="outsideClose(event, 'rulesModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Game Rules</span>
+                <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Please review our official operational guidelines:</p>
+                <ul>
+                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules.</li>
+                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Series, 30 Series, and 50 Series).</li>
+                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies.</li>
+                    <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Support Desk</span>
+                <button class="modal-close" onclick="closeModal('supportModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Need technical assistance or have inquiries regarding platform operations? Our support team is structured to assist you.</p>
+                <p>Reach out through our verified communication channels or admin support desk embedded within the portal network. We ensure swift response times for all authorized terminal queries.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" class="modal-overlay" onclick="outsideClose(event, 'privacyModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Privacy Policy</span>
+                <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>At CANVAS LIVE 4D, protecting your digital privacy is our top priority.</p>
+                <p>We collect minimal localized data strictly required for maintaining secure session states and rendering high-speed live feed tables. We do not distribute, sell, or commercialize any personal telemetry data to third-party entities.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Terms & Conditions</span>
+                <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>By accessing or utilizing the CANVAS LIVE 4D web portal, you agree to abide by the following terms:</p>
+                <ul>
+                    <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises.</li>
+                    <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals.</li>
+                    <li>The platform management retains absolute authority to update schedules, configurations, or system parameters as required.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <div id="adminPanel">
         <strong style="color: var(--gold-primary); font-size: 1.05em; letter-spacing: 0.5px;">SYSTEM CONTROL DECK</strong><br><br>
@@ -443,16 +654,40 @@
 
         let currentSeriesFilter = 'all';
 
-        // Dual Screen Stay Awake (Wake Lock API + Hidden Video Trick)
+        // Trigger calendar picker directly when clicking anywhere on the section title container
+        function triggerCalendar(e) {
+            let dateInput = document.getElementById('archiveDateSelect');
+            if (dateInput && e.target !== dateInput) {
+                if (typeof dateInput.showPicker === 'function') {
+                    dateInput.showPicker();
+                } else {
+                    dateInput.focus();
+                    dateInput.click();
+                }
+            }
+        }
+
+        // Modal Controls
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        function outsideClose(event, modalId) {
+            if (event.target === document.getElementById(modalId)) {
+                closeModal(modalId);
+            }
+        }
+
+        // Dual Screen Stay Awake (Wake Lock API + Hidden Video Trick - Silent Mode)
         let wakeLock = null;
         async function enableScreenKeepAlive() {
             try {
                 if ('wakeLock' in navigator) {
                     wakeLock = await navigator.wakeLock.request('screen');
                 }
-            } catch (err) {
-                console.log(err);
-            }
+            } catch (err) {}
 
             let videoEl = document.getElementById('noSleepVideo');
             if (videoEl) {
@@ -480,7 +715,7 @@
             document.getElementById('tab-' + series).classList.add('active');
 
             let blocks = document.querySelectorAll('.result-block');
-            blocks.exports?.forEach ? null : blocks.forEach(block => {
+            blocks.forEach(block => {
                 let s10 = block.querySelector('.series-10');
                 let s30 = block.querySelector('.series-30');
                 let s50 = block.querySelector('.series-50');
@@ -509,11 +744,6 @@
                 clickCount = 0;
             }
             setTimeout(() => { clickCount = 0; }, 3000);
-        }
-
-        function toggleArchive() {
-            const sec = document.getElementById('archive-section');
-            sec.style.display = (sec.style.display === 'none') ? 'block' : 'none';
         }
 
         function saveSettings() {
@@ -660,28 +890,20 @@
             }
         });
 
-        db.ref('monthlyArchive').on('value', (snap) => {
-            let select = document.getElementById('archiveDateSelect');
-            select.innerHTML = '<option value="">-- Select Date --</option>';
-            if(snap.exists()) {
-                let datesObj = snap.val();
-                let dateKeys = Object.keys(datesObj);
-                dateKeys.sort().reverse();
-                dateKeys.forEach(dateStr => {
-                    let opt = document.createElement('option');
-                    opt.value = dateStr;
-                    opt.innerText = dateStr.replace(/_/g, ' ');
-                    select.appendChild(opt);
-                });
-            }
-        });
-
-        function loadArchiveDate(dateKey) {
-            if(!dateKey) {
+        function loadArchiveDate(dateVal) {
+            if(!dateVal) {
                 document.getElementById('archive-container').innerHTML = "";
                 return;
             }
-            db.ref('monthlyArchive/' + dateKey).once('value', (snap) => {
+            let parts = dateVal.split('-');
+            let year = parts[0];
+            let monthIndex = parseInt(parts[1], 10) - 1;
+            let day = parts[2];
+            
+            let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let formattedDateKey = `${day}_${monthNames[monthIndex]}_${year}`;
+
+            db.ref('monthlyArchive/' + formattedDateKey).once('value', (snap) => {
                 if(snap.exists()) {
                     document.getElementById('archive-container').innerHTML = snap.val().html;
                     switchSeries(currentSeriesFilter);
