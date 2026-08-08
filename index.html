@@ -903,16 +903,6 @@
                 return;
             }
 
-            let now = new Date();
-            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-
-            if (dateVal === currentLocalDateStr) {
-                archiveContainer.innerHTML = "";
-                if(todayTitle) todayTitle.style.display = "flex";
-                if(todayContainer) todayContainer.style.display = "block";
-                return;
-            }
-
             if(todayTitle) todayTitle.style.display = "none";
             if(todayContainer) todayContainer.style.display = "none";
 
@@ -929,7 +919,16 @@
                     archiveContainer.innerHTML = snap.val().html;
                     switchSeries(currentSeriesFilter);
                 } else {
-                    archiveContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px;'>No data found for this date.</div>";
+                    let now = new Date();
+                    let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
+                    
+                    if (dateVal === currentLocalDateStr) {
+                         archiveContainer.innerHTML = "";
+                         if(todayTitle) todayTitle.style.display = "flex";
+                         if(todayContainer) todayContainer.style.display = "block";
+                    } else {
+                         archiveContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px; font-weight:bold;'>No data found for this date.</div>";
+                    }
                 }
             });
         }
@@ -987,16 +986,6 @@
                             let dateKeyString = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                             
                             db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
-
-                            db.ref('monthlyArchive').on('value', (allArchSnap) => {
-                                if(allArchSnap.exists()) {
-                                    allDates = Object.keys(allArchSnap.val());
-                                    if(allDates.length > 30) {
-                                        allDates.sort();
-                                        db.ref('monthlyArchive/' + allDates[0]).remove();
-                                    }
-                                }
-                            });
 
                             db.ref('resultsData').remove();
                         }
