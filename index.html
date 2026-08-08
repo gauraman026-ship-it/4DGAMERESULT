@@ -525,6 +525,7 @@
     <div class="archive-section-wrapper">
         <div class="archive-title" onclick="triggerCalendar(event)">
             <span>📅</span> 
+            <span style="font-size: 0.9em; letter-spacing: 0.5px;">DATE:</span>
             <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
         </div>
     </div>
@@ -989,7 +990,7 @@
 
                             db.ref('monthlyArchive').on('value', (allArchSnap) => {
                                 if(allArchSnap.exists()) {
-                                    let allDates = Object.keys(allArchSnap.val());
+                                    allDates = Object.keys(allArchSnap.val());
                                     if(allDates.length > 30) {
                                         allDates.sort();
                                         db.ref('monthlyArchive/' + allDates[0]).remove();
