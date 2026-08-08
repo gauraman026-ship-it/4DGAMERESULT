@@ -507,10 +507,10 @@
 
     <div class="series-tabs-wrapper">
         <div class="series-tabs">
-            <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All</div>
-            <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 Ser</div>
-            <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 Ser</div>
-            <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Ser</div>
+            <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Chart</div>
+            <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 Chart</div>
+            <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 Chart</div>
+            <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Chart</div>
         </div>
     </div>
 
@@ -572,7 +572,7 @@
                 <p>Please review our official operational guidelines:</p>
                 <ul>
                     <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules.</li>
-                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Series, 30 Series, and 50 Series).</li>
+                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart).</li>
                     <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies.</li>
                     <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
                 </ul>
@@ -632,13 +632,13 @@
         <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block Full 4-Digit / Exact Numbers (e.g., 1000, 3055):</label>
         <textarea id="blockExact" placeholder="Exact numbers that should never appear in their respective series..."></textarea>
         
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 10 Series Suffixes (e.g., 66, 23, 44, 65, 88):</label>
+        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 10 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block10" placeholder="Blocked suffixes for 10 series..."></textarea>
         
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 30 Series Suffixes (e.g., 66, 23, 44, 65, 88):</label>
+        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 30 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block30" placeholder="Blocked suffixes for 30 series..."></textarea>
         
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 50 Series Suffixes (e.g., 66, 23, 44, 65, 88):</label>
+        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 50 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #07090f;" onclick="saveSettings()">SAVE CONFIGURATION</button>
