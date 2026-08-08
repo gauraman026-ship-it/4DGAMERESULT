@@ -513,7 +513,7 @@
     <!-- Marquee / Flowing Text -->
     <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.2), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 3px 10px rgba(0,0,0,0.5);">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.8em; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase;">
-            ✨ WELCOME TO CANVAS LIVE 4D &nbsp;&bull;&nbsp; ENTER THE LIVE EXPERIENCE &nbsp;&bull;&nbsp; ⚡ LIVE UPDATES &nbsp;&bull;&nbsp; 🎯 RESULTS &nbsp;&bull;&nbsp; 🔔 STAY CONNECTED &nbsp;&bull;&nbsp; 18+ ONLY
+            ✨ WELCOME TO CANVAS LIVE 4D &nbsp;&bull;&nbsp; ⚠️ 18+ ONLY &nbsp;&bull;&nbsp; FINANCIAL RISK INVOLVED &nbsp;&bull;&nbsp; LOSS MAY OCCUR &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
         </marquee>
     </div>
     
@@ -886,7 +886,6 @@
             }
         });
 
-        // FIXED: Handling archive date selection, including checking if today's date is picked
         function loadArchiveDate(dateVal) {
             let todayTitle = document.getElementById('todayTitleSection');
             let todayContainer = document.getElementById('today-container');
@@ -899,11 +898,9 @@
                 return;
             }
 
-            // Get current local date in YYYY-MM-DD format to match input value
             let now = new Date();
             let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
 
-            // Agar user ne aaj ki hi tareekh select ki hai, toh archive clear karke aaj ke live results wapas dikha do
             if (dateVal === currentLocalDateStr) {
                 archiveContainer.innerHTML = "";
                 if(todayTitle) todayTitle.style.display = "flex";
@@ -911,7 +908,6 @@
                 return;
             }
 
-            // Purani tareekh ke liye aaj ke sections chhupao aur archive load karo
             if(todayTitle) todayTitle.style.display = "none";
             if(todayContainer) todayContainer.style.display = "none";
 
