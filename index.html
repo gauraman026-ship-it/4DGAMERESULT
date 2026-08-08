@@ -80,18 +80,22 @@
                 0 0 12px var(--gold-dark);
         }
 
-        .verified-badge {
-            background: linear-gradient(135deg, #d35400, #e67e22);
+        .status-badge {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: #fff;
             font-size: 0.3em;
-            padding: 2px 6px;
+            padding: 3px 7px;
             border-radius: 20px;
             font-weight: 800;
-            box-shadow: 0 0 8px rgba(230, 126, 34, 0.7);
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.7);
             letter-spacing: 0.5px;
             text-transform: uppercase;
             vertical-align: middle;
             border: 1px solid rgba(255,255,255,0.3);
+        }
+        .status-badge.offline {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.7);
         }
 
         .sub-header {
@@ -488,13 +492,13 @@
     </video>
 
     <div class="header-container">
-        <div class="neon-title">CANVAS LIVE 4D <span class="verified-badge">⚡ VIP LIVE</span></div>
+        <div class="neon-title">🏆 CANVAS LIVE 4D 🏆 <span id="statusBadge" class="status-badge">🟢 ONLINE</span></div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-                <span>Next-Gen High Frequency Terminal</span>
+                <span>⚡ FASTEST LIVE RESULTS</span>
                 <span>•</span>
-                <span class="live-server-tag"><span class="mini-dot"></span> Secure Node</span>
+                <span class="live-server-tag"><span class="mini-dot"></span> REAL-TIME • VERIFIED • TRUSTED</span>
             </div>
         </div>
     </div>
@@ -939,8 +943,14 @@
             let m = parseInt(formatterM.format(now));
             let s = parseInt(formatterS.format(now));
             
+            let badge = document.getElementById('statusBadge');
+
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m === 0))) {
                 document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
+                if(badge) {
+                    badge.className = "status-badge";
+                    badge.innerHTML = "🟢 ONLINE";
+                }
                 
                 if ((m % 15 === 0) && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
@@ -953,6 +963,10 @@
                 }
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
+                if(badge) {
+                    badge.className = "status-badge offline";
+                    badge.innerHTML = "🔴 OFF-LINE";
+                }
                 
                 if (h === 22 && m === 1 && s === 0) {
                     db.ref('resultsData/blocks').once('value', (blockSnap) => {
