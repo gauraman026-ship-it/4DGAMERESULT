@@ -526,7 +526,7 @@
     </div>
     <div id="archive-container"></div>
 
-    <div class="section-title" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
+    <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
     <div id="today-container"></div>
 
     <!-- PROFESSIONAL FOOTER SECTION -->
@@ -654,7 +654,6 @@
 
         let currentSeriesFilter = 'all';
 
-        // Trigger calendar picker directly when clicking anywhere on the section title container
         function triggerCalendar(e) {
             let dateInput = document.getElementById('archiveDateSelect');
             if (dateInput && e.target !== dateInput) {
@@ -667,7 +666,6 @@
             }
         }
 
-        // Modal Controls
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
         }
@@ -680,7 +678,6 @@
             }
         }
 
-        // Dual Screen Stay Awake (Wake Lock API + Hidden Video Trick - Silent Mode)
         let wakeLock = null;
         async function enableScreenKeepAlive() {
             try {
@@ -757,7 +754,6 @@
             alert("Configuration Saved Successfully!");
         }
 
-        // Load saved settings into admin panel on startup
         db.ref('settings').on('value', (snap) => {
             if(snap.exists()) {
                 let s = snap.val();
@@ -890,11 +886,35 @@
             }
         });
 
+        // FIXED: Handling archive date selection, including checking if today's date is picked
         function loadArchiveDate(dateVal) {
+            let todayTitle = document.getElementById('todayTitleSection');
+            let todayContainer = document.getElementById('today-container');
+            let archiveContainer = document.getElementById('archive-container');
+
             if(!dateVal) {
-                document.getElementById('archive-container').innerHTML = "";
+                archiveContainer.innerHTML = "";
+                if(todayTitle) todayTitle.style.display = "flex";
+                if(todayContainer) todayContainer.style.display = "block";
                 return;
             }
+
+            // Get current local date in YYYY-MM-DD format to match input value
+            let now = new Date();
+            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
+
+            // Agar user ne aaj ki hi tareekh select ki hai, toh archive clear karke aaj ke live results wapas dikha do
+            if (dateVal === currentLocalDateStr) {
+                archiveContainer.innerHTML = "";
+                if(todayTitle) todayTitle.style.display = "flex";
+                if(todayContainer) todayContainer.style.display = "block";
+                return;
+            }
+
+            // Purani tareekh ke liye aaj ke sections chhupao aur archive load karo
+            if(todayTitle) todayTitle.style.display = "none";
+            if(todayContainer) todayContainer.style.display = "none";
+
             let parts = dateVal.split('-');
             let year = parts[0];
             let monthIndex = parseInt(parts[1], 10) - 1;
@@ -905,10 +925,10 @@
 
             db.ref('monthlyArchive/' + formattedDateKey).once('value', (snap) => {
                 if(snap.exists()) {
-                    document.getElementById('archive-container').innerHTML = snap.val().html;
+                    archiveContainer.innerHTML = snap.val().html;
                     switchSeries(currentSeriesFilter);
                 } else {
-                    document.getElementById('archive-container').innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px;'>No data found for this date.</div>";
+                    archiveContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px;'>No data found for this date.</div>";
                 }
             });
         }
