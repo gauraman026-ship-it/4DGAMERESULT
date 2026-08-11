@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CANVAS LIVE 4D - Elite Gaming Exchange</title>
+    <title>CANVAS 4D LIVE - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
         :root {
-            --bg-deep: #07090f;
-            --card-bg: rgba(15, 22, 36, 0.95);
-            --gold-primary: #f1c40f;
-            --gold-light: #f9d342;
-            --gold-dark: #b7950b;
-            --gold-glow: rgba(241, 196, 15, 0.25);
+            --bg-deep: #030508;
+            --card-bg: rgba(10, 15, 26, 0.96);
+            --gold-primary: #f39c12;
+            --gold-light: #f5b041;
+            --gold-dark: #b9770e;
+            --gold-glow: rgba(243, 156, 18, 0.35);
             --accent-red: #ff3838;
             --accent-green: #2ecc71;
-            --border-glow: rgba(241, 196, 15, 0.4);
+            --border-glow: rgba(243, 156, 18, 0.5);
             --text-main: #ffffff;
-            --text-muted: #8892b0;
+            --text-muted: #8a9bb8;
         }
 
         * { 
@@ -35,24 +35,24 @@
         body {
             background-color: var(--bg-deep);
             background-image: 
-                radial-gradient(circle at 50% 0%, #17223b 0%, var(--bg-deep) 65%),
-                linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
+                radial-gradient(circle at 50% 0%, #111b2e 0%, var(--bg-deep) 75%),
+                linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 4px;
+            padding: 6px;
             -webkit-tap-highlight-color: transparent;
             min-height: 100vh;
         }
 
         .header-container {
             text-align: center;
-            margin: 2px 0 6px 0;
+            margin: 4px 0 10px 0;
             background: var(--card-bg);
-            backdrop-filter: blur(14px);
-            padding: 10px 6px;
-            border-radius: 8px;
+            backdrop-filter: blur(18px);
+            padding: 14px 8px;
+            border-radius: 14px;
             border: 1px solid var(--border-glow);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), inset 0 0 12px var(--gold-glow);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px var(--gold-glow);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -60,34 +60,35 @@
         .header-container::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
+            top: 0; left: 0; right: 0; height: 3px;
             background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
         }
 
         .neon-title {
-            font-size: 1.35em;
+            font-size: 1.45em;
             font-weight: 900;
-            letter-spacing: 0.8px;
+            letter-spacing: 1.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            color: #fff9e6;
+            gap: 8px;
+            color: #ffffff;
             text-transform: uppercase;
             text-shadow: 
-                0 0 2px #fff,
-                0 0 6px var(--gold-primary),
-                0 0 12px var(--gold-dark);
+                0 0 3px #fff,
+                0 0 10px var(--gold-primary),
+                0 0 20px var(--gold-dark),
+                0 0 30px var(--gold-dark);
         }
 
         .status-badge {
             background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: #fff;
-            font-size: 0.3em;
-            padding: 3px 7px;
+            font-size: 0.32em;
+            padding: 3px 8px;
             border-radius: 20px;
             font-weight: 800;
-            box-shadow: 0 0 8px rgba(46, 204, 113, 0.7);
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
             letter-spacing: 0.5px;
             text-transform: uppercase;
             vertical-align: middle;
@@ -95,16 +96,16 @@
         }
         .status-badge.offline {
             background: linear-gradient(135deg, #c0392b, #e74c3c);
-            box-shadow: 0 0 8px rgba(231, 76, 60, 0.7);
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
         }
 
         .sub-header {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 4px;
-            margin-top: 4px;
-            font-size: 0.7em;
+            gap: 6px;
+            margin-top: 6px;
+            font-size: 0.72em;
             color: var(--text-muted);
             font-weight: 600;
             flex-direction: column;
@@ -113,7 +114,7 @@
         .kohinoor-sub {
             color: var(--gold-primary);
             font-weight: 800;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
@@ -136,64 +137,64 @@
         .timer-box {
             text-align: center;
             color: #ffffff;
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 900;
-            background: linear-gradient(145deg, #0d1424, #060911);
-            padding: 8px;
+            background: linear-gradient(145deg, #090e18, #03050a);
+            padding: 10px;
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7), inset 0 0 10px var(--gold-glow);
-            letter-spacing: 0.8px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 15px var(--gold-glow);
+            letter-spacing: 1.2px;
             width: 100%;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .series-tabs-wrapper {
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 6px 0 8px 0;
+            margin: 6px 0 10px 0;
         }
         .series-tabs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
+            gap: 6px;
             width: 100%;
             max-width: 500px;
         }
         .tab-btn {
-            background: #0d1424;
+            background: #090e18;
             color: var(--text-muted);
-            border: 1px solid rgba(241, 196, 15, 0.25);
-            padding: 7px 4px;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            padding: 8px 4px;
             text-align: center;
             font-weight: 800;
-            font-size: 0.78em;
-            border-radius: 6px;
+            font-size: 0.8em;
+            border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
         }
         .tab-btn.active {
-            background: linear-gradient(135deg, #f1c40f, #d4ac0d);
-            color: #07090f;
+            background: linear-gradient(135deg, #f39c12, #d68910);
+            color: #030508;
             border-color: var(--gold-primary);
-            box-shadow: 0 0 10px var(--gold-glow);
+            box-shadow: 0 0 12px var(--gold-glow);
         }
         
         .section-title {
             color: var(--gold-primary);
-            font-size: 0.85em;
-            margin: 8px 0 6px;
-            padding: 6px;
-            background: linear-gradient(90deg, rgba(13,20,33,0.9), rgba(23,34,55,0.9), rgba(13,20,33,0.9));
+            font-size: 0.88em;
+            margin: 10px 0 8px;
+            padding: 8px;
+            background: linear-gradient(90deg, rgba(9,14,24,0.95), rgba(18,28,48,0.95), rgba(9,14,24,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: 0.8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
             text-transform: uppercase;
             width: 100%;
             display: flex;
@@ -206,23 +207,23 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 8px 0 6px;
+            margin: 8px 0 8px;
         }
 
         .archive-title {
             color: var(--gold-primary);
-            font-size: 0.8em;
-            padding: 5px 12px;
-            background: linear-gradient(90deg, rgba(13,20,33,0.9), rgba(23,34,55,0.9), rgba(13,20,33,0.9));
+            font-size: 0.82em;
+            padding: 6px 12px;
+            background: linear-gradient(90deg, rgba(9,14,24,0.95), rgba(18,28,48,0.95), rgba(9,14,24,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: center;
             font-weight: 800;
             letter-spacing: 0.8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
             text-transform: uppercase;
             width: 100%;
-            max-width: 260px;
+            max-width: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -234,99 +235,99 @@
             background: #000000;
             color: #ffffff;
             border: 1px solid var(--border-glow);
-            padding: 3px 6px;
-            border-radius: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-weight: 800;
-            font-size: 0.85em;
+            font-size: 0.88em;
             outline: none;
             cursor: pointer;
             text-align: center;
             color-scheme: dark;
-            width: 130px;
+            width: 135px;
         }
         
         .result-block {
-            border: 1px solid rgba(241, 196, 15, 0.2);
-            margin-bottom: 6px;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            margin-bottom: 8px;
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 5px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
             width: 100%;
         }
         .time-header {
             font-weight: 800;
             display: flex;
             align-items: center;
-            margin-bottom: 4px;
-            font-size: 0.88em;
+            margin-bottom: 6px;
+            font-size: 0.9em;
             color: var(--gold-primary);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 4px;
             letter-spacing: 0.5px;
         }
         .live-dot {
-            height: 6px;
-            width: 6px;
+            height: 7px;
+            width: 7px;
             background-color: var(--accent-red);
             border-radius: 50%;
-            margin-right: 5px;
-            box-shadow: 0 0 6px var(--accent-red);
+            margin-right: 6px;
+            box-shadow: 0 0 8px var(--accent-red);
             animation: pulse-dot 1s infinite;
         }
         
         @keyframes pulse-dot { 
             0% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0.8); } 
-            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 5px rgba(255, 56, 56, 0); }
+            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 6px rgba(255, 56, 56, 0); }
             100% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
         
         .chart-table { 
             display: grid; 
-            grid-template-columns: 28px 1fr; 
-            gap: 2px; 
+            grid-template-columns: 30px 1fr; 
+            gap: 3px; 
             align-items: center; 
             width: 100%;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
         .chart-table:last-child {
             margin-bottom: 0;
         }
         
         .label { 
-            background: linear-gradient(145deg, #221d05, #110e02); 
-            padding: 6px 0; 
+            background: linear-gradient(145deg, #2c1d04, #120b01); 
+            padding: 7px 0; 
             text-align: center; 
             font-weight: 900; 
-            color: #f1c40f; 
-            border-radius: 4px; 
-            border: 1px solid rgba(241, 196, 15, 0.4); 
-            font-size: 0.75em;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
-            text-shadow: 0 0 5px rgba(241, 196, 15, 0.4);
+            color: var(--gold-primary); 
+            border-radius: 5px; 
+            border: 1px solid rgba(243, 156, 18, 0.5); 
+            font-size: 0.78em;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.85);
+            text-shadow: 0 0 6px rgba(243, 156, 18, 0.4);
         }
 
         .row-grid { 
             display: grid; 
             grid-template-columns: repeat(10, 1fr); 
-            gap: 1px; 
+            gap: 2px; 
             width: 100%;
         }
         
         .cell { 
-            background: linear-gradient(145deg, #181d26, #0e1218); 
-            padding: 6px 0px; 
+            background: linear-gradient(145deg, #131a26, #070a10); 
+            padding: 7px 0px; 
             text-align: center; 
             font-weight: 900; 
-            border-radius: 3px; 
-            font-size: 0.78em; 
+            border-radius: 4px; 
+            font-size: 0.8em; 
             color: #e5e7eb; 
-            border: 1px solid #2d3748;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            border: 1px solid #283448;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.6);
             letter-spacing: -1px;
             white-space: nowrap;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.9);
         }
 
         .cell .red-dp {
@@ -338,46 +339,46 @@
         .site-footer {
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
-            padding: 12px 8px;
-            margin: 12px 0 6px 0;
+            border-radius: 10px;
+            padding: 14px 10px;
+            margin: 14px 0 8px 0;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
         }
         .footer-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px 12px;
-            margin-bottom: 8px;
+            gap: 8px 14px;
+            margin-bottom: 10px;
         }
         .footer-links a {
             color: #ffffff;
             background: #000000;
             border: 1px solid var(--border-glow);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.72em;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
         }
         .footer-links a:hover {
-            background: #0f172a;
+            background: #0d1524;
             color: var(--gold-primary);
             border-color: var(--gold-primary);
         }
         .footer-copy {
             color: var(--text-muted);
-            font-size: 0.7em;
+            font-size: 0.72em;
             font-weight: 600;
             letter-spacing: 0.5px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            padding-top: 8px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 10px;
         }
 
         /* MODAL STYLES */
@@ -385,101 +386,101 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 14, 0.85);
-            backdrop-filter: blur(6px);
+            background: rgba(3, 5, 9, 0.9);
+            backdrop-filter: blur(8px);
             z-index: 10000;
             justify-content: center;
             align-items: center;
             padding: 15px;
         }
         .modal-card {
-            background: linear-gradient(145deg, #0d1424, #07090f);
+            background: linear-gradient(145deg, #090e18, #030508);
             border: 1px solid var(--gold-primary);
-            border-radius: 10px;
+            border-radius: 12px;
             width: 100%;
             max-width: 450px;
             max-height: 85vh;
             overflow-y: auto;
-            padding: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px var(--gold-glow);
+            padding: 18px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.95), inset 0 0 18px var(--gold-glow);
             position: relative;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(241, 196, 15, 0.3);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(243, 156, 18, 0.35);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
         }
         .modal-title {
             color: var(--gold-primary);
-            font-size: 0.95em;
+            font-size: 1em;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
         }
         .modal-close {
             background: none;
             border: none;
             color: var(--accent-red);
-            font-size: 1.2em;
+            font-size: 1.3em;
             font-weight: 900;
             cursor: pointer;
             padding: 0 5px;
         }
         .modal-body {
             color: #d1d5db;
-            font-size: 0.8em;
-            line-height: 1.5;
+            font-size: 0.82em;
+            line-height: 1.6;
             font-weight: 500;
         }
         .modal-body p {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .modal-body ul {
-            margin-left: 15px;
-            margin-bottom: 8px;
+            margin-left: 18px;
+            margin-bottom: 10px;
         }
         .modal-body li {
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         #adminPanel { 
             display: none; 
             margin-top: 15px; 
-            padding: 12px; 
+            padding: 15px; 
             border: 1px solid var(--gold-primary); 
-            background: #05080e; 
-            border-radius: 10px; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.95); 
+            background: #020407; 
+            border-radius: 12px; 
+            box-shadow: 0 15px 45px rgba(0,0,0,0.98); 
             width: 100%;
         }
         textarea, input[type="time"], input[type="date"] { 
             width: 100%; 
-            background: #020407; 
+            background: #010204; 
             color: #fff; 
             border: 1px solid #233452; 
-            margin: 4px 0 10px 0; 
-            padding: 8px; 
-            border-radius: 6px; 
-            font-size: 0.85em; 
+            margin: 6px 0 12px 0; 
+            padding: 9px; 
+            border-radius: 8px; 
+            font-size: 0.88em; 
             outline: none; 
         }
         textarea:focus, input[type="time"]:focus, input[type="date"]:focus { 
             border-color: var(--gold-primary); 
-            box-shadow: 0 0 8px var(--gold-glow); 
+            box-shadow: 0 0 10px var(--gold-glow); 
         }
         .btn-admin { 
             width: 100%; 
-            padding: 9px; 
+            padding: 10px; 
             border: none; 
             cursor: pointer; 
             font-weight: 900; 
-            border-radius: 6px; 
-            margin-top: 4px; 
-            font-size: 0.85em; 
-            letter-spacing: 0.8px; 
+            border-radius: 8px; 
+            margin-top: 6px; 
+            font-size: 0.88em; 
+            letter-spacing: 1px; 
             text-transform: uppercase; 
         }
     </style>
@@ -492,10 +493,10 @@
     </video>
 
     <div class="header-container">
-        <div class="neon-title">🏆 CANVAS LIVE 4D 🏆 <span id="statusBadge" class="status-badge">🟢 ONLINE</span></div>
+        <div class="neon-title">⚡ CANVAS 4D LIVE ⚡ <span id="statusBadge" class="status-badge">🟢 ONLINE</span></div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
-            <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 3px;">
                 <span>⚡ FASTEST LIVE RESULTS</span>
                 <span>•</span>
                 <span class="live-server-tag"><span class="mini-dot"></span> REAL-TIME • VERIFIED • TRUSTED</span>
@@ -515,9 +516,9 @@
     </div>
 
     <!-- Marquee / Flowing Text -->
-    <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.2), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 3px 10px rgba(0,0,0,0.5);">
-        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.8em; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase;">
-            ✨ WELCOME TO CANVAS LIVE 4D &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
+    <div style="background: linear-gradient(90deg, rgba(243,156,18,0.12), rgba(243,156,18,0.22), rgba(243,156,18,0.12)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 9px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
+        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.82em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
+            ✨ WELCOME TO CANVAS 4D LIVE &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
         </marquee>
     </div>
     
@@ -544,7 +545,7 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 CANVAS LIVE 4D &bull; All Rights Reserved
+            &copy; 2026 CANVAS 4D LIVE &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -556,7 +557,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>CANVAS LIVE 4D</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>CANVAS 4D LIVE</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
                 <p>Our infrastructure operates on high-security nodes designed for seamless mobile performance, ensuring uninterrupted tracking and absolute reliability for our community worldwide.</p>
             </div>
         </div>
@@ -600,7 +601,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At CANVAS LIVE 4D, protecting your digital privacy is our top priority.</p>
+                <p>At CANVAS 4D LIVE, protecting your digital privacy is our top priority.</p>
                 <p>We collect minimal localized data strictly required for maintaining secure session states and rendering high-speed live feed tables. We do not distribute, sell, or commercialize any personal telemetry data to third-party entities.</p>
             </div>
         </div>
@@ -613,7 +614,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the CANVAS LIVE 4D web portal, you agree to abide by the following terms:</p>
+                <p>By accessing or utilizing the CANVAS 4D LIVE web portal, you agree to abide by the following terms:</p>
                 <ul>
                     <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises.</li>
                     <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals.</li>
@@ -641,9 +642,9 @@
         <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 50 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
         
-        <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #07090f;" onclick="saveSettings()">SAVE CONFIGURATION</button>
+        <button class="btn-admin" style="background: linear-gradient(135deg, #f39c12, #d68910); color: #030508;" onclick="saveSettings()">SAVE CONFIGURATION</button>
         
-        <hr style="border-color: #22314d; margin: 12px 0;">
+        <hr style="border-color: #22314d; margin: 14px 0;">
         
         <label style="font-size: 0.8em; color: var(--gold-primary); font-weight: 800;">Manual Draw Injection (Missed Time):</label>
         <input type="time" id="missedTimeInput">
@@ -776,7 +777,6 @@
                 let fixList = (s.fix || "").split(/[\s,]+/).filter(x => x.length > 0);
                 let exactBlockList = (s.bExact || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
                 
-                // बिना स्पेस/कॉमा के लिखे गए लंबे नंबरों को 2-2 अंकों के सफिक्स में अपने आप तोड़ने का लॉजिक
                 let rawB10 = (s.b10 || "").trim();
                 let b10Arr = (rawB10.length > 2 && !rawB10.includes(',') && !rawB10.includes(' ')) ? (rawB10.match(/.{1,2}/g) || []) : rawB10.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
@@ -963,7 +963,7 @@
                     badge.innerHTML = "🟢 ONLINE";
                 }
                 
-                if ((m % 15 === 0) && s === 0) {
+                if ((m % 15 === 0) === true && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
                     db.ref('lastGenerated').once('value', (snap) => { 
                         if (snap.val() !== key) { 
