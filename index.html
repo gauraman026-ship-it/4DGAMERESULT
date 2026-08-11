@@ -554,10 +554,10 @@
             <div class="modal-body">
                 <p>Please review our official operational guidelines:</p>
                 <ul>
-                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules.</li>
-                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart).</li>
-                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies.</li>
-                    <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
+                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules[span_1](start_span)[span_1](end_span).</li>
+                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart)[span_2](start_span)[span_2](end_span).</li>
+                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies[span_3](start_span)[span_3](end_span).</li>
+                    <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above[span_4](start_span)[span_4](end_span).</li>
                 </ul>
             </div>
         </div>
@@ -598,9 +598,9 @@
             <div class="modal-body">
                 <p>By accessing or utilizing the 🏆 CanvasLive4D 🏆 web portal, you agree to abide by the following terms:</p>
                 <ul>
-                    <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises.</li>
-                    <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals.</li>
-                    <li>The platform management retains absolute authority to update schedules, configurations, or system parameters as required.</li>
+                    <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises[span_5](start_span)[span_5](end_span).</li>
+                    <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals[span_6](start_span)[span_6](end_span).</li>
+                    <li>The platform management retains absolute authority to update schedules, configurations, or system parameters as required[span_7](start_span)[span_7](end_span).</li>
                 </ul>
             </div>
         </div>
@@ -895,16 +895,6 @@
                 return;
             }
 
-            let now = new Date();
-            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-
-            if (dateVal === currentLocalDateStr) {
-                archiveContainer.innerHTML = "";
-                if(todayTitle) todayTitle.style.display = "flex";
-                if(todayContainer) todayContainer.style.display = "block";
-                return;
-            }
-
             if(todayTitle) todayTitle.style.display = "none";
             if(todayContainer) todayContainer.style.display = "none";
 
@@ -973,7 +963,7 @@
                             db.ref('monthlyArchive').on('value', (allArchSnap) => {
                                 if(allArchSnap.exists()) {
                                     allDates = Object.keys(allArchSnap.val());
-                                    if(allDates.length > 30) {
+                                    if(allDates.length > 365) {
                                         allDates.sort();
                                         db.ref('monthlyArchive/' + allDates[0]).remove();
                                     }
