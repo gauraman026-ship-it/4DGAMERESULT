@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CANVAS 4D LIVE - Elite Gaming Exchange</title>
+    <title>🏆 CanvasLive4D 🏆 - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -79,24 +79,6 @@
                 0 0 10px var(--gold-primary),
                 0 0 20px var(--gold-dark),
                 0 0 30px var(--gold-dark);
-        }
-
-        .status-badge {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            color: #fff;
-            font-size: 0.32em;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-weight: 800;
-            box-shadow: 0 0 10px rgba(46, 204, 113, 0.7);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            vertical-align: middle;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .status-badge.offline {
-            background: linear-gradient(135deg, #c0392b, #e74c3c);
-            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
         }
 
         .sub-header {
@@ -493,7 +475,7 @@
     </video>
 
     <div class="header-container">
-        <div class="neon-title">⚡ CANVAS 4D LIVE ⚡ <span id="statusBadge" class="status-badge">🟢 ONLINE</span></div>
+        <div class="neon-title">🏆 CanvasLive4D 🏆</div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 3px;">
@@ -518,7 +500,7 @@
     <!-- Marquee / Flowing Text -->
     <div style="background: linear-gradient(90deg, rgba(243,156,18,0.12), rgba(243,156,18,0.22), rgba(243,156,18,0.12)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 9px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.82em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-            ✨ WELCOME TO CANVAS 4D LIVE &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
+            ✨ WELCOME TO 🏆 CanvasLive4D 🏆 &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
         </marquee>
     </div>
     
@@ -545,7 +527,7 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 CANVAS 4D LIVE &bull; All Rights Reserved
+            &copy; 2026 🏆 CanvasLive4D 🏆 &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -557,7 +539,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>CANVAS 4D LIVE</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>🏆 CanvasLive4D 🏆</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
                 <p>Our infrastructure operates on high-security nodes designed for seamless mobile performance, ensuring uninterrupted tracking and absolute reliability for our community worldwide.</p>
             </div>
         </div>
@@ -601,7 +583,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At CANVAS 4D LIVE, protecting your digital privacy is our top priority.</p>
+                <p>At 🏆 CanvasLive4D 🏆, protecting your digital privacy is our top priority.</p>
                 <p>We collect minimal localized data strictly required for maintaining secure session states and rendering high-speed live feed tables. We do not distribute, sell, or commercialize any personal telemetry data to third-party entities.</p>
             </div>
         </div>
@@ -614,7 +596,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the CANVAS 4D LIVE web portal, you agree to abide by the following terms:</p>
+                <p>By accessing or utilizing the 🏆 CanvasLive4D 🏆 web portal, you agree to abide by the following terms:</p>
                 <ul>
                     <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises.</li>
                     <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals.</li>
@@ -953,15 +935,9 @@
             let h = parseInt(formatterH.format(now));
             let m = parseInt(formatterM.format(now));
             let s = parseInt(formatterS.format(now));
-            
-            let badge = document.getElementById('statusBadge');
 
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m === 0))) {
                 document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
-                if(badge) {
-                    badge.className = "status-badge";
-                    badge.innerHTML = "🟢 ONLINE";
-                }
                 
                 if ((m % 15 === 0) === true && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
@@ -974,10 +950,6 @@
                 }
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
-                if(badge) {
-                    badge.className = "status-badge offline";
-                    badge.innerHTML = "🔴 OFF-LINE";
-                }
                 
                 if (h === 22 && m === 1 && s === 0) {
                     db.ref('resultsData/blocks').once('value', (blockSnap) => {
