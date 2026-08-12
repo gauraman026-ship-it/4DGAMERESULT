@@ -8,17 +8,17 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
         :root {
-            --bg-deep: #030508;
-            --card-bg: rgba(10, 15, 26, 0.96);
-            --gold-primary: #f39c12;
-            --gold-light: #f5b041;
-            --gold-dark: #b9770e;
-            --gold-glow: rgba(243, 156, 18, 0.35);
+            --bg-deep: #020408;
+            --card-bg: rgba(8, 12, 20, 0.98);
+            --gold-primary: #f1c40f;
+            --gold-light: #f39c12;
+            --gold-dark: #b7950b;
+            --gold-glow: rgba(241, 196, 15, 0.4);
             --accent-red: #ff3838;
             --accent-green: #2ecc71;
-            --border-glow: rgba(243, 156, 18, 0.5);
+            --border-glow: rgba(241, 196, 15, 0.55);
             --text-main: #ffffff;
-            --text-muted: #8a9bb8;
+            --text-muted: #94a3b8;
         }
 
         * { 
@@ -35,8 +35,8 @@
         body {
             background-color: var(--bg-deep);
             background-image: 
-                radial-gradient(circle at 50% 0%, #111b2e 0%, var(--bg-deep) 75%),
-                linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+                radial-gradient(circle at 50% 0%, #0d1526 0%, var(--bg-deep) 80%),
+                linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             padding: 6px;
@@ -48,11 +48,11 @@
             text-align: center;
             margin: 4px 0 10px 0;
             background: var(--card-bg);
-            backdrop-filter: blur(18px);
-            padding: 14px 8px;
+            backdrop-filter: blur(20px);
+            padding: 16px 8px;
             border-radius: 14px;
             border: 1px solid var(--border-glow);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px var(--gold-glow);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(241, 196, 15, 0.2);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -65,7 +65,7 @@
         }
 
         .neon-title {
-            font-size: 1.45em;
+            font-size: 1.55em;
             font-weight: 900;
             letter-spacing: 1.5px;
             display: flex;
@@ -75,10 +75,9 @@
             color: #ffffff;
             text-transform: uppercase;
             text-shadow: 
-                0 0 3px #fff,
-                0 0 10px var(--gold-primary),
-                0 0 20px var(--gold-dark),
-                0 0 30px var(--gold-dark);
+                0 0 4px #fff,
+                0 0 12px var(--gold-primary),
+                0 0 25px var(--gold-dark);
         }
 
         .sub-header {
@@ -96,8 +95,9 @@
         .kohinoor-sub {
             color: var(--gold-primary);
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
         }
 
         .live-server-tag {
@@ -121,14 +121,15 @@
             color: #ffffff;
             font-size: 1.1em;
             font-weight: 900;
-            background: linear-gradient(145deg, #090e18, #03050a);
+            background: linear-gradient(145deg, #0b1322, #04070e);
             padding: 10px;
             border: 1px solid var(--border-glow);
             border-radius: 10px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 15px var(--gold-glow);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 15px rgba(241, 196, 15, 0.15);
             letter-spacing: 1.2px;
             width: 100%;
             margin-bottom: 8px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.4);
         }
 
         .series-tabs-wrapper {
@@ -145,9 +146,9 @@
             max-width: 500px;
         }
         .tab-btn {
-            background: #090e18;
+            background: #0b1322;
             color: var(--text-muted);
-            border: 1px solid rgba(243, 156, 18, 0.3);
+            border: 1px solid rgba(241, 196, 15, 0.3);
             padding: 8px 4px;
             text-align: center;
             font-weight: 800;
@@ -159,10 +160,11 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.6);
         }
         .tab-btn.active {
-            background: linear-gradient(135deg, #f39c12, #d68910);
-            color: #030508;
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 12px var(--gold-glow);
+            background: linear-gradient(135deg, #f1c40f, #d4ac0d);
+            color: #020408;
+            border-color: #fff;
+            box-shadow: 0 0 15px var(--gold-glow);
+            text-shadow: none;
         }
         
         .section-title {
@@ -170,7 +172,7 @@
             font-size: 0.88em;
             margin: 10px 0 8px;
             padding: 8px;
-            background: linear-gradient(90deg, rgba(9,14,24,0.95), rgba(18,28,48,0.95), rgba(9,14,24,0.95));
+            background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
             border-radius: 8px;
             text-align: center;
@@ -183,6 +185,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            text-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
         }
 
         .archive-section-wrapper {
@@ -196,7 +199,7 @@
             color: var(--gold-primary);
             font-size: 0.82em;
             padding: 6px 12px;
-            background: linear-gradient(90deg, rgba(9,14,24,0.95), rgba(18,28,48,0.95), rgba(9,14,24,0.95));
+            background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
             border-radius: 8px;
             text-align: center;
@@ -229,25 +232,26 @@
         }
         
         .result-block {
-            border: 1px solid rgba(243, 156, 18, 0.3);
-            margin-bottom: 8px;
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            padding: 6px;
-            border-radius: 10px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+            border: 1px solid #1a6f9b;
+            margin-bottom: 12px;
+            background: #fefed7;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
             width: 100%;
         }
         .time-header {
-            font-weight: 800;
+            font-weight: 900;
             display: flex;
             align-items: center;
-            margin-bottom: 6px;
-            font-size: 0.9em;
-            color: var(--gold-primary);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            padding-bottom: 4px;
-            letter-spacing: 0.5px;
+            justify-content: center;
+            background: #1b73a7;
+            color: #000000 !important;
+            padding: 9px;
+            font-size: 1.1em;
+            letter-spacing: 1px;
+            text-shadow: none;
+            border-bottom: 2px solid #145980;
         }
         .live-dot {
             height: 7px;
@@ -267,54 +271,50 @@
         
         .chart-table { 
             display: grid; 
-            grid-template-columns: 30px 1fr; 
+            grid-template-columns: 1fr; 
             gap: 3px; 
-            align-items: center; 
             width: 100%;
-            margin-bottom: 5px;
+            padding: 5px;
         }
         .chart-table:last-child {
             margin-bottom: 0;
         }
         
         .label { 
-            background: linear-gradient(145deg, #2c1d04, #120b01); 
-            padding: 7px 0; 
-            text-align: center; 
-            font-weight: 900; 
-            color: var(--gold-primary); 
-            border-radius: 5px; 
-            border: 1px solid rgba(243, 156, 18, 0.5); 
-            font-size: 0.78em;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.85);
-            text-shadow: 0 0 6px rgba(243, 156, 18, 0.4);
+            display: none; 
         }
 
         .row-grid { 
             display: grid; 
             grid-template-columns: repeat(10, 1fr); 
-            gap: 2px; 
+            gap: 3px; 
             width: 100%;
         }
         
         .cell { 
-            background: linear-gradient(145deg, #131a26, #070a10); 
-            padding: 7px 0px; 
+            background: #ffffff; 
+            padding: 8px 0px; 
             text-align: center; 
-            font-weight: 900; 
+            font-weight: 700; 
             border-radius: 4px; 
             font-size: 0.8em; 
-            color: #e5e7eb; 
-            border: 1px solid #283448;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.6);
-            letter-spacing: -1px;
+            color: #111111; 
+            border: 1px solid #dcdca8;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+            letter-spacing: -0.6px; 
             white-space: nowrap;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.9);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .cell:hover {
+            border-color: #1b73a7;
+            background: #fffdf0;
         }
 
         .cell .red-dp {
-            color: #ff4d4d !important;
-            text-shadow: none !important;
+            color: #e74c3c !important;
+            font-weight: 800;
         }
         
         .site-footer {
@@ -366,7 +366,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 5, 9, 0.9);
+            background: rgba(2, 4, 8, 0.92);
             backdrop-filter: blur(8px);
             z-index: 10000;
             justify-content: center;
@@ -374,7 +374,7 @@
             padding: 15px;
         }
         .modal-card {
-            background: linear-gradient(145deg, #090e18, #030508);
+            background: linear-gradient(145deg, #0b1322, #04070e);
             border: 1px solid var(--gold-primary);
             border-radius: 12px;
             width: 100%;
@@ -382,14 +382,14 @@
             max-height: 85vh;
             overflow-y: auto;
             padding: 18px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.95), inset 0 0 18px var(--gold-glow);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.95), inset 0 0 18px rgba(241, 196, 15, 0.2);
             position: relative;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(243, 156, 18, 0.35);
+            border-bottom: 1px solid rgba(241, 196, 15, 0.35);
             padding-bottom: 10px;
             margin-bottom: 12px;
         }
@@ -431,7 +431,7 @@
             margin-top: 15px; 
             padding: 15px; 
             border: 1px solid var(--gold-primary); 
-            background: #020407; 
+            background: #020408; 
             border-radius: 12px; 
             box-shadow: 0 15px 45px rgba(0,0,0,0.98); 
             width: 100%;
@@ -494,7 +494,7 @@
         </div>
     </div>
 
-    <div style="background: linear-gradient(90deg, rgba(243,156,18,0.12), rgba(243,156,18,0.22), rgba(243,156,18,0.12)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 9px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
+    <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 9px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.82em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
             ✨ WELCOME TO 🏆 CANVASLIVE4D 🏆 &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
         </marquee>
@@ -617,7 +617,7 @@
         <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 50 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
         <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
         
-        <button class="btn-admin" style="background: linear-gradient(135deg, #f39c12, #d68910); color: #030508;" onclick="saveSettings()">SAVE CONFIGURATION</button>
+        <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIGURATION</button>
         
         <hr style="border-color: #22314d; margin: 14px 0;">
         
@@ -780,14 +780,13 @@
                     if (timeSnap.exists() && !customTimeString) { return; }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div>`;
+                        <div class="time-header"><span class="live-dot"></span>${timeString}</div>`;
                     
                     [10, 30, 50].forEach(baseVal => {
                         let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
                         let blockArr = blocks[seriesKey] || [];
 
-                        newBlock += `<div class="chart-table series-${baseVal}">
-                            <div class="label">${baseVal}</div><div class="row-grid">`;
+                        newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
                             let prefix = baseVal + i; 
                             let val;
@@ -807,10 +806,9 @@
                                 );
                             }
 
-                            let firstPart = val.slice(0, -2);
                             let suffix = val.slice(-2);
                             let isDouble = suffix[0] === suffix[1];
-                            let formattedVal = isDouble ? `${firstPart}<span class="red-dp">${suffix}</span>` : val;
+                            let formattedVal = isDouble ? `<span class="red-dp">${val}</span>` : val;
                             newBlock += `<div class="cell">${formattedVal}</div>`;
                         }
                         newBlock += `</div></div>`;
@@ -877,8 +875,7 @@
                 if (index > 0) {
                     blockHtml = blockHtml
                         .replace(/<span class="live-dot"><\/span>/g, '')
-                        .replace(/ LIVE/g, '')
-                        .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
+                        .replace(/class="time-header"/g, 'class="time-header" style="background: #235d82; color: #000000 !important; text-shadow: none;"');
                 }
                 combinedHtml += blockHtml;
             });
@@ -977,8 +974,7 @@
                                     keys.filter(Boolean).forEach(k => {
                                         let bh = blocksObj[k].html
                                             .replace(/<span class="live-dot"><\/span>/g, '')
-                                            .replace(/ LIVE/g, '')
-                                            .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
+                                            .replace(/class="time-header"/g, 'class="time-header" style="background: #235d82; color: #000000 !important; text-shadow: none;"');
                                         cleanHtml += bh;
                                     });
 
