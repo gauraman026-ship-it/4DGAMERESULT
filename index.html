@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏆 CanvasLive4D 🏆 - Elite Gaming Exchange</title>
+    <title>🏆 CANVAS LIVE 3D 🏆 - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -317,7 +317,6 @@
             text-shadow: none !important;
         }
         
-        /* FOOTER & MODAL STYLING */
         .site-footer {
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
@@ -363,7 +362,6 @@
             padding-top: 10px;
         }
 
-        /* MODAL STYLES */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -469,13 +467,12 @@
 </head>
 <body>
 
-    <!-- Hidden Video Element to Prevent Screen Sleep on all Mobile Browsers -->
     <video id="noSleepVideo" loop muted playsinline style="display:none; width:1px; height:1px;">
         <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
     </video>
 
     <div class="header-container">
-        <div class="neon-title">🏆 CanvasLive4D 🏆</div>
+        <div class="neon-title">🏆 CANVAS LIVE 3D 🏆</div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 3px;">
@@ -497,14 +494,12 @@
         </div>
     </div>
 
-    <!-- Marquee / Flowing Text -->
     <div style="background: linear-gradient(90deg, rgba(243,156,18,0.12), rgba(243,156,18,0.22), rgba(243,156,18,0.12)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 9px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6);">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.82em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-            ✨ WELCOME TO 🏆 CanvasLive4D 🏆 &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
+            ✨ WELCOME TO 🏆 CANVAS LIVE 3D 🏆 &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
         </marquee>
     </div>
     
-    <!-- ARCHIVE CALENDAR SECTION -->
     <div class="archive-section-wrapper">
         <div class="archive-title" onclick="triggerCalendar(event)">
             <span>📅</span> 
@@ -517,7 +512,6 @@
     <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
     <div id="today-container"></div>
 
-    <!-- PROFESSIONAL FOOTER SECTION -->
     <footer class="site-footer">
         <div class="footer-links">
             <a onclick="openModal('aboutModal')">About Us</a>
@@ -527,11 +521,10 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 🏆 CanvasLive4D 🏆 &bull; All Rights Reserved
+            &copy; 2026 🏆 CANVAS LIVE 3D 🏆 &bull; All Rights Reserved
         </div>
     </footer>
 
-    <!-- MODALS CONTAINER -->
     <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')">
         <div class="modal-card">
             <div class="modal-header">
@@ -539,7 +532,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>🏆 CanvasLive4D 🏆</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>🏆 CANVAS LIVE 3D 🏆</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
                 <p>Our infrastructure operates on high-security nodes designed for seamless mobile performance, ensuring uninterrupted tracking and absolute reliability for our community worldwide.</p>
             </div>
         </div>
@@ -583,7 +576,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At 🏆 CanvasLive4D 🏆, protecting your digital privacy is our top priority.</p>
+                <p>At 🏆 CANVAS LIVE 3D 🏆, protecting your digital privacy is our top priority.</p>
                 <p>We collect minimal localized data strictly required for maintaining secure session states and rendering high-speed live feed tables. We do not distribute, sell, or commercialize any personal telemetry data to third-party entities.</p>
             </div>
         </div>
@@ -596,7 +589,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the 🏆 CanvasLive4D 🏆 web portal, you agree to abide by the following terms:</p>
+                <p>By accessing or utilizing the 🏆 CANVAS LIVE 3D 🏆 web portal, you agree to abide by the following terms:</p>
                 <ul>
                     <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises.</li>
                     <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals.</li>
@@ -680,18 +673,10 @@
             }
         }
 
-        window.addEventListener('click', () => {
-            enableScreenKeepAlive();
-        }, { once: true });
-
-        window.addEventListener('load', () => {
-            enableScreenKeepAlive();
-        });
-
+        window.addEventListener('click', () => { enableScreenKeepAlive(); }, { once: true });
+        window.addEventListener('load', () => { enableScreenKeepAlive(); });
         document.addEventListener('visibilitychange', async () => {
-            if (document.visibilityState === 'visible') {
-                enableScreenKeepAlive();
-            }
+            if (document.visibilityState === 'visible') { enableScreenKeepAlive(); }
         });
 
         function switchSeries(series) {
@@ -768,11 +753,7 @@
                 let rawB50 = (s.b50 || "").trim();
                 let b50Arr = (rawB50.length > 2 && !rawB50.includes(',') && !rawB50.includes(' ')) ? (rawB50.match(/.{1,2}/g) || []) : rawB50.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
 
-                let blocks = { 
-                    '10': b10Arr, 
-                    '30': b30Arr, 
-                    '50': b50Arr 
-                };
+                let blocks = { '10': b10Arr, '30': b30Arr, '50': b50Arr };
 
                 let timeString, timeKey;
                 let now = new Date();
@@ -796,9 +777,7 @@
                 }
 
                 db.ref('resultsData/blocks/' + timeKey).once('value', (timeSnap) => {
-                    if (timeSnap.exists() && !customTimeString) {
-                        return;
-                    }
+                    if (timeSnap.exists() && !customTimeString) { return; }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
                         <div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div>`;
@@ -831,7 +810,6 @@
                             let firstPart = val.slice(0, -2);
                             let suffix = val.slice(-2);
                             let isDouble = suffix[0] === suffix[1];
-                            
                             let formattedVal = isDouble ? `${firstPart}<span class="red-dp">${suffix}</span>` : val;
                             newBlock += `<div class="cell">${formattedVal}</div>`;
                         }
@@ -851,57 +829,77 @@
 
         function generateCustomTimeResult() {
             let tVal = document.getElementById('missedTimeInput').value;
-            if (!tVal) {
-                alert("Please select a target time first!");
-                return;
-            }
+            if (!tVal) { alert("Please select a target time first!"); return; }
             generateAndSave(tVal);
         }
 
         db.ref('resultsData/blocks').on('value', (snap) => {
-            if(snap.exists()) {
-                let blocksObj = snap.val();
-                let keys = Object.keys(blocksObj);
-                keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+            let archiveDateVal = document.getElementById('archiveDateSelect').value;
+            let now = new Date();
+            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
+            
+            if (!archiveDateVal || archiveDateVal === currentLocalDateStr) {
+                if(snap.exists()) {
+                    renderBlocksObject(snap.val());
+                } else {
+                    let day = now.getDate();
+                    let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    let year = now.getFullYear();
+                    let key1 = `${day}_${monthNames[now.getMonth()]}_${year}`;
+                    let key2 = `${parseInt(day)}_${monthNames[now.getMonth()]}_${year}`;
 
-                let combinedHtml = "";
-                keys.forEach((key, index) => {
-                    let blockHtml = blocksObj[key].html;
-                    if (index > 0) {
-                        blockHtml = blockHtml
-                            .replace(/<span class="live-dot"><\/span>/g, '')
-                            .replace(/ LIVE/g, '')
-                            .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
-                    }
-                    combinedHtml += blockHtml;
-                });
-
-                document.getElementById('today-container').innerHTML = combinedHtml;
-                switchSeries(currentSeriesFilter);
-            } else {
-                document.getElementById('today-container').innerHTML = "";
+                    db.ref('monthlyArchive/' + key1).once('value', (archSnap1) => {
+                        if (archSnap1.exists() && archSnap1.val().html) {
+                            document.getElementById('today-container').innerHTML = archSnap1.val().html;
+                            switchSeries(currentSeriesFilter);
+                        } else {
+                            db.ref('monthlyArchive/' + key2).once('value', (archSnap2) => {
+                                if (archSnap2.exists() && archSnap2.val().html) {
+                                    document.getElementById('today-container').innerHTML = archSnap2.val().html;
+                                    switchSeries(currentSeriesFilter);
+                                } else {
+                                    document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Market Closed for Today.</div>";
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
+
+        function renderBlocksObject(blocksObj) {
+            let keys = Object.keys(blocksObj);
+            keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+
+            let combinedHtml = "";
+            keys.forEach((key, index) => {
+                let blockHtml = blocksObj[key].html;
+                if (index > 0) {
+                    blockHtml = blockHtml
+                        .replace(/<span class="live-dot"><\/span>/g, '')
+                        .replace(/ LIVE/g, '')
+                        .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
+                }
+                combinedHtml += blockHtml;
+            });
+
+            document.getElementById('today-container').innerHTML = combinedHtml;
+            switchSeries(currentSeriesFilter);
+        }
 
         function loadArchiveDate(dateVal) {
             let todayTitle = document.getElementById('todayTitleSection');
             let todayContainer = document.getElementById('today-container');
             let archiveContainer = document.getElementById('archive-container');
 
-            if(!dateVal) {
-                archiveContainer.innerHTML = "";
-                if(todayTitle) todayTitle.style.display = "flex";
-                if(todayContainer) todayContainer.style.display = "block";
-                return;
-            }
-
             let now = new Date();
             let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
 
-            if (dateVal === currentLocalDateStr) {
+            if(!dateVal || dateVal === currentLocalDateStr) {
                 archiveContainer.innerHTML = "";
                 if(todayTitle) todayTitle.style.display = "flex";
                 if(todayContainer) todayContainer.style.display = "block";
+                db.ref('resultsData/blocks').once('value');
                 return;
             }
 
@@ -914,14 +912,24 @@
             let day = parts[2];
             
             let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let formattedDateKey = `${day}_${monthNames[monthIndex]}_${year}`;
+            let key1 = `${day}_${monthNames[monthIndex]}_${year}`; 
+            let key2 = `${parseInt(day)}_${monthNames[monthIndex]}_${year}`; 
 
-            db.ref('monthlyArchive/' + formattedDateKey).once('value', (snap) => {
-                if(snap.exists()) {
-                    archiveContainer.innerHTML = snap.val().html;
+            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:15px; font-weight:800;'>Loading archive data...</div>";
+
+            db.ref('monthlyArchive/' + key1).once('value', (snap1) => {
+                if(snap1.exists() && snap1.val().html) {
+                    archiveContainer.innerHTML = snap1.val().html;
                     switchSeries(currentSeriesFilter);
                 } else {
-                    archiveContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px;'>No data found for this date.</div>";
+                    db.ref('monthlyArchive/' + key2).once('value', (snap2) => {
+                        if(snap2.exists() && snap2.val().html) {
+                            archiveContainer.innerHTML = snap2.val().html;
+                            switchSeries(currentSeriesFilter);
+                        } else {
+                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:15px; font-weight:800;'>No data found for this date.</div>";
+                        }
+                    });
                 }
             });
         }
@@ -936,8 +944,13 @@
             let m = parseInt(formatterM.format(now));
             let s = parseInt(formatterS.format(now));
 
-            if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m === 0))) {
-                document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
+            // Market open range: 9 AM to 10:00 PM (h=22, m=0 tak 10:00 PM ka draw valid hai)
+            if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0))) {
+                if (h < 22) {
+                    document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
+                } else {
+                    document.getElementById('timer').innerText = "MARKET CLOSED (FINAL DRAW COMPLETED)";
+                }
                 
                 if ((m % 15 === 0) === true && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
@@ -951,36 +964,30 @@
             } else {
                 document.getElementById('timer').innerText = "MARKET CLOSED";
                 
-                if (h === 22 && m === 1 && s === 0) {
-                    db.ref('resultsData/blocks').once('value', (blockSnap) => {
-                        if(blockSnap.exists()) {
-                            let blocksObj = blockSnap.val();
-                            let keys = Object.keys(blocksObj);
-                            keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
-                            let cleanHtml = "";
-                            keys.filter(Boolean).forEach(k => {
-                                let bh = blocksObj[k].html
-                                    .replace(/<span class="live-dot"><\/span>/g, '')
-                                    .replace(/ LIVE/g, '')
-                                    .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
-                                cleanHtml += bh;
-                            });
+                // 10:01 PM ke baad hi archive mein shift karega taaki 10:00 PM ka result pakka save ho jaye
+                if (h === 22 && m >= 2) {
+                    let dateKeyString = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                    
+                    db.ref('monthlyArchive/' + dateKeyString).once('value', (archCheck) => {
+                        if (!archCheck.exists()) {
+                            db.ref('resultsData/blocks').once('value', (blockSnap) => {
+                                if(blockSnap.exists()) {
+                                    let blocksObj = blockSnap.val();
+                                    let keys = Object.keys(blocksObj);
+                                    keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+                                    let cleanHtml = "";
+                                    keys.filter(Boolean).forEach(k => {
+                                        let bh = blocksObj[k].html
+                                            .replace(/<span class="live-dot"><\/span>/g, '')
+                                            .replace(/ LIVE/g, '')
+                                            .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
+                                        cleanHtml += bh;
+                                    });
 
-                            let dateKeyString = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                            
-                            db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
-
-                            db.ref('monthlyArchive').on('value', (allArchSnap) => {
-                                if(allArchSnap.exists()) {
-                                    allDates = Object.keys(allArchSnap.val());
-                                    if(allDates.length > 365) {
-                                        allDates.sort();
-                                        db.ref('monthlyArchive/' + allDates[0]).remove();
-                                    }
+                                    db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
+                                    db.ref('resultsData').remove();
                                 }
                             });
-
-                            db.ref('resultsData').remove();
                         }
                     });
                 }
