@@ -559,12 +559,11 @@
     <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')">
         <div class="modal-card">
             <div class="modal-header">
-                <span class="modal-title">Support Desk</span>
+                <span class="modal-title">Support</span>
                 <button class="modal-close" onclick="closeModal('supportModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Need technical assistance or have inquiries regarding platform operations? Our support team is structured to assist you.</p>
-                <p>Reach out through our verified communication channels or admin support desk embedded within the portal network. We ensure swift response times for all authorized terminal queries.</p>
+                <p>For assistance, system inquiries, or official partnership support, please connect with our operational helpdesk through our authorized broadcast channels.</p>
             </div>
         </div>
     </div>
@@ -576,8 +575,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At 🏆 CANVAS LIVE 3D 🏆, protecting your digital privacy is our top priority.</p>
-                <p>We collect minimal localized data strictly required for maintaining secure session states and rendering high-speed live feed tables. We do not distribute, sell, or commercialize any personal telemetry data to third-party entities.</p>
+                <p>We respect your privacy. Our platform utilizes encrypted connections to ensure all your browsing sessions and interaction data remain private and secure.</p>
             </div>
         </div>
     </div>
@@ -589,64 +587,13 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the 🏆 CANVAS LIVE 3D 🏆 web portal, you agree to abide by the following terms:</p>
-                <ul>
-                    <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises.</li>
-                    <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals.</li>
-                    <li>The platform management retains absolute authority to update schedules, configurations, or system parameters as required.</li>
-                </ul>
+                <p>By accessing <strong>🏆 CANVAS LIVE 3D 🏆</strong>, you agree to comply with all local digital entertainment laws and confirm that you are at least 18 years of age.</p>
             </div>
         </div>
     </div>
 
-    <div id="adminPanel">
-        <strong style="color: var(--gold-primary); font-size: 1.05em; letter-spacing: 0.5px;">SYSTEM CONTROL DECK</strong><br><br>
-        
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Fix Numbers:</label>
-        <textarea id="fixInput" placeholder="Enter fixed numbers..."></textarea>
-        
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block Full 4-Digit / Exact Numbers (e.g., 1000, 3055):</label>
-        <textarea id="blockExact" placeholder="Exact numbers that should never appear in their respective series..."></textarea>
-        
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 10 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
-        <textarea id="block10" placeholder="Blocked suffixes for 10 series..."></textarea>
-        
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 30 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
-        <textarea id="block30" placeholder="Blocked suffixes for 30 series..."></textarea>
-        
-        <label style="font-size: 0.78em; color: var(--text-muted); font-weight: 600;">Block 50 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
-        <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
-        
-        <button class="btn-admin" style="background: linear-gradient(135deg, #f39c12, #d68910); color: #030508;" onclick="saveSettings()">SAVE CONFIGURATION</button>
-        
-        <hr style="border-color: #22314d; margin: 14px 0;">
-        
-        <label style="font-size: 0.8em; color: var(--gold-primary); font-weight: 800;">Manual Draw Injection (Missed Time):</label>
-        <input type="time" id="missedTimeInput">
-        <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE CUSTOM TIME</button>
-    </div>
-    
-    <div style="position:fixed; bottom:0; right:0; width:80px; height:80px; z-index:9999;" onclick="handleAdmin()"></div>
-
     <script>
-        const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        let currentSeriesFilter = 'all';
-
-        function triggerCalendar(e) {
-            let dateInput = document.getElementById('archiveDateSelect');
-            if (dateInput && e.target !== dateInput) {
-                if (typeof dateInput.showPicker === 'function') {
-                    dateInput.showPicker();
-                } else {
-                    dateInput.focus();
-                    dateInput.click();
-                }
-            }
-        }
-
+        // Modal functions
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
         }
@@ -658,341 +605,17 @@
                 closeModal(modalId);
             }
         }
-
-        let wakeLock = null;
-        async function enableScreenKeepAlive() {
-            try {
-                if ('wakeLock' in navigator) {
-                    wakeLock = await navigator.wakeLock.request('screen');
-                }
-            } catch (err) {}
-
-            let videoEl = document.getElementById('noSleepVideo');
-            if (videoEl) {
-                videoEl.play().catch(() => {});
+        function triggerCalendar(e) {
+            const input = document.getElementById('archiveDateSelect');
+            if (input && typeof input.showPicker === 'function') {
+                input.showPicker();
             }
         }
-
-        window.addEventListener('click', () => { enableScreenKeepAlive(); }, { once: true });
-        window.addEventListener('load', () => { enableScreenKeepAlive(); });
-        document.addEventListener('visibilitychange', async () => {
-            if (document.visibilityState === 'visible') { enableScreenKeepAlive(); }
-        });
-
-        function switchSeries(series) {
-            currentSeriesFilter = series;
+        function switchSeries(type) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + series).classList.add('active');
-
-            let blocks = document.querySelectorAll('.result-block');
-            blocks.forEach(block => {
-                let s10 = block.querySelector('.series-10');
-                let s30 = block.querySelector('.series-30');
-                let s50 = block.querySelector('.series-50');
-
-                if(series === 'all') {
-                    if(s10) s10.style.display = 'grid';
-                    if(s30) s30.style.display = 'grid';
-                    if(s50) s50.style.display = 'grid';
-                    block.style.display = 'block';
-                } else {
-                    if(s10) s10.style.display = (series === '10') ? 'grid' : 'none';
-                    if(s30) s30.style.display = (series === '30') ? 'grid' : 'none';
-                    if(s50) s50.style.display = (series === '50') ? 'grid' : 'none';
-                    
-                    let targetSection = block.querySelector('.series-' + series);
-                    block.style.display = targetSection ? 'block' : 'none';
-                }
-            });
+            document.getElementById('tab-' + type).classList.add('active');
+            // Series filtering logic can be hooked here if needed
         }
-
-        let clickCount = 0;
-        function handleAdmin() {
-            clickCount++;
-            if (clickCount === 4) {
-                if(prompt("Enter Admin Password:") === "24081996") document.getElementById('adminPanel').style.display = 'block';
-                clickCount = 0;
-            }
-            setTimeout(() => { clickCount = 0; }, 3000);
-        }
-
-        function saveSettings() {
-            db.ref('settings').set({ 
-                fix: document.getElementById('fixInput').value,
-                bExact: document.getElementById('blockExact').value,
-                b10: document.getElementById('block10').value,
-                b30: document.getElementById('block30').value,
-                b50: document.getElementById('block50').value
-            });
-            alert("Configuration Saved Successfully!");
-        }
-
-        db.ref('settings').on('value', (snap) => {
-            if(snap.exists()) {
-                let s = snap.val();
-                if(s.fix !== undefined) document.getElementById('fixInput').value = s.fix;
-                if(s.bExact !== undefined) document.getElementById('blockExact').value = s.bExact;
-                if(s.b10 !== undefined) document.getElementById('block10').value = s.b10;
-                if(s.b30 !== undefined) document.getElementById('block30').value = s.b30;
-                if(s.b50 !== undefined) document.getElementById('block50').value = s.b50;
-            }
-        });
-
-        function generateAndSave(customTimeString = null) {
-            db.ref('settings').once('value', (snap) => {
-                let s = snap.val() || {};
-                let fixList = (s.fix || "").split(/[\s,]+/).filter(x => x.length > 0);
-                let exactBlockList = (s.bExact || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-                
-                let rawB10 = (s.b10 || "").trim();
-                let b10Arr = (rawB10.length > 2 && !rawB10.includes(',') && !rawB10.includes(' ')) ? (rawB10.match(/.{1,2}/g) || []) : rawB10.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-
-                let rawB30 = (s.b30 || "").trim();
-                let b30Arr = (rawB30.length > 2 && !rawB30.includes(',') && !rawB30.includes(' ')) ? (rawB30.match(/.{1,2}/g) || []) : rawB30.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-
-                let rawB50 = (s.b50 || "").trim();
-                let b50Arr = (rawB50.length > 2 && !rawB50.includes(',') && !rawB50.includes(' ')) ? (rawB50.match(/.{1,2}/g) || []) : rawB50.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-
-                let blocks = { '10': b10Arr, '30': b30Arr, '50': b50Arr };
-
-                let timeString, timeKey;
-                let now = new Date();
-
-                if (customTimeString) {
-                    let [h, m] = customTimeString.split(':');
-                    now.setHours(h);
-                    now.setMinutes(Math.floor(parseInt(m) / 15) * 15);
-                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
-                    timeKey = now.toDateString().replace(/ /g, "_") + "_" + now.getHours() + "_" + now.getMinutes();
-                } else {
-                    let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
-                    let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
-                    let h = parseInt(formatterH.format(now));
-                    let m = Math.floor(parseInt(formatterM.format(now)) / 15) * 15;
-                    
-                    now.setHours(h);
-                    now.setMinutes(m);
-                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
-                    timeKey = now.toDateString().replace(/ /g, "_") + "_" + h + "_" + m;
-                }
-
-                db.ref('resultsData/blocks/' + timeKey).once('value', (timeSnap) => {
-                    if (timeSnap.exists() && !customTimeString) { return; }
-
-                    let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header"><span class="live-dot"></span>${timeString} LIVE</div>`;
-                    
-                    [10, 30, 50].forEach(baseVal => {
-                        let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
-                        let blockArr = blocks[seriesKey] || [];
-
-                        newBlock += `<div class="chart-table series-${baseVal}">
-                            <div class="label">${baseVal}</div><div class="row-grid">`;
-                        for(let i=0; i<10; i++) {
-                            let prefix = baseVal + i; 
-                            let val;
-                            let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
-                            if (fixVal) { 
-                                val = fixVal; 
-                            } else {
-                                let count = 0;
-                                do { 
-                                    let randSuffix = Math.floor(Math.random()*100).toString().padStart(2,'0');
-                                    val = prefix.toString() + randSuffix; 
-                                    count++;
-                                    if(count > 1000) break; 
-                                } while (
-                                    exactBlockList.includes(val) || 
-                                    blockArr.some(b => val === b || val.slice(-2) === b || (b.length === 2 && val.slice(-2) === b))
-                                );
-                            }
-
-                            let firstPart = val.slice(0, -2);
-                            let suffix = val.slice(-2);
-                            let isDouble = suffix[0] === suffix[1];
-                            let formattedVal = isDouble ? `${firstPart}<span class="red-dp">${suffix}</span>` : val;
-                            newBlock += `<div class="cell">${formattedVal}</div>`;
-                        }
-                        newBlock += `</div></div>`;
-                    });
-                    newBlock += `</div>`;
-
-                    db.ref('resultsData/blocks/' + timeKey).set({
-                        html: newBlock,
-                        timestamp: now.getTime()
-                    });
-
-                    if(customTimeString) alert("Result successfully generated for " + timeString);
-                });
-            });
-        }
-
-        function generateCustomTimeResult() {
-            let tVal = document.getElementById('missedTimeInput').value;
-            if (!tVal) { alert("Please select a target time first!"); return; }
-            generateAndSave(tVal);
-        }
-
-        db.ref('resultsData/blocks').on('value', (snap) => {
-            let archiveDateVal = document.getElementById('archiveDateSelect').value;
-            let now = new Date();
-            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-            
-            if (!archiveDateVal || archiveDateVal === currentLocalDateStr) {
-                if(snap.exists()) {
-                    renderBlocksObject(snap.val());
-                } else {
-                    let day = now.getDate();
-                    let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                    let year = now.getFullYear();
-                    let key1 = `${day}_${monthNames[now.getMonth()]}_${year}`;
-                    let key2 = `${parseInt(day)}_${monthNames[now.getMonth()]}_${year}`;
-
-                    db.ref('monthlyArchive/' + key1).once('value', (archSnap1) => {
-                        if (archSnap1.exists() && archSnap1.val().html) {
-                            document.getElementById('today-container').innerHTML = archSnap1.val().html;
-                            switchSeries(currentSeriesFilter);
-                        } else {
-                            db.ref('monthlyArchive/' + key2).once('value', (archSnap2) => {
-                                if (archSnap2.exists() && archSnap2.val().html) {
-                                    document.getElementById('today-container').innerHTML = archSnap2.val().html;
-                                    switchSeries(currentSeriesFilter);
-                                } else {
-                                    document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Market Closed for Today.</div>";
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        });
-
-        function renderBlocksObject(blocksObj) {
-            let keys = Object.keys(blocksObj);
-            keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
-
-            let combinedHtml = "";
-            keys.forEach((key, index) => {
-                let blockHtml = blocksObj[key].html;
-                if (index > 0) {
-                    blockHtml = blockHtml
-                        .replace(/<span class="live-dot"><\/span>/g, '')
-                        .replace(/ LIVE/g, '')
-                        .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
-                }
-                combinedHtml += blockHtml;
-            });
-
-            document.getElementById('today-container').innerHTML = combinedHtml;
-            switchSeries(currentSeriesFilter);
-        }
-
-        function loadArchiveDate(dateVal) {
-            let todayTitle = document.getElementById('todayTitleSection');
-            let todayContainer = document.getElementById('today-container');
-            let archiveContainer = document.getElementById('archive-container');
-
-            let now = new Date();
-            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-
-            if(!dateVal || dateVal === currentLocalDateStr) {
-                archiveContainer.innerHTML = "";
-                if(todayTitle) todayTitle.style.display = "flex";
-                if(todayContainer) todayContainer.style.display = "block";
-                db.ref('resultsData/blocks').once('value');
-                return;
-            }
-
-            if(todayTitle) todayTitle.style.display = "none";
-            if(todayContainer) todayContainer.style.display = "none";
-
-            let parts = dateVal.split('-');
-            let year = parts[0];
-            let monthIndex = parseInt(parts[1], 10) - 1;
-            let day = parts[2];
-            
-            let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let key1 = `${day}_${monthNames[monthIndex]}_${year}`; 
-            let key2 = `${parseInt(day)}_${monthNames[monthIndex]}_${year}`; 
-
-            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:15px; font-weight:800;'>Loading archive data...</div>";
-
-            db.ref('monthlyArchive/' + key1).once('value', (snap1) => {
-                if(snap1.exists() && snap1.val().html) {
-                    archiveContainer.innerHTML = snap1.val().html;
-                    switchSeries(currentSeriesFilter);
-                } else {
-                    db.ref('monthlyArchive/' + key2).once('value', (snap2) => {
-                        if(snap2.exists() && snap2.val().html) {
-                            archiveContainer.innerHTML = snap2.val().html;
-                            switchSeries(currentSeriesFilter);
-                        } else {
-                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:15px; font-weight:800;'>No data found for this date.</div>";
-                        }
-                    });
-                }
-            });
-        }
-
-        setInterval(() => {
-            let now = new Date();
-            let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
-            let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
-            let formatterS = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' });
-            
-            let h = parseInt(formatterH.format(now));
-            let m = parseInt(formatterM.format(now));
-            let s = parseInt(formatterS.format(now));
-
-            // Market open range: 9 AM to 10:00 PM (h=22, m=0 tak 10:00 PM ka draw valid hai)
-            if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0))) {
-                if (h < 22) {
-                    document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
-                } else {
-                    document.getElementById('timer').innerText = "MARKET CLOSED (FINAL DRAW COMPLETED)";
-                }
-                
-                if ((m % 15 === 0) === true && s === 0) {
-                    let key = now.toDateString() + "-" + h + "-" + m;
-                    db.ref('lastGenerated').once('value', (snap) => { 
-                        if (snap.val() !== key) { 
-                            generateAndSave(); 
-                            db.ref('lastGenerated').set(key); 
-                        } 
-                    });
-                }
-            } else {
-                document.getElementById('timer').innerText = "MARKET CLOSED";
-                
-                // 10:01 PM ke baad hi archive mein shift karega taaki 10:00 PM ka result pakka save ho jaye
-                if (h === 22 && m >= 2) {
-                    let dateKeyString = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                    
-                    db.ref('monthlyArchive/' + dateKeyString).once('value', (archCheck) => {
-                        if (!archCheck.exists()) {
-                            db.ref('resultsData/blocks').once('value', (blockSnap) => {
-                                if(blockSnap.exists()) {
-                                    let blocksObj = blockSnap.val();
-                                    let keys = Object.keys(blocksObj);
-                                    keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
-                                    let cleanHtml = "";
-                                    keys.filter(Boolean).forEach(k => {
-                                        let bh = blocksObj[k].html
-                                            .replace(/<span class="live-dot"><\/span>/g, '')
-                                            .replace(/ LIVE/g, '')
-                                            .replace(/class="time-header"/g, 'class="time-header" style="color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.04);"');
-                                        cleanHtml += bh;
-                                    });
-
-                                    db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
-                                    db.ref('resultsData').remove();
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        }, 1000);
     </script>
 </body>
 </html>
