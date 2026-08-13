@@ -567,9 +567,9 @@
             <div class="modal-body">
                 <p>Please review our official operational guidelines:</p>
                 <ul>
-                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules.</li>
-                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart).</li>
-                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies.</li>
+                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules[span_0](start_span)[span_0](end_span).</li>
+                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart)[span_1](start_span)[span_1](end_span).</li>
+                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies[span_2](start_span)[span_2](end_span).</li>
                     <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
                 </ul>
             </div>
@@ -828,11 +828,11 @@
 
                             let prefixPart = val.slice(0, -2);
                             let suffixPart = val.slice(-2);
-                            let isDouble = suffixPart[0] === suffixPart[1]; // Check if last 2 digits are double (00, 11, etc.)
+                            let isDouble = suffixPart[0] === suffixPart[1];
 
                             let formattedVal = isDouble 
                                 ? `<span style="color: #050505;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
-                                : val; // Baaki sabhi normal rahenge
+                                : val;
 
                             newBlock += `<div class="cell">${formattedVal}</div>`;
                         }
