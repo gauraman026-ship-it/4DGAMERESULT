@@ -828,8 +828,12 @@
 
                             let prefixPart = val.slice(0, -2);
                             let suffixPart = val.slice(-2);
-                            let formattedVal = `<span style="color: #050505;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`;
-                            
+                            let isDouble = suffixPart[0] === suffixPart[1]; // Check if last 2 digits are double (00, 11, etc.)
+
+                            let formattedVal = isDouble 
+                                ? `<span style="color: #050505;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
+                                : val; // Baaki sabhi normal rahenge
+
                             newBlock += `<div class="cell">${formattedVal}</div>`;
                         }
                         newBlock += `</div></div>`;
