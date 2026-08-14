@@ -283,7 +283,7 @@
             grid-template-columns: 1fr; 
             gap: 0px; 
             width: 100%;
-            padding: 0px; /* पैडिंग पूरी तरह शून्य कर दी गई है ताकि कोई गैप या किनारा न बचे */
+            padding: 0px;
             background: #ffffff;
             margin: 0px;
         }
@@ -294,7 +294,7 @@
         .row-grid { 
             display: grid; 
             grid-template-columns: repeat(10, 1fr); 
-            gap: 0px; /* ग्रिड का आपस का गैप बिल्कुल शून्य कर दिया गया है */
+            gap: 0px; 
             width: 100%;
             margin: 0px;
             padding: 0px;
@@ -305,11 +305,11 @@
             padding: 9px 0px; 
             text-align: center; 
             font-weight: 900; 
-            border-radius: 0px; /* चौखट खानों के कोनों को पूरी तरह सीधा और आपस में सटा हुआ रखा गया है */
+            border-radius: 0px; 
             font-size: 0.82em; 
             color: #000000 !important; 
             border: 1px solid #bfbfbf;
-            box-shadow: none; /* शैडो हटाने से खानों के बीच की लाइनें और अधिक स्पष्ट और चिपकी हुई दिखेंगी */
+            box-shadow: none; 
             letter-spacing: -0.7px; 
             white-space: nowrap;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -530,10 +530,13 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
         </div>
     </div>
-    <div id="archive-container"></div>
 
-    <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
-    <div id="today-container"></div>
+    <div id="archive-container" style="display: none;"></div>
+
+    <div id="todayMainSection" style="display: none;">
+        <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
+        <div id="today-container"></div>
+    </div>
 
     <footer class="site-footer">
         <div class="footer-links">
@@ -556,7 +559,6 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             </div>
             <div class="modal-body">
                 <p>Welcome to <strong>🏆 CANVASLIVE4D 🏆</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
-                <p>Our infrastructure operates on high-security nodes designed for seamless mobile performance, ensuring uninterrupted tracking and absolute reliability for our community worldwide.</p>
             </div>
         </div>
     </div>
@@ -570,9 +572,9 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             <div class="modal-body">
                 <p>Please review our official operational guidelines:</p>
                 <ul>
-                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules[span_0](start_span)[span_0](end_span).</li>
-                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart)[span_1](start_span)[span_1](end_span).</li>
-                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies[span_2](start_span)[span_2](end_span).</li>
+                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules.</li>
+                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart).</li>
+                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies.</li>
                     <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
                 </ul>
             </div>
@@ -587,7 +589,6 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             </div>
             <div class="modal-body">
                 <p>Need technical assistance or have inquiries regarding platform operations? Our support team is structured to assist you.</p>
-                <p>Reach out through our verified communication channels or admin support desk embedded within the portal network. We ensure swift response times for all authorized terminal queries.</p>
             </div>
         </div>
     </div>
@@ -600,7 +601,6 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             </div>
             <div class="modal-body">
                 <p>At 🏆 CANVASLIVE4D 🏆, protecting your digital privacy is our top priority.</p>
-                <p>We collect minimal localized data strictly required for maintaining secure session states and rendering high-speed live feed tables. We do not distribute, sell, or commercialize any personal telemetry data to third-party entities.</p>
             </div>
         </div>
     </div>
@@ -612,12 +612,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the 🏆 CANVASLIVE4D 🏆 web portal, you agree to abide by the following terms:</p>
-                <ul>
-                    <li>The platform content, code frameworks, and live visual architecture are protected intellectual property of Kohinoor Enterprises.</li>
-                    <li>Users are solely responsible for ensuring compliance with local jurisdiction regulations regarding online entertainment portals.</li>
-                    <li>The platform management retains absolute authority to update schedules, configurations, or system parameters as required.</li>
-                </ul>
+                <p>By accessing or utilizing the 🏆 CANVASLIVE4D 🏆 web portal, you agree to abide by the following terms.</p>
             </div>
         </div>
     </div>
@@ -628,16 +623,16 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
         <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Fix Numbers:</label>
         <textarea id="fixInput" placeholder="Enter fixed numbers..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block Full 4-Digit / Exact Numbers (e.g., 1000, 3055):</label>
-        <textarea id="blockExact" placeholder="Exact numbers that should never appear in their respective series..."></textarea>
+        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block Full 4-Digit / Exact Numbers:</label>
+        <textarea id="blockExact" placeholder="Exact numbers..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 10 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
+        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 10 Chart Suffixes:</label>
         <textarea id="block10" placeholder="Blocked suffixes for 10 series..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 30 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
+        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 30 Chart Suffixes:</label>
         <textarea id="block30" placeholder="Blocked suffixes for 30 series..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 50 Chart Suffixes (e.g., 66, 23, 44, 65, 88):</label>
+        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 50 Chart Suffixes:</label>
         <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIGURATION</button>
@@ -859,105 +854,95 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             generateAndSave(tVal);
         }
 
-        db.ref('resultsData/blocks').on('value', (snap) => {
-            let archiveDateVal = document.getElementById('archiveDateSelect').value;
-            let now = new Date();
-            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-            
-            if (!archiveDateVal || archiveDateVal === currentLocalDateStr) {
-                if(snap.exists()) {
-                    renderBlocksObject(snap.val());
-                } else {
-                    let day = now.getDate();
-                    let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                    let year = now.getFullYear();
-                    let key1 = `${day}_${monthNames[now.getMonth()]}_${year}`;
-                    let key2 = `${parseInt(day)}_${monthNames[now.getMonth()]}_${year}`;
-
-                    db.ref('monthlyArchive/' + key1).once('value', (archSnap1) => {
-                        if (archSnap1.exists() && archSnap1.val().html) {
-                            document.getElementById('today-container').innerHTML = archSnap1.val().html;
-                            switchSeries(currentSeriesFilter);
-                        } else {
-                            db.ref('monthlyArchive/' + key2).once('value', (archSnap2) => {
-                                if (archSnap2.exists() && archSnap2.val().html) {
-                                    document.getElementById('today-container').innerHTML = archSnap2.val().html;
-                                    switchSeries(currentSeriesFilter);
-                                } else {
-                                    document.getElementById('today-container').innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:12px; font-weight:800;'>Market Closed for Today.</div>";
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        });
-
-        function renderBlocksObject(blocksObj) {
-            let keys = Object.keys(blocksObj);
-            keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
-
-            let combinedHtml = "";
-            keys.forEach((key, index) => {
-                let blockHtml = blocksObj[key].html;
-                if (index > 0) {
-                    blockHtml = blockHtml
-                        .replace(/<span class="live-dot"><\/span>/g, '')
-                        .replace(/class="time-header"/g, 'class="time-header" style="background: #000000 !important; color: #f1c40f !important; border-bottom: 1px solid var(--border-glow); padding: 3px 6px; font-size: 0.82em;"');
-                }
-                combinedHtml += blockHtml;
-            });
-
-            document.getElementById('today-container').innerHTML = combinedHtml;
-            switchSeries(currentSeriesFilter);
-        }
-
         function loadArchiveDate(dateVal) {
-            let todayTitle = document.getElementById('todayTitleSection');
-            let todayContainer = document.getElementById('today-container');
+            let todayMain = document.getElementById('todayMainSection');
             let archiveContainer = document.getElementById('archive-container');
 
-            let now = new Date();
-            let currentLocalDateStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-
-            if(!dateVal || dateVal === currentLocalDateStr) {
+            if(!dateVal) {
+                archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
-                if(todayTitle) todayTitle.style.display = "flex";
-                if(todayContainer) todayContainer.style.display = "block";
-                db.ref('resultsData/blocks').once('value');
+                if(todayMain) todayMain.style.display = "none";
                 return;
             }
-
-            if(todayTitle) todayTitle.style.display = "none";
-            if(todayContainer) todayContainer.style.display = "none";
 
             let parts = dateVal.split('-');
             let year = parts[0];
             let monthIndex = parseInt(parts[1], 10) - 1;
-            let day = parts[2];
+            let day = parseInt(parts[2], 10);
+            let dayStr = parts[2];
             
             let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            if(todayMain) todayMain.style.display = "none";
+            archiveContainer.style.display = "block";
+
             let key1 = `${day}_${monthNames[monthIndex]}_${year}`; 
-            let key2 = `${parseInt(day)}_${monthNames[monthIndex]}_${year}`; 
+            let key2 = `${dayStr}_${monthNames[monthIndex]}_${year}`; 
+            let key3 = `0${day}_${monthNames[monthIndex]}_${year}`;
 
             archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
 
             db.ref('monthlyArchive/' + key1).once('value', (snap1) => {
                 if(snap1.exists() && snap1.val().html) {
-                    archiveContainer.innerHTML = snap1.val().html;
+                    archiveContainer.innerHTML = `
+                        <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthNames[monthIndex]}-${year})</div>
+                        ${snap1.val().html}
+                    `;
                     switchSeries(currentSeriesFilter);
                 } else {
                     db.ref('monthlyArchive/' + key2).once('value', (snap2) => {
                         if(snap2.exists() && snap2.val().html) {
-                            archiveContainer.innerHTML = snap2.val().html;
+                            archiveContainer.innerHTML = `
+                                <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthNames[monthIndex]}-${year})</div>
+                                ${snap2.val().html}
+                            `;
                             switchSeries(currentSeriesFilter);
                         } else {
-                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                            db.ref('monthlyArchive/' + key3).once('value', (snap3) => {
+                                if(snap3.exists() && snap3.val().html) {
+                                    archiveContainer.innerHTML = `
+                                        <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthNames[monthIndex]}-${year})</div>
+                                        ${snap3.val().html}
+                                    `;
+                                    switchSeries(currentSeriesFilter);
+                                } else {
+                                    archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                                }
+                            });
                         }
                     });
                 }
             });
         }
+
+        // Real-time synchronization and live UI loader
+        db.ref('resultsData/blocks').on('value', (snap) => {
+            let archiveInputVal = document.getElementById('archiveDateSelect').value;
+            if (archiveInputVal) return; // Agar user ne archive date select kar rakhi hai toh live data overwrite nahi karega
+
+            let todayMain = document.getElementById('todayMainSection');
+            let todayContainer = document.getElementById('today-container');
+            
+            if (snap.exists()) {
+                let blocksObj = snap.val();
+                let keys = Object.keys(blocksObj);
+                keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+
+                let htmlContent = "";
+                keys.forEach(k => {
+                    if (blocksObj[k] && blocksObj[k].html) {
+                        htmlContent += blocksObj[k].html;
+                    }
+                });
+
+                todayContainer.innerHTML = htmlContent;
+                todayMain.style.display = 'block';
+                switchSeries(currentSeriesFilter);
+            } else {
+                todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Market Closed for Today.</div>";
+                todayMain.style.display = 'block';
+            }
+        });
 
         setInterval(() => {
             let now = new Date();
@@ -981,7 +966,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                     db.ref('lastGenerated').once('value', (snap) => { 
                         if (snap.val() !== key) { 
                             generateAndSave(); 
-                            db.ref('lastGenerated').set(key); 
+                            db.ref('lastGenerator').set(key); 
                         } 
                     });
                 }
