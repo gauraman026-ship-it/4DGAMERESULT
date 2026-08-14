@@ -240,9 +240,9 @@
         
         .result-block {
             border: 1px solid var(--gold-primary);
-            margin-bottom: 0px; /* सफेद बॉक्स के बीच का गैप पूरी तरह शून्य कर दिया गया है */
+            margin-bottom: 0px; 
             background: #ffffff;
-            border-radius: 0px; /* लगातार जुड़े रहने के लिए बॉर्डर रेडियस जीरो किया गया है */
+            border-radius: 0px; 
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             width: 100%;
@@ -283,8 +283,9 @@
             grid-template-columns: 1fr; 
             gap: 0px; 
             width: 100%;
-            padding: 1px;
+            padding: 0px; /* पैडिंग पूरी तरह शून्य कर दी गई है ताकि कोई गैप या किनारा न बचे */
             background: #ffffff;
+            margin: 0px;
         }
         .chart-table:last-child {
             margin-bottom: 0;
@@ -293,8 +294,10 @@
         .row-grid { 
             display: grid; 
             grid-template-columns: repeat(10, 1fr); 
-            gap: 1px; 
+            gap: 0px; /* ग्रिड का आपस का गैप बिल्कुल शून्य कर दिया गया है */
             width: 100%;
+            margin: 0px;
+            padding: 0px;
         }
         
         .cell { 
@@ -302,11 +305,11 @@
             padding: 9px 0px; 
             text-align: center; 
             font-weight: 900; 
-            border-radius: 3px; 
+            border-radius: 0px; /* चौखट खानों के कोनों को पूरी तरह सीधा और आपस में सटा हुआ रखा गया है */
             font-size: 0.82em; 
             color: #000000 !important; 
             border: 1px solid #bfbfbf;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: none; /* शैडो हटाने से खानों के बीच की लाइनें और अधिक स्पष्ट और चिपकी हुई दिखेंगी */
             letter-spacing: -0.7px; 
             white-space: nowrap;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -322,7 +325,7 @@
         .cell:active, .cell:focus {
             background: #ffffff !important;
             border-color: #bfbfbf !important;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+            box-shadow: none !important;
             outline: none !important;
         }
 
