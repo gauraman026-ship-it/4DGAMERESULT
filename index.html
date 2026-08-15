@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏆 𝘾𝘼𝙉𝙑𝘼𝙎 𝙋𝙍𝙄𝙈𝙀 𝟰𝘿 🏆 - Elite Gaming Exchange</title>
+    <title>🏆 CANVAS4D PRIME 🏆 - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -494,7 +494,7 @@
     </video>
 
     <div class="header-container">
-        <div class="neon-title">🏆 CANVASLIVE4D 🏆</div>
+        <div class="neon-title">🏆 CANVAS4D PRIME 🏆</div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
@@ -518,7 +518,7 @@
 
     <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 7px 0; margin: 6px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.78em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-            ✨ WELCOME TO 🏆 CANVASLIVE4D 🏆🇮🇳 Happy Independence Day! 🇮🇳
+            ✨ WELCOME TO 🏆 CANVAS4D PRIME 🏆🇮🇳 Happy Independence Day! 🇮🇳
 Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
         </marquee>
     </div>
@@ -547,7 +547,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 🏆 CANVASLIVE4D 🏆 &bull; All Rights Reserved
+            &copy; 2026 🏆 CANVAS4D PRIME 🏆 &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -558,7 +558,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>🏆 CANVASLIVE4D 🏆</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>🏆 CANVAS4D PRIME 🏆</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
             </div>
         </div>
     </div>
@@ -600,7 +600,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At 🏆 CANVASLIVE4D 🏆, protecting your digital privacy is our top priority.</p>
+                <p>At 🏆 CANVAS4D PRIME 🏆, protecting your digital privacy is our top priority.</p>
             </div>
         </div>
     </div>
@@ -612,7 +612,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the 🏆 CANVASLIVE4D 🏆 web portal, you agree to abide by the following terms.</p>
+                <p>By accessing or utilizing the 🏆 CANVAS4D PRIME 🏆 web portal, you agree to abide by the following terms.</p>
             </div>
         </div>
     </div>
@@ -798,7 +798,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                     if (timeSnap.exists() && !customTimeString) { return; }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header"><span class="live-dot"></span>${timeString}</div>`;
+                        <div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     
                     [10, 30, 50].forEach(baseVal => {
                         let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
@@ -854,6 +854,32 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             generateAndSave(tVal);
         }
 
+        function processArchiveHtml(htmlString, day, monthName, year) {
+            let tempDiv = document.createElement('div');
+            tempDiv.innerHTML = htmlString;
+            let blocks = tempDiv.querySelectorAll('.result-block');
+            
+            blocks.forEach((blk) => {
+                let th = blk.querySelector('.time-header');
+                if(th) {
+                    let tText = th.getAttribute('data-time') || th.innerText.replace(/[^0-9APM:]/gi, '').trim();
+                    // सुनिश्चित करें कि समय सही फॉर्मेट में दिखे (बिना किसी डॉट या अन्य चिह्नों के)
+                    if(!tText) {
+                        tText = th.innerText.trim();
+                    }
+                    th.innerHTML = tText;
+                    th.style.display = 'flex';
+                }
+            });
+
+            let archiveContainer = document.getElementById('archive-container');
+            archiveContainer.innerHTML = `
+                <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthName}-${year})</div>
+                ${tempDiv.innerHTML}
+            `;
+            switchSeries(currentSeriesFilter);
+        }
+
         function loadArchiveDate(dateVal) {
             let todayMain = document.getElementById('todayMainSection');
             let archiveContainer = document.getElementById('archive-container');
@@ -872,39 +898,28 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             let dayStr = parts[2];
             
             let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let mName = monthNames[monthIndex];
             
             if(todayMain) todayMain.style.display = "none";
             archiveContainer.style.display = "block";
 
-            let key1 = `${day}_${monthNames[monthIndex]}_${year}`; 
-            let key2 = `${dayStr}_${monthNames[monthIndex]}_${year}`; 
-            let key3 = `0${day}_${monthNames[monthIndex]}_${year}`;
+            let key1 = `${day}_${mName}_${year}`; 
+            let key2 = `${dayStr}_${mName}_${year}`; 
+            let key3 = `0${day}_${mName}_${year}`;
 
             archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
 
             db.ref('monthlyArchive/' + key1).once('value', (snap1) => {
                 if(snap1.exists() && snap1.val().html) {
-                    archiveContainer.innerHTML = `
-                        <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthNames[monthIndex]}-${year})</div>
-                        ${snap1.val().html}
-                    `;
-                    switchSeries(currentSeriesFilter);
+                    processArchiveHtml(snap1.val().html, day, mName, year);
                 } else {
                     db.ref('monthlyArchive/' + key2).once('value', (snap2) => {
                         if(snap2.exists() && snap2.val().html) {
-                            archiveContainer.innerHTML = `
-                                <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthNames[monthIndex]}-${year})</div>
-                                ${snap2.val().html}
-                            `;
-                            switchSeries(currentSeriesFilter);
+                            processArchiveHtml(snap2.val().html, day, mName, year);
                         } else {
                             db.ref('monthlyArchive/' + key3).once('value', (snap3) => {
                                 if(snap3.exists() && snap3.val().html) {
-                                    archiveContainer.innerHTML = `
-                                        <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthNames[monthIndex]}-${year})</div>
-                                        ${snap3.val().html}
-                                    `;
-                                    switchSeries(currentSeriesFilter);
+                                    processArchiveHtml(snap3.val().html, day, mName, year);
                                 } else {
                                     archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
                                 }
@@ -915,10 +930,9 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             });
         }
 
-        // Real-time synchronization and live UI loader
         db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
-            if (archiveInputVal) return; // Agar user ne archive date select kar rakhi hai toh live data overwrite nahi karega
+            if (archiveInputVal) return; 
 
             let todayMain = document.getElementById('todayMainSection');
             let todayContainer = document.getElementById('today-container');
@@ -929,9 +943,24 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                 keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
 
                 let htmlContent = "";
-                keys.forEach(k => {
+                keys.forEach((k, index) => {
                     if (blocksObj[k] && blocksObj[k].html) {
-                        htmlContent += blocksObj[k].html;
+                        let blockHtml = blocksObj[k].html;
+                        let tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = blockHtml;
+                        let th = tempDiv.querySelector('.time-header');
+                        if (th) {
+                            let tText = th.innerText.trim();
+                            th.setAttribute('data-time', tText);
+                            if (index === 0) {
+                                th.innerHTML = `<span class="live-dot"></span>` + tText;
+                                th.style.display = 'flex';
+                            } else {
+                                th.innerHTML = tText;
+                                th.style.display = 'flex';
+                            }
+                        }
+                        htmlContent += tempDiv.innerHTML;
                     }
                 });
 
@@ -985,9 +1014,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                                     keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
                                     let cleanHtml = "";
                                     keys.filter(Boolean).forEach(k => {
-                                        let bh = blocksObj[k].html
-                                            .replace(/<span class="live-dot"><\/span>/g, '')
-                                            .replace(/class="time-header"/g, 'class="time-header" style="background: #000000 !important; color: #f1c40f !important; border-bottom: 1px solid var(--border-glow); padding: 3px 6px; font-size: 0.82em;"');
+                                        let bh = blocksObj[k].html;
                                         cleanHtml += bh;
                                     });
 
