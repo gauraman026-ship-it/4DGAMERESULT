@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏆 CANVAS4D PRIME 🏆 - Elite Gaming Exchange</title>
+    <title>🏆 CANVAS 4DPRIME 🏆 - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -533,9 +533,9 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
 
     <div id="archive-container" style="display: none;"></div>
 
-    <div id="todayMainSection" style="display: none;">
+    <div id="todayMainSection" style="display: block;">
         <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
-        <div id="today-container"></div>
+        <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:20px; font-weight:800;'>Loading results instantly...</div></div>
     </div>
 
     <footer class="site-footer">
@@ -863,7 +863,6 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
                 let th = blk.querySelector('.time-header');
                 if(th) {
                     let tText = th.getAttribute('data-time') || th.innerText.replace(/[^0-9APM:]/gi, '').trim();
-                    // सुनिश्चित करें कि समय सही फॉर्मेट में दिखे (बिना किसी डॉट या अन्य चिह्नों के)
                     if(!tText) {
                         tText = th.innerText.trim();
                     }
@@ -887,7 +886,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             if(!dateVal) {
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
-                if(todayMain) todayMain.style.display = "none";
+                if(todayMain) todayMain.style.display = "block";
                 return;
             }
 
@@ -930,6 +929,7 @@ Best wishes to everyone. Jai Hind! ❤️ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRI
             });
         }
 
+        // Optimized Instant Renderer (No Refresh Needed)
         db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
