@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🏆 CANVAS 4DPRIME 🏆 - Elite Gaming Exchange</title>
+    <title>⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -73,12 +73,11 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            color: #ffffff;
             text-transform: uppercase;
-            text-shadow: 
-                0 0 4px #fff,
-                0 0 12px var(--gold-primary),
-                0 0 25px var(--gold-dark);
+            background: linear-gradient(135deg, #ffffff 20%, #f1c40f 60%, #ffaa00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.6));
         }
 
         .sub-header {
@@ -494,7 +493,7 @@
     </video>
 
     <div class="header-container">
-        <div class="neon-title">🏆 CANVAS4D PRIME 🏆</div>
+        <div class="neon-title">⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡</div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
@@ -518,8 +517,7 @@
 
     <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 7px 0; margin: 6px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.78em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-            ✨ WELCOME TO 🏆 CANVAS4D PRIME 🏆
- &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
+            ✨ WELCOME TO ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
         </marquee>
     </div>
     
@@ -547,7 +545,7 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 🏆 CANVAS4D PRIME 🏆 &bull; All Rights Reserved
+            &copy; 2026 ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -558,7 +556,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>🏆 CANVAS4D PRIME 🏆</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
             </div>
         </div>
     </div>
@@ -600,7 +598,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At 🏆 CANVAS4D PRIME 🏆, protecting your digital privacy is our top priority.</p>
+                <p>At ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡, protecting your digital privacy is our top priority.</p>
             </div>
         </div>
     </div>
@@ -612,7 +610,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the 🏆 CANVAS4D PRIME 🏆 web portal, you agree to abide by the following terms.</p>
+                <p>By accessing or utilizing the ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ web portal, you agree to abide by the following terms.</p>
             </div>
         </div>
     </div>
@@ -929,7 +927,6 @@
             });
         }
 
-        // Optimized Instant Renderer (No Refresh Needed)
         db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
