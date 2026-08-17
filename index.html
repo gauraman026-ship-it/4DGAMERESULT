@@ -45,6 +45,16 @@
             min-height: 100vh;
         }
 
+        /* Screen Flash Animation for New Draw */
+        @keyframes screenFlash {
+            0% { background-color: var(--bg-deep); }
+            50% { background-color: rgba(241, 196, 15, 0.25); }
+            100% { background-color: var(--bg-deep); }
+        }
+        .flash-active {
+            animation: screenFlash 0.8s ease;
+        }
+
         .header-container {
             text-align: center;
             margin: 4px 0 8px 0;
@@ -114,6 +124,44 @@
             border-radius: 50%;
             box-shadow: 0 0 8px var(--accent-green);
             animation: pulse-dot 1.2s infinite;
+        }
+
+        /* Status & Counter Bar above Timer */
+        .market-status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 19, 34, 0.9);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            font-size: 0.75em;
+            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
+        .live-badge {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
+            animation: pulse-badge 1.5s infinite;
+        }
+        @keyframes pulse-badge {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .draws-counter {
+            color: var(--gold-primary);
+            letter-spacing: 0.5px;
         }
 
         .timer-box {
@@ -492,6 +540,9 @@
         <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
     </video>
 
+    <!-- Audio Beep Generator for Notifications -->
+    <audio id="notifySound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
     <div class="header-container">
         <div class="neon-title">⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡</div>
         <div class="sub-header">
@@ -502,6 +553,12 @@
                 <span class="live-server-tag"><span class="mini-dot"></span> REAL-TIME • VERIFIED • TRUSTED</span>
             </div>
         </div>
+    </div>
+
+    <!-- Market Status Bar & Completed Draws Counter -->
+    <div class="market-status-bar">
+        <div class="live-badge"><span class="mini-dot"></span> LIVE NOW</div>
+        <div class="draws-counter" id="drawsCounterText">Completed Draws: 0 / 53</div>
     </div>
 
     <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
@@ -650,6 +707,7 @@
         const db = firebase.database();
 
         let currentSeriesFilter = 'all';
+        let previousTotalBlocks = -1; // Used to trigger audio and flash alert on new blocks
 
         function triggerCalendar(e) {
             let dateInput = document.getElementById('archiveDateSelect');
@@ -694,6 +752,19 @@
         document.addEventListener('visibilitychange', async () => {
             if (document.visibilityState === 'visible') { enableScreenKeepAlive(); }
         });
+
+        // Trigger Notification Sound & Screen Flash
+        function triggerNewDrawAlert() {
+            let sound = document.getElementById('notifySound');
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(() => {});
+            }
+            document.body.classList.add('flash-active');
+            setTimeout(() => {
+                document.body.classList.remove('flash-active');
+            }, 800);
+        }
 
         function switchSeries(series) {
             currentSeriesFilter = series;
@@ -939,6 +1010,16 @@
                 let keys = Object.keys(blocksObj);
                 keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
 
+                // Update Completed Draws Counter (out of 53 total draws from 9 AM to 10 PM)
+                let completedCount = keys.length;
+                document.getElementById('drawsCounterText').innerText = `Completed Draws: ${completedCount} / 53`;
+
+                // Check if a new draw block has been added to trigger sound and flash alert
+                if (previousTotalBlocks !== -1 && completedCount > previousTotalBlocks) {
+                    triggerNewDrawAlert();
+                }
+                previousTotalBlocks = completedCount;
+
                 let htmlContent = "";
                 keys.forEach((k, index) => {
                     if (blocksObj[k] && blocksObj[k].html) {
@@ -965,6 +1046,7 @@
                 todayMain.style.display = 'block';
                 switchSeries(currentSeriesFilter);
             } else {
+                document.getElementById('drawsCounterText').innerText = `Completed Draws: 0 / 53`;
                 todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Market Closed for Today.</div>";
                 todayMain.style.display = 'block';
             }
