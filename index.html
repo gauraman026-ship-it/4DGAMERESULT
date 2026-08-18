@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ - Elite Gaming Exchange</title>
+    <title>⚡ CΛNVΛS⁴ᴰ LIVE ⚡ - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
@@ -55,6 +55,13 @@
             animation: screenFlash 0.8s ease;
         }
 
+        /* Zoom Out / Pulse Animation for Main Name */
+        @keyframes zoomOutPulse {
+            0% { transform: scale(1.05); }
+            50% { transform: scale(0.92); }
+            100% { transform: scale(1.05); }
+        }
+
         .header-container {
             text-align: center;
             margin: 4px 0 8px 0;
@@ -76,18 +83,19 @@
         }
 
         .neon-title {
-            font-size: 1.35em;
+            font-size: 1.4em;
             font-weight: 900;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #ffffff 20%, #f1c40f 60%, #ffaa00 100%);
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #ffff00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.6));
+            filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.7));
+            animation: zoomOutPulse 2.5s infinite ease-in-out;
         }
 
         .sub-header {
@@ -95,7 +103,7 @@
             justify-content: center;
             align-items: center;
             gap: 4px;
-            margin-top: 4px;
+            margin-top: 6px;
             font-size: 0.68em;
             color: var(--text-muted);
             font-weight: 600;
@@ -544,7 +552,7 @@
     <audio id="notifySound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <div class="header-container">
-        <div class="neon-title">⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡</div>
+        <div class="neon-title">⚡ CΛNVΛS⁴ᴰ LIVE ⚡</div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
@@ -574,7 +582,7 @@
 
     <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 7px 0; margin: 6px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.78em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-            ✨ WELCOME TO ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ &nbsp;&bull;&nbsp; YOUR TRUST, OUR PRIORITY &nbsp;&bull;&nbsp; TRANSPARENT RESULTS &nbsp;&bull;&nbsp; SECURE EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY
+            👑 KOHINOOR ENTERPRISES PRESENTS CΛNVΛS⁴ᴰ LIVE &nbsp;&bull;&nbsp; 100% SECURE REAL-TIME LIVE DRAWS &nbsp;&bull;&nbsp; INSTANT 15-MINUTE AUTOMATED SETTLEMENTS &nbsp;&bull;&nbsp; VERIFIED TRANSPARENT GAMING EXCHANGE &nbsp;&bull;&nbsp; 24x7 UNINTERRUPTED SERVER SYNC &nbsp;&bull;&nbsp; STRICTLY FOR 18+ USERS ONLY
         </marquee>
     </div>
     
@@ -602,7 +610,7 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ &bull; All Rights Reserved
+            &copy; 2026 ⚡ CΛNVΛS⁴ᴰ LIVE ⚡ &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -613,7 +621,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>⚡ CΛNVΛS⁴ᴰ LIVE ⚡</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
             </div>
         </div>
     </div>
@@ -655,7 +663,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡, protecting your digital privacy is our top priority.</p>
+                <p>At ⚡ CΛNVΛS⁴ᴰ LIVE ⚡, protecting your digital privacy is our top priority.</p>
             </div>
         </div>
     </div>
@@ -667,7 +675,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the ⚡ 𝐂𝐀𝐍𝐕𝐀𝐒𝐋𝐈𝐕𝐄 ⁴ᴰ ⚡ web portal, you agree to abide by the following terms.</p>
+                <p>By accessing or utilizing the ⚡ CΛNVΛS⁴ᴰ LIVE ⚡ web portal, you agree to abide by the following terms.</p>
             </div>
         </div>
     </div>
@@ -1010,11 +1018,9 @@
                 let keys = Object.keys(blocksObj);
                 keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
 
-                // Update Completed Draws Counter (out of 53 total draws from 9 AM to 10 PM)
                 let completedCount = keys.length;
                 document.getElementById('drawsCounterText').innerText = `Completed Draws: ${completedCount} / 53`;
 
-                // Check if a new draw block has been added to trigger sound and flash alert
                 if (previousTotalBlocks !== -1 && completedCount > previousTotalBlocks) {
                     triggerNewDrawAlert();
                 }
