@@ -295,7 +295,6 @@
             width: 100%;
         }
         
-        /* TIME HEADER SHIFTED TO LEFT HAND CORNER */
         .time-header {
             font-weight: 900;
             display: flex;
@@ -1051,17 +1050,20 @@
 
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0))) {
                 if (h < 22) {
-                    document.getElementById('timer').innerText = `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s`;
+                    let remMin = 14 - (m % 15);
+                    let remSec = 59 - s;
+                    document.getElementById('timer').innerText = `NEXT DRAW IN: ${remMin}m ${remSec}s`;
                 } else {
                     document.getElementById('timer').innerText = "MARKET CLOSED (FINAL DRAW COMPLETED)";
                 }
                 
-                if ((m % 15 === 0) === true && s === 0) {
+                // Turant result generate karne ke liye jaise hi minute 15 ka multiple ho aur second 0 ho
+                if (m % 15 === 0 && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
                     db.ref('lastGenerated').once('value', (snap) => { 
                         if (snap.val() !== key) { 
                             generateAndSave(); 
-                            db.ref('lastGenerator').set(key); 
+                            db.ref('lastGenerated').set(key); 
                         } 
                     });
                 }
