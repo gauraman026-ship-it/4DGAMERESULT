@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CANVAS 4D - Elite Gaming Exchange</title>
+    <title>𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <!-- HTML2CANVAS LIBRARY FOR IMAGE DOWNLOAD -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-deep: #020408;
@@ -41,11 +43,10 @@
                 linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 4px;
+            padding: 6px;
             min-height: 100vh;
         }
 
-        /* Screen Flash Animation for New Draw */
         @keyframes screenFlash {
             0% { background-color: var(--bg-deep); }
             50% { background-color: rgba(241, 196, 15, 0.25); }
@@ -55,31 +56,15 @@
             animation: screenFlash 0.8s ease;
         }
 
-        /* Elite Neon Glow & Shine Animation for Main Name */
-        @keyframes neonShine {
-            0% {
-                filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.4)) drop-shadow(0 0 12px rgba(255, 0, 255, 0.4));
-                transform: scale(1);
-            }
-            50% {
-                filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.9)) drop-shadow(0 0 25px rgba(241, 196, 15, 0.8));
-                transform: scale(1.02);
-            }
-            100% {
-                filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.4)) drop-shadow(0 0 12px rgba(255, 0, 255, 0.4));
-                transform: scale(1);
-            }
-        }
-
         .header-container {
             text-align: center;
             margin: 4px 0 8px 0;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            padding: 12px 6px;
-            border-radius: 12px;
+            padding: 14px 8px;
+            border-radius: 14px;
             border: 1px solid var(--border-glow);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(241, 196, 15, 0.2);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(241, 196, 15, 0.15);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -91,19 +76,20 @@
             background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
         }
 
+        /* Professional Metallic Gold & White Name Style */
         .neon-title {
-            font-size: 1.4em;
+            font-size: 1.55em;
             font-weight: 900;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #ffff00 100%);
+            background: linear-gradient(135deg, #ffffff 20%, #f1c40f 60%, #d4ac0d 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: neonShine 3s infinite ease-in-out;
+            text-shadow: 0 2px 10px rgba(241, 196, 15, 0.25);
         }
 
         .sub-header {
@@ -112,7 +98,7 @@
             align-items: center;
             gap: 4px;
             margin-top: 6px;
-            font-size: 0.68em;
+            font-size: 0.72em;
             color: var(--text-muted);
             font-weight: 600;
             flex-direction: column;
@@ -121,7 +107,7 @@
         .kohinoor-sub {
             color: var(--gold-primary);
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
             text-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
         }
@@ -134,34 +120,33 @@
             gap: 4px;
         }
         .mini-dot {
-            width: 5px;
-            height: 5px;
+            width: 6px;
+            height: 6px;
             background: var(--accent-green);
             border-radius: 50%;
             box-shadow: 0 0 8px var(--accent-green);
             animation: pulse-dot 1.2s infinite;
         }
 
-        /* Status & Counter Bar above Timer */
         .market-status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(11, 19, 34, 0.9);
+            background: rgba(11, 19, 34, 0.95);
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
-            padding: 6px 10px;
-            margin-bottom: 6px;
-            font-size: 0.75em;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            font-size: 0.78em;
             font-weight: 800;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
         .live-badge {
             background: rgba(46, 204, 113, 0.15);
             color: var(--accent-green);
             border: 1px solid var(--accent-green);
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 3px 10px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             gap: 5px;
@@ -183,16 +168,16 @@
         .timer-box {
             text-align: center;
             color: #ffffff;
-            font-size: 1em;
+            font-size: 1.05em;
             font-weight: 900;
             background: linear-gradient(145deg, #162238, #0a101d);
-            padding: 8px;
+            padding: 10px;
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 18px rgba(241, 196, 15, 0.25);
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             width: 100%;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
         }
 
@@ -200,12 +185,12 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 4px 0 8px 0;
+            margin: 6px 0 10px 0;
         }
         .series-tabs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
+            gap: 6px;
             width: 100%;
             max-width: 500px;
         }
@@ -213,11 +198,11 @@
             background: #0b1322;
             color: var(--text-muted);
             border: 1px solid rgba(241, 196, 15, 0.3);
-            padding: 6px 2px;
+            padding: 8px 4px;
             text-align: center;
             font-weight: 800;
-            font-size: 0.75em;
-            border-radius: 6px;
+            font-size: 0.78em;
+            border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
@@ -229,21 +214,21 @@
             background: linear-gradient(135deg, #f1c40f, #d4ac0d);
             color: #020408;
             border-color: #fff;
-            box-shadow: 0 0 15px var(--gold-glow);
+            box-shadow: 0 0 18px var(--gold-glow);
             text-shadow: none;
         }
         
         .section-title {
             color: var(--gold-primary);
-            font-size: 0.82em;
-            margin: 8px 0 6px;
-            padding: 6px;
+            font-size: 0.85em;
+            margin: 10px 0 8px;
+            padding: 8px;
             background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.6);
             text-transform: uppercase;
             width: 100%;
@@ -260,27 +245,27 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 6px 0 6px;
+            margin: 8px 0 8px;
         }
 
         .archive-title {
             color: var(--gold-primary);
-            font-size: 0.78em;
-            padding: 5px 10px;
+            font-size: 0.82em;
+            padding: 6px 12px;
             background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 6px;
+            border-radius: 8px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.6);
             text-transform: uppercase;
             width: 100%;
-            max-width: 260px;
+            max-width: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             cursor: pointer;
             -webkit-user-select: none;
             user-select: none;
@@ -290,15 +275,15 @@
             background: #000000;
             color: #ffffff;
             border: 1px solid var(--border-glow);
-            padding: 3px 6px;
-            border-radius: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-weight: 800;
-            font-size: 0.85em;
+            font-size: 0.9em;
             outline: none;
             cursor: pointer;
             text-align: center;
             color-scheme: dark;
-            width: 125px;
+            width: 135px;
         }
         
         .result-block {
@@ -317,20 +302,20 @@
             justify-content: center;
             background: #000000 !important;
             color: #f1c40f !important;
-            padding: 3px 6px;
-            font-size: 0.82em;
-            letter-spacing: 1px;
+            padding: 4px 8px;
+            font-size: 0.85em;
+            letter-spacing: 1.2px;
             text-shadow: 0 0 8px rgba(0,0,0,0.8);
             border-bottom: 1px solid var(--border-glow);
             -webkit-user-select: none;
             user-select: none;
         }
         .live-dot {
-            height: 5px;
-            width: 5px;
+            height: 6px;
+            width: 6px;
             background-color: var(--accent-red);
             border-radius: 50%;
-            margin-right: 4px;
+            margin-right: 6px;
             box-shadow: 0 0 6px var(--accent-red);
             animation: pulse-dot 1s infinite;
         }
@@ -350,9 +335,6 @@
             background: #ffffff;
             margin: 0px;
         }
-        .chart-table:last-child {
-            margin-bottom: 0;
-        }
 
         .row-grid { 
             display: grid; 
@@ -365,11 +347,11 @@
         
         .cell { 
             background: #ffffff; 
-            padding: 9px 0px; 
+            padding: 10px 0px; 
             text-align: center; 
             font-weight: 900; 
             border-radius: 0px; 
-            font-size: 0.82em; 
+            font-size: 0.85em; 
             color: #000000 !important; 
             border: 1px solid #bfbfbf;
             box-shadow: none; 
@@ -385,13 +367,6 @@
             outline: none !important;
         }
 
-        .cell:active, .cell:focus {
-            background: #ffffff !important;
-            border-color: #bfbfbf !important;
-            box-shadow: none !important;
-            outline: none !important;
-        }
-
         .cell .red-dp {
             color: #d63031 !important;
             font-weight: 900;
@@ -401,9 +376,9 @@
         .site-footer {
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            padding: 10px 8px;
-            margin: 10px 0 6px 0;
+            border-radius: 12px;
+            padding: 14px 10px;
+            margin: 12px 0 8px 0;
             text-align: center;
             box-shadow: 0 6px 20px rgba(0,0,0,0.7);
             -webkit-user-select: none;
@@ -413,16 +388,16 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 6px 10px;
-            margin-bottom: 8px;
+            gap: 8px 12px;
+            margin-bottom: 10px;
         }
         .footer-links a {
             color: #ffffff;
             background: #000000;
             border: 1px solid var(--border-glow);
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.7em;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
@@ -440,11 +415,11 @@
         }
         .footer-copy {
             color: var(--text-muted);
-            font-size: 0.68em;
+            font-size: 0.72em;
             font-weight: 600;
             letter-spacing: 0.5px;
             border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 8px;
+            padding-top: 10px;
         }
 
         .modal-overlay {
@@ -456,17 +431,17 @@
             z-index: 10000;
             justify-content: center;
             align-items: center;
-            padding: 12px;
+            padding: 14px;
         }
         .modal-card {
             background: linear-gradient(145deg, #0b1322, #04070e);
             border: 1px solid var(--gold-primary);
-            border-radius: 12px;
+            border-radius: 14px;
             width: 100%;
             max-width: 420px;
             max-height: 85vh;
             overflow-y: auto;
-            padding: 16px;
+            padding: 18px;
             box-shadow: 0 12px 35px rgba(0,0,0,0.95), inset 0 0 18px rgba(241, 196, 15, 0.2);
             position: relative;
         }
@@ -475,12 +450,12 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(241, 196, 15, 0.35);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
         }
         .modal-title {
             color: var(--gold-primary);
-            font-size: 0.95em;
+            font-size: 1em;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -489,35 +464,35 @@
             background: none;
             border: none;
             color: var(--accent-red);
-            font-size: 1.2em;
+            font-size: 1.3em;
             font-weight: 900;
             cursor: pointer;
             padding: 0 4px;
         }
         .modal-body {
             color: #d1d5db;
-            font-size: 0.78em;
-            line-height: 1.5;
+            font-size: 0.82em;
+            line-height: 1.6;
             font-weight: 500;
         }
         .modal-body p {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .modal-body ul {
-            margin-left: 16px;
-            margin-bottom: 8px;
+            margin-left: 18px;
+            margin-bottom: 10px;
         }
         .modal-body li {
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         #adminPanel { 
             display: none; 
-            margin-top: 12px; 
-            padding: 12px; 
+            margin-top: 14px; 
+            padding: 14px; 
             border: 1px solid var(--gold-primary); 
             background: #020408; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             box-shadow: 0 15px 45px rgba(0,0,0,0.98); 
             width: 100%;
         }
@@ -526,10 +501,10 @@
             background: #010204; 
             color: #fff; 
             border: 1px solid #233452; 
-            margin: 5px 0 10px 0; 
-            padding: 8px; 
-            border-radius: 6px; 
-            font-size: 0.85em; 
+            margin: 6px 0 12px 0; 
+            padding: 10px; 
+            border-radius: 8px; 
+            font-size: 0.9em; 
             outline: none; 
         }
         textarea:focus, input[type="time"]:focus, input[type="date"]:focus { 
@@ -538,13 +513,13 @@
         }
         .btn-admin { 
             width: 100%; 
-            padding: 9px; 
+            padding: 10px; 
             border: none; 
             cursor: pointer; 
             font-weight: 900; 
-            border-radius: 6px; 
-            margin-top: 5px; 
-            font-size: 0.85em; 
+            border-radius: 8px; 
+            margin-top: 6px; 
+            font-size: 0.9em; 
             letter-spacing: 1px; 
             text-transform: uppercase; 
         }
@@ -556,14 +531,13 @@
         <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
     </video>
 
-    <!-- Audio Beep Generator for Notifications -->
     <audio id="notifySound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
 
     <div class="header-container">
-        <div class="neon-title">CANVAS 4D</div>
+        <div class="neon-title">𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</div>
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
-            <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
                 <span>FASTEST LIVE RESULTS</span>
                 <span>•</span>
                 <span class="live-server-tag"><span class="mini-dot"></span> REAL-TIME • VERIFIED • TRUSTED</span>
@@ -571,7 +545,6 @@
         </div>
     </div>
 
-    <!-- Market Status Bar & Completed Draws Counter -->
     <div class="market-status-bar">
         <div class="live-badge"><span class="mini-dot"></span> LIVE NOW</div>
         <div class="draws-counter" id="drawsCounterText">Completed Draws: 0 / 53</div>
@@ -588,16 +561,16 @@
         </div>
     </div>
 
-    <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 7px 0; margin: 6px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
-        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.78em; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
-            WELCOME TO CANVAS 4D &nbsp;&bull;&nbsp; INDIA'S FASTEST REAL-TIME GAMING EXCHANGE &nbsp;&bull;&nbsp; INSTANT LIVE UPDATES EVERY 15 MINS &nbsp;&bull;&nbsp; 100% SAFE & SECURE PLATFORM &nbsp;&bull;&nbsp; PLAY RESPONSIBLY (18+)
+    <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
+        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.8em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
+            WELCOME TO 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ &nbsp;&bull;&nbsp; INDIA'S FASTEST REAL-TIME GAMING EXCHANGE &nbsp;&bull;&nbsp; INSTANT LIVE UPDATES EVERY 15 MINS &nbsp;&bull;&nbsp; 100% SAFE & SECURE PLATFORM &nbsp;&bull;&nbsp; PLAY RESPONSIBLY (18+)
         </marquee>
     </div>
     
     <div class="archive-section-wrapper">
         <div class="archive-title" onclick="triggerCalendar(event)">
             <span>📅</span> 
-            <span style="font-size: 0.85em; letter-spacing: 0.5px;">DATE:</span>
+            <span style="font-size: 0.88em; letter-spacing: 0.5px;">DATE:</span>
             <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
         </div>
     </div>
@@ -618,7 +591,7 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 CANVAS 4D &bull; All Rights Reserved
+            &copy; 2026 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -629,7 +602,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>CANVAS 4D</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
             </div>
         </div>
     </div>
@@ -671,7 +644,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At CANVAS 4D, protecting your digital privacy is our top priority.</p>
+                <p>At 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™, protecting your digital privacy is our top priority.</p>
             </div>
         </div>
     </div>
@@ -683,7 +656,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the CANVAS 4D web portal, you agree to abide by the following terms.</p>
+                <p>By accessing or utilizing the 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ web portal, you agree to abide by the following terms.</p>
             </div>
         </div>
     </div>
@@ -708,7 +681,7 @@
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIGURATION</button>
         
-        <hr style="border-color: #22314d; margin: 12px 0;">
+        <hr style="border-color: #22314d; margin: 14px 0;">
         
         <label style="font-size: 0.78em; color: var(--gold-primary); font-weight: 800;">Manual Draw Injection (Missed Time):</label>
         <input type="time" id="missedTimeInput">
@@ -723,7 +696,7 @@
         const db = firebase.database();
 
         let currentSeriesFilter = 'all';
-        let previousTotalBlocks = -1; // Used to trigger audio and flash alert on new blocks
+        let previousTotalBlocks = -1;
 
         function triggerCalendar(e) {
             let dateInput = document.getElementById('archiveDateSelect');
@@ -769,7 +742,6 @@
             if (document.visibilityState === 'visible') { enableScreenKeepAlive(); }
         });
 
-        // Trigger Notification Sound & Screen Flash
         function triggerNewDrawAlert() {
             let sound = document.getElementById('notifySound');
             if (sound) {
