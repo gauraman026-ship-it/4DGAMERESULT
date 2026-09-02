@@ -953,7 +953,8 @@
             let day = parseInt(parts[2], 10);
             let dayStr = parts[2];
             
-            let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            // सितंबर के लिए "Sept" अपडेट किया गया है
+            let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
             let mName = monthNames[monthIndex];
             
             if(todayMain) todayMain.style.display = "none";
@@ -1057,7 +1058,6 @@
                     document.getElementById('timer').innerText = "MARKET CLOSED (FINAL DRAW COMPLETED)";
                 }
                 
-                // Turant result generate karne ke liye jaise hi minute 15 ka multiple ho aur second 0 ho
                 if (m % 15 === 0 && s === 0) {
                     let key = now.toDateString() + "-" + h + "-" + m;
                     db.ref('lastGenerated').once('value', (snap) => { 
