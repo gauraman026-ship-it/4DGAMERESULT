@@ -835,21 +835,25 @@
 
                 if (customTimeString) {
                     let [h, m] = customTimeString.split(':');
-                    now.setHours(h);
-                    now.setMinutes(Math.floor(parseInt(m) / 15) * 15);
+                    now.setHours(parseInt(h, 10));
+                    now.setMinutes(Math.floor(parseInt(m, 10) / 15) * 15);
                     timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
-                    timeKey = now.toDateString().replace(/ /g, "_") + "_" + now.getHours() + "_" + now.getMinutes();
                 } else {
                     let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
                     let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
-                    let h = parseInt(formatterH.format(now));
-                    let m = Math.floor(parseInt(formatterM.format(now)) / 15) * 15;
+                    let h = parseInt(formatterH.format(now), 10);
+                    let m = Math.floor(parseInt(formatterM.format(now), 10) / 15) * 15;
                     
                     now.setHours(h);
                     now.setMinutes(m);
                     timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
-                    timeKey = now.toDateString().replace(/ /g, "_") + "_" + h + "_" + m;
                 }
+
+                // तारीख (Date) को की में जोड़ दिया गया है ताकि आज और कल का डेटा अलग रहे
+                let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                let padH = String(now.getHours()).padStart(2, '0');
+                let padM = String(now.getMinutes()).padStart(2, '0');
+                timeKey = dateKeyStr + "_" + padH + "_" + padM;
 
                 db.ref('resultsData/blocks/' + timeKey).once('value', (timeSnap) => {
                     if (timeSnap.exists() && !customTimeString) { return; }
@@ -953,7 +957,6 @@
             let day = parseInt(parts[2], 10);
             let dayStr = parts[2];
             
-            // सितंबर के लिए "Sept" अपडेट किया गया है
             let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
             let mName = monthNames[monthIndex];
             
@@ -997,7 +1000,30 @@
             if (snap.exists()) {
                 let blocksObj = snap.val();
                 let keys = Object.keys(blocksObj);
-                keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+                
+                // सिर्फ आज की तारीख वाले ब्लॉक्स को फ़िल्टर करें ताकि कल का डेटा आज में न दिखे
+                let todayStrDate = new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                keys = keys.filter(k => k.startsWith(todayStrDate));
+
+                keys.sort((a, b) => {
+                    let partsA = a.split('_');
+                    let partsB = b.split('_');
+                    let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
+                    let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
+                    let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
+                    let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
+                    
+                    let totalMinA = hourA * 60 + minA;
+                    let totalMinB = hourB * 60 + minB;
+                    
+                    if (totalMinA !== totalMinB) {
+                        return totalMinB - totalMinA;
+                    }
+                    
+                    let tA = blocksObj[a].timestamp || 0;
+                    let tB = blocksObj[b].timestamp || 0;
+                    return tB - tA;
+                });
 
                 let completedCount = keys.length;
                 document.getElementById('drawsCounterText').innerText = `Completed Draws: ${completedCount} / 53`;
@@ -1029,7 +1055,11 @@
                     }
                 });
 
-                todayContainer.innerHTML = htmlContent;
+                if(htmlContent === "") {
+                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Waiting for today's first draw...</div>";
+                } else {
+                    todayContainer.innerHTML = htmlContent;
+                }
                 todayMain.style.display = 'block';
                 switchSeries(currentSeriesFilter);
             } else {
@@ -1045,9 +1075,9 @@
             let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
             let formatterS = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' });
             
-            let h = parseInt(formatterH.format(now));
-            let m = parseInt(formatterM.format(now));
-            let s = parseInt(formatterS.format(now));
+            let h = parseInt(formatterH.format(now), 10);
+            let m = parseInt(formatterM.format(now), 10);
+            let s = parseInt(formatterS.format(now), 10);
 
             if ((h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0))) {
                 if (h < 22) {
@@ -1059,7 +1089,11 @@
                 }
                 
                 if (m % 15 === 0 && s === 0) {
-                    let key = now.toDateString() + "-" + h + "-" + m;
+                    let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                    let padH = String(h).padStart(2, '0');
+                    let padM = String(m).padStart(2, '0');
+                    let key = dateKeyStr + "-" + padH + "-" + padM;
+
                     db.ref('lastGenerated').once('value', (snap) => { 
                         if (snap.val() !== key) { 
                             generateAndSave(); 
@@ -1078,8 +1112,18 @@
                             db.ref('resultsData/blocks').once('value', (blockSnap) => {
                                 if(blockSnap.exists()) {
                                     let blocksObj = blockSnap.val();
-                                    let keys = Object.keys(blocksObj);
-                                    keys.sort((a, b) => blocksObj[b].timestamp - blocksObj[a].timestamp);
+                                    let keys = Object.keys(blocksObj).filter(k => k.startsWith(dateKeyString));
+                                    
+                                    keys.sort((a, b) => {
+                                        let partsA = a.split('_');
+                                        let partsB = b.split('_');
+                                        let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
+                                        let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
+                                        let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
+                                        let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
+                                        return (hourB * 60 + minB) - (hourA * 60 + minA);
+                                    });
+
                                     let cleanHtml = "";
                                     keys.filter(Boolean).forEach(k => {
                                         let bh = blocksObj[k].html;
@@ -1087,7 +1131,6 @@
                                     });
 
                                     db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
-                                    db.ref('resultsData').remove();
                                 }
                             });
                         }
