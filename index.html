@@ -686,6 +686,12 @@
         <label style="font-size: 0.78em; color: var(--gold-primary); font-weight: 800;">Manual Draw Injection (Missed Time):</label>
         <input type="time" id="missedTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE CUSTOM TIME</button>
+
+        <hr style="border-color: #22314d; margin: 14px 0;">
+        
+        <label style="font-size: 0.78em; color: var(--accent-red); font-weight: 800;">Delete Result by Time (e.g. 11:30):</label>
+        <input type="time" id="deleteTimeInput">
+        <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE RESULT</button>
     </div>
     
     <div style="position:fixed; bottom:0; right:0; width:70px; height:70px; z-index:9999;" onclick="handleAdmin()"></div>
@@ -849,7 +855,6 @@
                     timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
                 }
 
-                // तारीख (Date) को की में जोड़ दिया गया है ताकि आज और कल का डेटा अलग रहे
                 let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                 let padH = String(now.getHours()).padStart(2, '0');
                 let padM = String(now.getMinutes()).padStart(2, '0');
@@ -913,6 +918,23 @@
             let tVal = document.getElementById('missedTimeInput').value;
             if (!tVal) { alert("Please select a target time first!"); return; }
             generateAndSave(tVal);
+        }
+
+        function deleteCustomTimeResult() {
+            let tVal = document.getElementById('deleteTimeInput').value;
+            if (!tVal) { alert("Please select a time to delete!"); return; }
+            let [h, m] = tVal.split(':');
+            let now = new Date();
+            let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+            let timeKey = dateKeyStr + "_" + String(h).padStart(2, '0') + "_" + String(m).padStart(2, '0');
+            
+            db.ref('resultsData/blocks/' + timeKey).remove()
+                .then(() => {
+                    alert("Result for " + tVal + " deleted successfully!");
+                })
+                .catch((error) => {
+                    alert("Error deleting result: " + error.message);
+                });
         }
 
         function processArchiveHtml(htmlString, day, monthName, year) {
@@ -1001,7 +1023,6 @@
                 let blocksObj = snap.val();
                 let keys = Object.keys(blocksObj);
                 
-                // सिर्फ आज की तारीख वाले ब्लॉक्स को फ़िल्टर करें ताकि कल का डेटा आज में न दिखे
                 let todayStrDate = new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                 keys = keys.filter(k => k.startsWith(todayStrDate));
 
