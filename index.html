@@ -277,9 +277,9 @@
         }
         
         .result-block {
-            border: 1px solid var(--gold-primary);
-            margin-bottom: 0px; 
-            background: #ffffff;
+            border: 1px solid #104e6b;
+            margin-bottom: 6px; 
+            background: #fefde0;
             border-radius: 0px; 
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
@@ -290,24 +290,23 @@
             font-weight: 900;
             display: flex;
             align-items: center;
-            justify-content: flex-start !important;
-            background: #000000 !important;
-            color: #f1c40f !important;
-            padding: 1px 6px !important;
-            font-size: 0.72em !important;
-            letter-spacing: 1px;
-            text-shadow: 0 0 6px rgba(0,0,0,0.8);
-            border-bottom: 1px solid var(--border-glow);
+            justify-content: center !important; /* Center aligned jaisa screenshot me hai */
+            background: #104e6b !important; /* Dark blue patti */
+            color: #ffffff !important; 
+            padding: 4px 10px !important;
+            font-size: 0.9em !important;
+            letter-spacing: 1.2px;
+            border-bottom: 1px solid #0b374d;
             -webkit-user-select: none;
             user-select: none;
         }
         .live-dot {
-            height: 5px;
-            width: 5px;
+            height: 6px;
+            width: 6px;
             background-color: var(--accent-red);
             border-radius: 50%;
-            margin-right: 5px;
-            box-shadow: 0 0 5px var(--accent-red);
+            margin-right: 6px;
+            box-shadow: 0 0 6px var(--accent-red);
             animation: pulse-dot 1s infinite;
         }
         
@@ -323,7 +322,7 @@
             gap: 0px; 
             width: 100%;
             padding: 0px;
-            background: #ffffff;
+            background: #fefde0;
             margin: 0px;
         }
 
@@ -337,19 +336,18 @@
         }
         
         .cell { 
-            background: #ffffff; 
+            background: #fefde0; /* Light cream/yellow background */
             padding: 10px 0px; 
             text-align: center; 
             font-weight: 900; 
             border-radius: 0px; 
             font-size: 0.85em; 
-            color: #000000 !important; 
-            border: 1px solid #bfbfbf;
+            color: #111111 !important; /* Dark text */
+            border: 1px solid #e0dfb8;
             box-shadow: none; 
             letter-spacing: -0.7px; 
             white-space: nowrap;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-text-stroke: 0.25px #000000;
             transition: all 0.2s ease;
             -webkit-user-select: none !important;
             user-select: none !important;
@@ -361,7 +359,6 @@
         .cell .red-dp {
             color: #d63031 !important;
             font-weight: 900;
-            -webkit-text-stroke: 0.25px #d63031;
         }
         
         .site-footer {
@@ -523,11 +520,10 @@
     </video>
 
     <div class="header-container">
-        <div style="font-size: 2em; margin-bottom: 2px;">👑</div>
-        <div class="neon-title">CANVAS 4D™</div>
+        <div class="neon-title">𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</div>
         <div class="sub-header">
-            <span class="kohinoor-sub" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408; padding: 4px 18px; border-radius: 20px; box-shadow: 0 4px 12px rgba(241,196,15,0.3); font-size: 0.9em; margin-top: 4px;">KOHINOOR ENTERPRISES</span>
-            <div style="display: flex; align-items: center; gap: 6px; margin-top: 6px;">
+            <span class="kohinoor-sub">Kohinoor Enterprises</span>
+            <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
                 <span>FASTEST LIVE RESULTS</span>
                 <span>•</span>
                 <span class="live-server-tag"><span class="mini-dot"></span> REAL-TIME • VERIFIED • TRUSTED</span>
@@ -553,7 +549,7 @@
 
     <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.8em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
-            WELCOME TO CANVAS 4D™ &nbsp;&bull;&nbsp; INDIA'S FASTEST REAL-TIME GAMING EXCHANGE &nbsp;&bull;&nbsp; INSTANT LIVE UPDATES EVERY 15 MINS &nbsp;&bull;&nbsp; 100% SAFE & SECURE PLATFORM &nbsp;&bull;&nbsp; PLAY RESPONSIBLY (18+)
+            WELCOME TO 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ &nbsp;&bull;&nbsp; INDIA'S FASTEST REAL-TIME GAMING EXCHANGE &nbsp;&bull;&nbsp; INSTANT LIVE UPDATES EVERY 15 MINS &nbsp;&bull;&nbsp; 100% SAFE & SECURE PLATFORM &nbsp;&bull;&nbsp; PLAY RESPONSIBLY (18+)
         </marquee>
     </div>
     
@@ -581,7 +577,7 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 CANVAS 4D™ &bull; All Rights Reserved
+            &copy; 2026 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -592,7 +588,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>CANVAS 4D™</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
             </div>
         </div>
     </div>
@@ -634,7 +630,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At CANVAS 4D™, protecting your digital privacy is our top priority.</p>
+                <p>At 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™, protecting your digital privacy is our top priority.</p>
             </div>
         </div>
     </div>
@@ -646,7 +642,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the CANVAS 4D™ web portal, you agree to abide by the following terms.</p>
+                <p>By accessing or utilizing the 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ web portal, you agree to abide by the following terms.</p>
             </div>
         </div>
     </div>
@@ -877,7 +873,7 @@
                             let isDouble = suffixPart[0] === suffixPart[1];
 
                             let formattedVal = isDouble 
-                                ? `<span style="color: #000000; font-weight: 900; -webkit-text-stroke: 0.25px #000000;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
+                                ? `<span style="color: #111111; font-weight: 900;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
                                 : val;
 
                             newBlock += `<div class="cell">${formattedVal}</div>`;
@@ -1046,12 +1042,11 @@
                         if (th) {
                             let tText = th.innerText.trim();
                             th.setAttribute('data-time', tText);
+                            th.style.cssText = "padding: 4px 10px !important; font-size: 0.9em !important; background: #104e6b !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
                             if (index === 0) {
                                 th.innerHTML = `<span class="live-dot"></span>` + tText;
-                                th.style.display = 'flex';
                             } else {
                                 th.innerHTML = tText;
-                                th.style.display = 'flex';
                             }
                         }
                         htmlContent += tempDiv.innerHTML;
