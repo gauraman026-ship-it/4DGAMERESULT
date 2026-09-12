@@ -95,11 +95,11 @@
         }
 
         .kohinoor-sub {
-            color: #00d2ff;
+            color: var(--gold-primary);
             font-weight: 800;
             letter-spacing: 1.2px;
             text-transform: uppercase;
-            text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+            text-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
         }
 
         .live-server-tag {
@@ -158,14 +158,14 @@
         .timer-box {
             text-align: center;
             color: #ffffff;
-            font-size: 1.05em;
+            font-size: 0.9em;
             font-weight: 900;
             background: linear-gradient(145deg, #162238, #0a101d);
-            padding: 10px;
+            padding: 8px;
             border: 1px solid var(--border-glow);
             border-radius: 10px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 18px rgba(241, 196, 15, 0.25);
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             width: 100%;
             margin-bottom: 8px;
             text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
@@ -235,27 +235,27 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 8px 0 8px;
+            margin: 6px 0 6px;
         }
 
         .archive-title {
             color: var(--gold-primary);
-            font-size: 0.82em;
-            padding: 6px 12px;
+            font-size: 0.75em;
+            padding: 4px 8px;
             background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
+            border-radius: 6px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            letter-spacing: 0.8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.6);
             text-transform: uppercase;
             width: 100%;
-            max-width: 280px;
+            max-width: 230px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             cursor: pointer;
             -webkit-user-select: none;
             user-select: none;
@@ -265,15 +265,15 @@
             background: #000000;
             color: #ffffff;
             border: 1px solid var(--border-glow);
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 2px 6px;
+            border-radius: 4px;
             font-weight: 800;
-            font-size: 0.9em;
+            font-size: 0.82em;
             outline: none;
             cursor: pointer;
             text-align: center;
             color-scheme: dark;
-            width: 135px;
+            width: 120px;
         }
         
         .result-block {
@@ -524,16 +524,14 @@
         <div class="sub-header">
             <span class="kohinoor-sub">Kohinoor Enterprises</span>
             <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
-                <span>FASTEST LIVE RESULTS</span>
-                <span>•</span>
-                <span class="live-server-tag"><span class="mini-dot"></span> REAL-TIME • VERIFIED • TRUSTED</span>
+                <span>OFFICAL GAMING PLATFORM</span>
             </div>
         </div>
     </div>
 
     <div class="market-status-bar">
         <div class="live-badge"><span class="mini-dot"></span> LIVE NOW</div>
-        <div class="draws-counter" id="drawsCounterText">Completed Draws: 0 / 53</div>
+        <div class="draws-counter" id="drawsCounterText">Completed: 0 | Remaining: 53</div>
     </div>
 
     <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
@@ -548,15 +546,15 @@
     </div>
 
     <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
-        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: var(--gold-primary); font-size: 0.8em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
-            WELCOME TO 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ &nbsp;&bull;&nbsp; INDIA'S FASTEST REAL-TIME GAMING EXCHANGE &nbsp;&bull;&nbsp; INSTANT LIVE UPDATES EVERY 15 MINS &nbsp;&bull;&nbsp; 100% SAFE & SECURE PLATFORM &nbsp;&bull;&nbsp; PLAY RESPONSIBLY (18+)
+        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: #ffffff; font-size: 0.8em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
+            WELCOME TO CANVAS4D™ &nbsp;&bull;&nbsp; TRUSTED GAMING PLATFORM &nbsp;&bull;&nbsp; PREMIUM EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
         </marquee>
     </div>
     
     <div class="archive-section-wrapper">
         <div class="archive-title" onclick="triggerCalendar(event)">
             <span>📅</span> 
-            <span style="font-size: 0.88em; letter-spacing: 0.5px;">DATE:</span>
+            <span style="font-size: 0.82em; letter-spacing: 0.5px;">DATE:</span>
             <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
         </div>
     </div>
@@ -588,7 +586,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</strong>, powered by Kohinoor Enterprises. We are an elite next-generation high-frequency digital gaming exchange platform engineered to deliver real-time, precision-driven live draw results and transparent updates.</p>
+                <p>Welcome to <strong>𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</strong>, powered by Kohinoor Enterprises. We operate an elite, next-generation digital gaming exchange platform designed to offer secure, automated, and professional entertainment standards.</p>
             </div>
         </div>
     </div>
@@ -602,8 +600,8 @@
             <div class="modal-body">
                 <p>Please review our official operational guidelines:</p>
                 <ul>
-                    <li><strong>Market Timing:</strong> Live automated draws execute sequentially between 09:00 AM and 10:00 PM standard market schedules.</li>
-                    <li><strong>Series Structure:</strong> Results are categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart).</li>
+                    <li><strong>Market Timing:</strong> Automated official draws execute sequentially between 09:00 AM and 10:00 PM standard schedules.</li>
+                    <li><strong>Series Structure:</strong> Results are properly categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart).</li>
                     <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies.</li>
                     <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
                 </ul>
@@ -1025,7 +1023,9 @@
                 });
 
                 let completedCount = keys.length;
-                document.getElementById('drawsCounterText').innerText = `Completed Draws: ${completedCount} / 53`;
+                let totalDraws = 53;
+                let remainingCount = Math.max(0, totalDraws - completedCount);
+                document.getElementById('drawsCounterText').innerText = `Completed: ${completedCount} | Remaining: ${remainingCount}`;
 
                 if (previousTotalBlocks !== -1 && completedCount > previousTotalBlocks) {
                     triggerNewDrawAlert();
@@ -1061,7 +1061,7 @@
                 todayMain.style.display = 'block';
                 switchSeries(currentSeriesFilter);
             } else {
-                document.getElementById('drawsCounterText').innerText = `Completed Draws: 0 / 53`;
+                document.getElementById('drawsCounterText').innerText = `Completed: 0 | Remaining: 53`;
                 todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Market Closed for Today.</div>";
                 todayMain.style.display = 'block';
             }
@@ -1083,7 +1083,7 @@
                     let remSec = 59 - s;
                     document.getElementById('timer').innerText = `NEXT DRAW IN: ${remMin}m ${remSec}s`;
                 } else {
-                    document.getElementById('timer').innerText = "MARKET CLOSED (FINAL DRAW COMPLETED)";
+                    document.getElementById('timer').innerText = "MARKET CLOSED";
                 }
                 
                 if (m % 15 === 0 && s === 0) {
@@ -1103,14 +1103,14 @@
                 document.getElementById('timer').innerText = "MARKET CLOSED";
                 
                 if (h === 22 && m >= 2) {
-                    let dateKeyString = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                    let cleanDateKey = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                     
-                    db.ref('monthlyArchive/' + dateKeyString).once('value', (archCheck) => {
+                    db.ref('monthlyArchive/' + cleanDateKey).once('value', (archCheck) => {
                         if (!archCheck.exists()) {
                             db.ref('resultsData/blocks').once('value', (blockSnap) => {
                                 if(blockSnap.exists()) {
                                     let blocksObj = blockSnap.val();
-                                    let keys = Object.keys(blocksObj).filter(k => k.startsWith(dateKeyString));
+                                    let keys = Object.keys(blocksObj).filter(k => k.startsWith(cleanDateKey));
                                     
                                     keys.sort((a, b) => {
                                         let partsA = a.split('_');
@@ -1128,7 +1128,7 @@
                                         cleanHtml += bh;
                                     });
 
-                                    db.ref('monthlyArchive/' + dateKeyString).set({ html: cleanHtml });
+                                    db.ref('monthlyArchive/' + cleanDateKey).set({ html: cleanHtml });
                                 }
                             });
                         }
