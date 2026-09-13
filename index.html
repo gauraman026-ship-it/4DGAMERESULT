@@ -870,8 +870,7 @@
 
                             let prefixPart = val.slice(0, -2);
                             let suffixPart = val.slice(-2);
-                            // Yahan theek kiya gaya hai: suffixPart[0] === suffixPart
-                            let isDouble = (suffixPart[0] === suffixPart);
+                            let isDouble = (suffixPart[0] === suffixPart[1]); // Fixed check for double digits
 
                             let formattedVal = isDouble 
                                 ? `<span style="color: #111111; font-weight: 900;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
@@ -954,37 +953,31 @@
 
             let parts = dateVal.split('-');
             let year = parts[0];
-            let monthIndex = parseInt(parts, 10) - 1;
-            let day = parseInt(parts[2], 10);
-            let dayStr = parts[2];
+            let monthNum = parseInt(parts[1], 10);
+            let dayNum = parseInt(parts[2], 10);
             
-            let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
-            let mName = monthNames[monthIndex];
-            
+            let dayPadded = String(dayNum).padStart(2, '0');
+            let dayUnpadded = String(dayNum);
+
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+            let monthName = monthNames[monthNum - 1];
+
             if(todayMain) todayMain.style.display = "none";
             archiveContainer.style.display = "block";
-
-            let key1 = `${day}_${mName}_${year}`; 
-            let key2 = `${dayStr}_${mName}_${year}`; 
-            let key3 = `0${day}_${mName}_${year}`;
-
             archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
 
-            db.ref('monthlyArchive/' + key1).once('value', (snap1) => {
-                if(snap1.exists() && snap1.val().html) {
-                    processArchiveHtml(snap1.val().html, day, mName, year);
+            let keyPadded = `${dayPadded}_${monthName}_${year}`;
+            let keyUnpadded = `${dayUnpadded}_${monthName}_${year}`;
+
+            db.ref('monthlyArchive/' + keyPadded).once('value', (snap1) => {
+                if (snap1.exists() && snap1.val().html) {
+                    processArchiveHtml(snap1.val().html, dayPadded, monthName, year);
                 } else {
-                    db.ref('monthlyArchive/' + key2).once('value', (snap2) => {
-                        if(snap2.exists() && snap2.val().html) {
-                            processArchiveHtml(snap2.val().html, day, mName, year);
+                    db.ref('monthlyArchive/' + keyUnpadded).once('value', (snap2) => {
+                        if (snap2.exists() && snap2.val().html) {
+                            processArchiveHtml(snap2.val().html, dayUnpadded, monthName, year);
                         } else {
-                            db.ref('monthlyArchive/' + key3).once('value', (snap3) => {
-                                if(snap3.exists() && snap3.val().html) {
-                                    processArchiveHtml(snap3.val().html, day, mName, year);
-                                } else {
-                                    archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
-                                }
-                            });
+                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
                         }
                     });
                 }
