@@ -64,7 +64,6 @@
             width: 100%;
         }
 
-        /* ऊपर gold-white neon glow */
         .header-container::before {
             content: '';
             position: absolute;
@@ -73,7 +72,6 @@
             box-shadow: 0 0 12px rgba(254, 240, 138, 0.8), 0 0 4px #ffffff;
         }
 
-        /* नीचे बहुत हल्की golden light line */
         .header-container::after {
             content: '';
             position: absolute;
@@ -93,7 +91,6 @@
             background: linear-gradient(180deg, #ffffff 0%, #fef08a 45%, #d4af37 85%, #854d0e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* soft 3D shine */
             text-shadow: 
                 0 2px 4px rgba(0, 0, 0, 0.8),
                 0 0 15px rgba(212, 175, 55, 0.4);
@@ -873,7 +870,8 @@
 
                             let prefixPart = val.slice(0, -2);
                             let suffixPart = val.slice(-2);
-                            let isDouble = suffixPart[0] === suffixPart;
+                            // Yahan condition theek ki gayi hai:
+                            let isDouble = (suffixPart[0] === suffixPart);
 
                             let formattedVal = isDouble 
                                 ? `<span style="color: #111111; font-weight: 900;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
