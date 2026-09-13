@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ - Elite Gaming Exchange</title>
+    <title>CΛNVΛS4D™ - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <!-- HTML2CANVAS LIBRARY FOR IMAGE DOWNLOAD -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --bg-deep: #020408;
+            --bg-deep: #030406;
             --card-bg: rgba(8, 12, 20, 0.98);
-            --gold-primary: #f1c40f;
-            --gold-light: #f39c12;
-            --gold-dark: #b7950b;
-            --gold-glow: rgba(241, 196, 15, 0.4);
+            --gold-primary: #d4af37;
+            --gold-light: #fef08a;
+            --gold-dark: #854d0e;
+            --gold-glow: rgba(212, 175, 55, 0.35);
             --accent-red: #ff3838;
             --accent-green: #2ecc71;
-            --border-glow: rgba(241, 196, 15, 0.55);
+            --border-glow: rgba(212, 175, 55, 0.3);
             --text-main: #ffffff;
             --text-muted: #94a3b8;
         }
@@ -39,8 +39,8 @@
         body {
             background-color: var(--bg-deep);
             background-image: 
-                radial-gradient(circle at 50% 0%, #0d1526 0%, var(--bg-deep) 80%),
-                linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+                linear-gradient(180deg, #090b10 0%, #030406 100%);
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             padding: 6px;
@@ -50,56 +50,79 @@
         .header-container {
             text-align: center;
             margin: 4px 0 8px 0;
-            background: linear-gradient(135deg, rgba(16, 78, 107, 0.4), rgba(8, 12, 20, 0.98));
+            background: linear-gradient(145deg, rgba(16, 21, 34, 0.95), rgba(4, 6, 10, 0.98));
             backdrop-filter: blur(20px);
-            padding: 16px 8px;
-            border-radius: 14px;
-            border: 1px solid #104e6b;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(16, 78, 107, 0.3);
+            padding: 14px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.9),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                0 0 20px rgba(212, 175, 55, 0.15);
             position: relative;
             overflow: hidden;
             width: 100%;
         }
+
+        /* ऊपर gold-white neon glow */
         .header-container::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, #00d2ff, transparent);
+            top: 0; left: 10%; right: 10%; height: 2px;
+            background: linear-gradient(90deg, transparent, #ffffff, var(--gold-light), #ffffff, transparent);
+            box-shadow: 0 0 12px rgba(254, 240, 138, 0.8), 0 0 4px #ffffff;
+        }
+
+        /* नीचे बहुत हल्की golden light line */
+        .header-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 20%; right: 20%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
         }
 
         .neon-title {
-            font-size: 1.65em;
+            font-size: 1.55em;
             font-weight: 900;
-            letter-spacing: 2.5px;
+            letter-spacing: 2.2px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, #00d2ff 20%, #ffffff 60%, #f1c40f 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #fef08a 45%, #d4af37 85%, #854d0e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 15px rgba(0, 210, 255, 0.3);
+            /* soft 3D shine */
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .amusement-sub {
+            font-size: 0.78em;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #e2e8f0;
+            margin: 4px 0 6px 0;
+            text-transform: uppercase;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
         .sub-header {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 4px;
-            margin-top: 6px;
-            font-size: 0.72em;
-            color: var(--text-muted);
-            font-weight: 600;
-            flex-direction: column;
+            margin-top: 4px;
         }
 
         .kohinoor-sub {
             color: var(--gold-primary);
-            font-weight: 800;
-            letter-spacing: 1.2px;
+            font-weight: 700;
+            font-size: 0.65em;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            text-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
+            opacity: 0.9;
         }
 
         .market-status-bar {
@@ -504,9 +527,10 @@
     </video>
 
     <div class="header-container">
-        <div class="neon-title">𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</div>
+        <div class="neon-title">✦ CΛNVΛS4D™ ✦</div>
+        <div class="amusement-sub">A M U S E M E N T</div>
         <div class="sub-header">
-            <span class="kohinoor-sub">Kohinoor Enterprises</span>
+            <span class="kohinoor-sub">KOHINOOR ENTERPRISES</span>
         </div>
     </div>
 
@@ -526,7 +550,7 @@
         </div>
     </div>
 
-    <div style="background: linear-gradient(90deg, rgba(241,196,15,0.1), rgba(241,196,15,0.25), rgba(241,196,15,0.1)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
+    <div style="background: linear-gradient(90deg, rgba(212,175,55,0.08), rgba(212,175,55,0.2), rgba(212,175,55,0.08)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
         <marquee behavior="scroll" direction="left" scrollamount="5" style="color: #ffffff; font-size: 0.8em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
             WELCOME TO CANVAS4D™ &nbsp;&bull;&nbsp; TRUSTED GAMING PLATFORM &nbsp;&bull;&nbsp; PREMIUM EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
         </marquee>
@@ -556,7 +580,7 @@
             <a onclick="openModal('termsModal')">Terms & Conditions</a>
         </div>
         <div class="footer-copy">
-            &copy; 2026 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ &bull; All Rights Reserved
+            &copy; 2026 CΛNVΛS4D™ &bull; All Rights Reserved
         </div>
     </footer>
 
@@ -567,7 +591,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™</strong>, powered by Kohinoor Enterprises. We operate an elite, next-generation digital gaming exchange platform designed to offer secure, automated, and professional entertainment standards.</p>
+                <p>Welcome to <strong>CΛNVΛS4D™</strong>, powered by KOHINOOR ENTERPRISES. We operate an elite, next-generation digital gaming exchange platform designed to offer secure, automated, and professional entertainment standards.</p>
             </div>
         </div>
     </div>
@@ -609,7 +633,7 @@
                 <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>At 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™, protecting your digital privacy is our top priority.</p>
+                <p>At CΛNVΛS4D™, protecting your digital privacy is our top priority.</p>
             </div>
         </div>
     </div>
@@ -621,7 +645,7 @@
                 <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>By accessing or utilizing the 𝗖𝗔𝗡𝗩𝗔𝗦 𝟰𝗗™ web portal, you agree to abide by the following terms.</p>
+                <p>By accessing or utilizing the CΛNVΛS4D™ web portal, you agree to abide by the following terms.</p>
             </div>
         </div>
     </div>
@@ -849,7 +873,7 @@
 
                             let prefixPart = val.slice(0, -2);
                             let suffixPart = val.slice(-2);
-                            let isDouble = suffixPart[0] === suffixPart[1];
+                            let isDouble = suffixPart[0] === suffixPart;
 
                             let formattedVal = isDouble 
                                 ? `<span style="color: #111111; font-weight: 900;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
@@ -932,7 +956,7 @@
 
             let parts = dateVal.split('-');
             let year = parts[0];
-            let monthIndex = parseInt(parts[1], 10) - 1;
+            let monthIndex = parseInt(parts, 10) - 1;
             let day = parseInt(parts[2], 10);
             let dayStr = parts[2];
             
