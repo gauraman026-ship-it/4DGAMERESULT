@@ -33,7 +33,8 @@
 
         html, body {
             width: 100%;
-            overflow-x: hidden;
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
@@ -44,21 +45,31 @@
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             padding: 6px;
-            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FIXED TOP BANNER CONTAINER */
+        .sticky-top-section {
+            flex-shrink: 0;
+            background-color: var(--bg-deep);
+            padding-top: 2px;
+            padding-bottom: 2px;
+            z-index: 1000;
         }
 
         .header-container {
             text-align: center;
-            margin: 4px 0 8px 0;
+            margin: 2px 0 4px 0;
             background: linear-gradient(145deg, rgba(16, 21, 34, 0.95), rgba(4, 6, 10, 0.98));
             backdrop-filter: blur(20px);
-            padding: 14px 10px;
-            border-radius: 12px;
+            padding: 10px 8px;
+            border-radius: 10px;
             border: 1px solid rgba(212, 175, 55, 0.35);
             box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.9),
+                0 6px 20px rgba(0, 0, 0, 0.9),
                 inset 0 1px 1px rgba(255, 255, 255, 0.15),
-                0 0 20px rgba(212, 175, 55, 0.15);
+                0 0 15px rgba(212, 175, 55, 0.15);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -80,9 +91,9 @@
         }
 
         .neon-title {
-            font-size: 1.55em;
+            font-size: 1.35em;
             font-weight: 900;
-            letter-spacing: 2.2px;
+            letter-spacing: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -97,11 +108,11 @@
         }
 
         .amusement-sub {
-            font-size: 0.78em;
+            font-size: 0.72em;
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 2.5px;
             color: #e2e8f0;
-            margin: 4px 0 6px 0;
+            margin: 2px 0 4px 0;
             text-transform: uppercase;
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
@@ -110,13 +121,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .kohinoor-sub {
             color: var(--gold-primary);
             font-weight: 700;
-            font-size: 0.65em;
+            font-size: 0.6em;
             letter-spacing: 2px;
             text-transform: uppercase;
             opacity: 0.9;
@@ -128,10 +139,10 @@
             align-items: center;
             background: rgba(11, 19, 34, 0.95);
             border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            padding: 8px 12px;
-            margin-bottom: 8px;
-            font-size: 0.78em;
+            border-radius: 8px;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            font-size: 0.75em;
             font-weight: 800;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
@@ -139,7 +150,7 @@
             background: rgba(46, 204, 113, 0.15);
             color: var(--accent-green);
             border: 1px solid var(--accent-green);
-            padding: 3px 10px;
+            padding: 2px 8px;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -162,16 +173,16 @@
         .timer-box {
             text-align: center;
             color: #ffffff;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 900;
             background: linear-gradient(145deg, #162238, #0a101d);
-            padding: 8px;
+            padding: 6px;
             border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 18px rgba(241, 196, 15, 0.25);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8), inset 0 0 14px rgba(241, 196, 15, 0.25);
             letter-spacing: 1px;
             width: 100%;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
         }
 
@@ -179,12 +190,12 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 6px 0 10px 0;
+            margin: 4px 0 6px 0;
         }
         .series-tabs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
+            gap: 5px;
             width: 100%;
             max-width: 500px;
         }
@@ -192,15 +203,15 @@
             background: #0b1322;
             color: var(--text-muted);
             border: 1px solid rgba(241, 196, 15, 0.3);
-            padding: 8px 4px;
+            padding: 6px 2px;
             text-align: center;
             font-weight: 800;
-            font-size: 0.78em;
-            border-radius: 8px;
+            font-size: 0.75em;
+            border-radius: 6px;
             cursor: pointer;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.6);
             -webkit-user-select: none;
             user-select: none;
         }
@@ -208,22 +219,22 @@
             background: linear-gradient(135deg, #f1c40f, #d4ac0d);
             color: #020408;
             border-color: #fff;
-            box-shadow: 0 0 18px var(--gold-glow);
+            box-shadow: 0 0 15px var(--gold-glow);
             text-shadow: none;
         }
         
         .section-title {
             color: var(--gold-primary);
-            font-size: 0.85em;
-            margin: 10px 0 8px;
-            padding: 8px;
+            font-size: 0.8em;
+            margin: 6px 0 6px;
+            padding: 6px;
             background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
+            border-radius: 6px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: 1.2px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.6);
             text-transform: uppercase;
             width: 100%;
             display: flex;
@@ -239,23 +250,23 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 6px 0 6px;
+            margin: 4px 0 4px;
         }
 
         .archive-title {
             color: var(--gold-primary);
-            font-size: 0.75em;
-            padding: 4px 8px;
+            font-size: 0.72em;
+            padding: 3px 6px;
             background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
             border-radius: 6px;
             text-align: center;
             font-weight: 800;
             letter-spacing: 0.8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.6);
             text-transform: uppercase;
             width: 100%;
-            max-width: 230px;
+            max-width: 210px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -269,15 +280,32 @@
             background: #000000;
             color: #ffffff;
             border: 1px solid var(--border-glow);
-            padding: 2px 6px;
+            padding: 2px 4px;
             border-radius: 4px;
             font-weight: 800;
-            font-size: 0.82em;
+            font-size: 0.78em;
             outline: none;
             cursor: pointer;
             text-align: center;
             color-scheme: dark;
-            width: 120px;
+            width: 110px;
+        }
+
+        /* DEDICATED SCROLLABLE CONTAINER FOR RESULTS */
+        .main-scroll-viewport {
+            flex-grow: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold-primary) rgba(11, 19, 34, 0.5);
+        }
+        .main-scroll-viewport::-webkit-scrollbar {
+            width: 4px;
+        }
+        .main-scroll-viewport::-webkit-scrollbar-thumb {
+            background-color: var(--gold-primary);
+            border-radius: 4px;
         }
         
         .result-block {
@@ -286,7 +314,7 @@
             background: #fefde0;
             border-radius: 0px; 
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             width: 100%;
         }
         
@@ -298,7 +326,7 @@
             background: #104e6b !important;
             color: #ffffff !important; 
             padding: 2px 6px !important;
-            font-size: 0.75em !important;
+            font-size: 0.72em !important;
             letter-spacing: 1px;
             border-bottom: 1px solid #0b374d;
             -webkit-user-select: none;
@@ -341,11 +369,11 @@
         
         .cell { 
             background: #fefde0;
-            padding: 10px 0px; 
+            padding: 8px 0px; 
             text-align: center; 
             font-weight: 900; 
             border-radius: 0px; 
-            font-size: 0.85em; 
+            font-size: 0.8em; 
             color: #111111 !important;
             border: 1px solid #e0dfb8;
             box-shadow: none; 
@@ -368,11 +396,11 @@
         .site-footer {
             background: var(--card-bg);
             border: 1px solid var(--border-glow);
-            border-radius: 12px;
-            padding: 14px 10px;
-            margin: 12px 0 8px 0;
+            border-radius: 10px;
+            padding: 10px 8px;
+            margin-top: 10px;
             text-align: center;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
             -webkit-user-select: none;
             user-select: none;
         }
@@ -380,16 +408,16 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px 12px;
-            margin-bottom: 10px;
+            gap: 6px 10px;
+            margin-bottom: 8px;
         }
         .footer-links a {
             color: #ffffff;
             background: #000000;
             border: 1px solid var(--border-glow);
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 0.75em;
+            font-size: 0.7em;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
@@ -407,11 +435,11 @@
         }
         .footer-copy {
             color: var(--text-muted);
-            font-size: 0.72em;
+            font-size: 0.68em;
             font-weight: 600;
             letter-spacing: 0.5px;
             border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 10px;
+            padding-top: 8px;
         }
 
         .modal-overlay {
@@ -523,63 +551,72 @@
         <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
     </video>
 
-    <div class="header-container">
-        <div class="neon-title">✦ CΛNVΛS4D™ ✦</div>
-        <div class="amusement-sub">A M U S E M E N T</div>
-        <div class="sub-header">
-            <span class="kohinoor-sub">KOHINOOR ENTERPRISES</span>
+    <!-- FIXED TOP BANNER SECTION -->
+    <div class="sticky-top-section">
+        <div class="header-container">
+            <div class="neon-title">✦ CΛNVΛS4D™ ✦</div>
+            <div class="amusement-sub">A M U S E M E N T</div>
+            <div class="sub-header">
+                <span class="kohinoor-sub">KOHINOOR ENTERPRISES</span>
+            </div>
+        </div>
+
+        <div class="market-status-bar">
+            <div class="live-badge"><span class="mini-dot"></span> LIVE NOW</div>
+            <div class="draws-counter" id="drawsCounterText">Completed: 0 | Remaining: 53</div>
+        </div>
+
+        <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
+
+        <div class="series-tabs-wrapper">
+            <div class="series-tabs">
+                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Chart</div>
+                <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 Chart</div>
+                <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 Chart</div>
+                <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Chart</div>
+            </div>
+        </div>
+
+        <div style="background: linear-gradient(90deg, rgba(212,175,55,0.08), rgba(212,175,55,0.2), rgba(212,175,55,0.08)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 6px 0; margin: 4px 0; overflow: hidden; width: 100%; box-shadow: 0 3px 10px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
+            <marquee behavior="scroll" direction="left" scrollamount="5" style="color: #ffffff; font-size: 0.75em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
+                WELCOME TO CANVAS4D™ &nbsp;&bull;&nbsp; TRUSTED GAMING PLATFORM &nbsp;&bull;&nbsp; PREMIUM EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
+            </marquee>
         </div>
     </div>
+    <!-- END OF FIXED TOP BANNER SECTION -->
 
-    <div class="market-status-bar">
-        <div class="live-badge"><span class="mini-dot"></span> LIVE NOW</div>
-        <div class="draws-counter" id="drawsCounterText">Completed: 0 | Remaining: 53</div>
-    </div>
-
-    <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
-
-    <div class="series-tabs-wrapper">
-        <div class="series-tabs">
-            <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Chart</div>
-            <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 Chart</div>
-            <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 Chart</div>
-            <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Chart</div>
+    <!-- INDEPENDENT SCROLLABLE VIEWPORT FOR RESULTS -->
+    <div class="main-scroll-viewport">
+        
+        <div class="archive-section-wrapper">
+            <div class="archive-title" onclick="triggerCalendar(event)">
+                <span>📅</span> 
+                <span style="font-size: 0.8em; letter-spacing: 0.5px;">DATE:</span>
+                <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
+            </div>
         </div>
-    </div>
 
-    <div style="background: linear-gradient(90deg, rgba(212,175,55,0.08), rgba(212,175,55,0.2), rgba(212,175,55,0.08)); border: 1px solid var(--border-glow); border-radius: 8px; padding: 8px 0; margin: 8px 0; overflow: hidden; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
-        <marquee behavior="scroll" direction="left" scrollamount="5" style="color: #ffffff; font-size: 0.8em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
-            WELCOME TO CANVAS4D™ &nbsp;&bull;&nbsp; TRUSTED GAMING PLATFORM &nbsp;&bull;&nbsp; PREMIUM EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
-        </marquee>
-    </div>
-    
-    <div class="archive-section-wrapper">
-        <div class="archive-title" onclick="triggerCalendar(event)">
-            <span>📅</span> 
-            <span style="font-size: 0.82em; letter-spacing: 0.5px;">DATE:</span>
-            <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
+        <div id="archive-container" style="display: none;"></div>
+
+        <div id="todayMainSection" style="display: block;">
+            <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
+            <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:20px; font-weight:800;'>Loading results instantly...</div></div>
         </div>
+
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a onclick="openModal('aboutModal')">About Us</a>
+                <a onclick="openModal('rulesModal')">Game Rules</a>
+                <a onclick="openModal('supportModal')">Support</a>
+                <a onclick="openModal('privacyModal')">Privacy Policy</a>
+                <a onclick="openModal('termsModal')">Terms & Conditions</a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 CΛNVΛS4D™ &bull; All Rights Reserved
+            </div>
+        </footer>
+
     </div>
-
-    <div id="archive-container" style="display: none;"></div>
-
-    <div id="todayMainSection" style="display: block;">
-        <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
-        <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:20px; font-weight:800;'>Loading results instantly...</div></div>
-    </div>
-
-    <footer class="site-footer">
-        <div class="footer-links">
-            <a onclick="openModal('aboutModal')">About Us</a>
-            <a onclick="openModal('rulesModal')">Game Rules</a>
-            <a onclick="openModal('supportModal')">Support</a>
-            <a onclick="openModal('privacyModal')">Privacy Policy</a>
-            <a onclick="openModal('termsModal')">Terms & Conditions</a>
-        </div>
-        <div class="footer-copy">
-            &copy; 2026 CΛNVΛS4D™ &bull; All Rights Reserved
-        </div>
-    </footer>
 
     <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')">
         <div class="modal-card">
@@ -842,7 +879,7 @@
                     if (timeSnap.exists() && !customTimeString) { return; }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header" style="padding: 2px 6px !important; font-size: 0.75em !important;" data-time="${timeString}">${timeString}</div>`;
+                        <div class="time-header" style="padding: 2px 6px !important; font-size: 0.72em !important;" data-time="${timeString}">${timeString}</div>`;
                     
                     [10, 30, 50].forEach(baseVal => {
                         let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
@@ -870,7 +907,7 @@
 
                             let prefixPart = val.slice(0, -2);
                             let suffixPart = val.slice(-2);
-                            let isDouble = (suffixPart[0] === suffixPart[1]); // Fixed check for double digits
+                            let isDouble = (suffixPart[0] === suffixPart[1]);
 
                             let formattedVal = isDouble 
                                 ? `<span style="color: #111111; font-weight: 900;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
@@ -937,6 +974,9 @@
                 <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthName}-${year})</div>
                 ${tempDiv.innerHTML}
             `;
+            archiveContainer.style.display = "block";
+            let todayMain = document.getElementById('todayMainSection');
+            if(todayMain) todayMain.style.display = "none";
             switchSeries(currentSeriesFilter);
         }
 
@@ -948,6 +988,7 @@
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
                 if(todayMain) todayMain.style.display = "block";
+                switchSeries(currentSeriesFilter);
                 return;
             }
 
@@ -961,6 +1002,20 @@
 
             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
             let monthName = monthNames[monthNum - 1];
+
+            // Aaj ki date (14 September 2026) check karne ke liye
+            let now = new Date();
+            let todayYear = now.getFullYear().toString();
+            let todayMonthNum = now.getMonth() + 1;
+            let todayDayNum = now.getDate();
+
+            if (year === todayYear && monthNum === todayMonthNum && dayNum === todayDayNum) {
+                archiveContainer.style.display = "none";
+                archiveContainer.innerHTML = "";
+                if(todayMain) todayMain.style.display = "block";
+                switchSeries(currentSeriesFilter);
+                return;
+            }
 
             if(todayMain) todayMain.style.display = "none";
             archiveContainer.style.display = "block";
@@ -1038,7 +1093,7 @@
                         if (th) {
                             let tText = th.innerText.trim();
                             th.setAttribute('data-time', tText);
-                            th.style.cssText = "padding: 2px 6px !important; font-size: 0.75em !important; background: #104e6b !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
+                            th.style.cssText = "padding: 2px 6px !important; font-size: 0.72em !important; background: #104e6b !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
                             if (index === 0) {
                                 th.innerHTML = `<span class="live-dot"></span>` + tText;
                             } else {
