@@ -133,21 +133,22 @@
             opacity: 0.9;
         }
 
+        /* MARKET STATUS BAR */
         .market-status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(11, 19, 34, 0.95);
-            border: 1px solid var(--border-glow);
+            background: #000000;
+            border: 1px solid rgba(212, 175, 55, 0.4);
             border-radius: 8px;
-            padding: 6px 10px;
+            padding: 7px 12px;
             margin-bottom: 6px;
             font-size: 0.75em;
             font-weight: 800;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
         .live-badge {
-            background: rgba(46, 204, 113, 0.15);
+            background: rgba(46, 204, 113, 0.2);
             color: var(--accent-green);
             border: 1px solid var(--accent-green);
             padding: 2px 8px;
@@ -168,6 +169,7 @@
         .draws-counter {
             color: var(--gold-primary);
             letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
         .timer-box {
@@ -246,12 +248,16 @@
             user-select: none;
         }
 
-        /* COMPACT & SLIM ARCHIVE DATE OPTION */
-        .archive-section-wrapper {
+        /* STICKY DATE SELECTION BAR */
+        .sticky-date-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            background-color: var(--bg-deep);
+            padding: 4px 0;
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 3px 0;
         }
 
         .archive-title {
@@ -292,7 +298,7 @@
             height: 20px;
         }
 
-        /* DEDICATED SCROLLABLE CONTAINER FOR RESULTS */
+        /* DEDICATED SCROLLABLE CONTAINER FOR RESULTS ONLY */
         .main-scroll-viewport {
             flex-grow: 1;
             overflow-y: auto;
@@ -310,7 +316,7 @@
         }
         
         .result-block {
-            border: 1px solid #104e6b;
+            border: 1px solid #1b4f72;
             margin-bottom: 6px; 
             background: #fefde0;
             border-radius: 0px; 
@@ -319,19 +325,21 @@
             width: 100%;
         }
         
+        /* AUR ZYADA GHADA AUR RICH BLUE TIME HEADER & WHITE TEXT */
         .time-header {
             font-weight: 900;
             display: flex;
             align-items: center;
             justify-content: center !important;
-            background: #104e6b !important;
+            background: linear-gradient(135deg, #1b4f72, #154360) !important;
             color: #ffffff !important; 
-            padding: 2px 6px !important;
-            font-size: 0.72em !important;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #0b374d;
+            padding: 3px 6px !important;
+            font-size: 0.75em !important;
+            letter-spacing: 1.5px;
+            border-bottom: 1px solid #10324a;
             -webkit-user-select: none;
             user-select: none;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         .live-dot {
             height: 5px;
@@ -593,20 +601,20 @@
                 WELCOME TO CANVAS4D™ &nbsp;&bull;&nbsp; TRUSTED GAMING PLATFORM &nbsp;&bull;&nbsp; PREMIUM EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
             </marquee>
         </div>
-    </div>
-    <!-- END OF FIXED TOP BANNER SECTION -->
 
-    <!-- INDEPENDENT SCROLLABLE VIEWPORT FOR RESULTS -->
-    <div class="main-scroll-viewport">
-        
-        <!-- COMPACT & SLIM DATE SELECTION BAR -->
-        <div class="archive-section-wrapper">
+        <!-- STICKY DATE SELECTION BAR -->
+        <div class="sticky-date-wrapper">
             <div class="archive-title" onclick="triggerCalendar(event)">
                 <span>📅</span> 
                 <span style="font-size: 0.75em;">DATE:</span>
                 <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
             </div>
         </div>
+    </div>
+    <!-- END OF FIXED TOP BANNER SECTION -->
+
+    <!-- INDEPENDENT SCROLLABLE VIEWPORT FOR RESULTS ONLY -->
+    <div class="main-scroll-viewport">
 
         <div id="archive-container" style="display: none;"></div>
 
@@ -841,8 +849,9 @@
                 b10: document.getElementById('block10').value,
                 b30: document.getElementById('block30').value,
                 b50: document.getElementById('block50').value
+            }).then(() => {
+                alert("Configuration Saved Successfully! Naya result apne exact time par generate hoga.");
             });
-            alert("Configuration Saved Successfully!");
         }
 
         db.ref('settings').on('value', (snap) => {
@@ -901,11 +910,23 @@
                     if (timeSnap.exists() && !customTimeString) { return; }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header" style="padding: 2px 6px !important; font-size: 0.72em !important;" data-time="${timeString}">${timeString}</div>`;
+                        <div class="time-header" style="padding: 3px 6px !important; font-size: 0.75em !important;" data-time="${timeString}">${timeString}</div>`;
                     
                     [10, 30, 50].forEach(baseVal => {
                         let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
                         let blockArr = blocks[seriesKey] || [];
+
+                        let validSuffixes = [];
+                        for (let sIdx = 0; sIdx < 100; sIdx++) {
+                            let suffixStr = String(sIdx).padStart(2, '0');
+                            let candidateFull = baseVal.toString() + suffixStr;
+                            let isBlocked = exactBlockList.includes(candidateFull) || 
+                                            blockArr.some(b => candidateFull === b || candidateFull.slice(-2) === b || (b.length === 2 && candidateFull.slice(-2) === b));
+                            if (!isBlocked) {
+                                validSuffixes.push(suffixStr);
+                            }
+                        }
+                        if (validSuffixes.length === 0) validSuffixes = ["00"];
 
                         newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
@@ -915,21 +936,13 @@
                             if (fixVal) { 
                                 val = fixVal; 
                             } else {
-                                let count = 0;
-                                do { 
-                                    let randSuffix = Math.floor(Math.random()*100).toString().padStart(2,'0');
-                                    val = prefix.toString() + randSuffix; 
-                                    count++;
-                                    if(count > 1000) break; 
-                                } while (
-                                    exactBlockList.includes(val) || 
-                                    blockArr.some(b => val === b || val.slice(-2) === b || (b.length === 2 && val.slice(-2) === b))
-                                );
+                                let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
+                                val = prefix.toString() + randSuffix;
                             }
 
                             let prefixPart = val.slice(0, -2);
                             let suffixPart = val.slice(-2);
-                            let isDouble = (suffixPart[0] === suffixPart[1]);
+                            let isDouble = (suffixPart[0] === suffixPart);
 
                             let formattedVal = isDouble 
                                 ? `<span style="color: #111111; font-weight: 900;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
@@ -1044,6 +1057,8 @@
 
             let keyPadded = `${dayPadded}_${monthName}_${year}`;
             let keyUnpadded = `${dayUnpadded}_${monthName}_${year}`;
+            let altMonth = monthName === "Sept" ? "Sep" : monthName;
+            let altKeyPadded = `${dayPadded}_${altMonth}_${year}`;
 
             db.ref('monthlyArchive/' + keyPadded).once('value', (snap1) => {
                 if (snap1.exists() && snap1.val().html) {
@@ -1053,13 +1068,56 @@
                         if (snap2.exists() && snap2.val().html) {
                             processArchiveHtml(snap2.val().html, dayUnpadded, monthName, year);
                         } else {
-                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                            db.ref('monthlyArchive/' + altKeyPadded).once('value', (snap3) => {
+                                if (snap3.exists() && snap3.val().html) {
+                                    processArchiveHtml(snap3.val().html, dayPadded, altMonth, year);
+                                } else {
+                                    db.ref('resultsData/blocks').once('value', (blockSnap) => {
+                                        if (blockSnap.exists()) {
+                                            let blocksObj = blockSnap.val();
+                                            let targetPrefix1 = `${dayPadded}_${monthName}_${year}`;
+                                            let targetPrefix2 = `${dayUnpadded}_${monthName}_${year}`;
+                                            let targetPrefix3 = `${dayPadded}_${altMonth}_${year}`;
+
+                                            let matchingKeys = Object.keys(blocksObj).filter(k => 
+                                                k.startsWith(targetPrefix1) || k.startsWith(targetPrefix2) || k.startsWith(targetPrefix3)
+                                            );
+
+                                            if (matchingKeys.length > 0) {
+                                                matchingKeys.sort((a, b) => {
+                                                    let partsA = a.split('_');
+                                                    let partsB = b.split('_');
+                                                    let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
+                                                    let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
+                                                    let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
+                                                    let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
+                                                    return (hourB * 60 + minB) - (hourA * 60 + minA);
+                                                });
+
+                                                let accumulatedHtml = "";
+                                                matchingKeys.forEach(k => {
+                                                    if (blocksObj[k] && blocksObj[k].html) {
+                                                        accumulatedHtml += blocksObj[k].html;
+                                                    }
+                                                });
+
+                                                processArchiveHtml(accumulatedHtml, dayPadded, monthName, year);
+                                            } else {
+                                                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                                            }
+                                        } else {
+                                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                                        }
+                                    });
+                                }
+                            });
                         }
                     });
                 }
             });
         }
 
+        // REAL-TIME LISTENER: Jaise hi naya draw generate hoga, bina refresh ke turant screen par aayega
         db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
@@ -1114,7 +1172,7 @@
                         if (th) {
                             let tText = th.innerText.trim();
                             th.setAttribute('data-time', tText);
-                            th.style.cssText = "padding: 2px 6px !important; font-size: 0.72em !important; background: #104e6b !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
+                            th.style.cssText = "padding: 3px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
                             if (index === 0) {
                                 th.innerHTML = `<span class="live-dot"></span>` + tText;
                             } else {
@@ -1182,7 +1240,7 @@
                             db.ref('resultsData/blocks').once('value', (blockSnap) => {
                                 if(blockSnap.exists()) {
                                     let blocksObj = blockSnap.val();
-                                    let keys = Object.keys(blocksObj).filter(k => k.startsWith(cleanDatekey));
+                                    let keys = Object.keys(blocksObj).filter(k => k.startsWith(cleanDateKey));
                                     
                                     keys.sort((a, b) => {
                                         let partsA = a.split('_');
@@ -1194,13 +1252,13 @@
                                         return (hourB * 60 + minB) - (hourA * 60 + minA);
                                     });
 
-                                    let cleanHtml = "";
+                                    let successfulHtml = "";
                                     keys.filter(Boolean).forEach(k => {
                                         let bh = blocksObj[k].html;
-                                        cleanHtml += bh;
+                                        successfulHtml += bh;
                                     });
 
-                                    db.ref('monthlyArchive/' + cleanDateKey).set({ html: cleanHtml });
+                                    db.ref('monthlyArchive/' + cleanDateKey).set({ html: successfulHtml });
                                 }
                             });
                         }
