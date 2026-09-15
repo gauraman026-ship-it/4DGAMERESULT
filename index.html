@@ -325,7 +325,7 @@
             width: 100%;
         }
         
-        /* AUR ZYADA GHADA AUR RICH BLUE TIME HEADER & WHITE TEXT */
+        /* GHANA AUR RICH BLUE TIME HEADER & WHITE TEXT */
         .time-header {
             font-weight: 900;
             display: flex;
@@ -515,7 +515,7 @@
             margin-bottom: 6px;
         }
 
-        /* FULLY SCROLLABLE & CENTERED ADMIN PANEL POPUP */
+        /* ULTRA COMPACT & SMALL ADMIN PANEL POPUP */
         #adminPanel { 
             display: none; 
             position: fixed;
@@ -523,43 +523,43 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 20000;
-            width: 95%;
-            max-width: 450px;
-            max-height: 90vh;
+            width: 85%;
+            max-width: 330px;
+            max-height: 80vh;
             overflow-y: auto;
-            padding: 16px; 
-            border: 2px solid var(--gold-primary); 
+            padding: 10px; 
+            border: 1.5px solid var(--gold-primary); 
             background: #020408; 
-            border-radius: 12px; 
-            box-shadow: 0 15px 45px rgba(0,0,0,0.98); 
+            border-radius: 8px; 
+            box-shadow: 0 12px 35px rgba(0,0,0,0.95); 
         }
         textarea, input[type="time"], input[type="date"] { 
             width: 100%; 
             background: #010204; 
             color: #fff; 
             border: 1px solid #233452; 
-            margin: 4px 0 10px 0; 
-            padding: 8px; 
-            border-radius: 8px; 
-            font-size: 0.85em; 
+            margin: 1px 0 4px 0; 
+            padding: 3px 6px; 
+            border-radius: 5px; 
+            font-size: 0.75em; 
             outline: none; 
             resize: vertical;
-            height: 50px;
+            height: 28px;
         }
         textarea:focus, input[type="time"]:focus, input[type="date"]:focus { 
             border-color: var(--gold-primary); 
-            box-shadow: 0 0 10px var(--gold-glow); 
+            box-shadow: 0 0 6px var(--gold-glow); 
         }
         .btn-admin { 
             width: 100%; 
-            padding: 10px; 
+            padding: 5px; 
             border: none; 
             cursor: pointer; 
             font-weight: 900; 
-            border-radius: 8px; 
-            margin-top: 4px; 
-            font-size: 0.85em; 
-            letter-spacing: 1px; 
+            border-radius: 5px; 
+            margin-top: 1px; 
+            font-size: 0.72em; 
+            letter-spacing: 0.5px; 
             text-transform: uppercase; 
         }
     </style>
@@ -704,41 +704,41 @@
         </div>
     </div>
 
-    <!-- FULLY SCROLLABLE & CENTERED ADMIN PANEL POPUP -->
+    <!-- ULTRA COMPACT & SMALL ADMIN PANEL POPUP -->
     <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--gold-primary); padding-bottom:8px; margin-bottom:10px;">
-            <strong style="color: var(--gold-primary); font-size: 0.95em; letter-spacing: 0.5px;">SYSTEM CONTROL DECK</strong>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.2em; font-weight:900; cursor:pointer;">&times;</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--gold-primary); padding-bottom:4px; margin-bottom:6px;">
+            <strong style="color: var(--gold-primary); font-size: 0.8em; letter-spacing: 0.5px;">ADMIN CONTROL</strong>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.1em; font-weight:900; cursor:pointer;">&times;</button>
         </div>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Fix Numbers:</label>
-        <textarea id="fixInput" placeholder="Enter fixed numbers..."></textarea>
+        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Fix Numbers:</label>
+        <textarea id="fixInput" placeholder="Fix numbers..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block Full 4-Digit / Exact Numbers:</label>
-        <textarea id="blockExact" placeholder="Exact numbers..."></textarea>
+        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block Full / Exact:</label>
+        <textarea id="blockExact" placeholder="Exact block..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 10 Chart Suffixes:</label>
-        <textarea id="block10" placeholder="Blocked suffixes for 10 series..."></textarea>
+        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block 10 Suffix:</label>
+        <textarea id="block10" placeholder="10 series block..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 30 Chart Suffixes:</label>
-        <textarea id="block30" placeholder="Blocked suffixes for 30 series..."></textarea>
+        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block 30 Suffix:</label>
+        <textarea id="block30" placeholder="30 series block..."></textarea>
         
-        <label style="font-size: 0.75em; color: var(--text-muted); font-weight: 600;">Block 50 Chart Suffixes:</label>
-        <textarea id="block50" placeholder="Blocked suffixes for 50 series..."></textarea>
+        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block 50 Suffix:</label>
+        <textarea id="block50" placeholder="50 series block..."></textarea>
         
-        <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIGURATION</button>
+        <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIG</button>
         
-        <hr style="border-color: #22314d; margin: 10px 0;">
+        <hr style="border-color: #22314d; margin: 6px 0;">
         
-        <label style="font-size: 0.78em; color: var(--gold-primary); font-weight: 800;">Manual Draw Injection (Missed Time):</label>
-        <input type="time" id="missedTimeInput" style="height: 38px; margin: 4px 0 8px 0;">
-        <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE CUSTOM TIME</button>
+        <label style="font-size: 0.7em; color: var(--gold-primary); font-weight: 800;">Manual Time Injection:</label>
+        <input type="time" id="missedTimeInput" style="height: 26px; margin: 2px 0 4px 0;">
+        <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE</button>
 
-        <hr style="border-color: #22314d; margin: 10px 0;">
+        <hr style="border-color: #22314d; margin: 6px 0;">
         
-        <label style="font-size: 0.78em; color: var(--accent-red); font-weight: 800;">Delete Result by Time (e.g. 11:30):</label>
-        <input type="time" id="deleteTimeInput" style="height: 38px; margin: 4px 0 8px 0;">
-        <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE RESULT</button>
+        <label style="font-size: 0.7em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
+        <input type="time" id="deleteTimeInput" style="height: 26px; margin: 2px 0 4px 0;">
+        <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE</button>
     </div>
     
     <!-- BOTTOM RIGHT CORNER TRIGGER (5 TAPS TO OPEN WITH PASSWORD) -->
