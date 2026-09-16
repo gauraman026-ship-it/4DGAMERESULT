@@ -172,20 +172,21 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
+        /* SOLID BLACK WOOD-STYLE TIMER BOX */
         .timer-box {
             text-align: center;
             color: #ffffff;
             font-size: 0.85em;
             font-weight: 900;
-            background: linear-gradient(145deg, #162238, #0a101d);
+            background: #000000 !important;
             padding: 6px;
             border: 1px solid var(--border-glow);
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.8), inset 0 0 14px rgba(241, 196, 15, 0.25);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8), inset 0 0 14px rgba(212, 175, 55, 0.15);
             letter-spacing: 1px;
             width: 100%;
             margin-bottom: 6px;
-            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
         }
 
         .series-tabs-wrapper {
@@ -225,12 +226,13 @@
             text-shadow: none;
         }
         
+        /* SOLID BLACK SECTION TITLE BAR */
         .section-title {
             color: var(--gold-primary);
             font-size: 0.8em;
             margin: 6px 0 6px;
             padding: 6px;
-            background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
+            background: #000000 !important;
             border: 1px solid var(--border-glow);
             border-radius: 6px;
             text-align: center;
@@ -870,6 +872,7 @@
             db.ref('settings').once('value', (snap) => {
                 let s = snap.val() || {};
                 let fixList = (s.fix || "").split(/[\s,]+/).filter(x => x.length > 0);
+                
                 let exactBlockList = (s.bExact || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
                 
                 let rawB10 = (s.b10 || "").trim();
@@ -917,26 +920,27 @@
                         let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
                         let blockArr = blocks[seriesKey] || [];
 
-                        let validSuffixes = [];
-                        for (let sIdx = 0; sIdx < 100; sIdx++) {
-                            let suffixStr = String(sIdx).padStart(2, '0');
-                            let candidateFull = baseVal.toString() + suffixStr;
-                            let isBlocked = exactBlockList.includes(candidateFull) || 
-                                            blockArr.some(b => candidateFull === b || candidateFull.slice(-2) === b || (b.length === 2 && candidateFull.slice(-2) === b));
-                            if (!isBlocked) {
-                                validSuffixes.push(suffixStr);
-                            }
-                        }
-                        if (validSuffixes.length === 0) validSuffixes = ["00"];
-
                         newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
                             let prefix = baseVal + i; 
                             let val;
                             let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
-                            if (fixVal) { 
+                            
+                            if (fixVal && !exactBlockList.includes(fixVal)) { 
                                 val = fixVal; 
                             } else {
+                                let validSuffixes = [];
+                                for (let sIdx = 0; sIdx < 100; sIdx++) {
+                                    let suffixStr = String(sIdx).padStart(2, '0');
+                                    let candidateFull = prefix.toString() + suffixStr;
+                                    let isBlocked = exactBlockList.includes(candidateFull) || 
+                                                    blockArr.some(b => candidateFull === b || candidateFull.slice(-2) === b || (b.length === 2 && candidateFull.slice(-2) === b));
+                                    if (!isBlocked) {
+                                        validSuffixes.push(suffixStr);
+                                    }
+                                }
+                                if (validSuffixes.length === 0) validSuffixes = ["00"];
+
                                 let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
                                 val = prefix.toString() + randSuffix;
                             }
