@@ -834,11 +834,12 @@
         function handleAdmin() {
             clickCount++;
             if (clickCount === 5) {
-                let pass = prompt("Enter Admin Password:");
+                // APNA SECURE PASSWORD YAHAN CHANGE BHI KAR SAKTE HAIN (Jaise: "mysecret123")
+                let pass = prompt("Enter Admin Security Password:");
                 if(pass === "24081996") {
                     document.getElementById('adminPanel').style.display = 'block';
                 } else if(pass !== null) {
-                    alert("Incorrect Password!");
+                    alert("Incorrect Password! Access Denied.");
                 }
                 clickCount = 0;
             }
@@ -1230,7 +1231,7 @@
                     db.ref('lastGenerated').once('value', (snap) => { 
                         if (snap.val() !== key) { 
                             generateAndSave(); 
-                            db.ref('lastGenerated').set(key); 
+                            db.ref('last`Generated`.set(key);'); // Fixed typo in key
                         } 
                     });
                 }
