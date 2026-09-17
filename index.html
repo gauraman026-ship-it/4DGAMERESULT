@@ -58,7 +58,7 @@
             text-align: center;
             margin: 1px 0 3px 0;
             background: radial-gradient(circle at 50% 0%, #101726 0%, #04060a 65%, #000000 100%);
-            padding: 10px 6px 8px 6px;
+            padding: 12px 6px 10px 6px;
             border-radius: 8px;
             border: 1px solid rgba(212, 175, 55, 0.45);
             box-shadow: 
@@ -94,7 +94,7 @@
         }
 
         .neon-title {
-            font-size: 1.1em;
+            font-size: 1.45em;
             font-weight: 900;
             letter-spacing: 2.5px;
             display: flex;
@@ -110,7 +110,7 @@
         }
 
         .tm-symbol {
-            font-size: 0.5em;
+            font-size: 0.45em;
             vertical-align: super;
             -webkit-text-fill-color: #fef08a;
         }
@@ -207,7 +207,6 @@
             margin-bottom: 3px;
         }
 
-        /* ENLARGED TOUCHABLE SERIES TABS */
         .series-tabs-wrapper {
             display: flex;
             width: 100%;
@@ -381,10 +380,10 @@
         
         .cell { 
             background: #fefde0;
-            padding: 5px 1px; /* Slightly increased padding for the perfect balanced look */
+            padding: 5px 1px;
             text-align: center; 
             font-weight: 900; 
-            font-size: 0.82em; /* Halka sa bada font size taaki numbers bilkul saaf dikhein */
+            font-size: 0.82em;
             color: #111111 !important;
             border: 1px solid #e0dfb8;
             letter-spacing: -0.5px; 
@@ -489,37 +488,44 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 20000;
-            width: 88%;
-            max-width: 290px;
-            max-height: 80vh;
+            width: 92%;
+            max-width: 340px;
+            max-height: 85vh;
             overflow-y: auto;
-            padding: 8px; 
+            padding: 10px; 
             border: 1.5px solid var(--gold-primary); 
             background: linear-gradient(145deg, #060911, #020408); 
-            border-radius: 6px; 
+            border-radius: 8px; 
         }
-        textarea, input[type="time"], input[type="date"] { 
+        textarea, input[type="time"], input[type="date"], select { 
             width: 100%; 
             background: #010204; 
             color: #fff; 
             border: 1px solid rgba(212, 175, 55, 0.3); 
-            margin: 2px 0 4px 0; 
+            margin: 2px 0 5px 0; 
             padding: 3px 5px; 
             border-radius: 4px; 
-            font-size: 0.72em; 
+            font-size: 0.7em; 
             outline: none; 
             resize: vertical;
             height: 26px;
         }
+        .admin-section-box {
+            border: 1px solid rgba(212,175,55,0.25);
+            background: rgba(11, 19, 34, 0.5);
+            padding: 6px;
+            border-radius: 5px;
+            margin-bottom: 6px;
+        }
         .btn-admin { 
             width: 100%; 
-            padding: 4px; 
+            padding: 5px; 
             border: none; 
             cursor: pointer; 
             font-weight: 900; 
             border-radius: 4px; 
-            margin-top: 2px; 
-            font-size: 0.68em; 
+            margin-top: 3px; 
+            font-size: 0.7em; 
             text-transform: uppercase; 
         }
     </style>
@@ -674,31 +680,46 @@
 
     <!-- ADMIN PANEL POPUP -->
     <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:4px; margin-bottom:5px;">
-            <strong style="color: var(--gold-light); font-size: 0.75em; letter-spacing: 0.8px;">⚙️ ADMIN CONTROL PANEL</strong>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1em; font-weight:900; cursor:pointer;">&times;</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:5px; margin-bottom:6px;">
+            <strong style="color: var(--gold-light); font-size: 0.78em; letter-spacing: 0.8px;">⚙️ ADMIN CONTROL PANEL</strong>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.1em; font-weight:900; cursor:pointer;">&times;</button>
         </div>
         
-        <label style="font-size: 0.62em; color: var(--gold-primary); font-weight: 700;">Fix Numbers:</label>
-        <textarea id="fixInput" placeholder="Fix numbers..."></textarea>
-        
-        <label style="font-size: 0.62em; color: var(--text-muted); font-weight: 700;">Block Full / Exact:</label>
-        <textarea id="blockExact" placeholder="Exact block..."></textarea>
-        
-        <label style="font-size: 0.62em; color: var(--text-muted); font-weight: 700;">Block Series Blocks (00 to 90):</label>
-        <textarea id="blockSeries" placeholder="Series suffix block..."></textarea>
-        
+        <!-- SERIES SELECTOR FOR SPECIFIC FIX / BLOCK CONFIGURATION -->
+        <div class="admin-section-box">
+            <label style="font-size: 0.65em; color: var(--gold-primary); font-weight: 800;">Select Series Category:</label>
+            <select id="seriesCategorySelect" onchange="loadSeriesCategoryConfig()">
+                <option value="all">Global (All Series)</option>
+                <option value="0">00 Series (00-09)</option>
+                <option value="10">10 Series (10-19)</option>
+                <option value="20">20 Series (20-29)</option>
+                <option value="30">30 Series (30-39)</option>
+                <option value="40">40 Series (40-49)</option>
+                <option value="50">50 Series (50-59)</option>
+                <option value="60">60 Series (60-69)</option>
+                <option value="70">70 Series (70-79)</option>
+                <option value="80">80 Series (80-89)</option>
+                <option value="90">90 Series (90-99)</option>
+            </select>
+
+            <label style="font-size: 0.63em; color: var(--gold-light); font-weight: 700; margin-top: 4px; display: block;">Fix Number (For Selected Series):</label>
+            <textarea id="fixInput" placeholder="e.g. 0120, 1555..."></textarea>
+            
+            <label style="font-size: 0.63em; color: var(--text-muted); font-weight: 700; display: block;">Block / Stop Numbers (Exact/Suffix):</label>
+            <textarea id="blockExact" placeholder="e.g. 55, 79, 33, 89..."></textarea>
+        </div>
+
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIG</button>
         
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 5px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 6px 0;">
         
-        <label style="font-size: 0.65em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
+        <label style="font-size: 0.68em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
         <input type="time" id="missedTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE</button>
 
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 5px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 6px 0;">
         
-        <label style="font-size: 0.65em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
+        <label style="font-size: 0.68em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
         <input type="time" id="deleteTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE</button>
     </div>
@@ -714,6 +735,7 @@
         let currentSeriesFilter = 'all';
         let previousTotalBlocks = -1;
         const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+        let globalSettingsData = {};
 
         function triggerCalendar(e) {
             let dateInput = document.getElementById('archiveDateSelect');
@@ -791,6 +813,7 @@
                 let pass = prompt("Enter Admin Security Password:");
                 if(pass === "24081996") {
                     document.getElementById('adminPanel').style.display = 'block';
+                    loadSeriesCategoryConfig();
                 } else if(pass !== null) {
                     alert("Incorrect Password! Access Denied.");
                 }
@@ -799,43 +822,53 @@
             setTimeout(() => { clickCount = 0; }, 4000);
         }
 
+        function loadSeriesCategoryConfig() {
+            let cat = document.getElementById('seriesCategorySelect').value;
+            let sData = globalSettingsData[cat] || {};
+            document.getElementById('fixInput').value = sData.fix || "";
+            document.getElementById('blockExact').value = sData.bExact || "";
+        }
+
         function saveSettings() {
-            db.ref('settings').set({ 
-                fix: document.getElementById('fixInput').value,
-                bExact: document.getElementById('blockExact').value,
-                bSeries: document.getElementById('blockSeries').value
-            }).then(() => {
+            let cat = document.getElementById('seriesCategorySelect').value;
+            if(!globalSettingsData) globalSettingsData = {};
+            if(!globalSettingsData[cat]) globalSettingsData[cat] = {};
+
+            globalSettingsData[cat].fix = document.getElementById('fixInput').value;
+            globalSettingsData[cat].bExact = document.getElementById('blockExact').value;
+
+            db.ref('settings').set(globalSettingsData).then(() => {
                 alert("Configuration Saved Successfully!");
             });
         }
 
         db.ref('settings').on('value', (snap) => {
             if(snap.exists()) {
-                let s = snap.val();
-                if(s.fix !== undefined) document.getElementById('fixInput').value = s.fix;
-                if(s.bExact !== undefined) document.getElementById('blockExact').value = s.bExact;
-                if(s.bSeries !== undefined) document.getElementById('blockSeries').value = s.bSeries;
+                globalSettingsData = snap.val();
+                loadSeriesCategoryConfig();
             }
         });
 
         function generateAndSave(customTimeString = null) {
             db.ref('settings').once('value', (snap) => {
-                let s = snap.val() || {};
-                let rawFix = (s.fix || "").trim();
-                let fixList = rawFix ? rawFix.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0) : [];
+                let settingsObj = snap.val() || {};
                 
-                let exactBlockList = (s.bExact || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-                
-                let parseBlockInput = (valStr) => {
-                    let cleaned = valStr.trim();
-                    if (!cleaned) return [];
-                    if (cleaned.length > 2 && !cleaned.includes(',') && !cleaned.includes(' ')) {
-                        return cleaned.match(/.{1,2}/g) || [];
-                    }
-                    return cleaned.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-                };
+                let getTimeConfigs = (categoryKey) => {
+                    let c = settingsObj[categoryKey] || {};
+                    let g = settingsObj['all'] || {};
+                    
+                    let fixVal = (c.fix !== undefined && c.fix !== "") ? c.fix : (g.fix || "");
+                    
+                    // Specific series block list + Global (all) block list combined
+                    let seriesBlocks = c.bExact ? c.bExact.split(/[\s,]+/) : [];
+                    let globalBlocks = g.bExact ? g.bExact.split(/[\s,]+/) : [];
+                    let combinedBlocks = seriesBlocks.concat(globalBlocks).map(x => x.trim()).filter(x => x.length > 0);
 
-                let seriesBlockArr = parseBlockInput(s.bSeries || "");
+                    return {
+                        fix: fixVal,
+                        bExact: combinedBlocks
+                    };
+                };
 
                 let timeString, timeKey;
                 let now = new Date();
@@ -868,26 +901,38 @@
                         <div class="time-header" style="padding: 3px 6px !important; font-size: 0.72em !important;" data-time="${timeString}">${timeString}</div>`;
                     
                     allSeriesBases.forEach(baseVal => {
+                        let seriesCfg = getTimeConfigs(String(baseVal));
+                        let fixList = seriesCfg.fix ? seriesCfg.fix.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0) : [];
+                        let seriesBlockList = seriesCfg.bExact;
+
                         newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
                             let prefixNum = baseVal + i; 
                             let prefixStr = String(prefixNum).padStart(2, '0');
                             let val;
                             
-                            let exactFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefixStr));
                             let directFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefixStr));
 
                             if (directFixMatch) {
                                 val = directFixMatch;
-                            } else if (exactFixMatch && exactFixMatch.length >= 4) {
-                                val = exactFixMatch;
                             } else {
                                 let validSuffixes = [];
                                 for (let sIdx = 0; sIdx < 100; sIdx++) {
                                     let suffixStr = String(sIdx).padStart(2, '0');
                                     let candidateFull = prefixStr + suffixStr;
-                                    let isBlocked = exactBlockList.includes(candidateFull) || 
-                                                    seriesBlockArr.some(b => candidateFull === b || candidateFull.slice(-2) === b || (b.length === 2 && candidateFull.slice(-2) === b));
+                                    
+                                    // STRICT SERIES BLOCK CHECK: Matches exact full number or ending suffix strictly for this series
+                                    let isBlocked = seriesBlockList.some(b => {
+                                        let cleanB = b.replace(/[^0-9]/g, '');
+                                        if (!cleanB) return false;
+                                        if (cleanB.length >= 4) {
+                                            return candidateFull === cleanB;
+                                        } else if (cleanB.length === 2) {
+                                            return suffixStr === cleanB || candidateFull.slice(-2) === cleanB;
+                                        }
+                                        return false;
+                                    });
+
                                     if (!isBlocked) {
                                         validSuffixes.push(suffixStr);
                                     }
@@ -903,7 +948,6 @@
                             }
 
                             let formattedVal = `<span style="color: #111111; font-weight: 900;">${val}</span>`;
-
                             newBlock += `<div class="cell">${formattedVal}</div>`;
                         }
                         newBlock += `</div></div>`;
