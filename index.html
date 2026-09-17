@@ -39,9 +39,7 @@
 
         body {
             background-color: var(--bg-deep);
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
-                linear-gradient(180deg, #090b10 0%, #030406 100%);
+            background-image: linear-gradient(180deg, #050608 0%, #000000 100%);
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             padding: 6px;
@@ -58,18 +56,18 @@
             z-index: 1000;
         }
 
+        /* BANNER HEADER CONTAINER */
         .header-container {
             text-align: center;
             margin: 2px 0 4px 0;
-            background: linear-gradient(145deg, rgba(16, 21, 34, 0.95), rgba(4, 6, 10, 0.98));
-            backdrop-filter: blur(20px);
-            padding: 10px 8px;
-            border-radius: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.35);
+            background: linear-gradient(145deg, #0f080b, #030203);
+            padding: 12px 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.45);
             box-shadow: 
                 0 6px 20px rgba(0, 0, 0, 0.9),
-                inset 0 1px 1px rgba(255, 255, 255, 0.15),
-                0 0 15px rgba(212, 175, 55, 0.15);
+                inset 0 1px 4px rgba(255, 230, 150, 0.25),
+                0 0 18px rgba(212, 175, 55, 0.2);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -78,59 +76,65 @@
         .header-container::before {
             content: '';
             position: absolute;
-            top: 0; left: 10%; right: 10%; height: 2px;
-            background: linear-gradient(90deg, transparent, #ffffff, var(--gold-light), #ffffff, transparent);
-            box-shadow: 0 0 12px rgba(254, 240, 138, 0.8), 0 0 4px #ffffff;
+            top: 0; left: 15%; right: 15%; height: 1.5px;
+            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
         }
 
         .header-container::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 20%; right: 20%; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+            bottom: 0; left: 15%; right: 15%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
         }
 
+        /* CΛNVΛS4D™ - Ultra Bright Glowing Gold-White Metallic */
         .neon-title {
-            font-size: 1.35em;
+            font-size: 1.45em;
             font-weight: 900;
             letter-spacing: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             text-transform: uppercase;
-            background: linear-gradient(180deg, #ffffff 0%, #fef08a 45%, #d4af37 85%, #854d0e 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #fffdf0 30%, #fef08a 60%, #e6ca65 85%, #b38f27 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.8),
-                0 0 15px rgba(212, 175, 55, 0.4);
+                0 2px 6px rgba(0, 0, 0, 0.9),
+                0 0 16px rgba(254, 240, 138, 0.7);
         }
 
+        .star-icon {
+            color: var(--gold-light);
+            font-size: 0.85em;
+            text-shadow: 0 0 10px var(--gold-light), 0 0 20px var(--gold-primary);
+        }
+
+        /* AMUSEMENT */
         .amusement-sub {
             font-size: 0.72em;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            color: #e2e8f0;
-            margin: 2px 0 4px 0;
+            font-weight: 800;
+            letter-spacing: 4px;
+            background: linear-gradient(180deg, #ffffff 0%, #e5e7eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 3px 0;
             text-transform: uppercase;
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
-        .sub-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 2px;
-        }
-
+        /* KOHINOOR ENTERPRISES */
         .kohinoor-sub {
-            color: var(--gold-primary);
+            background: linear-gradient(180deg, #fef08a 0%, #d4af37 60%, #997415 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-weight: 700;
-            font-size: 0.6em;
-            letter-spacing: 2px;
+            font-size: 0.62em;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
-            opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            margin-top: 2px;
         }
 
         /* MARKET STATUS BAR */
@@ -172,7 +176,6 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
-        /* SOLID BLACK WOOD-STYLE TIMER BOX */
         .timer-box {
             text-align: center;
             color: #ffffff;
@@ -226,7 +229,6 @@
             text-shadow: none;
         }
         
-        /* SOLID BLACK SECTION TITLE BAR */
         .section-title {
             color: var(--gold-primary);
             font-size: 0.8em;
@@ -250,7 +252,6 @@
             user-select: none;
         }
 
-        /* STICKY DATE SELECTION BAR */
         .sticky-date-wrapper {
             position: sticky;
             top: 0;
@@ -300,7 +301,6 @@
             height: 20px;
         }
 
-        /* DEDICATED SCROLLABLE CONTAINER FOR RESULTS ONLY */
         .main-scroll-viewport {
             flex-grow: 1;
             overflow-y: auto;
@@ -327,7 +327,6 @@
             width: 100%;
         }
         
-        /* GHANA AUR RICH BLUE TIME HEADER & WHITE TEXT */
         .time-header {
             font-weight: 900;
             display: flex;
@@ -404,7 +403,6 @@
             font-weight: 900;
         }
         
-        /* SOLID BLACK FOOTER PATTI */
         .site-footer {
             background: #000000 !important;
             border: 1px solid var(--border-glow) !important;
@@ -518,7 +516,6 @@
             margin-bottom: 6px;
         }
 
-        /* ULTRA COMPACT & SMALL ADMIN PANEL POPUP */
         #adminPanel { 
             display: none; 
             position: fixed;
@@ -526,44 +523,45 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 20000;
-            width: 85%;
+            width: 90%;
             max-width: 330px;
-            max-height: 80vh;
+            max-height: 82vh;
             overflow-y: auto;
-            padding: 10px; 
+            padding: 12px; 
             border: 1.5px solid var(--gold-primary); 
-            background: #020408; 
-            border-radius: 8px; 
-            box-shadow: 0 12px 35px rgba(0,0,0,0.95); 
+            background: linear-gradient(145deg, #060911, #020408); 
+            border-radius: 10px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.98), inset 0 0 15px rgba(212, 175, 55, 0.15); 
         }
         textarea, input[type="time"], input[type="date"] { 
             width: 100%; 
             background: #010204; 
             color: #fff; 
-            border: 1px solid #233452; 
-            margin: 1px 0 4px 0; 
-            padding: 3px 6px; 
-            border-radius: 5px; 
-            font-size: 0.75em; 
+            border: 1px solid rgba(212, 175, 55, 0.3); 
+            margin: 2px 0 6px 0; 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            font-size: 0.78em; 
             outline: none; 
             resize: vertical;
-            height: 28px;
+            height: 30px;
         }
         textarea:focus, input[type="time"]:focus, input[type="date"]:focus { 
             border-color: var(--gold-primary); 
-            box-shadow: 0 0 6px var(--gold-glow); 
+            box-shadow: 0 0 8px var(--gold-glow); 
         }
         .btn-admin { 
             width: 100%; 
-            padding: 5px; 
+            padding: 6px; 
             border: none; 
             cursor: pointer; 
             font-weight: 900; 
-            border-radius: 5px; 
-            margin-top: 1px; 
-            font-size: 0.72em; 
-            letter-spacing: 0.5px; 
+            border-radius: 6px; 
+            margin-top: 2px; 
+            font-size: 0.75em; 
+            letter-spacing: 0.8px; 
             text-transform: uppercase; 
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -576,11 +574,9 @@
     <!-- FIXED TOP BANNER SECTION -->
     <div class="sticky-top-section">
         <div class="header-container">
-            <div class="neon-title">✦ CΛNVΛS4D™ ✦</div>
+            <div class="neon-title"><span class="star-icon">✦</span> CΛNVΛS4D™ <span class="star-icon">✦</span></div>
             <div class="amusement-sub">A M U S E M E N T</div>
-            <div class="sub-header">
-                <span class="kohinoor-sub">KOHINOOR ENTERPRISES</span>
-            </div>
+            <div class="kohinoor-sub">KOHINOOR ENTERPRISES</div>
         </div>
 
         <div class="market-status-bar">
@@ -707,44 +703,44 @@
         </div>
     </div>
 
-    <!-- ULTRA COMPACT & SMALL ADMIN PANEL POPUP -->
+    <!-- CLEAN & MATCHED ADMIN PANEL POPUP -->
     <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--gold-primary); padding-bottom:4px; margin-bottom:6px;">
-            <strong style="color: var(--gold-primary); font-size: 0.8em; letter-spacing: 0.5px;">ADMIN CONTROL</strong>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.1em; font-weight:900; cursor:pointer;">&times;</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:6px; margin-bottom:8px;">
+            <strong style="color: var(--gold-light); font-size: 0.85em; letter-spacing: 1px;">⚙️ ADMIN CONTROL PANEL</strong>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.2em; font-weight:900; cursor:pointer;">&times;</button>
         </div>
         
-        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Fix Numbers:</label>
+        <label style="font-size: 0.7em; color: var(--gold-primary); font-weight: 700;">Fix Numbers:</label>
         <textarea id="fixInput" placeholder="Fix numbers..."></textarea>
         
-        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block Full / Exact:</label>
+        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block Full / Exact:</label>
         <textarea id="blockExact" placeholder="Exact block..."></textarea>
         
-        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block 10 Suffix:</label>
+        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block 10 Suffix:</label>
         <textarea id="block10" placeholder="10 series block..."></textarea>
         
-        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block 30 Suffix:</label>
+        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block 30 Suffix:</label>
         <textarea id="block30" placeholder="30 series block..."></textarea>
         
-        <label style="font-size: 0.68em; color: var(--text-muted); font-weight: 600;">Block 50 Suffix:</label>
+        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block 50 Suffix:</label>
         <textarea id="block50" placeholder="50 series block..."></textarea>
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIG</button>
         
-        <hr style="border-color: #22314d; margin: 6px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 8px 0;">
         
-        <label style="font-size: 0.7em; color: var(--gold-primary); font-weight: 800;">Manual Time Injection:</label>
-        <input type="time" id="missedTimeInput" style="height: 26px; margin: 2px 0 4px 0;">
+        <label style="font-size: 0.72em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
+        <input type="time" id="missedTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE</button>
 
-        <hr style="border-color: #22314d; margin: 6px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 8px 0;">
         
-        <label style="font-size: 0.7em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
-        <input type="time" id="deleteTimeInput" style="height: 26px; margin: 2px 0 4px 0;">
+        <label style="font-size: 0.72em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
+        <input type="time" id="deleteTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE</button>
     </div>
     
-    <!-- BOTTOM RIGHT CORNER TRIGGER (5 TAPS TO OPEN WITH PASSWORD) -->
+    <!-- BOTTOM RIGHT CORNER TRIGGER (10 TAPS TO OPEN WITH PASSWORD 24081996) -->
     <div style="position:fixed; bottom:0; right:0; width:70px; height:70px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
@@ -799,9 +795,7 @@
             if (document.visibilityState === 'visible') { enableScreenKeepAlive(); }
         });
 
-        function triggerNewDrawAlert() {
-            // Notifications completely disabled
-        }
+        function triggerNewDrawAlert() {}
 
         function switchSeries(series) {
             currentSeriesFilter = series;
@@ -833,8 +827,7 @@
         let clickCount = 0;
         function handleAdmin() {
             clickCount++;
-            if (clickCount === 5) {
-                // APNA SECURE PASSWORD YAHAN CHANGE BHI KAR SAKTE HAIN (Jaise: "mysecret123")
+            if (clickCount === 10) {
                 let pass = prompt("Enter Admin Security Password:");
                 if(pass === "24081996") {
                     document.getElementById('adminPanel').style.display = 'block';
@@ -843,7 +836,7 @@
                 }
                 clickCount = 0;
             }
-            setTimeout(() => { clickCount = 0; }, 3000);
+            setTimeout(() => { clickCount = 0; }, 4000);
         }
 
         function saveSettings() {
@@ -854,7 +847,7 @@
                 b30: document.getElementById('block30').value,
                 b50: document.getElementById('block50').value
             }).then(() => {
-                alert("Configuration Saved Successfully! Naya result apne exact time par generate hoga.");
+                alert("Configuration Saved Successfully!");
             });
         }
 
@@ -872,7 +865,8 @@
         function generateAndSave(customTimeString = null) {
             db.ref('settings').once('value', (snap) => {
                 let s = snap.val() || {};
-                let fixList = (s.fix || "").split(/[\s,]+/).filter(x => x.length > 0);
+                let rawFix = (s.fix || "").trim();
+                let fixList = rawFix ? rawFix.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0) : [];
                 
                 let exactBlockList = (s.bExact || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
                 
@@ -925,10 +919,28 @@
                         for(let i=0; i<10; i++) {
                             let prefix = baseVal + i; 
                             let val;
-                            let fixVal = fixList.find(n => n.startsWith(prefix.toString()));
                             
-                            if (fixVal && !exactBlockList.includes(fixVal)) { 
-                                val = fixVal; 
+                            // Check if this specific prefix (e.g., 10, 11) has an exact fixed full number (e.g., 1035)
+                            let exactFixMatch = fixList.find(n => n.length >= 3 && n.startsWith(prefix.toString()) && n.slice(0, prefix.toString().length) === prefix.toString() && n.length === prefix.toString().length + 2);
+                            
+                            // Check if family/prefix is fixed (e.g., 10 or 10-something)
+                            let familyFixMatch = fixList.find(n => n === prefix.toString() || n === prefix.toString() + "-");
+
+                            if (exactFixMatch) {
+                                val = exactFixMatch.replace(/[^0-9]/g, '');
+                            } else if (familyFixMatch) {
+                                // If family is fixed, pick a random valid suffix for this prefix avoiding exact blocks
+                                let validSuffixes = [];
+                                for (let sIdx = 0; sIdx < 100; sIdx++) {
+                                    let suffixStr = String(sIdx).padStart(2, '0');
+                                    let candidateFull = prefix.toString() + suffixStr;
+                                    if (!exactBlockList.includes(candidateFull)) {
+                                        validSuffixes.push(suffixStr);
+                                    }
+                                }
+                                if (validSuffixes.length === 0) validSuffixes = ["00"];
+                                let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
+                                val = prefix.toString() + randSuffix;
                             } else {
                                 let validSuffixes = [];
                                 for (let sIdx = 0; sIdx < 100; sIdx++) {
@@ -985,12 +997,8 @@
             let timeKey = dateKeyStr + "_" + String(h).padStart(2, '0') + "_" + String(m).padStart(2, '0');
             
             db.ref('resultsData/blocks/' + timeKey).remove()
-                .then(() => {
-                    alert("Result for " + tVal + " deleted successfully!");
-                })
-                .catch((error) => {
-                    alert("Error deleting result: " + error.message);
-                });
+                .then(() => { alert("Result deleted successfully!"); })
+                .catch((error) => { alert("Error deleting result: " + error.message); });
         }
 
         function processArchiveHtml(htmlString, day, monthName, year) {
@@ -1002,9 +1010,7 @@
                 let th = blk.querySelector('.time-header');
                 if(th) {
                     let tText = th.getAttribute('data-time') || th.innerText.replace(/[^0-9APM:]/gi, '').trim();
-                    if(!tText) {
-                        tText = th.innerText.trim();
-                    }
+                    if(!tText) { tText = th.innerText.trim(); }
                     th.innerHTML = tText;
                     th.style.display = 'flex';
                 }
@@ -1123,7 +1129,6 @@
             });
         }
 
-        // REAL-TIME LISTENER: Jaise hi naya draw generate hoga, bina refresh ke turant screen par aayega
         db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
@@ -1231,7 +1236,7 @@
                     db.ref('lastGenerated').once('value', (snap) => { 
                         if (snap.val() !== key) { 
                             generateAndSave(); 
-                            db.ref('last`Generated`.set(key);'); // Fixed typo in key
+                            db.ref('lastGenerated').set(key); 
                         } 
                     });
                 }
