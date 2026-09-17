@@ -41,7 +41,7 @@
             background-image: linear-gradient(180deg, #050608 0%, #000000 100%);
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 2px;
+            padding: 3px;
             display: flex;
             flex-direction: column;
         }
@@ -56,16 +56,16 @@
 
         .header-container {
             text-align: center;
-            margin: 1px 0 2px 0;
+            margin: 1px 0 3px 0;
             background: radial-gradient(circle at 50% 0%, #101726 0%, #04060a 65%, #000000 100%);
-            padding: 8px 4px 6px 4px;
-            border-radius: 6px;
+            padding: 10px 6px 8px 6px;
+            border-radius: 8px;
             border: 1px solid rgba(212, 175, 55, 0.45);
             box-shadow: 
-                0 6px 15px rgba(0, 0, 0, 0.99),
-                inset 0 1px 2px rgba(255, 255, 255, 0.2),
-                0 0 12px rgba(41, 128, 185, 0.25),
-                0 0 6px rgba(212, 175, 55, 0.2);
+                0 8px 20px rgba(0, 0, 0, 0.99),
+                inset 0 1px 3px rgba(255, 255, 255, 0.2),
+                0 0 16px rgba(41, 128, 185, 0.25),
+                0 0 8px rgba(212, 175, 55, 0.2);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -74,15 +74,15 @@
         .header-container::before {
             content: '';
             position: absolute;
-            top: -30px;
+            top: -40px;
             left: 50%;
             transform: translateX(-50%);
-            width: 180px;
-            height: 50px;
+            width: 200px;
+            height: 70px;
             background: radial-gradient(ellipse at center, rgba(254, 240, 138, 0.5) 0%, rgba(41, 128, 185, 0.4) 45%, transparent 78%);
             pointer-events: none;
             z-index: 1;
-            filter: blur(6px);
+            filter: blur(8px);
         }
 
         .header-container::after {
@@ -94,13 +94,13 @@
         }
 
         .neon-title {
-            font-size: 0.95em;
+            font-size: 1.1em;
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 4px;
             text-transform: uppercase;
             background: linear-gradient(180deg, #ffffff 0%, #ffc2cd 25%, #d63c56 60%, #520d1a 100%);
             -webkit-background-clip: text;
@@ -110,16 +110,16 @@
         }
 
         .tm-symbol {
-            font-size: 0.45em;
+            font-size: 0.5em;
             vertical-align: super;
             -webkit-text-fill-color: #fef08a;
         }
 
         .header-divider {
-            width: 40%;
+            width: 50%;
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);
-            margin: 2px auto;
+            margin: 3px auto;
             position: relative;
             z-index: 2;
         }
@@ -129,8 +129,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
-            font-size: 0.5em;
-            letter-spacing: 2px;
+            font-size: 0.58em;
+            letter-spacing: 3px;
             text-transform: uppercase;
             position: relative;
             z-index: 2;
@@ -141,26 +141,26 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
-            font-size: 0.42em;
-            letter-spacing: 3px;
+            font-size: 0.48em;
+            letter-spacing: 4px;
             text-transform: uppercase;
             position: relative;
             z-index: 2;
         }
 
         .amusement-sub {
-            font-size: 0.45em;
+            font-size: 0.52em;
             font-weight: 900;
-            letter-spacing: 2.5px;
+            letter-spacing: 3px;
             background: linear-gradient(180deg, #fffdf0 0%, #fef08a 30%, #e88895 60%, #a32c42 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-top: 1px;
+            margin-top: 2px;
             text-transform: uppercase;
             border: 1px solid rgba(212, 175, 55, 0.5);
             display: inline-block;
-            padding: 1px 6px;
-            border-radius: 2px;
+            padding: 1px 8px;
+            border-radius: 3px;
             background-color: rgba(10, 2, 4, 0.8);
             position: relative;
             z-index: 2;
@@ -172,21 +172,21 @@
             align-items: center;
             background: #000000;
             border: 1px solid rgba(212, 175, 55, 0.4);
-            border-radius: 4px;
-            padding: 2px 6px;
-            margin-bottom: 2px;
-            font-size: 0.58em;
+            border-radius: 5px;
+            padding: 3px 8px;
+            margin-bottom: 3px;
+            font-size: 0.68em;
             font-weight: 800;
         }
         .live-badge {
             background: rgba(46, 204, 113, 0.2);
             color: var(--accent-green);
             border: 1px solid var(--accent-green);
-            padding: 1px 4px;
-            border-radius: 2px;
+            padding: 1px 5px;
+            border-radius: 3px;
             display: flex;
             align-items: center;
-            gap: 2px;
+            gap: 3px;
             text-transform: uppercase;
         }
         .draws-counter {
@@ -196,21 +196,21 @@
         .timer-box {
             text-align: center;
             color: #ffffff;
-            font-size: 0.6em;
+            font-size: 0.72em;
             font-weight: 900;
             background: #000000 !important;
-            padding: 2px;
+            padding: 3px;
             border: 1px solid var(--border-glow);
-            border-radius: 4px;
-            letter-spacing: 0.5px;
+            border-radius: 5px;
+            letter-spacing: 0.8px;
             width: 100%;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
 
         .series-tabs-wrapper {
             display: flex;
             width: 100%;
-            margin: 2px 0;
+            margin: 3px 0;
             overflow-x: auto;
             scrollbar-width: none;
         }
@@ -219,18 +219,18 @@
         }
         .series-tabs {
             display: flex;
-            gap: 2px;
+            gap: 3px;
             width: max-content;
         }
         .tab-btn {
             background: #0b1322;
             color: var(--text-muted);
             border: 1px solid rgba(241, 196, 15, 0.3);
-            padding: 2px 6px;
+            padding: 3px 8px;
             text-align: center;
             font-weight: 800;
-            font-size: 0.55em;
-            border-radius: 2px;
+            font-size: 0.65em;
+            border-radius: 3px;
             cursor: pointer;
             text-transform: uppercase;
             white-space: nowrap;
@@ -239,26 +239,26 @@
             background: linear-gradient(135deg, #f1c40f, #d4ac0d);
             color: #020408;
             border-color: #fff;
-            box-shadow: 0 0 6px var(--gold-glow);
+            box-shadow: 0 0 8px var(--gold-glow);
         }
         
         .section-title {
             color: var(--gold-primary);
-            font-size: 0.6em;
-            margin: 2px 0;
-            padding: 2px;
+            font-size: 0.72em;
+            margin: 3px 0;
+            padding: 3px;
             background: #000000 !important;
             border: 1px solid var(--border-glow);
-            border-radius: 2px;
+            border-radius: 3px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             text-transform: uppercase;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 4px;
         }
 
         .sticky-date-wrapper {
@@ -266,7 +266,7 @@
             top: 0;
             z-index: 900;
             background-color: var(--bg-deep);
-            padding: 1px 0;
+            padding: 2px 0;
             display: flex;
             justify-content: center;
             width: 100%;
@@ -274,17 +274,17 @@
 
         .archive-title {
             color: var(--gold-primary);
-            font-size: 0.55em;
-            padding: 1px 4px;
+            font-size: 0.65em;
+            padding: 2px 6px;
             background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 2px;
+            border-radius: 3px;
             text-align: center;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 2px;
+            gap: 3px;
             cursor: pointer;
         }
 
@@ -292,37 +292,37 @@
             background: #000000;
             color: #ffffff;
             border: 1px solid var(--border-glow);
-            padding: 1px 2px;
-            border-radius: 2px;
+            padding: 1px 3px;
+            border-radius: 3px;
             font-weight: 700;
-            font-size: 0.6em;
+            font-size: 0.7em;
             outline: none;
             cursor: pointer;
             text-align: center;
             color-scheme: dark;
-            width: 80px;
-            height: 15px;
+            width: 90px;
+            height: 18px;
         }
 
         .main-scroll-viewport {
             flex-grow: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-bottom: 6px;
+            padding-bottom: 8px;
             scrollbar-width: thin;
             scrollbar-color: var(--gold-primary) rgba(11, 19, 34, 0.5);
         }
         .main-scroll-viewport::-webkit-scrollbar {
-            width: 2px;
+            width: 3px;
         }
         .main-scroll-viewport::-webkit-scrollbar-thumb {
             background-color: var(--gold-primary);
-            border-radius: 2px;
+            border-radius: 3px;
         }
         
         .result-block {
             border: 1px solid #1b4f72;
-            margin-bottom: 2px; 
+            margin-bottom: 4px; 
             background: #fefde0;
             width: 100%;
         }
@@ -334,24 +334,24 @@
             justify-content: center !important;
             background: linear-gradient(135deg, #1b4f72, #154360) !important;
             color: #ffffff !important; 
-            padding: 2px 4px !important;
-            font-size: 0.6em !important;
-            letter-spacing: 0.5px;
+            padding: 3px 6px !important;
+            font-size: 0.72em !important;
+            letter-spacing: 0.8px;
             border-bottom: 1px solid #10324a;
         }
         .live-dot {
-            height: 3px;
-            width: 3px;
+            height: 4px;
+            width: 4px;
             background-color: var(--accent-red);
             border-radius: 50%;
-            margin-right: 3px;
-            box-shadow: 0 0 3px var(--accent-red);
+            margin-right: 4px;
+            box-shadow: 0 0 4px var(--accent-red);
             animation: pulse-dot 1s infinite;
         }
         
         @keyframes pulse-dot { 
             0% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0.8); } 
-            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 4px rgba(255, 56, 56, 0); }
+            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 5px rgba(255, 56, 56, 0); }
             100% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
         
@@ -377,11 +377,11 @@
         
         .cell { 
             background: #fefde0;
-            padding: 2px 0px; /* Super compact height for all mobile screens */
+            padding: 4px 1px; /* Balanced padding for clear readability */
             text-align: center; 
             font-weight: 900; 
-            font-size: 0.58em; /* Clean smaller text size so nothing looks oversized */
-            color: #111111 !important; /* All numbers strictly pure black */
+            font-size: 0.75em; /* Slightly increased font size for perfect visibility */
+            color: #111111 !important; /* Pure black text */
             border: 1px solid #e0dfb8;
             letter-spacing: -0.5px; 
             white-space: nowrap;
@@ -392,25 +392,25 @@
         .site-footer {
             background: #000000 !important;
             border: 1px solid var(--border-glow) !important;
-            border-radius: 5px;
-            padding: 5px 4px;
-            margin-top: 5px;
+            border-radius: 6px;
+            padding: 6px 5px;
+            margin-top: 6px;
             text-align: center;
         }
         .footer-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 2px 5px;
-            margin-bottom: 3px;
+            gap: 3px 6px;
+            margin-bottom: 4px;
         }
         .footer-links a {
             color: #ffffff;
             background: #111622;
             border: 1px solid var(--border-glow);
-            padding: 2px 5px;
-            border-radius: 2px;
-            font-size: 0.5em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.58em;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
@@ -418,10 +418,10 @@
         }
         .footer-copy {
             color: var(--text-muted);
-            font-size: 0.48em;
+            font-size: 0.55em;
             font-weight: 600;
             border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 3px;
+            padding-top: 4px;
         }
 
         .modal-overlay {
@@ -433,29 +433,29 @@
             z-index: 10000;
             justify-content: center;
             align-items: center;
-            padding: 8px;
+            padding: 10px;
         }
         .modal-card {
             background: linear-gradient(145deg, #0b1322, #04070e);
             border: 1px solid var(--gold-primary);
-            border-radius: 8px;
+            border-radius: 10px;
             width: 100%;
-            max-width: 340px;
-            max-height: 78vh;
+            max-width: 360px;
+            max-height: 80vh;
             overflow-y: auto;
-            padding: 10px;
+            padding: 12px;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(241, 196, 15, 0.35);
-            padding-bottom: 5px;
-            margin-bottom: 6px;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
         }
         .modal-title {
             color: var(--gold-primary);
-            font-size: 0.75em;
+            font-size: 0.82em;
             font-weight: 900;
             text-transform: uppercase;
         }
@@ -463,20 +463,20 @@
             background: none;
             border: none;
             color: var(--accent-red);
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 900;
             cursor: pointer;
-            padding: 0 2px;
+            padding: 0 3px;
         }
         .modal-body {
             color: #d1d5db;
-            font-size: 0.65em;
-            line-height: 1.35;
+            font-size: 0.72em;
+            line-height: 1.4;
             font-weight: 500;
         }
-        .modal-body p { margin-bottom: 5px; }
-        .modal-body ul { margin-left: 12px; margin-bottom: 5px; }
-        .modal-body li { margin-bottom: 2px; }
+        .modal-body p { margin-bottom: 6px; }
+        .modal-body ul { margin-left: 14px; margin-bottom: 6px; }
+        .modal-body li { margin-bottom: 3px; }
 
         #adminPanel { 
             display: none; 
@@ -485,37 +485,37 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 20000;
-            width: 85%;
-            max-width: 270px;
-            max-height: 78vh;
+            width: 88%;
+            max-width: 290px;
+            max-height: 80vh;
             overflow-y: auto;
-            padding: 6px; 
+            padding: 8px; 
             border: 1.5px solid var(--gold-primary); 
             background: linear-gradient(145deg, #060911, #020408); 
-            border-radius: 5px; 
+            border-radius: 6px; 
         }
         textarea, input[type="time"], input[type="date"] { 
             width: 100%; 
             background: #010204; 
             color: #fff; 
             border: 1px solid rgba(212, 175, 55, 0.3); 
-            margin: 1px 0 3px 0; 
-            padding: 2px 4px; 
-            border-radius: 3px; 
-            font-size: 0.65em; 
+            margin: 2px 0 4px 0; 
+            padding: 3px 5px; 
+            border-radius: 4px; 
+            font-size: 0.72em; 
             outline: none; 
             resize: vertical;
-            height: 24px;
+            height: 26px;
         }
         .btn-admin { 
             width: 100%; 
-            padding: 3px; 
+            padding: 4px; 
             border: none; 
             cursor: pointer; 
             font-weight: 900; 
-            border-radius: 3px; 
-            margin-top: 1px; 
-            font-size: 0.6em; 
+            border-radius: 4px; 
+            margin-top: 2px; 
+            font-size: 0.68em; 
             text-transform: uppercase; 
         }
     </style>
@@ -560,8 +560,8 @@
             </div>
         </div>
 
-        <div style="background: linear-gradient(90deg, rgba(212,175,55,0.08), rgba(212,175,55,0.2), rgba(212,175,55,0.08)); border: 1px solid var(--border-glow); border-radius: 3px; padding: 2px 0; margin: 1px 0; overflow: hidden; width: 100%;">
-            <marquee behavior="scroll" direction="left" scrollamount="4" style="color: #ffffff; font-size: 0.58em; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;">
+        <div style="background: linear-gradient(90deg, rgba(212,175,55,0.08), rgba(212,175,55,0.2), rgba(212,175,55,0.08)); border: 1px solid var(--border-glow); border-radius: 3px; padding: 3px 0; margin: 2px 0; overflow: hidden; width: 100%;">
+            <marquee behavior="scroll" direction="left" scrollamount="4" style="color: #ffffff; font-size: 0.65em; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase;">
                 WELCOME TO CANVAS4D™ &nbsp;&bull;&nbsp; TRUSTED GAMING PLATFORM &nbsp;&bull;&nbsp; PREMIUM EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
             </marquee>
         </div>
@@ -570,7 +570,7 @@
         <div class="sticky-date-wrapper">
             <div class="archive-title" onclick="triggerCalendar(event)">
                 <span>📅</span> 
-                <span style="font-size: 0.6em;">DATE:</span>
+                <span style="font-size: 0.68em;">DATE:</span>
                 <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
             </div>
         </div>
@@ -584,7 +584,7 @@
 
         <div id="todayMainSection" style="display: block;">
             <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
-            <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:10px; font-weight:800;'>Loading results instantly...</div></div>
+            <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading results instantly...</div></div>
         </div>
 
         <footer class="site-footer">
@@ -670,37 +670,37 @@
 
     <!-- ADMIN PANEL POPUP -->
     <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:3px; margin-bottom:4px;">
-            <strong style="color: var(--gold-light); font-size: 0.7em; letter-spacing: 0.5px;">⚙️ ADMIN CONTROL PANEL</strong>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:0.95em; font-weight:900; cursor:pointer;">&times;</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:4px; margin-bottom:5px;">
+            <strong style="color: var(--gold-light); font-size: 0.75em; letter-spacing: 0.8px;">⚙️ ADMIN CONTROL PANEL</strong>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1em; font-weight:900; cursor:pointer;">&times;</button>
         </div>
         
-        <label style="font-size: 0.58em; color: var(--gold-primary); font-weight: 700;">Fix Numbers:</label>
+        <label style="font-size: 0.62em; color: var(--gold-primary); font-weight: 700;">Fix Numbers:</label>
         <textarea id="fixInput" placeholder="Fix numbers..."></textarea>
         
-        <label style="font-size: 0.58em; color: var(--text-muted); font-weight: 700;">Block Full / Exact:</label>
+        <label style="font-size: 0.62em; color: var(--text-muted); font-weight: 700;">Block Full / Exact:</label>
         <textarea id="blockExact" placeholder="Exact block..."></textarea>
         
-        <label style="font-size: 0.58em; color: var(--text-muted); font-weight: 700;">Block Series Blocks (00 to 90):</label>
+        <label style="font-size: 0.62em; color: var(--text-muted); font-weight: 700;">Block Series Blocks (00 to 90):</label>
         <textarea id="blockSeries" placeholder="Series suffix block..."></textarea>
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIG</button>
         
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 4px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 5px 0;">
         
-        <label style="font-size: 0.6em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
+        <label style="font-size: 0.65em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
         <input type="time" id="missedTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE</button>
 
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 4px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 5px 0;">
         
-        <label style="font-size: 0.6em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
+        <label style="font-size: 0.65em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
         <input type="time" id="deleteTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE</button>
     </div>
     
     <!-- BOTTOM RIGHT CORNER TRIGGER (10 TAPS TO OPEN WITH PASSWORD 24081996) -->
-    <div style="position:fixed; bottom:0; right:0; width:40px; height:40px; z-index:9999;" onclick="handleAdmin()"></div>
+    <div style="position:fixed; bottom:0; right:0; width:50px; height:50px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
@@ -861,7 +861,7 @@
                     if (timeSnap.exists() && !customTimeString) { return; }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header" style="padding: 2px 4px !important; font-size: 0.6em !important;" data-time="${timeString}">${timeString}</div>`;
+                        <div class="time-header" style="padding: 3px 6px !important; font-size: 0.72em !important;" data-time="${timeString}">${timeString}</div>`;
                     
                     allSeriesBases.forEach(baseVal => {
                         newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
@@ -1000,7 +1000,7 @@
 
             if(todayMain) todayMain.style.display = "none";
             archiveContainer.style.display = "block";
-            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:10px; font-weight:800;'>Loading archive data...</div>";
+            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
 
             let keyPadded = `${dayPadded}_${monthName}_${year}`;
             let keyUnpadded = `${dayUnpadded}_${monthName}_${year}`;
@@ -1050,10 +1050,10 @@
 
                                                 processArchiveHtml(accumulatedHtml, dayPadded, monthName, year);
                                             } else {
-                                                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:10px; font-weight:800;'>No data found for this date.</div>";
+                                                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
                                             }
                                         } else {
-                                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:10px; font-weight:800;'>No data found for this date.</div>";
+                                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
                                         }
                                     });
                                 }
@@ -1118,7 +1118,7 @@
                         if (th) {
                             let tText = th.innerText.trim();
                             th.setAttribute('data-time', tText);
-                            th.style.cssText = "padding: 2px 4px !important; font-size: 0.6em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
+                            th.style.cssText = "padding: 3px 6px !important; font-size: 0.72em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
                             if (index === 0) {
                                 th.innerHTML = `<span class="live-dot"></span>` + tText;
                             } else {
@@ -1130,7 +1130,7 @@
                 });
 
                 if(htmlContent === "") {
-                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px; font-weight:800;'>Waiting for today's first draw...</div>";
+                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:12px; font-weight:800;'>Waiting for today's first draw...</div>";
                 } else {
                     todayContainer.innerHTML = htmlContent;
                 }
@@ -1138,7 +1138,7 @@
                 switchSeries(currentSeriesFilter);
             } else {
                 document.getElementById('drawsCounterText').innerText = `Completed: 0 | Remaining: 53`;
-                todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px; font-weight:800;'>Market Closed for Today.</div>";
+                todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:12px; font-weight:800;'>Market Closed for Today.</div>";
                 todayMain.style.display = 'block';
             }
         });
