@@ -6,7 +6,6 @@
     <title>CΛNVΛS4D™ - Elite Gaming Exchange</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <!-- HTML2CANVAS LIBRARY FOR IMAGE DOWNLOAD -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
@@ -42,32 +41,31 @@
             background-image: linear-gradient(180deg, #050608 0%, #000000 100%);
             color: var(--text-main);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding: 6px;
+            padding: 2px;
             display: flex;
             flex-direction: column;
         }
 
-        /* FIXED TOP BANNER CONTAINER */
         .sticky-top-section {
             flex-shrink: 0;
             background-color: var(--bg-deep);
-            padding-top: 2px;
-            padding-bottom: 2px;
+            padding-top: 1px;
+            padding-bottom: 1px;
             z-index: 1000;
         }
 
-        /* BANNER HEADER CONTAINER */
         .header-container {
             text-align: center;
-            margin: 2px 0 4px 0;
-            background: linear-gradient(145deg, #0f080b, #030203);
-            padding: 12px 8px;
-            border-radius: 8px;
+            margin: 1px 0 2px 0;
+            background: radial-gradient(circle at 50% 0%, #101726 0%, #04060a 65%, #000000 100%);
+            padding: 8px 4px 6px 4px;
+            border-radius: 6px;
             border: 1px solid rgba(212, 175, 55, 0.45);
             box-shadow: 
-                0 6px 20px rgba(0, 0, 0, 0.9),
-                inset 0 1px 4px rgba(255, 230, 150, 0.25),
-                0 0 18px rgba(212, 175, 55, 0.2);
+                0 6px 15px rgba(0, 0, 0, 0.99),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2),
+                0 0 12px rgba(41, 128, 185, 0.25),
+                0 0 6px rgba(212, 175, 55, 0.2);
             position: relative;
             overflow: hidden;
             width: 100%;
@@ -76,180 +74,191 @@
         .header-container::before {
             content: '';
             position: absolute;
-            top: 0; left: 15%; right: 15%; height: 1.5px;
-            background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 50px;
+            background: radial-gradient(ellipse at center, rgba(254, 240, 138, 0.5) 0%, rgba(41, 128, 185, 0.4) 45%, transparent 78%);
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(6px);
         }
 
         .header-container::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 15%; right: 15%; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+            bottom: 0; left: 10%; right: 10%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.9), rgba(41, 128, 185, 0.9), transparent);
+            z-index: 2;
         }
 
-        /* CΛNVΛS4D™ - Ultra Bright Glowing Gold-White Metallic */
         .neon-title {
-            font-size: 1.45em;
+            font-size: 0.95em;
             font-weight: 900;
             letter-spacing: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 3px;
             text-transform: uppercase;
-            background: linear-gradient(180deg, #ffffff 0%, #fffdf0 30%, #fef08a 60%, #e6ca65 85%, #b38f27 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #ffc2cd 25%, #d63c56 60%, #520d1a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 
-                0 2px 6px rgba(0, 0, 0, 0.9),
-                0 0 16px rgba(254, 240, 138, 0.7);
+            position: relative;
+            z-index: 2;
         }
 
-        .star-icon {
-            color: var(--gold-light);
-            font-size: 0.85em;
-            text-shadow: 0 0 10px var(--gold-light), 0 0 20px var(--gold-primary);
+        .tm-symbol {
+            font-size: 0.45em;
+            vertical-align: super;
+            -webkit-text-fill-color: #fef08a;
         }
 
-        /* AMUSEMENT */
-        .amusement-sub {
-            font-size: 0.72em;
-            font-weight: 800;
-            letter-spacing: 4px;
-            background: linear-gradient(180deg, #ffffff 0%, #e5e7eb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 3px 0;
-            text-transform: uppercase;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+        .header-divider {
+            width: 40%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);
+            margin: 2px auto;
+            position: relative;
+            z-index: 2;
         }
 
-        /* KOHINOOR ENTERPRISES */
         .kohinoor-sub {
-            background: linear-gradient(180deg, #fef08a 0%, #d4af37 60%, #997415 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #fffdf0 50%, #fef08a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            font-size: 0.5em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+        }
+
+        .enterprises-sub {
+            background: linear-gradient(180deg, #ffffff 0%, #fef08a 60%, #d4af37 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
-            font-size: 0.62em;
-            letter-spacing: 2.5px;
+            font-size: 0.42em;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            margin-top: 2px;
+            position: relative;
+            z-index: 2;
         }
 
-        /* MARKET STATUS BAR */
+        .amusement-sub {
+            font-size: 0.45em;
+            font-weight: 900;
+            letter-spacing: 2.5px;
+            background: linear-gradient(180deg, #fffdf0 0%, #fef08a 30%, #e88895 60%, #a32c42 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 1px;
+            text-transform: uppercase;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 2px;
+            background-color: rgba(10, 2, 4, 0.8);
+            position: relative;
+            z-index: 2;
+        }
+
         .market-status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #000000;
             border: 1px solid rgba(212, 175, 55, 0.4);
-            border-radius: 8px;
-            padding: 7px 12px;
-            margin-bottom: 6px;
-            font-size: 0.75em;
+            border-radius: 4px;
+            padding: 2px 6px;
+            margin-bottom: 2px;
+            font-size: 0.58em;
             font-weight: 800;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
         .live-badge {
             background: rgba(46, 204, 113, 0.2);
             color: var(--accent-green);
             border: 1px solid var(--accent-green);
-            padding: 2px 8px;
-            border-radius: 6px;
+            padding: 1px 4px;
+            border-radius: 2px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 2px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
-            animation: pulse-badge 1.5s infinite;
-        }
-        @keyframes pulse-badge {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
         }
         .draws-counter {
             color: var(--gold-primary);
-            letter-spacing: 0.5px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
 
         .timer-box {
             text-align: center;
             color: #ffffff;
-            font-size: 0.85em;
+            font-size: 0.6em;
             font-weight: 900;
             background: #000000 !important;
-            padding: 6px;
+            padding: 2px;
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.8), inset 0 0 14px rgba(212, 175, 55, 0.15);
-            letter-spacing: 1px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
             width: 100%;
-            margin-bottom: 6px;
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+            margin-bottom: 2px;
         }
 
         .series-tabs-wrapper {
             display: flex;
-            justify-content: center;
             width: 100%;
-            margin: 4px 0 6px 0;
+            margin: 2px 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .series-tabs-wrapper::-webkit-scrollbar {
+            display: none;
         }
         .series-tabs {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
-            width: 100%;
-            max-width: 500px;
+            display: flex;
+            gap: 2px;
+            width: max-content;
         }
         .tab-btn {
             background: #0b1322;
             color: var(--text-muted);
             border: 1px solid rgba(241, 196, 15, 0.3);
-            padding: 6px 2px;
+            padding: 2px 6px;
             text-align: center;
             font-weight: 800;
-            font-size: 0.75em;
-            border-radius: 6px;
+            font-size: 0.55em;
+            border-radius: 2px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.6);
-            -webkit-user-select: none;
-            user-select: none;
+            white-space: nowrap;
         }
         .tab-btn.active {
             background: linear-gradient(135deg, #f1c40f, #d4ac0d);
             color: #020408;
             border-color: #fff;
-            box-shadow: 0 0 15px var(--gold-glow);
-            text-shadow: none;
+            box-shadow: 0 0 6px var(--gold-glow);
         }
         
         .section-title {
             color: var(--gold-primary);
-            font-size: 0.8em;
-            margin: 6px 0 6px;
-            padding: 6px;
+            font-size: 0.6em;
+            margin: 2px 0;
+            padding: 2px;
             background: #000000 !important;
             border: 1px solid var(--border-glow);
-            border-radius: 6px;
+            border-radius: 2px;
             text-align: center;
             font-weight: 800;
-            letter-spacing: 1px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.6);
+            letter-spacing: 0.5px;
             text-transform: uppercase;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            text-shadow: 0 0 8px rgba(241, 196, 15, 0.4);
-            -webkit-user-select: none;
-            user-select: none;
+            gap: 3px;
         }
 
         .sticky-date-wrapper {
@@ -257,7 +266,7 @@
             top: 0;
             z-index: 900;
             background-color: var(--bg-deep);
-            padding: 4px 0;
+            padding: 1px 0;
             display: flex;
             justify-content: center;
             width: 100%;
@@ -265,65 +274,56 @@
 
         .archive-title {
             color: var(--gold-primary);
-            font-size: 0.68em;
-            padding: 2px 6px;
+            font-size: 0.55em;
+            padding: 1px 4px;
             background: linear-gradient(90deg, rgba(11,19,34,0.95), rgba(20,32,56,0.95), rgba(11,19,34,0.95));
             border: 1px solid var(--border-glow);
-            border-radius: 4px;
+            border-radius: 2px;
             text-align: center;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-            text-transform: uppercase;
-            width: auto;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 2px;
             cursor: pointer;
-            -webkit-user-select: none;
-            user-select: none;
         }
 
         .archive-title input[type="date"] {
             background: #000000;
             color: #ffffff;
             border: 1px solid var(--border-glow);
-            padding: 1px 4px;
-            border-radius: 3px;
+            padding: 1px 2px;
+            border-radius: 2px;
             font-weight: 700;
-            font-size: 0.75em;
+            font-size: 0.6em;
             outline: none;
             cursor: pointer;
             text-align: center;
             color-scheme: dark;
-            width: 100px;
-            height: 20px;
+            width: 80px;
+            height: 15px;
         }
 
         .main-scroll-viewport {
             flex-grow: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-bottom: 20px;
+            padding-bottom: 6px;
             scrollbar-width: thin;
             scrollbar-color: var(--gold-primary) rgba(11, 19, 34, 0.5);
         }
         .main-scroll-viewport::-webkit-scrollbar {
-            width: 4px;
+            width: 2px;
         }
         .main-scroll-viewport::-webkit-scrollbar-thumb {
             background-color: var(--gold-primary);
-            border-radius: 4px;
+            border-radius: 2px;
         }
         
         .result-block {
             border: 1px solid #1b4f72;
-            margin-bottom: 6px; 
+            margin-bottom: 2px; 
             background: #fefde0;
-            border-radius: 0px; 
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             width: 100%;
         }
         
@@ -334,44 +334,42 @@
             justify-content: center !important;
             background: linear-gradient(135deg, #1b4f72, #154360) !important;
             color: #ffffff !important; 
-            padding: 3px 6px !important;
-            font-size: 0.75em !important;
-            letter-spacing: 1.5px;
+            padding: 2px 4px !important;
+            font-size: 0.6em !important;
+            letter-spacing: 0.5px;
             border-bottom: 1px solid #10324a;
-            -webkit-user-select: none;
-            user-select: none;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         .live-dot {
-            height: 5px;
-            width: 5px;
+            height: 3px;
+            width: 3px;
             background-color: var(--accent-red);
             border-radius: 50%;
-            margin-right: 5px;
-            box-shadow: 0 0 5px var(--accent-red);
+            margin-right: 3px;
+            box-shadow: 0 0 3px var(--accent-red);
             animation: pulse-dot 1s infinite;
         }
         
         @keyframes pulse-dot { 
             0% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0.8); } 
-            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 6px rgba(255, 56, 56, 0); }
+            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 4px rgba(255, 56, 56, 0); }
             100% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
         
         .chart-table { 
             display: grid; 
             grid-template-columns: 1fr; 
-            gap: 0px; 
             width: 100%;
-            padding: 0px;
             background: #fefde0;
             margin: 0px;
+            border-bottom: 1px solid #b0bec5;
+        }
+        .chart-table:last-child {
+            border-bottom: none;
         }
 
         .row-grid { 
             display: grid; 
             grid-template-columns: repeat(10, 1fr); 
-            gap: 0px; 
             width: 100%;
             margin: 0px;
             padding: 0px;
@@ -379,77 +377,51 @@
         
         .cell { 
             background: #fefde0;
-            padding: 8px 0px; 
+            padding: 2px 0px; /* Super compact height for all mobile screens */
             text-align: center; 
             font-weight: 900; 
-            border-radius: 0px; 
-            font-size: 0.8em; 
-            color: #111111 !important;
+            font-size: 0.58em; /* Clean smaller text size so nothing looks oversized */
+            color: #111111 !important; /* All numbers strictly pure black */
             border: 1px solid #e0dfb8;
-            box-shadow: none; 
-            letter-spacing: -0.7px; 
+            letter-spacing: -0.5px; 
             white-space: nowrap;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.2s ease;
-            -webkit-user-select: none !important;
-            user-select: none !important;
-            -webkit-touch-callout: none !important;
-            -webkit-tap-highlight-color: transparent !important;
             outline: none !important;
         }
 
-        .cell .red-dp {
-            color: #d63031 !important;
-            font-weight: 900;
-        }
-        
         .site-footer {
             background: #000000 !important;
             border: 1px solid var(--border-glow) !important;
-            border-radius: 10px;
-            padding: 10px 8px;
-            margin-top: 10px;
+            border-radius: 5px;
+            padding: 5px 4px;
+            margin-top: 5px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
-            -webkit-user-select: none;
-            user-select: none;
         }
         .footer-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 6px 10px;
-            margin-bottom: 8px;
+            gap: 2px 5px;
+            margin-bottom: 3px;
         }
         .footer-links a {
             color: #ffffff;
             background: #111622;
             border: 1px solid var(--border-glow);
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.7em;
+            padding: 2px 5px;
+            border-radius: 2px;
+            font-size: 0.5em;
             font-weight: 800;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.2s;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.6);
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        .footer-links a:hover {
-            background: #1a2538;
-            color: var(--gold-primary);
-            border-color: var(--gold-primary);
         }
         .footer-copy {
             color: var(--text-muted);
-            font-size: 0.68em;
+            font-size: 0.48em;
             font-weight: 600;
-            letter-spacing: 0.5px;
             border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 8px;
+            padding-top: 3px;
         }
 
         .modal-overlay {
@@ -457,64 +429,54 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(2, 4, 8, 0.92);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(5px);
             z-index: 10000;
             justify-content: center;
             align-items: center;
-            padding: 14px;
+            padding: 8px;
         }
         .modal-card {
             background: linear-gradient(145deg, #0b1322, #04070e);
             border: 1px solid var(--gold-primary);
-            border-radius: 14px;
+            border-radius: 8px;
             width: 100%;
-            max-width: 420px;
-            max-height: 85vh;
+            max-width: 340px;
+            max-height: 78vh;
             overflow-y: auto;
-            padding: 18px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.95), inset 0 0 18px rgba(241, 196, 15, 0.2);
-            position: relative;
+            padding: 10px;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(241, 196, 15, 0.35);
-            padding-bottom: 10px;
-            margin-bottom: 12px;
+            padding-bottom: 5px;
+            margin-bottom: 6px;
         }
         .modal-title {
             color: var(--gold-primary);
-            font-size: 1em;
+            font-size: 0.75em;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
         .modal-close {
             background: none;
             border: none;
             color: var(--accent-red);
-            font-size: 1.3em;
+            font-size: 1em;
             font-weight: 900;
             cursor: pointer;
-            padding: 0 4px;
+            padding: 0 2px;
         }
         .modal-body {
             color: #d1d5db;
-            font-size: 0.82em;
-            line-height: 1.6;
+            font-size: 0.65em;
+            line-height: 1.35;
             font-weight: 500;
         }
-        .modal-body p {
-            margin-bottom: 10px;
-        }
-        .modal-body ul {
-            margin-left: 18px;
-            margin-bottom: 10px;
-        }
-        .modal-body li {
-            margin-bottom: 6px;
-        }
+        .modal-body p { margin-bottom: 5px; }
+        .modal-body ul { margin-left: 12px; margin-bottom: 5px; }
+        .modal-body li { margin-bottom: 2px; }
 
         #adminPanel { 
             display: none; 
@@ -523,45 +485,38 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 20000;
-            width: 90%;
-            max-width: 330px;
-            max-height: 82vh;
+            width: 85%;
+            max-width: 270px;
+            max-height: 78vh;
             overflow-y: auto;
-            padding: 12px; 
+            padding: 6px; 
             border: 1.5px solid var(--gold-primary); 
             background: linear-gradient(145deg, #060911, #020408); 
-            border-radius: 10px; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.98), inset 0 0 15px rgba(212, 175, 55, 0.15); 
+            border-radius: 5px; 
         }
         textarea, input[type="time"], input[type="date"] { 
             width: 100%; 
             background: #010204; 
             color: #fff; 
             border: 1px solid rgba(212, 175, 55, 0.3); 
-            margin: 2px 0 6px 0; 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            font-size: 0.78em; 
+            margin: 1px 0 3px 0; 
+            padding: 2px 4px; 
+            border-radius: 3px; 
+            font-size: 0.65em; 
             outline: none; 
             resize: vertical;
-            height: 30px;
-        }
-        textarea:focus, input[type="time"]:focus, input[type="date"]:focus { 
-            border-color: var(--gold-primary); 
-            box-shadow: 0 0 8px var(--gold-glow); 
+            height: 24px;
         }
         .btn-admin { 
             width: 100%; 
-            padding: 6px; 
+            padding: 3px; 
             border: none; 
             cursor: pointer; 
             font-weight: 900; 
-            border-radius: 6px; 
-            margin-top: 2px; 
-            font-size: 0.75em; 
-            letter-spacing: 0.8px; 
+            border-radius: 3px; 
+            margin-top: 1px; 
+            font-size: 0.6em; 
             text-transform: uppercase; 
-            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
         }
     </style>
 </head>
@@ -574,9 +529,11 @@
     <!-- FIXED TOP BANNER SECTION -->
     <div class="sticky-top-section">
         <div class="header-container">
-            <div class="neon-title"><span class="star-icon">✦</span> CΛNVΛS4D™ <span class="star-icon">✦</span></div>
-            <div class="amusement-sub">A M U S E M E N T</div>
-            <div class="kohinoor-sub">KOHINOOR ENTERPRISES</div>
+            <div class="neon-title">CΛNVΛS4D<span class="tm-symbol">™</span></div>
+            <div class="header-divider"></div>
+            <div class="kohinoor-sub">K O H I N O O R</div>
+            <div class="enterprises-sub">E N T E R P R I S E S</div>
+            <div class="amusement-sub">AMUSEMENT</div>
         </div>
 
         <div class="market-status-bar">
@@ -586,17 +543,25 @@
 
         <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
 
+        <!-- SERIES TABS FOR ALAG ALAG CHARTS -->
         <div class="series-tabs-wrapper">
             <div class="series-tabs">
                 <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Chart</div>
+                <div class="tab-btn" id="tab-0" onclick="switchSeries('0')">00 Chart</div>
                 <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 Chart</div>
+                <div class="tab-btn" id="tab-20" onclick="switchSeries('20')">20 Chart</div>
                 <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 Chart</div>
+                <div class="tab-btn" id="tab-40" onclick="switchSeries('40')">40 Chart</div>
                 <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Chart</div>
+                <div class="tab-btn" id="tab-60" onclick="switchSeries('60')">60 Chart</div>
+                <div class="tab-btn" id="tab-70" onclick="switchSeries('70')">70 Chart</div>
+                <div class="tab-btn" id="tab-80" onclick="switchSeries('80')">80 Chart</div>
+                <div class="tab-btn" id="tab-90" onclick="switchSeries('90')">90 Chart</div>
             </div>
         </div>
 
-        <div style="background: linear-gradient(90deg, rgba(212,175,55,0.08), rgba(212,175,55,0.2), rgba(212,175,55,0.08)); border: 1px solid var(--border-glow); border-radius: 6px; padding: 6px 0; margin: 4px 0; overflow: hidden; width: 100%; box-shadow: 0 3px 10px rgba(0,0,0,0.6); -webkit-user-select: none; user-select: none;">
-            <marquee behavior="scroll" direction="left" scrollamount="5" style="color: #ffffff; font-size: 0.75em; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase;">
+        <div style="background: linear-gradient(90deg, rgba(212,175,55,0.08), rgba(212,175,55,0.2), rgba(212,175,55,0.08)); border: 1px solid var(--border-glow); border-radius: 3px; padding: 2px 0; margin: 1px 0; overflow: hidden; width: 100%;">
+            <marquee behavior="scroll" direction="left" scrollamount="4" style="color: #ffffff; font-size: 0.58em; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;">
                 WELCOME TO CANVAS4D™ &nbsp;&bull;&nbsp; TRUSTED GAMING PLATFORM &nbsp;&bull;&nbsp; PREMIUM EXPERIENCE &nbsp;&bull;&nbsp; 18+ ONLY &nbsp;&bull;&nbsp; PLAY RESPONSIBLY
             </marquee>
         </div>
@@ -605,7 +570,7 @@
         <div class="sticky-date-wrapper">
             <div class="archive-title" onclick="triggerCalendar(event)">
                 <span>📅</span> 
-                <span style="font-size: 0.75em;">DATE:</span>
+                <span style="font-size: 0.6em;">DATE:</span>
                 <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
             </div>
         </div>
@@ -619,7 +584,7 @@
 
         <div id="todayMainSection" style="display: block;">
             <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
-            <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:20px; font-weight:800;'>Loading results instantly...</div></div>
+            <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:10px; font-weight:800;'>Loading results instantly...</div></div>
         </div>
 
         <footer class="site-footer">
@@ -644,7 +609,7 @@
                 <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>CΛNVΛS4D™</strong>, powered by KOHINOOR ENTERPRISES. We operate an elite, next-generation digital gaming exchange platform designed to offer secure, automated, and professional entertainment standards.</p>
+                <p>Welcome to <strong>CΛNVΛS4D™</strong>, powered by KOHINOOR ENTERPRISES. We operate an elite, next-generation digital gaming exchange platform.</p>
             </div>
         </div>
     </div>
@@ -659,8 +624,8 @@
                 <p>Please review our official operational guidelines:</p>
                 <ul>
                     <li><strong>Market Timing:</strong> Automated official draws execute sequentially between 09:00 AM and 10:00 PM standard schedules.</li>
-                    <li><strong>Series Structure:</strong> Results are properly categorized across specialized active series nodes (10 Chart, 30 Chart, and 50 Chart).</li>
-                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines preventing manual discrepancies.</li>
+                    <li><strong>Series Structure:</strong> Results are properly categorized across specialized active series nodes (00 to 90 Charts).</li>
+                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines.</li>
                     <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
                 </ul>
             </div>
@@ -703,45 +668,39 @@
         </div>
     </div>
 
-    <!-- CLEAN & MATCHED ADMIN PANEL POPUP -->
+    <!-- ADMIN PANEL POPUP -->
     <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:6px; margin-bottom:8px;">
-            <strong style="color: var(--gold-light); font-size: 0.85em; letter-spacing: 1px;">⚙️ ADMIN CONTROL PANEL</strong>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.2em; font-weight:900; cursor:pointer;">&times;</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:3px; margin-bottom:4px;">
+            <strong style="color: var(--gold-light); font-size: 0.7em; letter-spacing: 0.5px;">⚙️ ADMIN CONTROL PANEL</strong>
+            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:0.95em; font-weight:900; cursor:pointer;">&times;</button>
         </div>
         
-        <label style="font-size: 0.7em; color: var(--gold-primary); font-weight: 700;">Fix Numbers:</label>
+        <label style="font-size: 0.58em; color: var(--gold-primary); font-weight: 700;">Fix Numbers:</label>
         <textarea id="fixInput" placeholder="Fix numbers..."></textarea>
         
-        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block Full / Exact:</label>
+        <label style="font-size: 0.58em; color: var(--text-muted); font-weight: 700;">Block Full / Exact:</label>
         <textarea id="blockExact" placeholder="Exact block..."></textarea>
         
-        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block 10 Suffix:</label>
-        <textarea id="block10" placeholder="10 series block..."></textarea>
-        
-        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block 30 Suffix:</label>
-        <textarea id="block30" placeholder="30 series block..."></textarea>
-        
-        <label style="font-size: 0.7em; color: var(--text-muted); font-weight: 700;">Block 50 Suffix:</label>
-        <textarea id="block50" placeholder="50 series block..."></textarea>
+        <label style="font-size: 0.58em; color: var(--text-muted); font-weight: 700;">Block Series Blocks (00 to 90):</label>
+        <textarea id="blockSeries" placeholder="Series suffix block..."></textarea>
         
         <button class="btn-admin" style="background: linear-gradient(135deg, #f1c40f, #d4ac0d); color: #020408;" onclick="saveSettings()">SAVE CONFIG</button>
         
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 8px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 4px 0;">
         
-        <label style="font-size: 0.72em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
+        <label style="font-size: 0.6em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
         <input type="time" id="missedTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE</button>
 
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 8px 0;">
+        <hr style="border-color: rgba(212,175,55,0.2); margin: 4px 0;">
         
-        <label style="font-size: 0.72em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
+        <label style="font-size: 0.6em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
         <input type="time" id="deleteTimeInput">
         <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE</button>
     </div>
     
     <!-- BOTTOM RIGHT CORNER TRIGGER (10 TAPS TO OPEN WITH PASSWORD 24081996) -->
-    <div style="position:fixed; bottom:0; right:0; width:70px; height:70px; z-index:9999;" onclick="handleAdmin()"></div>
+    <div style="position:fixed; bottom:0; right:0; width:40px; height:40px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
@@ -750,6 +709,7 @@
 
         let currentSeriesFilter = 'all';
         let previousTotalBlocks = -1;
+        const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 
         function triggerCalendar(e) {
             let dateInput = document.getElementById('archiveDateSelect');
@@ -804,22 +764,18 @@
 
             let blocks = document.querySelectorAll('.result-block');
             blocks.forEach(block => {
-                let s10 = block.querySelector('.series-10');
-                let s30 = block.querySelector('.series-30');
-                let s50 = block.querySelector('.series-50');
+                allSeriesBases.forEach(base => {
+                    let sSec = block.querySelector('.series-' + base);
+                    if (sSec) {
+                        sSec.style.display = (series === 'all' || series === String(base)) ? 'grid' : 'none';
+                    }
+                });
 
-                if(series === 'all') {
-                    if(s10) s10.style.display = 'grid';
-                    if(s30) s30.style.display = 'grid';
-                    if(s50) s50.style.display = 'grid';
+                if (series === 'all') {
                     block.style.display = 'block';
                 } else {
-                    if(s10) s10.style.display = (series === '10') ? 'grid' : 'none';
-                    if(s30) s30.style.display = (series === '30') ? 'grid' : 'none';
-                    if(s50) s50.style.display = (series === '50') ? 'grid' : 'none';
-                    
-                    let targetSection = block.querySelector('.series-' + series);
-                    block.style.display = targetSection ? 'block' : 'none';
+                    let targetSec = block.querySelector('.series-' + series);
+                    block.style.display = targetSec ? 'block' : 'none';
                 }
             });
         }
@@ -843,9 +799,7 @@
             db.ref('settings').set({ 
                 fix: document.getElementById('fixInput').value,
                 bExact: document.getElementById('blockExact').value,
-                b10: document.getElementById('block10').value,
-                b30: document.getElementById('block30').value,
-                b50: document.getElementById('block50').value
+                bSeries: document.getElementById('blockSeries').value
             }).then(() => {
                 alert("Configuration Saved Successfully!");
             });
@@ -856,9 +810,7 @@
                 let s = snap.val();
                 if(s.fix !== undefined) document.getElementById('fixInput').value = s.fix;
                 if(s.bExact !== undefined) document.getElementById('blockExact').value = s.bExact;
-                if(s.b10 !== undefined) document.getElementById('block10').value = s.b10;
-                if(s.b30 !== undefined) document.getElementById('block30').value = s.b30;
-                if(s.b50 !== undefined) document.getElementById('block50').value = s.b50;
+                if(s.bSeries !== undefined) document.getElementById('blockSeries').value = s.bSeries;
             }
         });
 
@@ -879,11 +831,7 @@
                     return cleaned.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
                 };
 
-                let b10Arr = parseBlockInput(s.b10 || "");
-                let b30Arr = parseBlockInput(s.b30 || "");
-                let b50Arr = parseBlockInput(s.b50 || "");
-
-                let blocks = { '10': b10Arr, '30': b30Arr, '50': b50Arr };
+                let seriesBlockArr = parseBlockInput(s.bSeries || "");
 
                 let timeString, timeKey;
                 let now = new Date();
@@ -913,22 +861,17 @@
                     if (timeSnap.exists() && !customTimeString) { return; }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header" style="padding: 3px 6px !important; font-size: 0.75em !important;" data-time="${timeString}">${timeString}</div>`;
+                        <div class="time-header" style="padding: 2px 4px !important; font-size: 0.6em !important;" data-time="${timeString}">${timeString}</div>`;
                     
-                    [10, 30, 50].forEach(baseVal => {
-                        let seriesKey = (baseVal === 10) ? '10' : (baseVal === 30) ? '30' : '50';
-                        let blockArr = blocks[seriesKey] || [];
-
+                    allSeriesBases.forEach(baseVal => {
                         newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
-                            let prefix = baseVal + i; 
+                            let prefixNum = baseVal + i; 
+                            let prefixStr = String(prefixNum).padStart(2, '0');
                             let val;
                             
-                            // 1. Check if there is an exact fix matching this prefix + 2 digits (e.g., 1035)
-                            let exactFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefix.toString()) && n.slice(0, prefix.toString().length) === prefix.toString());
-                            
-                            // 2. Check if there is an exact fix matching just the 4-digit number anywhere in the fix list
-                            let directFixMatch = fixList.find(n => n.length === 4 && n.startsWith(prefix.toString()));
+                            let exactFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefixStr));
+                            let directFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefixStr));
 
                             if (directFixMatch) {
                                 val = directFixMatch;
@@ -938,26 +881,25 @@
                                 let validSuffixes = [];
                                 for (let sIdx = 0; sIdx < 100; sIdx++) {
                                     let suffixStr = String(sIdx).padStart(2, '0');
-                                    let candidateFull = prefix.toString() + suffixStr;
+                                    let candidateFull = prefixStr + suffixStr;
                                     let isBlocked = exactBlockList.includes(candidateFull) || 
-                                                    blockArr.some(b => candidateFull === b || candidateFull.slice(-2) === b || (b.length === 2 && candidateFull.slice(-2) === b));
+                                                    seriesBlockArr.some(b => candidateFull === b || candidateFull.slice(-2) === b || (b.length === 2 && candidateFull.slice(-2) === b));
                                     if (!isBlocked) {
                                         validSuffixes.push(suffixStr);
                                     }
                                 }
-                                if (validSuffixes.length === 0) validSuffixes = ["00"];
+                                if (validSuffixes.length === 0) validSuffixes = ["20", "55", "77", "89", "66"];
 
                                 let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
-                                val = prefix.toString() + randSuffix;
+                                val = prefixStr + randSuffix;
                             }
 
-                            let prefixPart = val.slice(0, -2);
-                            let suffixPart = val.slice(-2);
-                            let isDouble = (suffixPart[0] === suffixPart);
+                            if (val.length < 4) {
+                                val = val.padEnd(4, '0');
+                            }
 
-                            let formattedVal = isDouble 
-                                ? `<span style="color: #111111; font-weight: 900;">${prefixPart}</span><span class="red-dp">${suffixPart}</span>`
-                                : val;
+                            // All numbers strictly rendered in pure black format without any red coloring
+                            let formattedVal = `<span style="color: #111111; font-weight: 900;">${val}</span>`;
 
                             newBlock += `<div class="cell">${formattedVal}</div>`;
                         }
@@ -1058,7 +1000,7 @@
 
             if(todayMain) todayMain.style.display = "none";
             archiveContainer.style.display = "block";
-            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
+            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:10px; font-weight:800;'>Loading archive data...</div>";
 
             let keyPadded = `${dayPadded}_${monthName}_${year}`;
             let keyUnpadded = `${dayUnpadded}_${monthName}_${year}`;
@@ -1108,10 +1050,10 @@
 
                                                 processArchiveHtml(accumulatedHtml, dayPadded, monthName, year);
                                             } else {
-                                                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                                                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:10px; font-weight:800;'>No data found for this date.</div>";
                                             }
                                         } else {
-                                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:10px; font-weight:800;'>No data found for this date.</div>";
                                         }
                                     });
                                 }
@@ -1176,7 +1118,7 @@
                         if (th) {
                             let tText = th.innerText.trim();
                             th.setAttribute('data-time', tText);
-                            th.style.cssText = "padding: 3px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
+                            th.style.cssText = "padding: 2px 4px !important; font-size: 0.6em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
                             if (index === 0) {
                                 th.innerHTML = `<span class="live-dot"></span>` + tText;
                             } else {
@@ -1188,7 +1130,7 @@
                 });
 
                 if(htmlContent === "") {
-                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Waiting for today's first draw...</div>";
+                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px; font-weight:800;'>Waiting for today's first draw...</div>";
                 } else {
                     todayContainer.innerHTML = htmlContent;
                 }
@@ -1196,7 +1138,7 @@
                 switchSeries(currentSeriesFilter);
             } else {
                 document.getElementById('drawsCounterText').innerText = `Completed: 0 | Remaining: 53`;
-                todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:15px; font-weight:800;'>Market Closed for Today.</div>";
+                todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:10px; font-weight:800;'>Market Closed for Today.</div>";
                 todayMain.style.display = 'block';
             }
         });
