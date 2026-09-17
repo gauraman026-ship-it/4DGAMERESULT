@@ -207,39 +207,43 @@
             margin-bottom: 3px;
         }
 
+        /* ENLARGED TOUCHABLE SERIES TABS */
         .series-tabs-wrapper {
             display: flex;
             width: 100%;
-            margin: 3px 0;
+            margin: 4px 0;
             overflow-x: auto;
             scrollbar-width: none;
+            padding-bottom: 2px;
         }
         .series-tabs-wrapper::-webkit-scrollbar {
             display: none;
         }
         .series-tabs {
             display: flex;
-            gap: 3px;
+            gap: 6px;
             width: max-content;
         }
         .tab-btn {
             background: #0b1322;
             color: var(--text-muted);
-            border: 1px solid rgba(241, 196, 15, 0.3);
-            padding: 3px 8px;
+            border: 1.5px solid rgba(241, 196, 15, 0.4);
+            padding: 6px 12px;
             text-align: center;
-            font-weight: 800;
-            font-size: 0.65em;
-            border-radius: 3px;
+            font-weight: 900;
+            font-size: 0.75em;
+            border-radius: 5px;
             cursor: pointer;
             text-transform: uppercase;
             white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            transition: all 0.2s ease;
         }
         .tab-btn.active {
             background: linear-gradient(135deg, #f1c40f, #d4ac0d);
             color: #020408;
             border-color: #fff;
-            box-shadow: 0 0 8px var(--gold-glow);
+            box-shadow: 0 0 10px var(--gold-glow);
         }
         
         .section-title {
@@ -377,11 +381,11 @@
         
         .cell { 
             background: #fefde0;
-            padding: 4px 1px; /* Balanced padding for clear readability */
+            padding: 5px 1px; /* Slightly increased padding for the perfect balanced look */
             text-align: center; 
             font-weight: 900; 
-            font-size: 0.75em; /* Slightly increased font size for perfect visibility */
-            color: #111111 !important; /* Pure black text */
+            font-size: 0.82em; /* Halka sa bada font size taaki numbers bilkul saaf dikhein */
+            color: #111111 !important;
             border: 1px solid #e0dfb8;
             letter-spacing: -0.5px; 
             white-space: nowrap;
@@ -898,7 +902,6 @@
                                 val = val.padEnd(4, '0');
                             }
 
-                            // All numbers strictly rendered in pure black format without any red coloring
                             let formattedVal = `<span style="color: #111111; font-weight: 900;">${val}</span>`;
 
                             newBlock += `<div class="cell">${formattedVal}</div>`;
