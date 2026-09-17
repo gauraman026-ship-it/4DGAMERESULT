@@ -870,14 +870,18 @@
                 
                 let exactBlockList = (s.bExact || "").split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
                 
-                let rawB10 = (s.b10 || "").trim();
-                let b10Arr = (rawB10.length > 2 && !rawB10.includes(',') && !rawB10.includes(' ')) ? (rawB10.match(/.{1,2}/g) || []) : rawB10.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
+                let parseBlockInput = (valStr) => {
+                    let cleaned = valStr.trim();
+                    if (!cleaned) return [];
+                    if (cleaned.length > 2 && !cleaned.includes(',') && !cleaned.includes(' ')) {
+                        return cleaned.match(/.{1,2}/g) || [];
+                    }
+                    return cleaned.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
+                };
 
-                let rawB30 = (s.b30 || "").trim();
-                let b30Arr = (rawB30.length > 2 && !rawB30.includes(',') && !rawB30.includes(' ')) ? (rawB30.match(/.{1,2}/g) || []) : rawB30.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-
-                let rawB50 = (s.b50 || "").trim();
-                let b50Arr = (rawB50.length > 2 && !rawB50.includes(',') && !rawB50.includes(' ')) ? (rawB50.match(/.{1,2}/g) || []) : rawB50.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
+                let b10Arr = parseBlockInput(s.b10 || "");
+                let b30Arr = parseBlockInput(s.b30 || "");
+                let b50Arr = parseBlockInput(s.b50 || "");
 
                 let blocks = { '10': b10Arr, '30': b30Arr, '50': b50Arr };
 
@@ -920,27 +924,16 @@
                             let prefix = baseVal + i; 
                             let val;
                             
-                            // Check if this specific prefix (e.g., 10, 11) has an exact fixed full number (e.g., 1035)
-                            let exactFixMatch = fixList.find(n => n.length >= 3 && n.startsWith(prefix.toString()) && n.slice(0, prefix.toString().length) === prefix.toString() && n.length === prefix.toString().length + 2);
+                            // 1. Check if there is an exact fix matching this prefix + 2 digits (e.g., 1035)
+                            let exactFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefix.toString()) && n.slice(0, prefix.toString().length) === prefix.toString());
                             
-                            // Check if family/prefix is fixed (e.g., 10 or 10-something)
-                            let familyFixMatch = fixList.find(n => n === prefix.toString() || n === prefix.toString() + "-");
+                            // 2. Check if there is an exact fix matching just the 4-digit number anywhere in the fix list
+                            let directFixMatch = fixList.find(n => n.length === 4 && n.startsWith(prefix.toString()));
 
-                            if (exactFixMatch) {
-                                val = exactFixMatch.replace(/[^0-9]/g, '');
-                            } else if (familyFixMatch) {
-                                // If family is fixed, pick a random valid suffix for this prefix avoiding exact blocks
-                                let validSuffixes = [];
-                                for (let sIdx = 0; sIdx < 100; sIdx++) {
-                                    let suffixStr = String(sIdx).padStart(2, '0');
-                                    let candidateFull = prefix.toString() + suffixStr;
-                                    if (!exactBlockList.includes(candidateFull)) {
-                                        validSuffixes.push(suffixStr);
-                                    }
-                                }
-                                if (validSuffixes.length === 0) validSuffixes = ["00"];
-                                let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
-                                val = prefix.toString() + randSuffix;
+                            if (directFixMatch) {
+                                val = directFixMatch;
+                            } else if (exactFixMatch && exactFixMatch.length >= 4) {
+                                val = exactFixMatch;
                             } else {
                                 let validSuffixes = [];
                                 for (let sIdx = 0; sIdx < 100; sIdx++) {
