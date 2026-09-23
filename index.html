@@ -200,7 +200,6 @@
             }
         }
 
-        /* Classes for Active (Blinking) vs Closed (Static) States */
         .live-badge.active-blink {
             color: var(--accent-red);
             background: rgba(255, 56, 56, 0.2);
@@ -724,7 +723,6 @@
             <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.1em; font-weight:900; cursor:pointer;">&times;</button>
         </div>
         
-        <!-- SERIES SELECTOR FOR SPECIFIC FIX / BLOCK CONFIGURATION -->
         <div class="admin-section-box">
             <label style="font-size: 0.65em; color: var(--gold-primary); font-weight: 800;">Select Series Category:</label>
             <select id="seriesCategorySelect" onchange="loadSeriesCategoryConfig()">
@@ -763,7 +761,6 @@
         <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE</button>
     </div>
     
-    <!-- BOTTOM RIGHT CORNER TRIGGER (10 TAPS TO OPEN WITH PASSWORD 24081996) -->
     <div style="position:fixed; bottom:0; right:0; width:50px; height:50px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
@@ -1148,7 +1145,8 @@
             });
         }
 
-        db.ref('resultsData/blocks').on('value', (snap) => {
+        // OPTIMIZED REAL-TIME LISTENER WITH FLEXIBLE TODAY FILTERING
+        db.ref('resultsData/blocks').orderByKey().limitToLast(60).on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
 
@@ -1159,8 +1157,18 @@
                 let blocksObj = snap.val();
                 let keys = Object.keys(blocksObj);
                 
-                let todayStrDate = new Date().toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                keys = keys.filter(k => k.startsWith(todayStrDate));
+                let now = new Date();
+                let currentDay = String(now.getDate());
+                let currentDayPadded = String(now.getDate()).padStart(2, '0');
+                let currentYear = now.getFullYear().toString();
+                
+                keys = keys.filter(k => {
+                    return (k.includes(currentDay) || k.includes(currentDayPadded)) && k.includes(currentYear);
+                });
+
+                if (keys.length === 0) {
+                    keys = Object.keys(blocksObj).slice(-20);
+                }
 
                 keys.sort((a, b) => {
                     let partsA = a.split('_');
@@ -1237,7 +1245,6 @@
             let m = parseInt(formatterM.format(now), 10);
             let s = parseInt(formatterS.format(now), 10);
 
-            // LIVE BADGE STATUS AUTOMATION (9:00 AM TO 10:00 PM)
             let liveBadgeEl = document.getElementById('liveBadgeElement');
             let liveDotEl = document.getElementById('liveDotElement');
             let isMarketActive = (h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0));
