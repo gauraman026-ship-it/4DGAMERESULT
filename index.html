@@ -632,7 +632,7 @@
 
         <div id="todayMainSection" style="display: block;">
             <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
-            <div id="today-container"><div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading results instantly...</div></div>
+            <div id="today-container"></div>
         </div>
 
         <footer class="site-footer">
@@ -1145,7 +1145,7 @@
             });
         }
 
-        // FULL DAY REAL-TIME LISTENER (WITHOUT LIMIT RESTRICTION)
+        // FULL DAY REAL-TIME LISTENER (INSTANT DISPLAY & NO LOADING SPINNER)
         db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
