@@ -1063,7 +1063,7 @@
             let dayPadded = String(dayNum).padStart(2, '0');
             let dayUnpadded = String(dayNum);
 
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             let monthName = monthNames[monthNum - 1];
 
             let now = new Date();
@@ -1085,7 +1085,7 @@
 
             let keyPadded = `${dayPadded}_${monthName}_${year}`;
             let keyUnpadded = `${dayUnpadded}_${monthName}_${year}`;
-            let altMonth = monthName === "Sept" ? "Sep" : monthName;
+            let altMonth = monthName === "Sep" ? "Sept" : monthName;
             let altKeyPadded = `${dayPadded}_${altMonth}_${year}`;
 
             db.ref('monthlyArchive/' + keyPadded).once('value', (snap1) => {
@@ -1145,7 +1145,7 @@
             });
         }
 
-        // FULL DAY REAL-TIME LISTENER (INSTANT DISPLAY & NO LOADING SPINNER)
+        // FULL DAY REAL-TIME LISTENER (FLEXIBLE MATCHING FOR TODAY'S DATE)
         db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
@@ -1161,12 +1161,15 @@
                 let currentDay = String(now.getDate());
                 let currentDayPadded = String(now.getDate()).padStart(2, '0');
                 let currentYear = now.getFullYear().toString();
-                let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+                let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                 let currentMonthName = currentMonthNames[now.getMonth()];
+                let altMonthName = currentMonthName === "Sep" ? "Sept" : currentMonthName;
                 
                 keys = keys.filter(k => {
-                    let isTodayDate = (k.includes(currentDay) || k.includes(currentDayPadded)) && k.includes(currentYear) && k.includes(currentMonthName);
-                    return isTodayDate;
+                    let matchDay = k.startsWith(currentDay + "_") || k.startsWith(currentDayPadded + "_");
+                    let matchMonth = k.includes("_" + currentMonthName + "_") || k.includes("_" + altMonthName + "_");
+                    let matchYear = k.includes("_" + currentYear);
+                    return matchDay && matchMonth && matchYear;
                 });
 
                 keys.sort((a, b) => {
