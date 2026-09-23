@@ -1145,8 +1145,8 @@
             });
         }
 
-        // OPTIMIZED REAL-TIME LISTENER WITH FLEXIBLE TODAY FILTERING
-        db.ref('resultsData/blocks').orderByKey().limitToLast(60).on('value', (snap) => {
+        // OPTIMIZED REAL-TIME LISTENER WITH LIMIT INCREASED TO 100 FOR FULL DAY (9 AM ONWARDS)
+        db.ref('resultsData/blocks').orderByKey().limitToLast(100).on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
 
@@ -1167,7 +1167,7 @@
                 });
 
                 if (keys.length === 0) {
-                    keys = Object.keys(blocksObj).slice(-20);
+                    keys = Object.keys(blocksObj).slice(-53);
                 }
 
                 keys.sort((a, b) => {
