@@ -1145,8 +1145,8 @@
             });
         }
 
-        // OPTIMIZED REAL-TIME LISTENER WITH LIMIT INCREASED TO 100 FOR FULL DAY (9 AM ONWARDS)
-        db.ref('resultsData/blocks').orderByKey().limitToLast(100).on('value', (snap) => {
+        // FULL DAY REAL-TIME LISTENER (WITHOUT LIMIT RESTRICTION)
+        db.ref('resultsData/blocks').on('value', (snap) => {
             let archiveInputVal = document.getElementById('archiveDateSelect').value;
             if (archiveInputVal) return; 
 
@@ -1161,14 +1161,13 @@
                 let currentDay = String(now.getDate());
                 let currentDayPadded = String(now.getDate()).padStart(2, '0');
                 let currentYear = now.getFullYear().toString();
+                let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+                let currentMonthName = currentMonthNames[now.getMonth()];
                 
                 keys = keys.filter(k => {
-                    return (k.includes(currentDay) || k.includes(currentDayPadded)) && k.includes(currentYear);
+                    let isTodayDate = (k.includes(currentDay) || k.includes(currentDayPadded)) && k.includes(currentYear) && k.includes(currentMonthName);
+                    return isTodayDate;
                 });
-
-                if (keys.length === 0) {
-                    keys = Object.keys(blocksObj).slice(-53);
-                }
 
                 keys.sort((a, b) => {
                     let partsA = a.split('_');
