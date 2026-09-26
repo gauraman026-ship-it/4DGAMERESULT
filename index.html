@@ -23,7 +23,7 @@
             --gold-primary: #d4af37;
             --gold-light: #fef08a;
             --gold-dark: #854d0e;
-            --gold-glow: rgba(212, 175, 55, 0.4);
+            --gold-glow: rgba(212, 175, 55, 0.5);
             --accent-red: #ff3838;
             --accent-green: #2ecc71;
             --border-glow: rgba(212, 175, 55, 0.3);
@@ -239,13 +239,15 @@
             text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
         }
 
+        /* EXTRA COMPACT DASHBOARD CONTROL GRID WRAPPER FOR ALL & 00-99 */
         .series-tabs-wrapper {
             display: flex;
             flex-direction: column;
             width: 100%;
-            background: #020408;
-            padding: 4px 5px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+            background: linear-gradient(145deg, #080e1a 0%, #030509 100%);
+            padding: 3px 6px;
+            border-bottom: 1.5px solid rgba(212, 175, 55, 0.55);
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 3px 10px rgba(0, 0, 0, 0.9);
         }
 
         .top-center-all {
@@ -255,51 +257,63 @@
             width: 100%;
         }
 
+        /* DISTINCT ALL-CHART TILE - COMPACT */
         .top-center-all .tab-btn {
-            width: 42%;
-            max-width: 160px;
-            padding: 4px 0;
-            font-size: 0.68em;
-            letter-spacing: 0.8px;
+            width: 100%;
+            max-width: 240px;
+            padding: 3px 0;
+            font-size: 0.7em;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, #1b2844 0%, #0a111d 100%);
+            border: 1px solid var(--gold-primary);
+            border-radius: 3px;
+            color: #fef08a;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
+        /* 2-ROW COMPACT GRID FOR 00-99 CHARTS (5 items per row) */
         .series-tabs {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 4px;
+            gap: 3px;
             width: 100%;
         }
 
+        /* UNIQUE SUBTLE METALLIC CHIP DESIGN */
         .tab-btn {
-            background: linear-gradient(145deg, #111827, #0b0f19);
-            color: #fef08a;
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            padding: 4px 1px;
+            background: linear-gradient(145deg, #111827, #070a12);
+            color: #cbd5e1;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 4px 2px;
             text-align: center;
             font-weight: 800;
             font-size: 0.64em;
-            border-radius: 4px;
+            border-radius: 3px;
             cursor: pointer;
             text-transform: uppercase;
             white-space: nowrap;
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0,0,0,0.7);
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0,0,0,0.8);
             transition: all 0.15s ease-in-out;
             width: 100%;
-            position: relative;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(212, 175, 55, 0.8);
+            color: #fef08a;
+            background: linear-gradient(145deg, #1d2a44, #0e1524);
         }
 
         .tab-btn:active {
-            transform: scale(0.96);
+            transform: scale(0.94);
         }
         
         .tab-btn.active {
-            background: linear-gradient(135deg, #ffd700 0%, #d4af37 50%, #aa7c11 100%);
+            background: linear-gradient(135deg, #fff275 0%, #d4af37 50%, #855f06 100%);
             color: #000000;
-            border-color: #ffffff;
+            border: 1px solid #ffffff;
             font-weight: 900;
-            box-shadow: 0 0 10px var(--gold-glow), inset 0 2px 4px rgba(255, 255, 255, 0.6), inset 0 -2px 3px rgba(0, 0, 0, 0.3);
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 8px var(--gold-glow), inset 0 1px 3px rgba(255, 255, 255, 0.7);
+            text-shadow: none;
         }
         
         .section-title {
@@ -326,67 +340,73 @@
             height: 18px;
         }
 
+        /* PROFESSIONAL COMPACT ELEGANT DATE STYLING */
         .sticky-date-wrapper {
             position: sticky;
             top: 0;
             z-index: 900;
-            background-color: #145a32;
-            padding: 0;
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+            padding: 3px 0;
             display: flex;
             justify-content: center;
             width: 100%;
-            border: none !important;
-            box-shadow: none !important;
-            height: 18px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            height: 26px;
         }
 
         .archive-title {
-            color: #fef08a !important;
-            font-size: 0.6em;
-            padding: 0px 2px;
-            background: #145a32 !important;
-            border: none !important;
+            color: var(--gold-light) !important;
+            font-size: 0.7em;
+            padding: 1px 8px;
+            background: linear-gradient(135deg, rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)) !important;
+            border: 1px solid rgba(212, 175, 55, 0.4) !important;
+            border-radius: 14px !important;
             text-align: center;
-            font-weight: 900;
+            font-weight: 800;
             letter-spacing: 0.8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
+            gap: 5px;
             cursor: pointer;
-            width: 100%;
-            box-shadow: none !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.5) !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
             text-transform: uppercase;
-            height: 18px;
+            height: 20px;
+            position: relative;
         }
 
         .archive-title input[type="date"] {
-            background: #000000;
-            color: #ffffff;
-            border: 1px solid var(--gold-primary);
-            padding: 0px 2px;
-            border-radius: 2px;
-            font-weight: 700;
-            font-size: 0.65em;
-            outline: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
             cursor: pointer;
-            text-align: center;
+            z-index: 2;
             color-scheme: dark;
-            width: 100px;
-            height: 15px;
-            box-shadow: none;
         }
 
+        .date-display-text {
+            color: #fef08a;
+            font-weight: 700;
+            font-size: 0.85em;
+            letter-spacing: 0.3px;
+            pointer-events: none;
+        }
+
+        /* ULTRA COMPACT & SLOW SCROLLING MARQUEE */
         .canvas-marquee {
             width: 100%;
             overflow: hidden;
             background: linear-gradient(90deg, #05070b 0%, #101726 50%, #05070b 100%);
-            border-top: 1px solid rgba(212, 175, 55, 0.6);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.6);
-            padding: 11px 0;
-            border-radius: 4px;
-            box-shadow: 0 0 14px rgba(212, 175, 55, 0.25), inset 0 0 10px rgba(212, 175, 55, 0.1);
+            border-top: 1px solid rgba(212, 175, 55, 0.5);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+            padding: 5px 0; /* Patti ko aur patla/halka kar diya gaya hai */
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.15), inset 0 0 6px rgba(212, 175, 55, 0.05);
         }
 
         .canvas-track {
@@ -395,25 +415,25 @@
             gap: 28px;
             white-space: nowrap;
             padding-left: 100%;
-            animation: premiumScroll 24s linear infinite;
+            animation: premiumScroll 36s linear infinite; /* Speed slow karne ke liye duration 36s kar di gayi hai */
         }
 
         .canvas-track span {
             font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 13px;
-            font-weight: 900;
-            letter-spacing: 1.5px;
+            font-size: 11.5px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
             background: linear-gradient(135deg, #ffffff 0%, #fffdf0 50%, #fef08a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+            text-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
         }
 
         .canvas-track b {
             color: var(--gold-primary);
             opacity: 0.9;
-            font-size: 11px;
-            text-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
+            font-size: 10px;
+            text-shadow: 0 0 4px rgba(212, 175, 55, 0.5);
         }
 
         @keyframes premiumScroll {
@@ -427,15 +447,15 @@
 
         @media(max-width: 600px) {
             .canvas-marquee {
-                padding: 10px 0;
+                padding: 4px 0;
             }
             .canvas-track span {
-                font-size: 11.5px;
-                letter-spacing: 1.2px;
+                font-size: 10.5px;
+                letter-spacing: 1px;
             }
             .canvas-track {
                 gap: 22px;
-                animation-duration: 20s;
+                animation-duration: 32s;
             }
         }
 
@@ -694,22 +714,22 @@
 
         <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
 
-        <!-- ALL CHART ON TOP CENTER & PROFESSIONAL SERIES TABS -->
+        <!-- UNIQUE CONTROL-PANEL STYLE ALL & 00-99 GRID -->
         <div class="series-tabs-wrapper">
             <div class="top-center-all">
-                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Chart</div>
+                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All (00 - 99)</div>
             </div>
             <div class="series-tabs">
-                <div class="tab-btn" id="tab-0" onclick="switchSeries('0')">00 Chart</div>
-                <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 Chart</div>
-                <div class="tab-btn" id="tab-20" onclick="switchSeries('20')">20 Chart</div>
-                <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 Chart</div>
-                <div class="tab-btn" id="tab-40" onclick="switchSeries('40')">40 Chart</div>
-                <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 Chart</div>
-                <div class="tab-btn" id="tab-60" onclick="switchSeries('60')">60 Chart</div>
-                <div class="tab-btn" id="tab-70" onclick="switchSeries('70')">70 Chart</div>
-                <div class="tab-btn" id="tab-80" onclick="switchSeries('80')">80 Chart</div>
-                <div class="tab-btn" id="tab-90" onclick="switchSeries('90')">90 Chart</div>
+                <div class="tab-btn" id="tab-0" onclick="switchSeries('0')">00-09</div>
+                <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10-19</div>
+                <div class="tab-btn" id="tab-20" onclick="switchSeries('20')">20-29</div>
+                <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30-39</div>
+                <div class="tab-btn" id="tab-40" onclick="switchSeries('40')">40-49</div>
+                <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50-59</div>
+                <div class="tab-btn" id="tab-60" onclick="switchSeries('60')">60-69</div>
+                <div class="tab-btn" id="tab-70" onclick="switchSeries('70')">70-79</div>
+                <div class="tab-btn" id="tab-80" onclick="switchSeries('80')">80-89</div>
+                <div class="tab-btn" id="tab-90" onclick="switchSeries('90')">90-99</div>
             </div>
         </div>
 
@@ -731,12 +751,13 @@
           </div>
         </div>
 
-        <!-- ULTRA-THIN STICKY DATE SELECTION BAR -->
+        <!-- PROFESSIONAL CLICKABLE DATE SELECTION BAR -->
         <div class="sticky-date-wrapper">
-            <div class="archive-title" onclick="triggerCalendar(event)">
+            <div class="archive-title">
                 <span>📅</span> 
-                <span style="font-size: 0.6em;">DATE:</span>
-                <input type="date" id="archiveDateSelect" onchange="loadArchiveDate(this.value)">
+                <span style="font-size: 0.7em;">DATE:</span>
+                <span class="date-display-text" id="dateDisplayText">SELECT</span>
+                <input type="date" id="archiveDateSelect" onchange="updateDateDisplay(this.value); loadArchiveDate(this.value)">
             </div>
         </div>
     </div>
@@ -844,16 +865,16 @@
             <label style="font-size: 0.65em; color: var(--gold-primary); font-weight: 800;">Select Series Category:</label>
             <select id="seriesCategorySelect" onchange="loadSeriesCategoryConfig()">
                 <option value="all">Global (All Series)</option>
-                <option value="0">00 Series (00-09)</option>
-                <option value="10">10 Series (10-19)</option>
-                <option value="20">20 Series (20-29)</option>
-                <option value="30">30 Series (30-39)</option>
-                <option value="40">40 Series (40-49)</option>
-                <option value="50">50 Series (50-59)</option>
-                <option value="60">60 Series (60-69)</option>
-                <option value="70">70 Series (70-79)</option>
-                <option value="80">80 Series (80-89)</option>
-                <option value="90">90 Series (90-99)</option>
+                <option value="0">00-09 Series</option>
+                <option value="10">10-19 Series</option>
+                <option value="20">20-29 Series</option>
+                <option value="30">30-39 Series</option>
+                <option value="40">40-49 Series</option>
+                <option value="50">50-59 Series</option>
+                <option value="60">60-69 Series</option>
+                <option value="70">70-79 Series</option>
+                <option value="80">80-89 Series</option>
+                <option value="90">90-99 Series</option>
             </select>
 
             <label style="font-size: 0.63em; color: var(--gold-light); font-weight: 700; margin-top: 4px; display: block;">Fix Number (For Selected Series):</label>
@@ -881,6 +902,16 @@
     <div style="position:fixed; bottom:0; right:0; width:50px; height:50px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
+        function updateDateDisplay(val) {
+            let disp = document.getElementById('dateDisplayText');
+            if(val) {
+                let parts = val.split('-');
+                disp.innerText = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            } else {
+                disp.innerText = "SELECT";
+            }
+        }
+
         function updateCurrentDateTitle() {
             let now = new Date();
             let options = { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' };
@@ -910,18 +941,6 @@
         let previousTotalBlocks = -1;
         const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
         let globalSettingsData = {};
-
-        function triggerCalendar(e) {
-            let dateInput = document.getElementById('archiveDateSelect');
-            if (dateInput && e.target !== dateInput) {
-                if (typeof dateInput.showPicker === 'function') {
-                    dateInput.showPicker();
-                } else {
-                    dateInput.focus();
-                    dateInput.click();
-                }
-            }
-        }
 
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
