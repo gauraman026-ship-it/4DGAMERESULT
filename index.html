@@ -1098,7 +1098,13 @@
                             }
 
                             if (val.length < 4) val = val.padEnd(4, '0');
-                            newBlock += `<div class="cell"><span style="color: #111111; font-weight: 900;">${val}</span></div>`;
+                            
+                            let p1 = val.slice(0, 2);
+                            let p2 = val.slice(2, 4);
+                            let isSame = (p2[0] === p2[1]);
+                            let suffixColor = isSame ? "var(--accent-red)" : "#111111";
+
+                            newBlock += `<div class="cell"><span style="color: #111111; font-weight: 900;">${p1}</span><span style="color: ${suffixColor}; font-weight: 900;">${p2}</span></div>`;
                         }
                         newBlock += `</div></div>`;
                     });
