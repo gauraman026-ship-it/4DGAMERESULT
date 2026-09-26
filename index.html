@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CΛNVΛS4D™ - Elite Gaming Exchange</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Fast Network Preconnect -->
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://canvas2d-result-default-rtdb.firebaseio.com">
+
+    <!-- Deferred Scripts for Speed -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+
     <style>
         :root {
             --bg-deep: #030406;
@@ -181,24 +189,9 @@
         }
 
         @keyframes redOnlyLoop {
-            0% { 
-                color: var(--accent-red); 
-                border-color: var(--accent-red); 
-                background: rgba(255, 56, 56, 0.15); 
-                box-shadow: 0 0 2px rgba(255, 56, 56, 0.4);
-            }
-            50% { 
-                color: #ff8585; 
-                border-color: #ff8585; 
-                background: rgba(255, 56, 56, 0.35); 
-                box-shadow: 0 0 10px rgba(255, 56, 56, 0.8);
-            }
-            100% { 
-                color: var(--accent-red); 
-                border-color: var(--accent-red); 
-                background: rgba(255, 56, 56, 0.15); 
-                box-shadow: 0 0 2px rgba(255, 56, 56, 0.4);
-            }
+            0% { color: var(--accent-red); border-color: var(--accent-red); background: rgba(255, 56, 56, 0.15); box-shadow: 0 0 2px rgba(255, 56, 56, 0.4); }
+            50% { color: #ff8585; border-color: #ff8585; background: rgba(255, 56, 56, 0.35); box-shadow: 0 0 10px rgba(255, 56, 56, 0.8); }
+            100% { color: var(--accent-red); border-color: var(--accent-red); background: rgba(255, 56, 56, 0.15); box-shadow: 0 0 2px rgba(255, 56, 56, 0.4); }
         }
 
         .live-badge.active-blink {
@@ -308,14 +301,14 @@
         }
         
         .section-title {
-            color: var(--gold-primary);
-            font-size: 0.7em;
+            color: #ffffff;
+            font-size: 0.75em;
             margin: 0;
-            padding: 4px;
-            background: #000000 !important;
-            border-bottom: 1px solid var(--border-glow);
+            padding: 5px 4px;
+            background: #145a32 !important;
+            border-bottom: 1.5px solid #27ae60;
             text-align: center;
-            font-weight: 800;
+            font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
             width: 100%;
@@ -323,6 +316,11 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
+            position: sticky;
+            top: 0;
+            z-index: 850;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
 
         .sticky-date-wrapper {
@@ -377,6 +375,7 @@
             scrollbar-width: thin;
             scrollbar-color: var(--gold-primary) rgba(11, 19, 34, 0.5);
             width: 100%;
+            -webkit-overflow-scrolling: touch;
         }
         .main-scroll-viewport::-webkit-scrollbar {
             width: 3px;
@@ -665,7 +664,7 @@
         <div id="archive-container" style="display: none;"></div>
 
         <div id="todayMainSection" style="display: block;">
-            <div class="section-title" id="todayTitleSection" style="justify-content: center;">TODAY LIVE DRAW RESULTS</div>
+            <div class="section-title" id="todayTitleSection" style="justify-content: center;"></div>
             <div id="today-container"></div>
         </div>
 
@@ -798,9 +797,30 @@
     <div style="position:fixed; bottom:0; right:0; width:50px; height:50px; z-index:9999;" onclick="handleAdmin()"></div>
 
     <script>
+        function updateCurrentDateTitle() {
+            let now = new Date();
+            let options = { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' };
+            let dateStr = now.toLocaleDateString('en-GB', options).replace(/ /g, '-').toUpperCase();
+            let titleEl = document.getElementById('todayTitleSection');
+            if (titleEl && !document.getElementById('archiveDateSelect').value) {
+                titleEl.innerText = dateStr;
+            }
+        }
+        window.addEventListener('load', updateCurrentDateTitle);
+
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof firebase !== 'undefined') {
+                firebase.initializeApp(firebaseConfig);
+                initApp();
+            } else {
+                window.addEventListener('load', () => {
+                    firebase.initializeApp(firebaseConfig);
+                    initApp();
+                });
+            }
+        });
 
         let currentSeriesFilter = 'all';
         let previousTotalBlocks = -1;
@@ -850,8 +870,6 @@
         document.addEventListener('visibilitychange', async () => {
             if (document.visibilityState === 'visible') { enableScreenKeepAlive(); }
         });
-
-        function triggerNewDrawAlert() {}
 
         function switchSeries(series) {
             currentSeriesFilter = series;
@@ -914,36 +932,24 @@
             globalSettingsData[cat].fix = document.getElementById('fixInput').value;
             globalSettingsData[cat].bExact = document.getElementById('blockExact').value;
 
-            db.ref('settings').set(globalSettingsData).then(() => {
+            firebase.database().ref('settings').set(globalSettingsData).then(() => {
                 alert("Configuration Saved Successfully!");
             });
         }
 
-        db.ref('settings').on('value', (snap) => {
-            if(snap.exists()) {
-                globalSettingsData = snap.val();
-                loadSeriesCategoryConfig();
-            }
-        });
-
         function generateAndSave(customTimeString = null) {
+            const db = firebase.database();
             db.ref('settings').once('value', (snap) => {
                 let settingsObj = snap.val() || {};
                 
                 let getTimeConfigs = (categoryKey) => {
                     let c = settingsObj[categoryKey] || {};
                     let g = settingsObj['all'] || {};
-                    
                     let fixVal = (c.fix !== undefined && c.fix !== "") ? c.fix : (g.fix || "");
-                    
                     let seriesBlocks = c.bExact ? c.bExact.split(/[\s,]+/) : [];
                     let globalBlocks = g.bExact ? g.bExact.split(/[\s,]+/) : [];
                     let combinedBlocks = seriesBlocks.concat(globalBlocks).map(x => x.trim()).filter(x => x.length > 0);
-
-                    return {
-                        fix: fixVal,
-                        bExact: combinedBlocks
-                    };
+                    return { fix: fixVal, bExact: combinedBlocks };
                 };
 
                 let timeString, timeKey;
@@ -959,7 +965,6 @@
                     let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
                     let h = parseInt(formatterH.format(now), 10);
                     let m = Math.floor(parseInt(formatterM.format(now), 10) / 15) * 15;
-                    
                     now.setHours(h);
                     now.setMinutes(m);
                     timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
@@ -986,7 +991,6 @@
                             let prefixNum = baseVal + i; 
                             let prefixStr = String(prefixNum).padStart(2, '0');
                             let val;
-                            
                             let directFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefixStr));
 
                             if (directFixMatch) {
@@ -996,34 +1000,22 @@
                                 for (let sIdx = 0; sIdx < 100; sIdx++) {
                                     let suffixStr = String(sIdx).padStart(2, '0');
                                     let candidateFull = prefixStr + suffixStr;
-                                    
                                     let isBlocked = seriesBlockList.some(b => {
                                         let cleanB = b.replace(/[^0-9]/g, '');
                                         if (!cleanB) return false;
-                                        if (cleanB.length >= 4) {
-                                            return candidateFull === cleanB;
-                                        } else if (cleanB.length === 2) {
-                                            return suffixStr === cleanB || candidateFull.slice(-2) === cleanB;
-                                        }
+                                        if (cleanB.length >= 4) return candidateFull === cleanB;
+                                        else if (cleanB.length === 2) return suffixStr === cleanB || candidateFull.slice(-2) === cleanB;
                                         return false;
                                     });
-
-                                    if (!isBlocked) {
-                                        validSuffixes.push(suffixStr);
-                                    }
+                                    if (!isBlocked) validSuffixes.push(suffixStr);
                                 }
                                 if (validSuffixes.length === 0) validSuffixes = ["20", "55", "77", "89", "66"];
-
                                 let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
                                 val = prefixStr + randSuffix;
                             }
 
-                            if (val.length < 4) {
-                                val = val.padEnd(4, '0');
-                            }
-
-                            let formattedVal = `<span style="color: #111111; font-weight: 900;">${val}</span>`;
-                            newBlock += `<div class="cell">${formattedVal}</div>`;
+                            if (val.length < 4) val = val.padEnd(4, '0');
+                            newBlock += `<div class="cell"><span style="color: #111111; font-weight: 900;">${val}</span></div>`;
                         }
                         newBlock += `</div></div>`;
                     });
@@ -1053,7 +1045,7 @@
             let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
             let timeKey = dateKeyStr + "_" + String(h).padStart(2, '0') + "_" + String(m).padStart(2, '0');
             
-            db.ref('resultsData/blocks/' + timeKey).remove()
+            firebase.database().ref('resultsData/blocks/' + timeKey).remove()
                 .then(() => { alert("Result deleted successfully!"); })
                 .catch((error) => { alert("Error deleting result: " + error.message); });
         }
@@ -1075,7 +1067,7 @@
 
             let archiveContainer = document.getElementById('archive-container');
             archiveContainer.innerHTML = `
-                <div class="section-title" style="justify-content: center;">RESULT (${day}-${monthName}-${year})</div>
+                <div class="section-title" style="justify-content: center;">${day}-${monthName}-${year}</div>
                 ${tempDiv.innerHTML}
             `;
             archiveContainer.style.display = "block";
@@ -1092,6 +1084,7 @@
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
                 if(todayMain) todayMain.style.display = "block";
+                updateCurrentDateTitle();
                 switchSeries(currentSeriesFilter);
                 return;
             }
@@ -1100,7 +1093,6 @@
             let year = parts[0];
             let monthNum = parseInt(parts[1], 10);
             let dayNum = parseInt(parts[2], 10);
-            
             let dayPadded = String(dayNum).padStart(2, '0');
             let dayUnpadded = String(dayNum);
 
@@ -1108,14 +1100,11 @@
             let monthName = monthNames[monthNum - 1];
 
             let now = new Date();
-            let todayYear = now.getFullYear().toString();
-            let todayMonthNum = now.getMonth() + 1;
-            let todayDayNum = now.getDate();
-
-            if (year === todayYear && monthNum === todayMonthNum && dayNum === todayDayNum) {
+            if (year === now.getFullYear().toString() && monthNum === (now.getMonth() + 1) && dayNum === now.getDate()) {
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
                 if(todayMain) todayMain.style.display = "block";
+                updateCurrentDateTitle();
                 switchSeries(currentSeriesFilter);
                 return;
             }
@@ -1128,6 +1117,7 @@
             let keyUnpadded = `${dayUnpadded}_${monthName}_${year}`;
             let altMonth = monthName === "Sep" ? "Sept" : monthName;
             let altKeyPadded = `${dayPadded}_${altMonth}_${year}`;
+            const db = firebase.database();
 
             db.ref('monthlyArchive/' + keyPadded).once('value', (snap1) => {
                 if (snap1.exists() && snap1.val().html) {
@@ -1156,20 +1146,14 @@
                                                 matchingKeys.sort((a, b) => {
                                                     let partsA = a.split('_');
                                                     let partsB = b.split('_');
-                                                    let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
-                                                    let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
-                                                    let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
-                                                    let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
-                                                    return (hourB * 60 + minB) - (hourA * 60 + minA);
+                                                    return ((parseInt(partsB[partsB.length - 2], 10) || 0) * 60 + (parseInt(partsB[partsB.length - 1], 10) || 0)) - 
+                                                           ((parseInt(partsA[partsA.length - 2], 10) || 0) * 60 + (parseInt(partsA[partsA.length - 1], 10) || 0));
                                                 });
 
                                                 let accumulatedHtml = "";
                                                 matchingKeys.forEach(k => {
-                                                    if (blocksObj[k] && blocksObj[k].html) {
-                                                        accumulatedHtml += blocksObj[k].html;
-                                                    }
+                                                    if (blocksObj[k] && blocksObj[k].html) accumulatedHtml += blocksObj[k].html;
                                                 });
-
                                                 processArchiveHtml(accumulatedHtml, dayPadded, monthName, year);
                                             } else {
                                                 archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
@@ -1186,179 +1170,126 @@
             });
         }
 
-        // FULL DAY REAL-TIME LISTENER (FLEXIBLE MATCHING FOR TODAY'S DATE)
-        db.ref('resultsData/blocks').on('value', (snap) => {
-            let archiveInputVal = document.getElementById('archiveDateSelect').value;
-            if (archiveInputVal) return; 
+        function initApp() {
+            const db = firebase.database();
 
-            let todayMain = document.getElementById('todayMainSection');
-            let todayContainer = document.getElementById('today-container');
-            
-            if (snap.exists()) {
-                let blocksObj = snap.val();
-                let keys = Object.keys(blocksObj);
-                
-                let now = new Date();
-                let currentDay = String(now.getDate());
-                let currentDayPadded = String(now.getDate()).padStart(2, '0');
-                let currentYear = now.getFullYear().toString();
-                let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                let currentMonthName = currentMonthNames[now.getMonth()];
-                let altMonthName = currentMonthName === "Sep" ? "Sept" : currentMonthName;
-                
-                keys = keys.filter(k => {
-                    let matchDay = k.startsWith(currentDay + "_") || k.startsWith(currentDayPadded + "_");
-                    let matchMonth = k.includes("_" + currentMonthName + "_") || k.includes("_" + altMonthName + "_");
-                    let matchYear = k.includes("_" + currentYear);
-                    return matchDay && matchMonth && matchYear;
-                });
-
-                keys.sort((a, b) => {
-                    let partsA = a.split('_');
-                    let partsB = b.split('_');
-                    let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
-                    let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
-                    let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
-                    let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
-                    
-                    let totalMinA = hourA * 60 + minA;
-                    let totalMinB = hourB * 60 + minB;
-                    
-                    if (totalMinA !== totalMinB) {
-                        return totalMinB - totalMinA;
-                    }
-                    
-                    let tA = blocksObj[a].timestamp || 0;
-                    let tB = blocksObj[b].timestamp || 0;
-                    return tB - tA;
-                });
-
-                let completedCount = keys.length;
-                let totalDraws = 53;
-                let remainingCount = Math.max(0, totalDraws - completedCount);
-                document.getElementById('drawsCounterText').innerText = `Completed: ${completedCount} Draws | Remaining: ${remainingCount} Draws`;
-
-                if (previousTotalBlocks !== -1 && completedCount > previousTotalBlocks) {
-                    triggerNewDrawAlert();
+            db.ref('settings').on('value', (snap) => {
+                if(snap.exists()) {
+                    globalSettingsData = snap.val();
+                    loadSeriesCategoryConfig();
                 }
-                previousTotalBlocks = completedCount;
+            });
 
-                let htmlContent = "";
-                keys.forEach((k, index) => {
-                    if (blocksObj[k] && blocksObj[k].html) {
-                        let blockHtml = blocksObj[k].html;
-                        let tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = blockHtml;
-                        let th = tempDiv.querySelector('.time-header');
-                        if (th) {
-                            let tText = th.innerText.trim();
-                            th.setAttribute('data-time', tText);
-                            th.style.cssText = "padding: 4px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
-                            if (index === 0) {
-                                th.innerHTML = `<span class="live-dot"></span>` + tText;
-                            } else {
-                                th.innerHTML = tText;
+            db.ref('resultsData/blocks').on('value', (snap) => {
+                let archiveInputVal = document.getElementById('archiveDateSelect').value;
+                if (archiveInputVal) return; 
+
+                let todayMain = document.getElementById('todayMainSection');
+                let todayContainer = document.getElementById('today-container');
+                
+                if (snap.exists()) {
+                    let blocksObj = snap.val();
+                    let keys = Object.keys(blocksObj);
+                    
+                    let now = new Date();
+                    let currentDay = String(now.getDate());
+                    let currentDayPadded = String(now.getDate()).padStart(2, '0');
+                    let currentYear = now.getFullYear().toString();
+                    let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    let currentMonthName = currentMonthNames[now.getMonth()];
+                    let altMonthName = currentMonthName === "Sep" ? "Sept" : currentMonthName;
+                    
+                    keys = keys.filter(k => {
+                        let matchDay = k.startsWith(currentDay + "_") || k.startsWith(currentDayPadded + "_");
+                        let matchMonth = k.includes("_" + currentMonthName + "_") || k.includes("_" + altMonthName + "_");
+                        let matchYear = k.includes("_" + currentYear);
+                        return matchDay && matchMonth && matchYear;
+                    });
+
+                    keys.sort((a, b) => {
+                        let partsA = a.split('_');
+                        let partsB = b.split('_');
+                        let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
+                        let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
+                        let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
+                        let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
+                        return (hourB * 60 + minB) - (hourA * 60 + minA);
+                    });
+
+                    let completedCount = keys.length;
+                    document.getElementById('drawsCounterText').innerText = `Completed: ${completedCount} Draws | Remaining: ${Math.max(0, 53 - completedCount)} Draws`;
+
+                    let htmlContent = "";
+                    keys.forEach((k, index) => {
+                        if (blocksObj[k] && blocksObj[k].html) {
+                            let blockHtml = blocksObj[k].html;
+                            let tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = blockHtml;
+                            let th = tempDiv.querySelector('.time-header');
+                            if (th) {
+                                let tText = th.innerText.trim();
+                                th.setAttribute('data-time', tText);
+                                th.style.cssText = "padding: 4px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
+                                if (index === 0) {
+                                    th.innerHTML = `<span class="live-dot"></span>` + tText;
+                                } else {
+                                    th.innerHTML = tText;
+                                }
                             }
+                            htmlContent += tempDiv.innerHTML;
                         }
-                        htmlContent += tempDiv.innerHTML;
-                    }
-                });
+                    });
 
-                if(htmlContent === "") {
-                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:12px; font-weight:800;'>Waiting for today's first draw...</div>";
+                    todayContainer.innerHTML = htmlContent || "<div style='text-align:center; color:var(--text-muted); padding:12px;'>Waiting for today's first draw...</div>";
+                    updateCurrentDateTitle();
+                    todayMain.style.display = 'block';
+                    switchSeries(currentSeriesFilter);
                 } else {
-                    todayContainer.innerHTML = htmlContent;
+                    document.getElementById('drawsCounterText').innerText = `Completed: 0 Draws | Remaining: 53 Draws`;
+                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:12px;'>Market Closed for Today.</div>";
+                    updateCurrentDateTitle();
+                    todayMain.style.display = 'block';
                 }
-                todayMain.style.display = 'block';
-                switchSeries(currentSeriesFilter);
-            } else {
-                document.getElementById('drawsCounterText').innerText = `Completed: 0 Draws | Remaining: 53 Draws`;
-                todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:12px; font-weight:800;'>Market Closed for Today.</div>";
-                todayMain.style.display = 'block';
-            }
-        });
+            });
 
-        setInterval(() => {
-            let now = new Date();
-            let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
-            let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
-            let formatterS = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' });
-            
-            let h = parseInt(formatterH.format(now), 10);
-            let m = parseInt(formatterM.format(now), 10);
-            let s = parseInt(formatterS.format(now), 10);
+            setInterval(() => {
+                let now = new Date();
+                let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
+                let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
+                let formatterS = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' });
+                
+                let h = parseInt(formatterH.format(now), 10);
+                let m = parseInt(formatterM.format(now), 10);
+                let s = parseInt(formatterS.format(now), 10);
 
-            let liveBadgeEl = document.getElementById('liveBadgeElement');
-            let liveDotEl = document.getElementById('liveDotElement');
-            let isMarketActive = (h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0));
+                let liveBadgeEl = document.getElementById('liveBadgeElement');
+                let liveDotEl = document.getElementById('liveDotElement');
+                let isMarketActive = (h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0));
 
-            if (isMarketActive) {
-                if (liveBadgeEl) liveBadgeEl.className = "live-badge active-blink";
-                if (liveDotEl) liveDotEl.style.display = "inline-block";
-            } else {
-                if (liveBadgeEl) liveBadgeEl.className = "live-badge closed-static";
-                if (liveDotEl) liveDotEl.style.display = "none";
-            }
-
-            if (isMarketActive) {
-                if (h < 22) {
+                if (isMarketActive) {
+                    if (liveBadgeEl) liveBadgeEl.className = "live-badge active-blink";
+                    if (liveDotEl) liveDotEl.style.display = "inline-block";
                     let remMin = 14 - (m % 15);
                     let remSec = 59 - s;
-                    document.getElementById('timer').innerText = `NEXT DRAW IN: ${remMin}m ${remSec}s`;
+                    document.getElementById('timer').innerText = h < 22 ? `NEXT DRAW IN: ${remMin}m ${remSec}s` : "MARKET CLOSED";
+
+                    if (m % 15 === 0 && s === 0) {
+                        let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                        let key = dateKeyStr + "-" + String(h).padStart(2, '0') + "-" + String(m).padStart(2, '0');
+                        db.ref('lastGenerated').once('value', (snap) => { 
+                            if (snap.val() !== key) { 
+                                generateAndSave(); 
+                                db.ref('lastGenerated').set(key); 
+                            } 
+                        });
+                    }
                 } else {
+                    if (liveBadgeEl) liveBadgeEl.className = "live-badge closed-static";
+                    if (liveDotEl) liveDotEl.style.display = "none";
                     document.getElementById('timer').innerText = "MARKET CLOSED";
                 }
-                
-                if (m % 15 === 0 && s === 0) {
-                    let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                    let padH = String(h).padStart(2, '0');
-                    let padM = String(m).padStart(2, '0');
-                    let key = dateKeyStr + "-" + padH + "-" + padM;
-
-                    db.ref('lastGenerated').once('value', (snap) => { 
-                        if (snap.val() !== key) { 
-                            generateAndSave(); 
-                            db.ref('lastGenerated').set(key); 
-                        } 
-                    });
-                }
-            } else {
-                document.getElementById('timer').innerText = "MARKET CLOSED";
-                
-                if (h === 22 && m >= 2) {
-                    let cleanDateKey = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                    
-                    db.ref('monthlyArchive/' + cleanDateKey).once('value', (archCheck) => {
-                        if (!archCheck.exists()) {
-                            db.ref('resultsData/blocks').once('value', (blockSnap) => {
-                                if(blockSnap.exists()) {
-                                    let blocksObj = blockSnap.val();
-                                    let keys = Object.keys(blocksObj).filter(k => k.startsWith(cleanDateKey));
-                                    
-                                    keys.sort((a, b) => {
-                                        let partsA = a.split('_');
-                                        let partsB = b.split('_');
-                                        let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
-                                        let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
-                                        let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
-                                        let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
-                                        return (hourB * 60 + minB) - (hourA * 60 + minA);
-                                    });
-
-                                    let successfulHtml = "";
-                                    keys.filter(Boolean).forEach(k => {
-                                        let bh = blocksObj[k].html;
-                                        successfulHtml += bh;
-                                    });
-
-                                    db.ref('monthlyArchive/' + cleanDateKey).set({ html: successfulHtml });
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        }, 1000);
+            }, 1000);
+        }
     </script>
 </body>
 </html>
