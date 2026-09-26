@@ -269,9 +269,10 @@
             width: 100%;
         }
 
+        /* PROFESSIONAL ELITE DARK & GOLD SERIES TABS */
         .tab-btn {
-            background: linear-gradient(145deg, #131b2e, #080c14);
-            color: #ffffff;
+            background: linear-gradient(145deg, #111827, #0b0f19);
+            color: #fef08a;
             border: 1px solid rgba(212, 175, 55, 0.35);
             padding: 4px 1px;
             text-align: center;
@@ -281,10 +282,11 @@
             cursor: pointer;
             text-transform: uppercase;
             white-space: nowrap;
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 2px 4px rgba(0,0,0,0.7);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0,0,0,0.7);
             transition: all 0.15s ease-in-out;
             width: 100%;
             position: relative;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
         }
 
         .tab-btn:active {
@@ -300,7 +302,6 @@
             text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
         }
         
-        /* ULTRA-THIN GREEN SECTION TITLE */
         .section-title {
             color: #fef08a !important;
             font-size: 0.6em;
@@ -325,7 +326,6 @@
             height: 18px;
         }
 
-        /* ULTRA-THIN STICKY DATE WRAPPER & GREEN ARCHIVE TITLE */
         .sticky-date-wrapper {
             position: sticky;
             top: 0;
@@ -378,16 +378,16 @@
             box-shadow: none;
         }
 
-        /* CUSTOM CANVAS MARQUEE STYLING */
+        /* PROFESSIONAL ELITE GOLD & CHARCOAL MARQUEE SECTION */
         .canvas-marquee {
             width: 100%;
             overflow: hidden;
-            background: linear-gradient(90deg, #080808 0%, #260B12 50%, #080808 100%);
-            border-top: 1px solid #C9A227;
-            border-bottom: 1px solid #C9A227;
+            background: linear-gradient(90deg, #05070b 0%, #101726 50%, #05070b 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.6);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.6);
             padding: 11px 0;
             border-radius: 4px;
-            box-shadow: 0 0 12px rgba(201,162,39,0.35), inset 0 0 12px rgba(245,215,122,0.06);
+            box-shadow: 0 0 14px rgba(212, 175, 55, 0.25), inset 0 0 10px rgba(212, 175, 55, 0.1);
         }
 
         .canvas-track {
@@ -400,18 +400,21 @@
         }
 
         .canvas-track span {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             font-size: 13px;
-            font-weight: 800;
-            letter-spacing: 1.3px;
-            color: #F5D77A;
-            text-shadow: 0 0 6px rgba(245,215,122,0.65), 0 0 14px rgba(201,162,39,0.3);
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #fffdf0 50%, #fef08a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
         }
 
         .canvas-track b {
-            color: #C9A227;
-            opacity: 0.85;
+            color: var(--gold-primary);
+            opacity: 0.9;
             font-size: 11px;
+            text-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
         }
 
         @keyframes premiumScroll {
@@ -430,7 +433,7 @@
             }
             .canvas-track span {
                 font-size: 11.5px;
-                letter-spacing: 1.1px;
+                letter-spacing: 1.2px;
             }
             .canvas-track {
                 gap: 22px;
@@ -693,7 +696,7 @@
 
         <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
 
-        <!-- ALL CHART ON TOP CENTER & PROFESSIONAL BUTTON STYLING FOR SERIES TABS -->
+        <!-- ALL CHART ON TOP CENTER & PROFESSIONAL SERIES TABS -->
         <div class="series-tabs-wrapper">
             <div class="top-center-all">
                 <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Chart</div>
@@ -712,7 +715,7 @@
             </div>
         </div>
 
-        <!-- CUSTOM CANVAS MARQUEE SECTION (UPDATED TO CΛNVΛS4D™) -->
+        <!-- PROFESSIONAL ELITE GOLD & CHARCOAL MARQUEE SECTION -->
         <div class="canvas-marquee">
           <div class="canvas-track">
             <span>✦ WELCOME TO CΛNVΛS4D™</span>
