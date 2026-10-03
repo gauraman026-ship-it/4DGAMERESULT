@@ -82,6 +82,22 @@
             width: 100%;
         }
 
+        .banner-version-tag {
+            position: absolute;
+            top: 4px;
+            left: 6px;
+            font-size: 0.5em;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--gold-light);
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 1px 4px;
+            border-radius: 3px;
+            z-index: 10;
+            text-shadow: 0 0 4px rgba(212, 175, 55, 0.5);
+        }
+
         .header-container::before {
             content: '';
             position: absolute;
@@ -239,7 +255,6 @@
             text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
         }
 
-        /* EXTRA COMPACT DASHBOARD CONTROL GRID WRAPPER FOR ALL & 00-99 */
         .series-tabs-wrapper {
             display: flex;
             flex-direction: column;
@@ -257,21 +272,19 @@
             width: 100%;
         }
 
-        /* DISTINCT ALL-CHART TILE - COMPACT */
         .top-center-all .tab-btn {
             width: 100%;
             max-width: 240px;
-            padding: 3px 0;
+            padding: 4px 0; 
             font-size: 0.7em;
             letter-spacing: 1.5px;
             background: linear-gradient(135deg, #1b2844 0%, #0a111d 100%);
             border: 1px solid var(--gold-primary);
-            border-radius: 3px;
+            border-radius: 4px;
             color: #fef08a;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
-        /* 2-ROW COMPACT GRID FOR 00-99 CHARTS (5 items per row) */
         .series-tabs {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -279,7 +292,6 @@
             width: 100%;
         }
 
-        /* UNIQUE SUBTLE METALLIC CHIP DESIGN */
         .tab-btn {
             background: linear-gradient(145deg, #111827, #070a12);
             color: #cbd5e1;
@@ -287,8 +299,8 @@
             padding: 4px 2px;
             text-align: center;
             font-weight: 800;
-            font-size: 0.64em;
-            border-radius: 3px;
+            font-size: 0.62em;
+            border-radius: 4px;
             cursor: pointer;
             text-transform: uppercase;
             white-space: nowrap;
@@ -315,96 +327,67 @@
             box-shadow: 0 0 8px var(--gold-glow), inset 0 1px 3px rgba(255, 255, 255, 0.7);
             text-shadow: none;
         }
-        
-        .section-title {
-            color: #fef08a !important;
-            font-size: 0.6em;
-            margin: 0;
-            padding: 1px 2px;
-            background: #145a32 !important;
-            border: none !important;
-            text-align: center;
-            font-weight: 900;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            position: sticky;
-            top: 0;
-            z-index: 850;
-            box-shadow: none !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-            height: 18px;
-        }
 
-        /* PROFESSIONAL COMPACT ELEGANT DATE STYLING */
         .sticky-date-wrapper {
             position: sticky;
             top: 0;
             z-index: 900;
             background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
-            padding: 3px 0;
+            padding: 3px 8px;
             display: flex;
             justify-content: center;
+            align-items: center;
             width: 100%;
             border-bottom: 1px solid rgba(212, 175, 55, 0.35);
             box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-            height: 26px;
+            height: 32px;
         }
 
-        .archive-title {
-            color: var(--gold-light) !important;
-            font-size: 0.7em;
-            padding: 1px 8px;
-            background: linear-gradient(135deg, rgba(20, 30, 48, 0.9), rgba(36, 59, 85, 0.9)) !important;
-            border: 1px solid rgba(212, 175, 55, 0.4) !important;
-            border-radius: 14px !important;
-            text-align: center;
-            font-weight: 800;
-            letter-spacing: 0.8px;
+        .modern-date-box {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(7, 11, 20, 0.98));
+            border: 1px solid rgba(212, 175, 55, 0.7);
+            padding: 2px 10px;
+            border-radius: 14px;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.5);
             cursor: pointer;
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 2px 4px rgba(0,0,0,0.5) !important;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-            text-transform: uppercase;
-            height: 20px;
+            width: 100%;
+            max-width: 220px;
             position: relative;
         }
 
-        .archive-title input[type="date"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
+        .modern-date-box label {
+            color: var(--gold-light);
+            font-size: 0.7em;
+            font-weight: 800;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            z-index: 2;
-            color-scheme: dark;
-        }
-
-        .date-display-text {
-            color: #fef08a;
-            font-weight: 700;
-            font-size: 0.85em;
-            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            white-space: nowrap;
             pointer-events: none;
         }
 
-        /* ULTRA COMPACT & SLOW SCROLLING MARQUEE */
+        .modern-date-box input[type="date"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            left: 0;
+            top: 0;
+            z-index: 10;
+        }
+
         .canvas-marquee {
             width: 100%;
             overflow: hidden;
             background: linear-gradient(90deg, #05070b 0%, #101726 50%, #05070b 100%);
             border-top: 1px solid rgba(212, 175, 55, 0.5);
             border-bottom: 1px solid rgba(212, 175, 55, 0.5);
-            padding: 5px 0; /* Patti ko aur patla/halka kar diya gaya hai */
+            padding: 4px 0;
             border-radius: 2px;
             box-shadow: 0 0 8px rgba(212, 175, 55, 0.15), inset 0 0 6px rgba(212, 175, 55, 0.05);
         }
@@ -415,12 +398,12 @@
             gap: 28px;
             white-space: nowrap;
             padding-left: 100%;
-            animation: premiumScroll 36s linear infinite; /* Speed slow karne ke liye duration 36s kar di gayi hai */
+            animation: premiumScroll 36s linear infinite;
         }
 
         .canvas-track span {
             font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 800;
             letter-spacing: 1.2px;
             background: linear-gradient(135deg, #ffffff 0%, #fffdf0 50%, #fef08a 100%);
@@ -432,31 +415,13 @@
         .canvas-track b {
             color: var(--gold-primary);
             opacity: 0.9;
-            font-size: 10px;
+            font-size: 9.5px;
             text-shadow: 0 0 4px rgba(212, 175, 55, 0.5);
         }
 
         @keyframes premiumScroll {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(-100%);
-            }
-        }
-
-        @media(max-width: 600px) {
-            .canvas-marquee {
-                padding: 4px 0;
-            }
-            .canvas-track span {
-                font-size: 10.5px;
-                letter-spacing: 1px;
-            }
-            .canvas-track {
-                gap: 22px;
-                animation-duration: 32s;
-            }
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
         }
 
         .main-scroll-viewport {
@@ -492,7 +457,7 @@
             justify-content: center !important;
             background: linear-gradient(135deg, #1b4f72 0%, #11354f 100%) !important;
             color: #ffffff !important; 
-            padding: 4px 6px !important;
+            padding: 5px 6px !important; 
             font-size: 0.75em !important;
             letter-spacing: 1px;
             border-bottom: 1px solid #10324a;
@@ -505,13 +470,13 @@
             background-color: var(--accent-red);
             border-radius: 50%;
             margin-right: 5px;
-            box-shadow: 0 0 6px var(--accent-red);
+            box-shadow: 0 0 5px var(--accent-red);
             animation: pulse-dot 1s infinite;
         }
         
         @keyframes pulse-dot { 
             0% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0.8); } 
-            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 6px rgba(255, 56, 56, 0); }
+            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 5px rgba(255, 56, 56, 0); }
             100% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
         }
         
@@ -537,10 +502,10 @@
         
         .cell { 
             background: var(--cream-bg);
-            padding: 6px 0px;
+            padding: 7px 0px; 
             text-align: center; 
             font-weight: 900; 
-            font-size: 0.82em;
+            font-size: 0.8em; 
             color: #111111 !important;
             border: 1px solid #e8e3b2;
             letter-spacing: -0.5px; 
@@ -561,14 +526,14 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 4px 8px;
-            margin-bottom: 4px;
+            gap: 6px 10px;
+            margin-bottom: 5px;
         }
         .footer-links a {
             color: #ffffff;
             background: linear-gradient(145deg, #111622, #080b12);
             border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 3px 8px;
+            padding: 4px 8px; 
             border-radius: 4px;
             font-size: 0.6em;
             font-weight: 800;
@@ -579,10 +544,10 @@
         }
         .footer-copy {
             color: var(--text-muted);
-            font-size: 0.55em;
+            font-size: 0.5em;
             font-weight: 600;
             border-top: 1px solid rgba(255,255,255,0.08);
-            padding-top: 4px;
+            padding-top: 3px;
         }
 
         .modal-overlay {
@@ -602,7 +567,7 @@
             border-radius: 10px;
             width: 100%;
             max-width: 360px;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
             padding: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.9);
@@ -625,10 +590,10 @@
             background: none;
             border: none;
             color: var(--accent-red);
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: 900;
             cursor: pointer;
-            padding: 0 3px;
+            padding: 4px 8px; 
         }
         .modal-body {
             color: #d1d5db;
@@ -636,70 +601,54 @@
             line-height: 1.4;
             font-weight: 500;
         }
-        .modal-body p { margin-bottom: 6px; }
+        .modal-body p { margin-bottom: 4px; font-weight: 700; color: var(--gold-light); }
         .modal-body ul { margin-left: 14px; margin-bottom: 6px; }
         .modal-body li { margin-bottom: 3px; }
-
-        #adminPanel { 
-            display: none; 
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 20000;
-            width: 92%;
-            max-width: 340px;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 12px; 
-            border: 1.5px solid var(--gold-primary); 
-            background: linear-gradient(145deg, #0b1322, #020408); 
-            border-radius: 10px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.95);
-        }
-        textarea, input[type="time"], input[type="date"], select { 
-            width: 100%; 
-            background: #010204; 
-            color: #fff; 
-            border: 1px solid rgba(212, 175, 55, 0.4); 
-            margin: 3px 0 6px 0; 
-            padding: 4px 6px; 
-            border-radius: 4px; 
-            font-size: 0.72em; 
-            outline: none; 
-            resize: vertical;
-            height: 28px;
-        }
-        .admin-section-box {
-            border: 1px solid rgba(212,175,55,0.25);
-            background: rgba(11, 19, 34, 0.6);
-            padding: 8px;
-            border-radius: 6px;
+        
+        /* Admin Panel Styles */
+        .admin-input {
+            width: 100%;
+            background: #05080f;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #fff;
+            padding: 6px;
+            border-radius: 4px;
             margin-bottom: 8px;
+            font-size: 0.9em;
         }
-        .btn-admin { 
-            width: 100%; 
-            padding: 6px; 
-            border: none; 
-            cursor: pointer; 
-            font-weight: 900; 
-            border-radius: 4px; 
-            margin-top: 4px; 
-            font-size: 0.72em; 
-            text-transform: uppercase; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        select.admin-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23d4af37%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 10px;
+            padding-right: 25px;
+        }
+        .admin-btn {
+            font-weight: 900;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            font-size: 0.8em;
         }
     </style>
 </head>
 <body>
 
+    <!-- Hidden Bottom-Right Corner Touch Target for Admin Panel (10 Taps) -->
+    <div id="bottomCornerTrigger" style="position: fixed; bottom: 0; right: 0; width: 45px; height: 45px; z-index: 99999; cursor: pointer; background: transparent;"></div>
+
     <video id="noSleepVideo" loop muted playsinline style="display:none; width:1px; height:1px;">
         <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
     </video>
 
-    <!-- FIXED TOP BANNER SECTION -->
     <div class="sticky-top-section">
         <div class="header-container">
+            <div class="banner-version-tag">v1.0.6</div>
+
             <div class="neon-title">CΛNVΛS4D<span class="tm-symbol">™</span></div>
             <div class="header-divider"></div>
             <div class="kohinoor-sub">K O H I N O O R</div>
@@ -714,7 +663,6 @@
 
         <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
 
-        <!-- UNIQUE CONTROL-PANEL STYLE ALL & 00-99 GRID -->
         <div class="series-tabs-wrapper">
             <div class="top-center-all">
                 <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All (00 - 99)</div>
@@ -733,7 +681,6 @@
             </div>
         </div>
 
-        <!-- PROFESSIONAL ELITE GOLD & CHARCOAL MARQUEE SECTION -->
         <div class="canvas-marquee">
           <div class="canvas-track">
             <span>✦ WELCOME TO CΛNVΛS4D™</span>
@@ -751,25 +698,19 @@
           </div>
         </div>
 
-        <!-- PROFESSIONAL CLICKABLE DATE SELECTION BAR -->
         <div class="sticky-date-wrapper">
-            <div class="archive-title">
-                <span>📅</span> 
-                <span style="font-size: 0.7em;">DATE:</span>
-                <span class="date-display-text" id="dateDisplayText">SELECT</span>
-                <input type="date" id="archiveDateSelect" onchange="updateDateDisplay(this.value); loadArchiveDate(this.value)">
+            <div class="modern-date-box" id="dateDisplayTrigger" onclick="triggerCalendarPicker()">
+                <label id="dateBoxLabel">📅 SELECT DATE</label>
+                <input type="date" id="archiveDateSelect" onchange="updateDateDisplayLabel(this.value); loadArchiveDate(this.value)">
             </div>
         </div>
     </div>
-    <!-- END OF FIXED TOP BANNER SECTION -->
 
-    <!-- INDEPENDENT SCROLLABLE VIEWPORT FOR RESULTS ONLY -->
     <div class="main-scroll-viewport">
 
         <div id="archive-container" style="display: none;"></div>
 
         <div id="todayMainSection" style="display: block;">
-            <div class="section-title" id="todayTitleSection" style="justify-content: center;"></div>
             <div id="today-container"></div>
         </div>
 
@@ -788,6 +729,53 @@
 
     </div>
 
+    <!-- Admin Panel Modal with Dropdown Options -->
+    <div id="adminPanelModal" class="modal-overlay" onclick="outsideClose(event, 'adminPanelModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">⚙ ADMIN CONTROL PANEL</span>
+                <button class="modal-close" onclick="closeModal('adminPanelModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select Series Category:</p>
+                <select id="adminSeriesSelect" class="admin-input" onchange="loadAdminSeriesData()">
+                    <option value="all">Global (All Series)</option>
+                    <option value="0">00 - 09 Series</option>
+                    <option value="10">10 - 19 Series</option>
+                    <option value="20">20 - 29 Series</option>
+                    <option value="30">30 - 39 Series</option>
+                    <option value="40">40 - 49 Series</option>
+                    <option value="50">50 - 59 Series</option>
+                    <option value="60">60 - 69 Series</option>
+                    <option value="70">70 - 79 Series</option>
+                    <option value="80">80 - 89 Series</option>
+                    <option value="90">90 - 99 Series</option>
+                </select>
+
+                <p>Fix Number (For Selected Series):</p>
+                <input type="text" id="adminFixInput" class="admin-input" placeholder="e.g. 0120, 1555...">
+
+                <p>Block / Stop Numbers (Exact/Suffix):</p>
+                <input type="text" id="adminBlockInput" class="admin-input" placeholder="e.g. 55, 79, 33, 89...">
+
+                <button class="admin-btn" style="background: linear-gradient(135deg, #d4af37, #855f06); color: #000; margin-bottom: 12px;" onclick="saveAdminSettings()">SAVE CONFIG</button>
+
+                <p>Manual Time Injection:</p>
+                <select id="adminManualTimeSelect" class="admin-input">
+                    <!-- Dynamic Time Options -->
+                </select>
+                <button class="admin-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; margin-bottom: 12px;" onclick="adminManualGenerate()">GENERATE</button>
+
+                <p>Delete Time Result (9:00 AM - 10:00 PM):</p>
+                <select id="adminDeleteTimeSelect" class="admin-input">
+                    <!-- Dynamic Time Options -->
+                </select>
+                <button class="admin-btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff;" onclick="adminDeleteResult()">DELETE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
     <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')">
         <div class="modal-card">
             <div class="modal-header">
@@ -811,8 +799,6 @@
                 <ul>
                     <li><strong>Market Timing:</strong> Automated official draws execute sequentially between 09:00 AM and 10:00 PM standard schedules.</li>
                     <li><strong>Series Structure:</strong> Results are properly categorized across specialized active series nodes (00 to 90 Charts).</li>
-                    <li><strong>Integrity:</strong> All generated numbers are processed securely through automated server routines.</li>
-                    <li><strong>Age Restriction:</strong> Strictly restricted to users aged 18 and above.</li>
                 </ul>
             </div>
         </div>
@@ -854,118 +840,184 @@
         </div>
     </div>
 
-    <!-- ADMIN PANEL POPUP -->
-    <div id="adminPanel">
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.4); padding-bottom:6px; margin-bottom:8px;">
-            <strong style="color: var(--gold-light); font-size: 0.8em; letter-spacing: 0.8px;">⚙️ ADMIN CONTROL PANEL</strong>
-            <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none; border:none; color:var(--accent-red); font-size:1.2em; font-weight:900; cursor:pointer;">&times;</button>
-        </div>
-        
-        <div class="admin-section-box">
-            <label style="font-size: 0.65em; color: var(--gold-primary); font-weight: 800;">Select Series Category:</label>
-            <select id="seriesCategorySelect" onchange="loadSeriesCategoryConfig()">
-                <option value="all">Global (All Series)</option>
-                <option value="0">00-09 Series</option>
-                <option value="10">10-19 Series</option>
-                <option value="20">20-29 Series</option>
-                <option value="30">30-39 Series</option>
-                <option value="40">40-49 Series</option>
-                <option value="50">50-59 Series</option>
-                <option value="60">60-69 Series</option>
-                <option value="70">70-79 Series</option>
-                <option value="80">80-89 Series</option>
-                <option value="90">90-99 Series</option>
-            </select>
-
-            <label style="font-size: 0.63em; color: var(--gold-light); font-weight: 700; margin-top: 4px; display: block;">Fix Number (For Selected Series):</label>
-            <textarea id="fixInput" placeholder="e.g. 0120, 1555..."></textarea>
-            
-            <label style="font-size: 0.63em; color: var(--text-muted); font-weight: 700; display: block;">Block / Stop Numbers (Exact/Suffix):</label>
-            <textarea id="blockExact" placeholder="e.g. 55, 79, 33, 89..."></textarea>
-        </div>
-
-        <button class="btn-admin" style="background: linear-gradient(135deg, #ffd700, #d4af0d); color: #020408;" onclick="saveSettings()">SAVE CONFIG</button>
-        
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 8px 0;">
-        
-        <label style="font-size: 0.68em; color: var(--gold-light); font-weight: 800;">Manual Time Injection:</label>
-        <input type="time" id="missedTimeInput">
-        <button class="btn-admin" style="background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff;" onclick="generateCustomTimeResult()">GENERATE</button>
-
-        <hr style="border-color: rgba(212,175,55,0.2); margin: 8px 0;">
-        
-        <label style="font-size: 0.68em; color: var(--accent-red); font-weight: 800;">Delete Time Result:</label>
-        <input type="time" id="deleteTimeInput">
-        <button class="btn-admin" style="background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff;" onclick="deleteCustomTimeResult()">DELETE</button>
-    </div>
-    
-    <div style="position:fixed; bottom:0; right:0; width:50px; height:50px; z-index:9999;" onclick="handleAdmin()"></div>
-
     <script>
-        function updateDateDisplay(val) {
-            let disp = document.getElementById('dateDisplayText');
-            if(val) {
-                let parts = val.split('-');
-                disp.innerText = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        let tapCount = 0;
+        let tapTimer = null;
+        document.getElementById('bottomCornerTrigger').addEventListener('click', () => {
+            tapCount++;
+            clearTimeout(tapTimer);
+            if (tapCount >= 10) {
+                tapCount = 0;
+                let pwd = prompt("Enter Admin Password:");
+                if (pwd === "24081996") {
+                    openAdminPanel();
+                } else if (pwd !== null) {
+                    alert("Incorrect Password!");
+                }
             } else {
-                disp.innerText = "SELECT";
+                tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
+            }
+        });
+
+        function populateTimeDropdowns() {
+            let optionsHtml = "";
+            for (let h = 9; h <= 22; h++) {
+                for (let m = 0; m < 60; m += 15) {
+                    if (h === 22 && m > 0) break;
+                    let d = new Date();
+                    d.setHours(h, m, 0);
+                    let timeLabel = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    optionsHtml += `<option value="${timeLabel}">${timeLabel}</option>`;
+                }
+            }
+
+            let manualSelect = document.getElementById('adminManualTimeSelect');
+            if (manualSelect) {
+                manualSelect.innerHTML = optionsHtml;
+            }
+
+            let deleteSelect = document.getElementById('adminDeleteTimeSelect');
+            if (deleteSelect) {
+                deleteSelect.innerHTML = '<option value="">Select Time to Delete</option>' + optionsHtml;
             }
         }
 
-        function updateCurrentDateTitle() {
-            let now = new Date();
-            let options = { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' };
-            let dateStr = now.toLocaleDateString('en-GB', options).replace(/ /g, '-').toUpperCase();
-            let titleEl = document.getElementById('todayTitleSection');
-            if (titleEl && !document.getElementById('archiveDateSelect').value) {
-                titleEl.innerText = dateStr;
+        function openAdminPanel() {
+            openModal('adminPanelModal');
+            loadAdminSeriesData();
+            populateTimeDropdowns();
+        }
+
+        function loadAdminSeriesData() {
+            let selSeries = document.getElementById('adminSeriesSelect').value;
+            if (globalSettingsData && globalSettingsData[selSeries]) {
+                document.getElementById('adminFixInput').value = globalSettingsData[selSeries].fix || '';
+                document.getElementById('adminBlockInput').value = globalSettingsData[selSeries].bExact || '';
+            } else {
+                document.getElementById('adminFixInput').value = '';
+                document.getElementById('adminBlockInput').value = '';
             }
         }
-        window.addEventListener('load', updateCurrentDateTitle);
+
+        function saveAdminSettings() {
+            let selSeries = document.getElementById('adminSeriesSelect').value;
+            let fixVal = document.getElementById('adminFixInput').value;
+            let blockVal = document.getElementById('adminBlockInput').value;
+            const db = firebase.database();
+            db.ref('settings/' + selSeries).set({
+                fix: fixVal,
+                bExact: blockVal
+            }).then(() => {
+                alert('Settings updated successfully!');
+            }).catch((err) => {
+                alert('Error saving settings: ' + err.message);
+            });
+        }
+
+        function adminManualGenerate() {
+            let timeStr = document.getElementById('adminManualTimeSelect').value;
+            if (!timeStr) {
+                alert('Please select a valid time');
+                return;
+            }
+            generateAndSave(timeStr);
+            alert('Manual result generated for ' + timeStr);
+        }
+
+        function adminDeleteResult() {
+            let timeStr = document.getElementById('adminDeleteTimeSelect').value;
+            if (!timeStr) {
+                alert('Please select a time to delete');
+                return;
+            }
+            if (!confirm("Are you sure you want to delete the result for " + timeStr + "?")) return;
+
+            let [timePart, modifier] = timeStr.split(' ');
+            let [hStr, mStr] = timePart.split(':');
+            let h = parseInt(hStr, 10);
+            let m = parseInt(mStr, 10);
+            if (modifier === 'PM' && h < 12) h += 12;
+            if (modifier === 'AM' && h === 12) h = 0;
+
+            let now = new Date();
+            now.setHours(h, m, 0, 0);
+
+            let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+            let padH = String(now.getHours()).padStart(2, '0');
+            let padM = String(now.getMinutes()).padStart(2, '0');
+            let targetKey = dateKeyStr + "_" + padH + "_" + padM;
+
+            const db = firebase.database();
+            db.ref('resultsData/blocks/' + targetKey).remove().then(() => {
+                alert('Result for ' + timeStr + ' deleted successfully!');
+            }).catch((err) => {
+                alert('Error deleting result: ' + err.message);
+            });
+        }
+
+        function triggerCalendarPicker() {
+            let dateInput = document.getElementById('archiveDateSelect');
+            if (dateInput) {
+                if (typeof dateInput.showPicker === 'function') {
+                    try {
+                        dateInput.showPicker();
+                    } catch (err) {
+                        dateInput.click();
+                    }
+                } else {
+                    dateInput.click();
+                }
+            }
+        }
+
+        function updateDateDisplayLabel(dateVal) {
+            let labelEl = document.getElementById('dateBoxLabel');
+            if (!dateVal) {
+                labelEl.innerText = "📅 SELECT DATE";
+                return;
+            }
+            let parts = dateVal.split('-');
+            let year = parts[0];
+            let monthNum = parseInt(parts[1], 10);
+            let dayNum = parseInt(parts[2], 10);
+            const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            let mName = monthNames[monthNum - 1];
+            labelEl.innerText = `📅 ${String(dayNum).padStart(2, '0')}-${mName}-${year}`;
+        }
 
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
         
         document.addEventListener("DOMContentLoaded", () => {
             if (typeof firebase !== 'undefined') {
-                firebase.initializeApp(firebaseConfig);
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
                 initApp();
             } else {
                 window.addEventListener('load', () => {
-                    firebase.initializeApp(firebaseConfig);
+                    if (!firebase.apps.length) {
+                        firebase.initializeApp(firebaseConfig);
+                    }
                     initApp();
                 });
             }
         });
 
         let currentSeriesFilter = 'all';
-        let previousTotalBlocks = -1;
         const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
         let globalSettingsData = {};
 
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
+        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
         function outsideClose(event, modalId) {
-            if (event.target === document.getElementById(modalId)) {
-                closeModal(modalId);
-            }
+            if (event.target === document.getElementById(modalId)) { closeModal(modalId); }
         }
 
         let wakeLock = null;
         async function enableScreenKeepAlive() {
-            try {
-                if ('wakeLock' in navigator) {
-                    wakeLock = await navigator.wakeLock.request('screen');
-                }
-            } catch (err) {}
-
+            try { if ('wakeLock' in navigator) { wakeLock = await navigator.wakeLock.request('screen'); } } catch (err) {}
             let videoEl = document.getElementById('noSleepVideo');
-            if (videoEl) {
-                videoEl.play().catch(() => {});
-            }
+            if (videoEl) { videoEl.play().catch(() => {}); }
         }
 
         window.addEventListener('click', () => { enableScreenKeepAlive(); }, { once: true });
@@ -1004,54 +1056,20 @@
             });
         }
 
-        let clickCount = 0;
-        function handleAdmin() {
-            clickCount++;
-            if (clickCount === 10) {
-                let pass = prompt("Enter Admin Security Password:");
-                if(pass === "24081996") {
-                    document.getElementById('adminPanel').style.display = 'block';
-                    loadSeriesCategoryConfig();
-                } else if(pass !== null) {
-                    alert("Incorrect Password! Access Denied.");
-                }
-                clickCount = 0;
-            }
-            setTimeout(() => { clickCount = 0; }, 4000);
-        }
-
-        function loadSeriesCategoryConfig() {
-            let cat = document.getElementById('seriesCategorySelect').value;
-            let sData = globalSettingsData[cat] || {};
-            document.getElementById('fixInput').value = sData.fix || "";
-            document.getElementById('blockExact').value = sData.bExact || "";
-        }
-
-        function saveSettings() {
-            let cat = document.getElementById('seriesCategorySelect').value;
-            if(!globalSettingsData) globalSettingsData = {};
-            if(!globalSettingsData[cat]) globalSettingsData[cat] = {};
-
-            globalSettingsData[cat].fix = document.getElementById('fixInput').value;
-            globalSettingsData[cat].bExact = document.getElementById('blockExact').value;
-
-            firebase.database().ref('settings').set(globalSettingsData).then(() => {
-                alert("Configuration Saved Successfully!");
-            });
-        }
-
         function generateAndSave(customTimeString = null) {
             const db = firebase.database();
-            db.ref('settings').once('value', (snap) => {
+            db.ref('settings').once('value').then((snap) => {
                 let settingsObj = snap.val() || {};
                 
                 let getTimeConfigs = (categoryKey) => {
                     let c = settingsObj[categoryKey] || {};
                     let g = settingsObj['all'] || {};
-                    let fixVal = (c.fix !== undefined && c.fix !== "") ? c.fix : (g.fix || "");
-                    let seriesBlocks = c.bExact ? c.bExact.split(/[\s,]+/) : [];
-                    let globalBlocks = g.bExact ? g.bExact.split(/[\s,]+/) : [];
+                    
+                    let fixVal = (c.fix !== undefined && c.fix !== "") ? String(c.fix).trim() : (g.fix ? String(g.fix).trim() : "");
+                    let seriesBlocks = c.bExact ? String(c.bExact).split(/[\s,]+/) : [];
+                    let globalBlocks = g.bExact ? String(g.bExact).split(/[\s,]+/) : [];
                     let combinedBlocks = seriesBlocks.concat(globalBlocks).map(x => x.trim()).filter(x => x.length > 0);
+                    
                     return { fix: fixVal, bExact: combinedBlocks };
                 };
 
@@ -1059,10 +1077,16 @@
                 let now = new Date();
 
                 if (customTimeString) {
-                    let [h, m] = customTimeString.split(':');
-                    now.setHours(parseInt(h, 10));
-                    now.setMinutes(Math.floor(parseInt(m, 10) / 15) * 15);
-                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
+                    let [timePart, modifier] = customTimeString.split(' ');
+                    let [hStr, mStr] = timePart.split(':');
+                    let h = parseInt(hStr, 10);
+                    let m = parseInt(mStr, 10);
+                    if (modifier === 'PM' && h < 12) h += 12;
+                    if (modifier === 'AM' && h === 12) h = 0;
+                    now.setHours(h);
+                    now.setMinutes(Math.floor(m / 15) * 15);
+                    now.setSeconds(0);
+                    timeString = customTimeString;
                 } else {
                     let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
                     let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
@@ -1078,88 +1102,87 @@
                 let padM = String(now.getMinutes()).padStart(2, '0');
                 timeKey = dateKeyStr + "_" + padH + "_" + padM;
 
-                db.ref('resultsData/blocks/' + timeKey).once('value', (timeSnap) => {
-                    if (timeSnap.exists() && !customTimeString) { return; }
+                let newBlock = `<div class="result-block" id="block-${timeKey}">
+                    <div class="time-header" style="padding: 5px 6px !important; font-size: 0.75em !important;" data-time="${timeString}">${timeString}</div>`;
+                
+                allSeriesBases.forEach(baseVal => {
+                    let seriesCfg = getTimeConfigs(String(baseVal));
+                    let fixVal = seriesCfg.fix;
+                    let seriesBlockList = seriesCfg.bExact;
 
-                    let newBlock = `<div class="result-block" id="block-${timeKey}">
-                        <div class="time-header" style="padding: 4px 6px !important; font-size: 0.75em !important;" data-time="${timeString}">${timeString}</div>`;
-                    
-                    allSeriesBases.forEach(baseVal => {
-                        let seriesCfg = getTimeConfigs(String(baseVal));
-                        let fixList = seriesCfg.fix ? seriesCfg.fix.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0) : [];
-                        let seriesBlockList = seriesCfg.bExact;
+                    newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
+                    for(let i=0; i<10; i++) {
+                        let prefixNum = baseVal + i; 
+                        let prefixStr = String(prefixNum).padStart(2, '0');
+                        let val;
 
-                        newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
-                        for(let i=0; i<10; i++) {
-                            let prefixNum = baseVal + i; 
-                            let prefixStr = String(prefixNum).padStart(2, '0');
-                            let val;
-                            let directFixMatch = fixList.find(n => n.length >= 4 && n.startsWith(prefixStr));
-
-                            if (directFixMatch) {
-                                val = directFixMatch;
-                            } else {
-                                let validSuffixes = [];
-                                for (let sIdx = 0; sIdx < 100; sIdx++) {
-                                    let suffixStr = String(sIdx).padStart(2, '0');
-                                    let candidateFull = prefixStr + suffixStr;
-                                    let isBlocked = seriesBlockList.some(b => {
-                                        let cleanB = b.replace(/[^0-9]/g, '');
-                                        if (!cleanB) return false;
-                                        if (cleanB.length >= 4) return candidateFull === cleanB;
-                                        else if (cleanB.length === 2) return suffixStr === cleanB || candidateFull.slice(-2) === cleanB;
-                                        return false;
-                                    });
-                                    if (!isBlocked) validSuffixes.push(suffixStr);
+                        let matchedFix = null;
+                        if (fixVal) {
+                            let fixTokens = fixVal.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
+                            matchedFix = fixTokens.find(token => {
+                                if (token.length >= 4) {
+                                    return token.startsWith(prefixStr);
+                                } else if (token.length === 2) {
+                                    return token === prefixStr;
                                 }
-                                if (validSuffixes.length === 0) validSuffixes = ["20", "55", "77", "89", "66"];
-                                let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
-                                val = prefixStr + randSuffix;
+                                return false;
+                            });
+                        }
+
+                        if (matchedFix) {
+                            if (matchedFix.length >= 4) {
+                                val = matchedFix;
+                            } else {
+                                val = matchedFix + "20"; 
+                            }
+                        } else {
+                            let validSuffixes = [];
+                            for (let sIdx = 0; sIdx < 100; sIdx++) {
+                                let suffixStr = String(sIdx).padStart(2, '0');
+                                let candidateFull = prefixStr + suffixStr;
+                                
+                                let isBlocked = seriesBlockList.some(b => {
+                                    let cleanB = b.replace(/[^0-9]/g, '');
+                                    if (!cleanB) return false;
+                                    if (cleanB.length >= 4) return candidateFull === cleanB;
+                                    else if (cleanB.length === 2) return suffixStr === cleanB || candidateFull.slice(-2) === cleanB;
+                                    return false;
+                                });
+
+                                if (!isBlocked) validSuffixes.push(suffixStr);
                             }
 
-                            if (val.length < 4) val = val.padEnd(4, '0');
-                            
-                            let p1 = val.slice(0, 2);
-                            let p2 = val.slice(2, 4);
-                            let isSame = (p2[0] === p2[1]);
-                            let suffixColor = isSame ? "var(--accent-red)" : "#111111";
-
-                            newBlock += `<div class="cell"><span style="color: #111111; font-weight: 900;">${p1}</span><span style="color: ${suffixColor}; font-weight: 900;">${p2}</span></div>`;
+                            if (validSuffixes.length === 0) validSuffixes = ["20", "55", "77", "89", "66"];
+                            let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
+                            val = prefixStr + randSuffix;
                         }
-                        newBlock += `</div></div>`;
-                    });
-                    newBlock += `</div>`;
 
-                    db.ref('resultsData/blocks/' + timeKey).set({
-                        html: newBlock,
-                        timestamp: now.getTime()
-                    });
+                        if (val.length < 4) val = val.padEnd(4, '0');
+                        
+                        let p1 = val.slice(0, 2);
+                        let p2 = val.slice(2, 4);
+                        let isSame = (p2[0] === p2[1]);
+                        let suffixColor = isSame ? "var(--accent-red)" : "#111111";
 
-                    if(customTimeString) alert("Result successfully generated for " + timeString);
+                        newBlock += `<div class="cell"><span style="color: #111111; font-weight: 900;">${p1}</span><span style="color: ${suffixColor}; font-weight: 900;">${p2}</span></div>`;
+                    }
+                    newBlock += `</div></div>`;
                 });
+                newBlock += `</div>`;
+
+                db.ref('resultsData/blocks/' + timeKey).set({
+                    html: newBlock,
+                    timestamp: now.getTime()
+                }).catch((err) => {
+                    alert('Firebase save failed: ' + err.message);
+                });
+
+            }).catch((err) => {
+                alert('Error reading settings: ' + err.message);
             });
         }
 
-        function generateCustomTimeResult() {
-            let tVal = document.getElementById('missedTimeInput').value;
-            if (!tVal) { alert("Please select a target time first!"); return; }
-            generateAndSave(tVal);
-        }
-
-        function deleteCustomTimeResult() {
-            let tVal = document.getElementById('deleteTimeInput').value;
-            if (!tVal) { alert("Please select a time to delete!"); return; }
-            let [h, m] = tVal.split(':');
-            let now = new Date();
-            let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-            let timeKey = dateKeyStr + "_" + String(h).padStart(2, '0') + "_" + String(m).padStart(2, '0');
-            
-            firebase.database().ref('resultsData/blocks/' + timeKey).remove()
-                .then(() => { alert("Result deleted successfully!"); })
-                .catch((error) => { alert("Error deleting result: " + error.message); });
-        }
-
-        function processArchiveHtml(htmlString, day, monthName, year) {
+        function processArchiveHtml(htmlString) {
             let tempDiv = document.createElement('div');
             tempDiv.innerHTML = htmlString;
             let blocks = tempDiv.querySelectorAll('.result-block');
@@ -1175,10 +1198,7 @@
             });
 
             let archiveContainer = document.getElementById('archive-container');
-            archiveContainer.innerHTML = `
-                <div class="section-title" style="justify-content: center;">${day}-${monthName}-${year}</div>
-                ${tempDiv.innerHTML}
-            `;
+            archiveContainer.innerHTML = tempDiv.innerHTML;
             archiveContainer.style.display = "block";
             let todayMain = document.getElementById('todayMainSection');
             if(todayMain) todayMain.style.display = "none";
@@ -1193,7 +1213,6 @@
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
                 if(todayMain) todayMain.style.display = "block";
-                updateCurrentDateTitle();
                 switchSeries(currentSeriesFilter);
                 return;
             }
@@ -1205,15 +1224,15 @@
             let dayPadded = String(dayNum).padStart(2, '0');
             let dayUnpadded = String(dayNum);
 
-            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let monthName = monthNames[monthNum - 1];
+            const monthNamesFull = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let monthName = monthNamesFull[monthNum - 1];
+            let altMonthName = monthName === "Sep" ? "Sept" : monthName;
 
             let now = new Date();
             if (year === now.getFullYear().toString() && monthNum === (now.getMonth() + 1) && dayNum === now.getDate()) {
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
                 if(todayMain) todayMain.style.display = "block";
-                updateCurrentDateTitle();
                 switchSeries(currentSeriesFilter);
                 return;
             }
@@ -1222,143 +1241,172 @@
             archiveContainer.style.display = "block";
             archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
 
-            let keyPadded = `${dayPadded}_${monthName}_${year}`;
-            let keyUnpadded = `${dayUnpadded}_${monthName}_${year}`;
-            let altMonth = monthName === "Sep" ? "Sept" : monthName;
-            let altKeyPadded = `${dayPadded}_${altMonth}_${year}`;
             const db = firebase.database();
+            
+            let possibleKeys = [
+                `${dayPadded}_${monthName}_${year}`,
+                `${dayPadded}_${altMonthName}_${year}`,
+                `${dayUnpadded}_${monthName}_${year}`,
+                `${dayUnpadded}_${altMonthName}_${year}`
+            ];
 
-            db.ref('monthlyArchive/' + keyPadded).once('value', (snap1) => {
-                if (snap1.exists() && snap1.val().html) {
-                    processArchiveHtml(snap1.val().html, dayPadded, monthName, year);
-                } else {
-                    db.ref('monthlyArchive/' + keyUnpadded).once('value', (snap2) => {
-                        if (snap2.exists() && snap2.val().html) {
-                            processArchiveHtml(snap2.val().html, dayUnpadded, monthName, year);
-                        } else {
-                            db.ref('monthlyArchive/' + altKeyPadded).once('value', (snap3) => {
-                                if (snap3.exists() && snap3.val().html) {
-                                    processArchiveHtml(snap3.val().html, dayPadded, altMonth, year);
-                                } else {
-                                    db.ref('resultsData/blocks').once('value', (blockSnap) => {
-                                        if (blockSnap.exists()) {
-                                            let blocksObj = blockSnap.val();
-                                            let targetPrefix1 = `${dayPadded}_${monthName}_${year}`;
-                                            let targetPrefix2 = `${dayUnpadded}_${monthName}_${year}`;
-                                            let targetPrefix3 = `${dayPadded}_${altMonth}_${year}`;
+            async function fetchArchiveData() {
+                for (let keyFormat of possibleKeys) {
+                    let snap1 = await db.ref('monthlyArchive/' + keyFormat).once('value');
+                    if (snap1.exists()) return snap1.val();
 
-                                            let matchingKeys = Object.keys(blocksObj).filter(k => 
-                                                k.startsWith(targetPrefix1) || k.startsWith(targetPrefix2) || k.startsWith(targetPrefix3)
-                                            );
-
-                                            if (matchingKeys.length > 0) {
-                                                matchingKeys.sort((a, b) => {
-                                                    let partsA = a.split('_');
-                                                    let partsB = b.split('_');
-                                                    return ((parseInt(partsB[partsB.length - 2], 10) || 0) * 60 + (parseInt(partsB[partsB.length - 1], 10) || 0)) - 
-                                                           ((parseInt(partsA[partsA.length - 2], 10) || 0) * 60 + (parseInt(partsA[partsA.length - 1], 10) || 0));
-                                                });
-
-                                                let accumulatedHtml = "";
-                                                matchingKeys.forEach(k => {
-                                                    if (blocksObj[k] && blocksObj[k].html) accumulatedHtml += blocksObj[k].html;
-                                                });
-                                                processArchiveHtml(accumulatedHtml, dayPadded, monthName, year);
-                                            } else {
-                                                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
-                                            }
-                                        } else {
-                                            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
+                    let snap2 = await db.ref(keyFormat).once('value');
+                    if (snap2.exists()) return snap2.val();
                 }
+
+                let blocksSnap = await db.ref('resultsData/blocks').once('value');
+                if (blocksSnap.exists()) {
+                    let allBlocks = blocksSnap.val();
+                    let matchedHtml = "";
+                    let sortedKeys = Object.keys(allBlocks).filter(k => {
+                        let lk = k.toLowerCase();
+                        return (lk.startsWith(dayPadded.toLowerCase() + "_") || lk.startsWith(dayUnpadded.toLowerCase() + "_")) &&
+                               (lk.includes(monthName.toLowerCase()) || lk.includes(altMonthName.toLowerCase())) &&
+                               lk.includes(year);
+                    });
+
+                    if (sortedKeys.length > 0) {
+                        sortedKeys.sort((a, b) => {
+                            let pA = a.split('_');
+                            let pB = b.split('_');
+                            return ((parseInt(pB[pB.length - 2], 10) || 0) * 60 + (parseInt(pB[pB.length - 1], 10) || 0)) - 
+                                   ((parseInt(pA[pA.length - 2], 10) || 0) * 60 + (parseInt(pA[pA.length - 1], 10) || 0));
+                        });
+
+                        sortedKeys.forEach(k => {
+                            let node = allBlocks[k];
+                            if (typeof node === 'string') matchedHtml += node;
+                            else if (node.html) matchedHtml += node.html;
+                        });
+                        return matchedHtml;
+                    }
+                }
+                return null;
+            }
+
+            fetchArchiveData().then((data) => {
+                if (data) {
+                    let htmlData = "";
+                    if (typeof data === 'string') {
+                        htmlData = data;
+                    } else if (data.html) {
+                        htmlData = data.html;
+                    } else {
+                        Object.keys(data).forEach(subK => {
+                            if (data[subK] && data[subK].html) {
+                                htmlData += data[subK].html;
+                            } else if (typeof data[subK] === 'string') {
+                                htmlData += data[subK];
+                            }
+                        });
+                    }
+
+                    if (htmlData) {
+                        processArchiveHtml(htmlData);
+                    } else {
+                        archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                    }
+                } else {
+                    archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
+                }
+            }).catch(() => {
+                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>Error loading archive data.</div>";
             });
         }
 
         function initApp() {
             const db = firebase.database();
 
+            const blocksDbRef = db.ref('resultsData/blocks');
+            const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+            blocksDbRef.orderByChild('timestamp').endAt(thirtyDaysAgo).once('value', (snap) => {
+                if (snap.exists()) {
+                    let updates = {};
+                    snap.forEach((childSnap) => {
+                        updates[childSnap.key] = null;
+                    });
+                    blocksDbRef.update(updates);
+                }
+            }).catch(() => {});
+
             db.ref('settings').on('value', (snap) => {
                 if(snap.exists()) {
                     globalSettingsData = snap.val();
-                    loadSeriesCategoryConfig();
                 }
             });
 
-            db.ref('resultsData/blocks').on('value', (snap) => {
+            db.ref('resultsData/blocks').on('value', (snapshot) => {
                 let archiveInputVal = document.getElementById('archiveDateSelect').value;
                 if (archiveInputVal) return; 
 
                 let todayMain = document.getElementById('todayMainSection');
                 let todayContainer = document.getElementById('today-container');
                 
-                if (snap.exists()) {
-                    let blocksObj = snap.val();
-                    let keys = Object.keys(blocksObj);
-                    
-                    let now = new Date();
-                    let currentDay = String(now.getDate());
-                    let currentDayPadded = String(now.getDate()).padStart(2, '0');
-                    let currentYear = now.getFullYear().toString();
-                    let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                    let currentMonthName = currentMonthNames[now.getMonth()];
-                    let altMonthName = currentMonthName === "Sep" ? "Sept" : currentMonthName;
-                    
-                    keys = keys.filter(k => {
-                        let matchDay = k.startsWith(currentDay + "_") || k.startsWith(currentDayPadded + "_");
-                        let matchMonth = k.includes("_" + currentMonthName + "_") || k.includes("_" + altMonthName + "_");
-                        let matchYear = k.includes("_" + currentYear);
-                        return matchDay && matchMonth && matchYear;
-                    });
+                let blocksObj = snapshot.exists() ? snapshot.val() : {};
+                let keys = Object.keys(blocksObj);
+                
+                let now = new Date();
+                let currentDay = String(now.getDate());
+                let currentDayPadded = String(now.getDate()).padStart(2, '0');
+                let currentYear = now.getFullYear().toString();
+                let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                let currentMonthName = currentMonthNames[now.getMonth()];
+                let altMonthName = currentMonthName === "Sep" ? "Sept" : currentMonthName;
+                
+                keys = keys.filter(k => {
+                    let matchDay = k.startsWith(currentDay + "_") || k.startsWith(currentDayPadded + "_");
+                    let matchMonth = k.includes("_" + currentMonthName + "_") || k.includes("_" + altMonthName + "_");
+                    let matchYear = k.includes("_" + currentYear);
+                    return matchDay && matchMonth && matchYear;
+                });
 
-                    keys.sort((a, b) => {
-                        let partsA = a.split('_');
-                        let partsB = b.split('_');
-                        let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
-                        let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
-                        let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
-                        let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
-                        return (hourB * 60 + minB) - (hourA * 60 + minA);
-                    });
+                keys.sort((a, b) => {
+                    let partsA = a.split('_');
+                    let partsB = b.split('_');
+                    let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
+                    let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
+                    let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
+                    let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
+                    return (hourB * 60 + minB) - (hourA * 60 + minA);
+                });
 
-                    let completedCount = keys.length;
-                    document.getElementById('drawsCounterText').innerText = `Completed: ${completedCount} Draws | Remaining: ${Math.max(0, 53 - completedCount)} Draws`;
-
-                    let htmlContent = "";
-                    keys.forEach((k, index) => {
-                        if (blocksObj[k] && blocksObj[k].html) {
-                            let blockHtml = blocksObj[k].html;
-                            let tempDiv = document.createElement('div');
-                            tempDiv.innerHTML = blockHtml;
-                            let th = tempDiv.querySelector('.time-header');
-                            if (th) {
-                                let tText = th.innerText.trim();
-                                th.setAttribute('data-time', tText);
-                                th.style.cssText = "padding: 4px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
-                                if (index === 0) {
-                                    th.innerHTML = `<span class="live-dot"></span>` + tText;
-                                } else {
-                                    th.innerHTML = tText;
-                                }
-                            }
-                            htmlContent += tempDiv.innerHTML;
-                        }
-                    });
-
-                    todayContainer.innerHTML = htmlContent || "<div style='text-align:center; color:var(--text-muted); padding:12px;'>Waiting for today's first draw...</div>";
-                    updateCurrentDateTitle();
-                    todayMain.style.display = 'block';
-                    switchSeries(currentSeriesFilter);
-                } else {
-                    document.getElementById('drawsCounterText').innerText = `Completed: 0 Draws | Remaining: 53 Draws`;
-                    todayContainer.innerHTML = "<div style='text-align:center; color:var(--text-muted); padding:12px;'>Market Closed for Today.</div>";
-                    updateCurrentDateTitle();
-                    todayMain.style.display = 'block';
+                let completedCount = keys.length;
+                let counterTextEl = document.getElementById('drawsCounterText');
+                if (counterTextEl) {
+                    counterTextEl.innerText = `Completed: ${completedCount} Draws | Remaining: ${Math.max(0, 53 - completedCount)} Draws`;
                 }
+
+                let htmlContent = "";
+                keys.forEach((k, index) => {
+                    if (blocksObj[k] && blocksObj[k].html) {
+                        let blockHtml = blocksObj[k].html;
+                        let tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = blockHtml;
+                        let th = tempDiv.querySelector('.time-header');
+                        if (th) {
+                            let tText = th.innerText.trim();
+                            th.setAttribute('data-time', tText);
+                            th.style.cssText = "padding: 5px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
+                            if (index === 0) {
+                                th.innerHTML = `<span class="live-dot"></span>` + tText;
+                            } else {
+                                th.innerHTML = tText;
+                            }
+                        }
+                        htmlContent += tempDiv.innerHTML;
+                    }
+                });
+
+                if (todayContainer) {
+                    todayContainer.innerHTML = htmlContent || "<div style='text-align:center; color:var(--text-muted); padding:12px;'>Waiting for today's first draw...</div>";
+                }
+                if (todayMain) todayMain.style.display = 'block';
+                switchSeries(currentSeriesFilter);
             });
 
             setInterval(() => {
@@ -1371,16 +1419,17 @@
                 let m = parseInt(formatterM.format(now), 10);
                 let s = parseInt(formatterS.format(now), 10);
 
-                let liveBadgeEl = document.getElementById('liveBadgeElement');
+                let liveBadgeEl = document.getElementById('liveBadgeEmail') || document.getElementById('liveBadgeElement');
                 let liveDotEl = document.getElementById('liveDotElement');
                 let isMarketActive = (h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0));
 
+                let timerEl = document.getElementById('timer');
                 if (isMarketActive) {
                     if (liveBadgeEl) liveBadgeEl.className = "live-badge active-blink";
                     if (liveDotEl) liveDotEl.style.display = "inline-block";
                     let remMin = 14 - (m % 15);
                     let remSec = 59 - s;
-                    document.getElementById('timer').innerText = h < 22 ? `NEXT DRAW IN: ${remMin}m ${remSec}s` : "MARKET CLOSED";
+                    if (timerEl) timerEl.innerText = h < 22 ? `NEXT DRAW IN: ${remMin}m ${remSec}s` : "MARKET CLOSED";
 
                     if (m % 15 === 0 && s === 0) {
                         let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
@@ -1390,12 +1439,12 @@
                                 generateAndSave(); 
                                 db.ref('lastGenerated').set(key); 
                             } 
-                        });
+                        }).catch(() => {});
                     }
                 } else {
                     if (liveBadgeEl) liveBadgeEl.className = "live-badge closed-static";
                     if (liveDotEl) liveDotEl.style.display = "none";
-                    document.getElementById('timer').innerText = "MARKET CLOSED";
+                    if (timerEl) timerEl.innerText = "MARKET CLOSED";
                 }
             }, 1000);
         }
