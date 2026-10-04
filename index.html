@@ -470,7 +470,7 @@
             padding: 7px 0px; 
             text-align: center; 
             font-weight: 900; 
-            font-size: 13px; /* Medium and balanced size updated here */
+            font-size: 13px;[span_1](start_span)[span_1](end_span)
             color: #111111 !important;
             border: 1px solid #e8e3b2;
             letter-spacing: -0.5px; 
@@ -1302,7 +1302,8 @@
                 if(snap.exists()) globalSettingsData = snap.val();
             });
 
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).on('value', (snapshot) => {
+            // Yahan limitToLast(60) kar diya gaya hai taaki fast load ho aur poore draws dikhein[span_2](start_span)[span_2](end_span)
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).on('value', (snapshot) => {
                 let archiveInputVal = document.getElementById('archiveDateSelect').value;
                 let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveInputVal && archiveInputVal !== localTodayStr) return; 
