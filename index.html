@@ -1325,7 +1325,8 @@
                 if(snap.exists()) globalSettingsData = snap.val();
             });
 
-            db.ref('resultsData/blocks').on('value', (snapshot) => {
+            // Limit 100 set ki gayi hai taaki saare draws poore dikhein
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).on('value', (snapshot) => {
                 let archiveInputVal = document.getElementById('archiveDateSelect').value;
                 let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveInputVal && archiveInputVal !== localTodayStr) return; 
