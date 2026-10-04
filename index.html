@@ -700,8 +700,8 @@
 
         <div class="sticky-date-wrapper">
             <div class="modern-date-box" id="dateDisplayTrigger" onclick="triggerCalendarPicker()">
-                <label id="dateBoxLabel">📅 SELECT DATE</label>
-                <input type="date" id="archiveDateSelect" onchange="updateDateDisplayLabel(this.value); loadArchiveDate(this.value)">
+                <label id="dateBoxLabel">📅 LOADING...</label>
+                <input type="date" id="archiveDateSelect" onchange="handleDateChange(this.value)">
             </div>
         </div>
     </div>
@@ -985,9 +985,36 @@
             labelEl.innerText = `📅 ${String(dayNum).padStart(2, '0')}-${mName}-${year}`;
         }
 
+        function handleDateChange(dateVal) {
+            updateDateDisplayLabel(dateVal);
+            
+            let now = new Date();
+            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
+
+            if (!dateVal || dateVal === localTodayStr) {
+                let archiveContainer = document.getElementById('archive-container');
+                let todayMain = document.getElementById('todayMainSection');
+                archiveContainer.style.display = "none";
+                archiveContainer.innerHTML = "";
+                if (todayMain) todayMain.style.display = "block";
+                switchSeries(currentSeriesFilter);
+            } else {
+                loadArchiveDate(dateVal);
+            }
+        }
+
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
         
         document.addEventListener("DOMContentLoaded", () => {
+            // Set default date picker value to today's date in IST
+            let now = new Date();
+            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
+            let dateInput = document.getElementById('archiveDateSelect');
+            if (dateInput) {
+                dateInput.value = localTodayStr;
+            }
+            updateDateDisplayLabel(localTodayStr);
+
             if (typeof firebase !== 'undefined') {
                 if (!firebase.apps.length) {
                     firebase.initializeApp(firebaseConfig);
@@ -1229,7 +1256,8 @@
             let altMonthName = monthName === "Sep" ? "Sept" : monthName;
 
             let now = new Date();
-            if (year === now.getFullYear().toString() && monthNum === (now.getMonth() + 1) && dayNum === now.getDate()) {
+            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
+            if (dateVal === localTodayStr) {
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
                 if(todayMain) todayMain.style.display = "block";
@@ -1342,15 +1370,41 @@
 
             db.ref('resultsData/blocks').on('value', (snapshot) => {
                 let archiveInputVal = document.getElementById('archiveDateSelect').value;
-                if (archiveInputVal) return; 
+                let now = new Date();
+                let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
+                if (archiveInputVal && archiveInputVal !== localTodayStr) return; 
 
                 let todayMain = document.getElementById('todayMainSection');
                 let todayContainer = document.getElementById('today-container');
                 
                 let blocksObj = snapshot.exists() ? snapshot.val() : {};
+
+                // --- IMMEDIATE SYNC CHECK ON OPEN/LOAD ---
+                let nowCheck = new Date();
+                let fH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
+                let fM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
+                let hCheck = parseInt(fH.format(nowCheck), 10);
+                let mCheck = Math.floor(parseInt(fM.format(nowCheck), 10) / 15) * 15;
+                let isMarketActiveCheck = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
+
+                if (isMarketActiveCheck) {
+                    let dateKeyStrCheck = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                    let targetKeyCheck = dateKeyStrCheck + "_" + String(hCheck).padStart(2, '0') + "_" + String(mCheck).padStart(2, '0');
+                    
+                    if (!blocksObj[targetKeyCheck]) {
+                        db.ref('lastGenerated').once('value', (snap) => {
+                            let genKey = dateKeyStrCheck + "-" + String(hCheck).padStart(2, '0') + "-" + String(mCheck).padStart(2, '0');
+                            if (snap.val() !== genKey) {
+                                generateAndSave();
+                                db.ref('lastGenerated').set(genKey);
+                            }
+                        }).catch(() => {});
+                    }
+                }
+                // ----------------------------------------
+
                 let keys = Object.keys(blocksObj);
                 
-                let now = new Date();
                 let currentDay = String(now.getDate());
                 let currentDayPadded = String(now.getDate()).padStart(2, '0');
                 let currentYear = now.getFullYear().toString();
