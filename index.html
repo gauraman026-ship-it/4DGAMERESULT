@@ -17,13 +17,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
     <style>
-        /* CANVAS4D™ PREMIUM MOBILE DESIGN */
         :root {
           --bg-deep: #06101e;
           --gold-primary: #e4b94f;
           --gold-light: #fff0a6;
           --gold-dark: #854d0e;
-          --gold-glow: rgba(228, 185, 79, 0.4);
           --accent-red: #ff3838;
           --accent-green: #2ecc71;
           --border-glow: rgba(228, 185, 79, 0.3);
@@ -37,20 +35,15 @@
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent !important;
-            -webkit-touch-callout: none !important;
         }
 
         html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
-        }
-
-        body {
             background: #06101e;
             color: #fff;
             font-family: system-ui, Arial, sans-serif;
-            padding: 0px;
             display: flex;
             flex-direction: column;
         }
@@ -58,22 +51,16 @@
         .sticky-top-section {
             flex-shrink: 0;
             background-color: var(--bg-deep);
-            padding-top: 1px;
-            padding-bottom: 0px;
             z-index: 1000;
             width: 100%;
         }
 
         .header-container {
           background: linear-gradient(145deg, #102b49, #06101e 75%);
-          box-shadow: none;
           text-align: center;
-          margin: 0;
           padding: 10px 4px 8px 4px;
-          border-radius: 0;
           border-bottom: 1px solid rgba(228, 185, 79, 0.4);
           position: relative;
-          overflow: hidden;
           width: 100%;
         }
 
@@ -83,7 +70,6 @@
             left: 6px;
             font-size: 0.5em;
             font-weight: 800;
-            letter-spacing: 0.5px;
             color: var(--gold-light);
             background: rgba(15, 23, 42, 0.85);
             border: 1px solid rgba(228, 185, 79, 0.4);
@@ -93,9 +79,7 @@
         }
 
         .neon-title {
-          background: linear-gradient(
-            180deg, #fff6cf, #f3cf73, #bd8730
-          );
+          background: linear-gradient(180deg, #fff6cf, #f3cf73, #bd8730);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           font-size: 1.4em;
@@ -106,8 +90,6 @@
           justify-content: center;
           gap: 4px;
           text-transform: uppercase;
-          position: relative;
-          z-index: 2;
         }
 
         .tm-symbol {
@@ -121,8 +103,6 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, rgba(228, 185, 79, 0.8), transparent);
             margin: 2px auto;
-            position: relative;
-            z-index: 2;
         }
 
         .kohinoor-sub {
@@ -133,8 +113,6 @@
             font-size: 0.55em;
             letter-spacing: 3px;
             text-transform: uppercase;
-            position: relative;
-            z-index: 2;
         }
 
         .enterprises-sub {
@@ -145,8 +123,6 @@
             font-size: 0.45em;
             letter-spacing: 4px;
             text-transform: uppercase;
-            position: relative;
-            z-index: 2;
         }
 
         .amusement-sub {
@@ -163,8 +139,6 @@
             padding: 1px 8px;
             border-radius: 3px;
             background-color: rgba(10, 2, 4, 0.8);
-            position: relative;
-            z-index: 2;
         }
 
         .market-status-bar {
@@ -180,9 +154,8 @@
         }
 
         @keyframes redOnlyLoop {
-            0% { color: var(--accent-red); border-color: var(--accent-red); background: rgba(255, 56, 56, 0.15); box-shadow: 0 0 2px rgba(255, 56, 56, 0.4); }
-            50% { color: #ff8585; border-color: #ff8585; background: rgba(255, 56, 56, 0.35); box-shadow: 0 0 10px rgba(255, 56, 56, 0.8); }
-            100% { color: var(--accent-red); border-color: var(--accent-red); background: rgba(255, 56, 56, 0.15); box-shadow: 0 0 2px rgba(255, 56, 56, 0.4); }
+            0%, 100% { color: var(--accent-red); border-color: var(--accent-red); background: rgba(255, 56, 56, 0.15); }
+            50% { color: #ff8585; border-color: #ff8585; background: rgba(255, 56, 56, 0.35); }
         }
 
         .live-badge.active-blink {
@@ -208,13 +181,9 @@
             align-items: center;
             gap: 3px;
             text-transform: uppercase;
-            animation: none;
         }
 
-        .draws-counter {
-            color: var(--text-muted);
-            font-weight: 700;
-        }
+        .draws-counter { color: var(--text-muted); font-weight: 700; }
 
         .timer-box {
             text-align: center;
@@ -230,7 +199,6 @@
 
         .series-tabs-wrapper {
           background: #071426;
-          box-shadow: none;
           display: flex;
           flex-direction: column;
           width: 100%;
@@ -264,7 +232,6 @@
           background: #0b1b30;
           border: 1px solid #31445b;
           color: #e5edf7;
-          box-shadow: none;
           padding: 4px 2px;
           text-align: center;
           font-weight: 800;
@@ -273,69 +240,78 @@
           cursor: pointer;
           text-transform: uppercase;
           white-space: nowrap;
-          transition: all 0.15s ease-in-out;
           width: 100%;
         }
 
-        .tab-btn:hover {
-            border-color: rgba(228, 185, 79, 0.8);
-            color: var(--gold-light);
-        }
-
-        .tab-btn:active {
-            transform: scale(0.94);
-        }
-        
         .tab-btn.active {
           background: linear-gradient(180deg, #fff0a0, #e4b94f);
           color: #172033;
           border-color: #fff3bd;
-          box-shadow: none;
           font-weight: 900;
         }
 
         .sticky-date-wrapper {
           background: #0b1b2d;
-          box-shadow: none;
           position: sticky;
           top: 0;
           z-index: 900;
-          padding: 3px 8px;
+          padding: 4px 8px;
           display: flex;
-          justify-content: center;
+          justify-content: space-between;
           align-items: center;
           width: 100%;
           border-bottom: 1px solid rgba(228, 185, 79, 0.35);
-          height: 32px;
+          height: 36px;
+        }
+
+        .update-btn-corner {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.65em;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+        .update-btn-corner:active {
+            transform: scale(0.95);
+            background: var(--gold-primary);
+            color: #000;
+        }
+        @keyframes spinSync {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinning {
+            animation: spinSync 0.6s linear infinite;
         }
 
         .modern-date-box {
           background: #071426;
-          border-color: #c49b3d;
-          box-shadow: none;
-          min-height: 30px;
+          border: 1px solid #c49b3d;
+          min-height: 28px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 6px;
-          border-width: 1px;
-          border-style: solid;
           padding: 2px 10px;
           border-radius: 14px;
           cursor: pointer;
-          width: 100%;
-          max-width: 220px;
+          width: 150px;
           position: relative;
         }
 
         .modern-date-box label {
             color: var(--gold-light);
-            font-size: 0.7em;
+            font-size: 0.68em;
             font-weight: 800;
-            letter-spacing: 0.5px;
-            cursor: pointer;
             text-transform: uppercase;
-            white-space: nowrap;
             pointer-events: none;
         }
 
@@ -347,7 +323,6 @@
             cursor: pointer;
             left: 0;
             top: 0;
-            z-index: 10;
         }
 
         .canvas-marquee {
@@ -357,7 +332,6 @@
             border-top: 1px solid rgba(228, 185, 79, 0.4);
             border-bottom: 1px solid rgba(228, 185, 79, 0.4);
             padding: 4px 0;
-            border-radius: 2px;
         }
 
         .canvas-track {
@@ -370,7 +344,6 @@
         }
 
         .canvas-track span {
-            font-family: 'Segoe UI', Arial, sans-serif;
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 1.2px;
@@ -379,11 +352,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .canvas-track b {
-            color: var(--gold-primary);
-            opacity: 0.9;
-            font-size: 9.5px;
-        }
+        .canvas-track b { color: var(--gold-primary); font-size: 9.5px; }
 
         @keyframes premiumScroll {
             from { transform: translateX(0); }
@@ -400,20 +369,12 @@
             width: 100%;
             -webkit-overflow-scrolling: touch;
         }
-        .main-scroll-viewport::-webkit-scrollbar {
-            width: 3px;
-        }
-        .main-scroll-viewport::-webkit-scrollbar-thumb {
-            background-color: var(--gold-primary);
-            border-radius: 3px;
-        }
         
         .result-block {
             border-bottom: 1.5px solid #1b4f72;
             margin-bottom: 4px; 
             background: var(--cream-bg);
             width: 100%;
-            box-shadow: none;
         }
         
         .time-header {
@@ -429,6 +390,7 @@
             border-bottom: 1px solid #10324a;
             width: 100%;
         }
+
         .live-dot {
             height: 5px;
             width: 5px;
@@ -440,9 +402,9 @@
         }
         
         @keyframes pulse-dot { 
-            0% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0.8); } 
-            70% { transform: scale(1); opacity: 0.4; box-shadow: 0 0 0 5px rgba(255, 56, 56, 0); }
-            100% { transform: scale(0.95); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 56, 0); }
+            0% { transform: scale(0.95); opacity: 1; } 
+            70% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 1; }
         }
         
         .chart-table { 
@@ -450,19 +412,14 @@
             grid-template-columns: 1fr; 
             width: 100%;
             background: var(--cream-bg);
-            margin: 0px;
             border-bottom: 1px solid #e2deaa;
         }
-        .chart-table:last-child {
-            border-bottom: none;
-        }
+        .chart-table:last-child { border-bottom: none; }
 
         .row-grid { 
             display: grid; 
             grid-template-columns: repeat(10, 1fr); 
             width: 100%;
-            margin: 0px;
-            padding: 0px;
         }
         
         .cell { 
@@ -470,13 +427,11 @@
             padding: 7px 0px; 
             text-align: center; 
             font-weight: 900; 
-            font-size: 13px;[span_1](start_span)[span_1](end_span)
+            font-size: 13px;
             color: #111111 !important;
             border: 1px solid #e8e3b2;
             letter-spacing: -0.5px; 
             white-space: nowrap;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            outline: none !important;
         }
 
         .site-footer {
@@ -519,8 +474,6 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(2, 4, 8, 0.92);
-            -webkit-backdrop-filter: none;
-            backdrop-filter: none;
             z-index: 10000;
             justify-content: center;
             align-items: center;
@@ -535,7 +488,6 @@
             max-height: 85vh;
             overflow-y: auto;
             padding: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.9);
         }
         .modal-header {
             display: flex;
@@ -545,27 +497,9 @@
             padding-bottom: 6px;
             margin-bottom: 8px;
         }
-        .modal-title {
-            color: var(--gold-primary);
-            font-size: 0.82em;
-            font-weight: 900;
-            text-transform: uppercase;
-        }
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--accent-red);
-            font-size: 1.2em;
-            font-weight: 900;
-            cursor: pointer;
-            padding: 4px 8px; 
-        }
-        .modal-body {
-            color: #d1d5db;
-            font-size: 0.72em;
-            line-height: 1.4;
-            font-weight: 500;
-        }
+        .modal-title { color: var(--gold-primary); font-size: 0.82em; font-weight: 900; text-transform: uppercase; }
+        .modal-close { background: none; border: none; color: var(--accent-red); font-size: 1.2em; font-weight: 900; cursor: pointer; padding: 4px 8px; }
+        .modal-body { color: #d1d5db; font-size: 0.72em; line-height: 1.4; font-weight: 500; }
         .modal-body p { margin-bottom: 4px; font-weight: 700; color: var(--gold-light); }
         .modal-body ul { margin-left: 14px; margin-bottom: 6px; }
         .modal-body li { margin-bottom: 3px; }
@@ -580,14 +514,6 @@
             margin-bottom: 8px;
             font-size: 0.9em;
         }
-        select.admin-input {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e4b94f%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 10px;
-            padding-right: 25px;
-        }
         .admin-btn {
             font-weight: 900;
             border: none;
@@ -598,23 +524,11 @@
             text-transform: uppercase;
             font-size: 0.8em;
         }
-
-        @media (max-width: 360px) {
-          .neon-title {
-            font-size: 1.2em;
-            letter-spacing: 1px;
-          }
-
-          .cell {
-            font-size: 12px;
-            padding: 7px 0;
-          }
-        }
     </style>
 </head>
 <body>
 
-    <div id="bottomCornerTrigger" style="position: fixed; bottom: 0; right: 0; width: 45px; height: 45px; z-index: 99999; cursor: pointer; background: transparent;"></div>
+    <div id="bottomCornerTrigger" style="position: fixed; bottom: 0; right: 0; width: 45px; height: 45px; z-index: 99999; background: transparent;"></div>
 
     <video id="noSleepVideo" loop muted playsinline style="display:none; width:1px; height:1px;">
         <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
@@ -622,8 +536,7 @@
 
     <div class="sticky-top-section">
         <div class="header-container">
-            <div class="banner-version-tag">v1.0.7</div>
-
+            <div class="banner-version-tag">v1.0.9</div>
             <div class="neon-title">CΛNVΛS4D<span class="tm-symbol">™</span></div>
             <div class="header-divider"></div>
             <div class="kohinoor-sub">K O H I N O O R</div>
@@ -633,7 +546,7 @@
 
         <div class="market-status-bar">
             <div class="live-badge closed-static" id="liveBadgeElement"><span class="live-dot" id="liveDotElement"></span> LIVE NOW</div>
-            <div class="draws-counter" id="drawsCounterText">Completed: 0 Draws | Remaining: 53 Draws</div>
+            <div class="draws-counter" id="drawsCounterText">Completed: 0 Draws</div>
         </div>
 
         <div class="timer-box" id="timer">SYNCHRONIZING SERVER TIME...</div>
@@ -658,23 +571,20 @@
 
         <div class="canvas-marquee">
           <div class="canvas-track">
-            <span>✦ WELCOME TO CΛNVΛS4D™</span>
-            <b>•</b>
-            <span>YOUR TRUSTED & SECURE AMUSEMENT EXPERIENCE</span>
-            <b>•</b>
-            <span>FAIR & TRANSPARENT EXPERIENCE</span>
-            <b>•</b>
-            <span>PLAY RESPONSIBLY • 18+ ONLY</span>
-            <b>•</b>
-            <span>ENJOY THE EXPERIENCE</span>
-            <b>•</b>
-            <span>THANK YOU FOR CHOOSING CΛNVΛS4D™</span>
-            <b>•</b>
+            <span>✦ WELCOME TO CΛNVΛS4D™</span><b>•</b>
+            <span>YOUR TRUSTED & SECURE AMUSEMENT EXPERIENCE</span><b>•</b>
+            <span>FAIR & TRANSPARENT EXPERIENCE</span><b>•</b>
+            <span>PLAY RESPONSIBLY • 18+ ONLY</span><b>•</b>
           </div>
         </div>
 
         <div class="sticky-date-wrapper">
-            <div class="modern-date-box" id="dateDisplayTrigger" onclick="triggerCalendarPicker()">
+            <!-- Update Result Button on Left Corner -->
+            <button class="update-btn-corner" onclick="manualRefreshResults()" title="Update Result">
+                <span id="refreshIcon">🔄</span> Update Result
+            </button>
+            
+            <div class="modern-date-box" onclick="triggerCalendarPicker()">
                 <label id="dateBoxLabel">📅 LOADING...</label>
                 <input type="date" id="archiveDateSelect" onchange="handleDateChange(this.value)">
             </div>
@@ -682,9 +592,7 @@
     </div>
 
     <div class="main-scroll-viewport">
-
         <div id="archive-container" style="display: none;"></div>
-
         <div id="todayMainSection" style="display: block;">
             <div id="today-container"></div>
         </div>
@@ -697,134 +605,55 @@
                 <a onclick="openModal('privacyModal')">Privacy Policy</a>
                 <a onclick="openModal('termsModal')">Terms & Conditions</a>
             </div>
-            <div class="footer-copy">
-                &copy; 2026 CΛNVΛS4D™ &bull; All Rights Reserved
-            </div>
+            <div class="footer-copy">&copy; 2026 CΛNVΛS4D™ &bull; All Rights Reserved</div>
         </footer>
-
-    </div>
-
-    <!-- Admin Panel Modal with Dropdown Options -->
-    <div id="adminPanelModal" class="modal-overlay" onclick="outsideClose(event, 'adminPanelModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">⚙ ADMIN CONTROL PANEL</span>
-                <button class="modal-close" onclick="closeModal('adminPanelModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Select Series Category:</p>
-                <select id="adminSeriesSelect" class="admin-input" onchange="loadAdminSeriesData()">
-                    <option value="all">Global (All Series)</option>
-                    <option value="0">00 - 09 Series</option>
-                    <option value="10">10 - 19 Series</option>
-                    <option value="20">20 - 29 Series</option>
-                    <option value="30">30 - 39 Series</option>
-                    <option value="40">40 - 49 Series</option>
-                    <option value="50">50 - 59 Series</option>
-                    <option value="60">60 - 69 Series</option>
-                    <option value="70">70 - 79 Series</option>
-                    <option value="80">80 - 89 Series</option>
-                    <option value="90">90 - 99 Series</option>
-                </select>
-
-                <p>Fix Number (For Selected Series):</p>
-                <input type="text" id="adminFixInput" class="admin-input" placeholder="e.g. 0120, 1555...">
-
-                <p>Block / Stop Numbers (Exact/Suffix):</p>
-                <input type="text" id="adminBlockInput" class="admin-input" placeholder="e.g. 55, 79, 33, 89...">
-
-                <button class="admin-btn" style="background: linear-gradient(135deg, #e4b94f, #855f06); color: #000; margin-bottom: 12px;" onclick="saveAdminSettings()">SAVE CONFIG</button>
-
-                <p>Manual Time Injection:</p>
-                <select id="adminManualTimeSelect" class="admin-input"></select>
-                <button class="admin-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; margin-bottom: 12px;" onclick="adminManualGenerate()">GENERATE</button>
-
-                <p>Delete Time Result (9:00 AM - 10:00 PM):</p>
-                <select id="adminDeleteTimeSelect" class="admin-input"></select>
-                <button class="admin-btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff;" onclick="adminDeleteResult()">DELETE</button>
-            </div>
-        </div>
     </div>
 
     <!-- Modals -->
-    <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')">
+    <div id="adminPanelModal" class="modal-overlay" onclick="outsideClose(event, 'adminPanelModal')">
         <div class="modal-card">
             <div class="modal-header">
-                <span class="modal-title">About Us</span>
-                <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
+                <span class="modal-title">⚙ ADMIN PANEL</span>
+                <button class="modal-close" onclick="closeModal('adminPanelModal')">&times;</button>
             </div>
             <div class="modal-body">
-                <p>Welcome to <strong>CΛNVΛS4D™</strong>, powered by KOHINOOR ENTERPRISES. We operate an elite, next-generation digital gaming exchange platform.</p>
+                <p>Series:</p>
+                <select id="adminSeriesSelect" class="admin-input" onchange="loadAdminSeriesData()">
+                    <option value="all">Global (All)</option>
+                    <option value="0">00 - 09</option><option value="10">10 - 19</option><option value="20">20 - 29</option>
+                    <option value="30">30 - 39</option><option value="40">40 - 49</option><option value="50">50 - 59</option>
+                    <option value="60">60 - 69</option><option value="70">70 - 79</option><option value="80">80 - 89</option><option value="90">90 - 99</option>
+                </select>
+                <p>Fix Number:</p>
+                <input type="text" id="adminFixInput" class="admin-input">
+                <p>Block Numbers:</p>
+                <input type="text" id="adminBlockInput" class="admin-input">
+                <button class="admin-btn" style="background:#e4b94f; color:#000; margin-bottom:12px;" onclick="saveAdminSettings()">SAVE</button>
+                <p>Manual Time:</p>
+                <select id="adminManualTimeSelect" class="admin-input"></select>
+                <button class="admin-btn" style="background:#2ecc71; color:#fff; margin-bottom:12px;" onclick="adminManualGenerate()">GENERATE</button>
+                <p>Delete Time:</p>
+                <select id="adminDeleteTimeSelect" class="admin-input"></select>
+                <button class="admin-btn" style="background:#e74c3c; color:#fff;" onclick="adminDeleteResult()">DELETE</button>
             </div>
         </div>
     </div>
 
-    <div id="rulesModal" class="modal-overlay" onclick="outsideClose(event, 'rulesModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Game Rules</span>
-                <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Please review our official operational guidelines:</p>
-                <ul>
-                    <li><strong>Market Timing:</strong> Automated official draws execute sequentially between 09:00 AM and 10:00 PM standard schedules.</li>
-                    <li><strong>Series Structure:</strong> Results are properly categorized across specialized active series nodes (00 to 90 Charts).</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Support Desk</span>
-                <button class="modal-close" onclick="closeModal('supportModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Need technical assistance or have inquiries regarding platform operations? Our support team is structured to assist you.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="privacyModal" class="modal-overlay" onclick="outsideClose(event, 'privacyModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Privacy Policy</span>
-                <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>At CΛNVΛS4D™, protecting your digital privacy is our top priority.</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Terms & Conditions</span>
-                <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>By accessing or utilizing the CΛNVΛS4D™ web portal, you agree to abide by the following terms.</p>
-            </div>
-        </div>
-    </div>
+    <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">About Us</span><button class="modal-close" onclick="closeModal('aboutModal')">&times;</button></div><div class="modal-body"><p>CΛNVΛS4D™ powered by KOHINOOR ENTERPRISES.</p></div></div></div>
+    <div id="rulesModal" class="modal-overlay" onclick="outsideClose(event, 'rulesModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Rules</span><button class="modal-close" onclick="closeModal('rulesModal')">&times;</button></div><div class="modal-body"><p>Automated draws between 09:00 AM and 10:00 PM.</p></div></div></div>
+    <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Support</span><button class="modal-close" onclick="closeModal('supportModal')">&times;</button></div><div class="modal-body"><p>Contact support desk for assistance.</p></div></div></div>
+    <div id="privacyModal" class="modal-overlay" onclick="outsideClose(event, 'privacyModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Privacy</span><button class="modal-close" onclick="closeModal('privacyModal')">&times;</button></div><div class="modal-body"><p>Your privacy is protected.</p></div></div></div>
+    <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Terms</span><button class="modal-close" onclick="closeModal('termsModal')">&times;</button></div><div class="modal-body"><p>By accessing portal, you agree to terms.</p></div></div></div>
 
     <script>
-        let tapCount = 0;
-        let tapTimer = null;
+        let tapCount = 0, tapTimer = null;
         document.getElementById('bottomCornerTrigger').addEventListener('click', () => {
             tapCount++;
             clearTimeout(tapTimer);
             if (tapCount >= 10) {
                 tapCount = 0;
-                let pwd = prompt("Enter Admin Password:");
-                if (pwd === "24081996") {
-                    openAdminPanel();
-                } else if (pwd !== null) {
-                    alert("Incorrect Password!");
-                }
+                let pwd = prompt("Password:");
+                if (pwd === "24081996") openAdminPanel();
             } else {
                 tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
             }
@@ -835,30 +664,21 @@
             for (let h = 9; h <= 22; h++) {
                 for (let m = 0; m < 60; m += 15) {
                     if (h === 22 && m > 0) break;
-                    let d = new Date();
-                    d.setHours(h, m, 0);
+                    let d = new Date(); d.setHours(h, m, 0);
                     let timeLabel = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
                     optionsHtml += `<option value="${timeLabel}">${timeLabel}</option>`;
                 }
             }
-            let manualSelect = document.getElementById('adminManualTimeSelect');
-            if (manualSelect) manualSelect.innerHTML = optionsHtml;
-
-            let deleteSelect = document.getElementById('adminDeleteTimeSelect');
-            if (deleteSelect) deleteSelect.innerHTML = '<option value="">Select Time to Delete</option>' + optionsHtml;
+            document.getElementById('adminManualTimeSelect').innerHTML = optionsHtml;
+            document.getElementById('adminDeleteTimeSelect').innerHTML = '<option value="">Select Time</option>' + optionsHtml;
         }
 
-        function openAdminPanel() {
-            openModal('adminPanelModal');
-            loadAdminSeriesData();
-            populateTimeDropdowns();
-        }
-
+        function openAdminPanel() { openModal('adminPanelModal'); loadAdminSeriesData(); populateTimeDropdowns(); }
         function loadAdminSeriesData() {
-            let selSeries = document.getElementById('adminSeriesSelect').value;
-            if (globalSettingsData && globalSettingsData[selSeries]) {
-                document.getElementById('adminFixInput').value = globalSettingsData[selSeries].fix || '';
-                document.getElementById('adminBlockInput').value = globalSettingsData[selSeries].bExact || '';
+            let sel = document.getElementById('adminSeriesSelect').value;
+            if (globalSettingsData && globalSettingsData[sel]) {
+                document.getElementById('adminFixInput').value = globalSettingsData[sel].fix || '';
+                document.getElementById('adminBlockInput').value = globalSettingsData[sel].bExact || '';
             } else {
                 document.getElementById('adminFixInput').value = '';
                 document.getElementById('adminBlockInput').value = '';
@@ -866,566 +686,296 @@
         }
 
         function saveAdminSettings() {
-            let selSeries = document.getElementById('adminSeriesSelect').value;
-            let fixVal = document.getElementById('adminFixInput').value;
-            let blockVal = document.getElementById('adminBlockInput').value;
-            const db = firebase.database();
-            db.ref('settings/' + selSeries).set({
-                fix: fixVal,
-                bExact: blockVal
-            }).then(() => {
-                alert('Settings updated successfully!');
-            }).catch((err) => {
-                alert('Error saving settings: ' + err.message);
-            });
+            let sel = document.getElementById('adminSeriesSelect').value;
+            firebase.database().ref('settings/' + sel).set({
+                fix: document.getElementById('adminFixInput').value,
+                bExact: document.getElementById('adminBlockInput').value
+            }).then(() => alert('Saved!')).catch(e => alert(e.message));
         }
 
         function adminManualGenerate() {
-            let timeStr = document.getElementById('adminManualTimeSelect').value;
-            if (!timeStr) { alert('Please select a valid time'); return; }
-            generateAndSave(timeStr);
-            alert('Manual result generated for ' + timeStr);
+            let t = document.getElementById('adminManualTimeSelect').value;
+            if (t) generateAndSave(t);
         }
 
         function adminDeleteResult() {
-            let timeStr = document.getElementById('adminDeleteTimeSelect').value;
-            if (!timeStr) { alert('Please select a time to delete'); return; }
-            if (!confirm("Are you sure you want to delete the result for " + timeStr + "?")) return;
-
-            let [timePart, modifier] = timeStr.split(' ');
-            let [hStr, mStr] = timePart.split(':');
-            let h = parseInt(hStr, 10);
-            let m = parseInt(mStr, 10);
-            if (modifier === 'PM' && h < 12) h += 12;
-            if (modifier === 'AM' && h === 12) h = 0;
-
-            let now = getISTDate();
-            now.setHours(h, m, 0, 0);
-
-            let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-            let targetKey = dateKeyStr + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
-
-            const db = firebase.database();
-            db.ref('resultsData/blocks/' + targetKey).remove().then(() => {
-                alert('Result for ' + timeStr + ' deleted successfully!');
-            }).catch((err) => {
-                alert('Error deleting result: ' + err.message);
-            });
+            let t = document.getElementById('adminDeleteTimeSelect').value;
+            if (!t || !confirm("Delete " + t + "?")) return;
+            let [tp, mod] = t.split(' ');
+            let [h, m] = tp.split(':').map(Number);
+            if (mod === 'PM' && h < 12) h += 12;
+            if (mod === 'AM' && h === 12) h = 0;
+            let now = getISTDate(); now.setHours(h, m, 0, 0);
+            let key = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_') + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
+            firebase.database().ref('resultsData/blocks/' + key).remove().then(() => alert('Deleted!'));
         }
 
         function triggerCalendarPicker() {
-            let dateInput = document.getElementById('archiveDateSelect');
-            if (dateInput) {
-                if (typeof dateInput.showPicker === 'function') {
-                    try { dateInput.showPicker(); } catch (err) { dateInput.click(); }
-                } else { dateInput.click(); }
-            }
+            let di = document.getElementById('archiveDateSelect');
+            if (di) { if (typeof di.showPicker === 'function') { try { di.showPicker(); } catch(e) { di.click(); } } else { di.click(); } }
         }
 
-        function updateDateDisplayLabel(dateVal) {
-            let labelEl = document.getElementById('dateBoxLabel');
-            if (!dateVal) { labelEl.innerText = "📅 SELECT DATE"; return; }
-            let parts = dateVal.split('-');
-            let year = parts[0];
-            let monthNum = parseInt(parts[1], 10);
-            let dayNum = parseInt(parts[2], 10);
-            const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-            labelEl.innerText = `📅 ${String(dayNum).padStart(2, '0')}-${monthNames[monthNum - 1]}-${year}`;
+        function updateDateDisplayLabel(v) {
+            let lbl = document.getElementById('dateBoxLabel');
+            if (!v) { lbl.innerText = "📅 SELECT DATE"; return; }
+            let p = v.split('-');
+            let mn = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            lbl.innerText = `📅 ${p[2]}-${mn[parseInt(p[1], 10) - 1]}-${p[0]}`;
         }
 
-        function handleDateChange(dateVal) {
-            updateDateDisplayLabel(dateVal);
-            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
-
-            if (!dateVal || dateVal === localTodayStr) {
-                let archiveContainer = document.getElementById('archive-container');
-                let todayMain = document.getElementById('todayMainSection');
-                archiveContainer.style.display = "none";
-                archiveContainer.innerHTML = "";
-                if (todayMain) todayMain.style.display = "block";
+        function handleDateChange(v) {
+            updateDateDisplayLabel(v);
+            let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+            if (!v || v === todayStr) {
+                document.getElementById('archive-container').style.display = "none";
+                document.getElementById('todayMainSection').style.display = "block";
                 switchSeries(currentSeriesFilter);
             } else {
-                loadArchiveDate(dateVal);
+                loadArchiveDate(v);
             }
         }
 
-        // --- SERVER TIME OFFSET SYNC ---
         let serverTimeOffset = 0;
-        function initServerTimeSync() {
-            if (typeof firebase === 'undefined') return;
-            const offsetRef = firebase.database().ref(".info/serverTimeOffset");
-            offsetRef.on("value", (snap) => {
-                serverTimeOffset = snap.val() || 0;
-            });
-        }
-
-        function getISTDate() {
-            return new Date(Date.now() + serverTimeOffset);
-        }
+        function getISTDate() { return new Date(Date.now() + serverTimeOffset); }
 
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
-        
+
         document.addEventListener("DOMContentLoaded", () => {
-            if (typeof firebase !== 'undefined') {
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                initServerTimeSync();
-                setTimeout(() => {
-                    let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
-                    let dateInput = document.getElementById('archiveDateSelect');
-                    if (dateInput) dateInput.value = localTodayStr;
-                    updateDateDisplayLabel(localTodayStr);
-                    initApp();
-                }, 500);
-            } else {
-                window.addEventListener('load', () => {
-                    if (!firebase.apps.length) {
-                        firebase.initializeApp(firebaseConfig);
-                    }
-                    initServerTimeSync();
-                    setTimeout(() => {
-                        let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
-                        let dateInput = document.getElementById('archiveDateSelect');
-                        if (dateInput) dateInput.value = localTodayStr;
-                        updateDateDisplayLabel(localTodayStr);
-                        initApp();
-                    }, 500);
-                });
-            }
+            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+            firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
+            setTimeout(() => {
+                let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+                document.getElementById('archiveDateSelect').value = todayStr;
+                updateDateDisplayLabel(todayStr);
+                initApp();
+            }, 300);
         });
 
         let currentSeriesFilter = 'all';
         const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
         let globalSettingsData = {};
 
-        function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
-        function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
-        function outsideClose(event, modalId) {
-            if (event.target === document.getElementById(modalId)) { closeModal(modalId); }
-        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function outsideClose(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
 
-        let wakeLock = null;
         async function enableScreenKeepAlive() {
-            try { if ('wakeLock' in navigator) { wakeLock = await navigator.wakeLock.request('screen'); } } catch (err) {}
-            let videoEl = document.getElementById('noSleepVideo');
-            if (videoEl) videoEl.play().catch(() => {});
+            try { if ('wakeLock' in navigator) await navigator.wakeLock.request('screen'); } catch(e){}
+            let v = document.getElementById('noSleepVideo'); if (v) v.play().catch(()=>{});
         }
-
-        window.addEventListener('click', () => { enableScreenKeepAlive(); }, { once: true });
-        window.addEventListener('load', () => { enableScreenKeepAlive(); });
-        document.addEventListener('visibilitychange', async () => {
-            if (document.visibilityState === 'visible') { enableScreenKeepAlive(); }
-        });
+        window.addEventListener('load', enableScreenKeepAlive);
 
         function switchSeries(series) {
             currentSeriesFilter = series;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            let activeTab = document.getElementById('tab-' + series);
-            if (activeTab) activeTab.classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            let tb = document.getElementById('tab-' + series);
+            if (tb) tb.classList.add('active');
 
-            let activeContainer = document.getElementById('todayMainSection');
-            let archiveCont = document.getElementById('archive-container');
-            if (archiveCont && archiveCont.style.display === 'block') {
-                activeContainer = archiveCont;
-            }
-
-            let blocks = activeContainer.querySelectorAll('.result-block');
-            blocks.forEach(block => {
-                let hasVisibleSeries = false;
-                allSeriesBases.forEach(base => {
-                    let sSec = block.querySelector('.series-' + base);
+            let cont = document.getElementById('archive-container').style.display === 'block' ? document.getElementById('archive-container') : document.getElementById('todayMainSection');
+            cont.querySelectorAll('.result-block').forEach(blk => {
+                let hasVis = false;
+                allSeriesBases.forEach(b => {
+                    let sSec = blk.querySelector('.series-' + b);
                     if (sSec) {
-                        if (series === 'all' || series === String(base)) {
-                            sSec.style.display = 'grid';
-                            hasVisibleSeries = true;
-                        } else {
-                            sSec.style.display = 'none';
-                        }
+                        if (series === 'all' || series === String(b)) { sSec.style.display = 'grid'; hasVis = true; }
+                        else { sSec.style.display = 'none'; }
                     }
                 });
-                block.style.display = hasVisibleSeries ? 'block' : 'none';
+                blk.style.display = hasVis ? 'block' : 'none';
             });
         }
 
-        function generateAndSave(customTimeString = null) {
-            const db = firebase.database();
-            db.ref('settings').once('value').then((snap) => {
-                let settingsObj = snap.val() || {};
-                
-                let getTimeConfigs = (categoryKey) => {
-                    let c = settingsObj[categoryKey] || {};
-                    let g = settingsObj['all'] || {};
-                    let fixVal = (c.fix !== undefined && c.fix !== "") ? String(c.fix).trim() : (g.fix ? String(g.fix).trim() : "");
-                    let seriesBlocks = c.bExact ? String(c.bExact).split(/[\s,]+/) : [];
-                    let globalBlocks = g.bExact ? String(g.bExact).split(/[\s,]+/) : [];
-                    return { fix: fixVal, bExact: seriesBlocks.concat(globalBlocks).map(x => x.trim()).filter(x => x.length > 0) };
+        function generateAndSave(customTime = null) {
+            firebase.database().ref('settings').once('value').then(snap => {
+                let sObj = snap.val() || {};
+                let getCfg = (k) => {
+                    let c = sObj[k] || {}, g = sObj['all'] || {};
+                    let fix = (c.fix !== undefined && c.fix !== "") ? String(c.fix).trim() : (g.fix ? String(g.fix).trim() : "");
+                    let b = (c.bExact ? String(c.bExact).split(/[\s,]+/) : []).concat(g.bExact ? String(g.bExact).split(/[\s,]+/) : []);
+                    return { fix, bExact: b.map(x => x.trim()).filter(x => x.length > 0) };
                 };
 
-                let timeString, timeKey;
-                let now = getISTDate();
-
-                if (customTimeString) {
-                    let [timePart, modifier] = customTimeString.split(' ');
-                    let [hStr, mStr] = timePart.split(':');
-                    let h = parseInt(hStr, 10);
-                    let m = parseInt(mStr, 10);
-                    if (modifier === 'PM' && h < 12) h += 12;
-                    if (modifier === 'AM' && h === 12) h = 0;
-                    now.setHours(h);
-                    now.setMinutes(Math.floor(m / 15) * 15);
-                    now.setSeconds(0);
-                    timeString = customTimeString;
+                let now = getISTDate(), timeString;
+                if (customTime) {
+                    let [tp, mod] = customTime.split(' ');
+                    let [h, m] = tp.split(':').map(Number);
+                    if (mod === 'PM' && h < 12) h += 12;
+                    if (mod === 'AM' && h === 12) h = 0;
+                    now.setHours(h, Math.floor(m / 15) * 15, 0);
+                    timeString = customTime;
                 } else {
-                    let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
-                    let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
-                    let h = parseInt(formatterH.format(now), 10);
-                    let m = Math.floor(parseInt(formatterM.format(now), 10) / 15) * 15;
-                    now.setHours(h);
-                    now.setMinutes(m);
-                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
+                    let h = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(now), 10);
+                    let m = Math.floor(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(now), 10) / 15) * 15;
+                    now.setHours(h, m, 0);
+                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true });
                 }
 
-                let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                let padH = String(now.getHours()).padStart(2, '0');
-                let padM = String(now.getMinutes()).padStart(2, '0');
-                timeKey = dateKeyStr + "_" + padH + "_" + padM;
+                let dateKey = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                let timeKey = `${dateKey}_${String(now.getHours()).padStart(2, '0')}_${String(now.getMinutes()).padStart(2, '0')}`;
 
-                let newBlock = `<div class="result-block" id="block-${timeKey}">
-                    <div class="time-header" style="padding: 5px 6px !important; font-size: 0.75em !important;" data-time="${timeString}">${timeString}</div>`;
-                
+                let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                 allSeriesBases.forEach(baseVal => {
-                    let seriesCfg = getTimeConfigs(String(baseVal));
-                    let fixVal = seriesCfg.fix;
-                    let seriesBlockList = seriesCfg.bExact;
-
+                    let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
                     newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                     for(let i=0; i<10; i++) {
-                        let prefixNum = baseVal + i; 
-                        let prefixStr = String(prefixNum).padStart(2, '0');
-                        let val;
-
-                        let matchedFix = null;
-                        if (fixVal) {
-                            let fixTokens = fixVal.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
-                            matchedFix = fixTokens.find(token => {
-                                if (token.length >= 4) return token.startsWith(prefixStr);
-                                else if (token.length === 2) return token === prefixStr;
-                                return false;
-                            });
-                        }
-
+                        let prefix = String(baseVal + i).padStart(2, '0'), val;
+                        let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
                         if (matchedFix) {
                             val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
                         } else {
-                            let validSuffixes = [];
-                            for (let sIdx = 0; sIdx < 100; sIdx++) {
-                                let suffixStr = String(sIdx).padStart(2, '0');
-                                let candidateFull = prefixStr + suffixStr;
-                                let isBlocked = seriesBlockList.some(b => {
-                                    let cleanB = b.replace(/[^0-9]/g, '');
-                                    if (!cleanB) return false;
-                                    if (cleanB.length >= 4) return candidateFull === cleanB;
-                                    else if (cleanB.length === 2) return suffixStr === cleanB || candidateFull.slice(-2) === cleanB;
-                                    return false;
-                                });
-                                if (!isBlocked) validSuffixes.push(suffixStr);
+                            let valid = [];
+                            for (let s = 0; s < 100; s++) {
+                                let suf = String(s).padStart(2, '0'), full = prefix + suf;
+                                if (!blocks.some(b => {
+                                    let clean = b.replace(/[^0-9]/g, '');
+                                    return clean.length >= 4 ? full === clean : suf === clean || full.slice(-2) === clean;
+                                })) valid.push(suf);
                             }
-
-                            if (validSuffixes.length === 0) validSuffixes = ["20", "55", "77", "89", "66"];
-                            let randSuffix = validSuffixes[Math.floor(Math.random() * validSuffixes.length)];
-                            val = prefixStr + randSuffix;
+                            if (valid.length === 0) valid = ["20", "55", "77"];
+                            val = prefix + valid[Math.floor(Math.random() * valid.length)];
                         }
-
                         if (val.length < 4) val = val.padEnd(4, '0');
-                        let p1 = val.slice(0, 2);
-                        let p2 = val.slice(2, 4);
-                        let suffixColor = (p2[0] === p2[1]) ? "var(--accent-red)" : "#111111";
-
-                        newBlock += `<div class="cell"><span style="color: #111111; font-weight: 900;">${p1}</span><span style="color: ${suffixColor}; font-weight: 900;">${p2}</span></div>`;
+                        let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
+                        let sc = p2[0] === p2[1] ? "var(--accent-red)" : "#111111";
+                        newBlock += `<div class="cell"><span style="color:#111;font-weight:900;">${p1}</span><span style="color:${sc};font-weight:900;">${p2}</span></div>`;
                     }
                     newBlock += `</div></div>`;
                 });
                 newBlock += `</div>`;
-
-                db.ref('resultsData/blocks/' + timeKey).set({
-                    html: newBlock,
-                    timestamp: now.getTime()
-                }).catch((err) => {
-                    alert('Firebase save failed: ' + err.message);
-                });
-            }).catch((err) => {
-                alert('Error reading settings: ' + err.message);
+                firebase.database().ref('resultsData/blocks/' + timeKey).set({ html: newBlock, timestamp: now.getTime() });
             });
-        }
-
-        function processArchiveHtml(htmlString) {
-            let tempDiv = document.createElement('div');
-            tempDiv.innerHTML = htmlString;
-            let blocks = tempDiv.querySelectorAll('.result-block');
-            
-            blocks.forEach((blk) => {
-                let th = blk.querySelector('.time-header');
-                if(th) {
-                    let tText = th.getAttribute('data-time') || th.innerText.replace(/[^0-9APM:]/gi, '').trim();
-                    if(!tText) tText = th.innerText.trim();
-                    th.innerHTML = tText;
-                    th.style.display = 'flex';
-                }
-            });
-
-            let archiveContainer = document.getElementById('archive-container');
-            archiveContainer.innerHTML = tempDiv.innerHTML;
-            archiveContainer.style.display = "block";
-            let todayMain = document.getElementById('todayMainSection');
-            if(todayMain) todayMain.style.display = "none";
-            switchSeries(currentSeriesFilter);
         }
 
         function loadArchiveDate(dateVal) {
-            let todayMain = document.getElementById('todayMainSection');
-            let archiveContainer = document.getElementById('archive-container');
+            let archiveCont = document.getElementById('archive-container');
+            document.getElementById('todayMainSection').style.display = "none";
+            archiveCont.style.display = "block";
+            archiveCont.innerHTML = "<div style='text-align:center;color:var(--gold-primary);padding:12px;font-weight:800;'>Loading...</div>";
 
-            if(!dateVal) {
-                archiveContainer.style.display = "none";
-                archiveContainer.innerHTML = "";
-                if(todayMain) todayMain.style.display = "block";
-                switchSeries(currentSeriesFilter);
-                return;
-            }
-
-            let parts = dateVal.split('-');
-            let year = parts[0];
-            let monthNum = parseInt(parts[1], 10);
-            let dayNum = parseInt(parts[2], 10);
-            let dayPadded = String(dayNum).padStart(2, '0');
-            let dayUnpadded = String(dayNum);
-
-            const monthNamesFull = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let monthName = monthNamesFull[monthNum - 1];
-            let altMonthName = monthName === "Sep" ? "Sept" : monthName;
-
-            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
-            if (dateVal === localTodayStr) {
-                archiveContainer.style.display = "none";
-                archiveContainer.innerHTML = "";
-                if(todayMain) todayMain.style.display = "block";
-                switchSeries(currentSeriesFilter);
-                return;
-            }
-
-            if(todayMain) todayMain.style.display = "none";
-            archiveContainer.style.display = "block";
-            archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
-
-            const db = firebase.database();
-            let possibleKeys = [
-                `${dayPadded}_${monthName}_${year}`,
-                `${dayPadded}_${altMonthName}_${year}`,
-                `${dayUnpadded}_${monthName}_${year}`,
-                `${dayUnpadded}_${altMonthName}_${year}`
-            ];
-
-            async function fetchArchiveData() {
-                for (let keyFormat of possibleKeys) {
-                    let snap1 = await db.ref('monthlyArchive/' + keyFormat).once('value');
-                    if (snap1.exists()) return snap1.val();
-                    let snap2 = await db.ref(keyFormat).once('value');
-                    if (snap2.exists()) return snap2.val();
-                }
-
-                let blocksSnap = await db.ref('resultsData/blocks').once('value');
-                if (blocksSnap.exists()) {
-                    let allBlocks = blocksSnap.val();
-                    let matchedHtml = "";
-                    let sortedKeys = Object.keys(allBlocks).filter(k => {
-                        let lk = k.toLowerCase();
-                        return (lk.startsWith(dayPadded.toLowerCase() + "_") || lk.startsWith(dayUnpadded.toLowerCase() + "_")) &&
-                               (lk.includes(monthName.toLowerCase()) || lk.includes(altMonthName.toLowerCase())) &&
-                               lk.includes(year);
-                    });
-
-                    if (sortedKeys.length > 0) {
-                        sortedKeys.sort((a, b) => {
-                            let pA = a.split('_');
-                            let pB = b.split('_');
-                            return ((parseInt(pB[pB.length - 2], 10) || 0) * 60 + (parseInt(pB[pB.length - 1], 10) || 0)) - 
-                                   ((parseInt(pA[pA.length - 2], 10) || 0) * 60 + (parseInt(pA[pA.length - 1], 10) || 0));
+            let p = dateVal.split('-'), y = p[0], mNum = parseInt(p[1], 10), dNum = parseInt(p[2], 10);
+            let mn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][mNum - 1];
+            
+            firebase.database().ref('resultsData/blocks').once('value').then(snap => {
+                if (snap.exists()) {
+                    let blocks = snap.val(), html = "";
+                    Object.keys(blocks).filter(k => (k.startsWith(String(dNum) + "_") || k.startsWith(String(dNum).padStart(2, '0') + "_")) && k.includes(mn) && k.includes(y))
+                        .sort((a,b) => {
+                            let pa = a.split('_'), pb = b.split('_');
+                            return ((parseInt(pb[pb.length-2],10)||0)*60 + (parseInt(pb[pb.length-1],10)||0)) - ((parseInt(pa[pa.length-2],10)||0)*60 + (parseInt(pa[pa.length-1],10)||0));
+                        }).forEach(k => { html += blocks[k].html || ""; });
+                    
+                    if (html) {
+                        let tmp = document.createElement('div'); tmp.innerHTML = html;
+                        tmp.querySelectorAll('.result-block').forEach(blk => {
+                            let th = blk.querySelector('.time-header');
+                            if(th) th.innerHTML = th.getAttribute('data-time') || th.innerText;
                         });
-
-                        sortedKeys.forEach(k => {
-                            let node = allBlocks[k];
-                            matchedHtml += (typeof node === 'string') ? node : (node.html || "");
-                        });
-                        return matchedHtml;
+                        archiveCont.innerHTML = tmp.innerHTML;
+                        switchSeries(currentSeriesFilter);
+                        return;
                     }
                 }
-                return null;
-            }
-
-            fetchArchiveData().then((data) => {
-                if (data) {
-                    let htmlData = "";
-                    if (typeof data === 'string') htmlData = data;
-                    else if (data.html) htmlData = data.html;
-                    else {
-                        Object.keys(data).forEach(subK => {
-                            if (data[subK] && data[subK].html) htmlData += data[subK].html;
-                            else if (typeof data[subK] === 'string') htmlData += data[subK];
-                        });
-                    }
-
-                    if (htmlData) processArchiveHtml(htmlData);
-                    else archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
-                } else {
-                    archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
-                }
-            }).catch(() => {
-                archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>Error loading archive data.</div>";
+                archiveCont.innerHTML = "<div style='text-align:center;color:var(--accent-red);padding:12px;font-weight:800;'>No data found.</div>";
             });
+        }
+
+        // Manual Refresh Button Action
+        function manualRefreshResults() {
+            let icon = document.getElementById('refreshIcon');
+            icon.classList.add('spinning');
+            
+            let archiveVal = document.getElementById('archiveDateSelect').value;
+            let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+            
+            if (archiveVal && archiveVal !== todayStr) {
+                loadArchiveDate(archiveVal);
+            } else {
+                firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).once('value').then(snapshot => {
+                    processSnapshotData(snapshot);
+                });
+            }
+            
+            setTimeout(() => {
+                icon.classList.remove('spinning');
+            }, 600);
+        }
+
+        function processSnapshotData(snapshot) {
+            let todayContainer = document.getElementById('today-container');
+            let blocksObj = snapshot.exists() ? snapshot.val() : {};
+
+            let keys = Object.keys(blocksObj).filter(k => {
+                let n = getISTDate();
+                return (k.startsWith(n.getDate() + "_") || k.startsWith(String(n.getDate()).padStart(2, '0') + "_")) &&
+                       k.includes(n.toLocaleString('en-GB', { month: 'short' })) && k.includes(n.getFullYear());
+            });
+
+            keys.sort((a,b) => {
+                let pa = a.split('_'), pb = b.split('_');
+                return ((parseInt(pb[pb.length-2],10)||0)*60 + (parseInt(pb[pb.length-1],10)||0)) - ((parseInt(pa[pa.length-2],10)||0)*60 + (parseInt(pa[pa.length-1],10)||0));
+            });
+
+            document.getElementById('drawsCounterText').innerText = `Completed: ${keys.length} Draws`;
+
+            let htmlContent = "";
+            keys.forEach((k, idx) => {
+                if (blocksObj[k]?.html) {
+                    let tmp = document.createElement('div'); tmp.innerHTML = blocksObj[k].html;
+                    let th = tmp.querySelector('.time-header');
+                    if (th) {
+                        let tText = th.innerText.trim();
+                        th.setAttribute('data-time', tText);
+                        th.innerHTML = idx === 0 ? `<span class="live-dot"></span>${tText}` : tText;
+                    }
+                    htmlContent += tmp.innerHTML;
+                }
+            });
+
+            todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            switchSeries(currentSeriesFilter);
         }
 
         function initApp() {
             const db = firebase.database();
+            db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            const blocksDbRef = db.ref('resultsData/blocks');
-            const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
-            blocksDbRef.orderByChild('timestamp').endAt(thirtyDaysAgo).once('value', (snap) => {
-                if (snap.exists()) {
-                    let updates = {};
-                    snap.forEach((childSnap) => { updates[childSnap.key] = null; });
-                    blocksDbRef.update(updates);
-                }
-            }).catch(() => {});
-
-            db.ref('settings').on('value', (snap) => {
-                if(snap.exists()) globalSettingsData = snap.val();
-            });
-
-            // Yahan limitToLast(60) kar diya gaya hai taaki fast load ho aur poore draws dikhein[span_2](start_span)[span_2](end_span)
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).on('value', (snapshot) => {
-                let archiveInputVal = document.getElementById('archiveDateSelect').value;
-                let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
-                if (archiveInputVal && archiveInputVal !== localTodayStr) return; 
-
-                let todayMain = document.getElementById('todayMainSection');
-                let todayContainer = document.getElementById('today-container');
-                let blocksObj = snapshot.exists() ? snapshot.val() : {};
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).on('value', snapshot => {
+                let archiveVal = document.getElementById('archiveDateSelect').value;
+                let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+                if (archiveVal && archiveVal !== todayStr) return;
 
                 let nowCheck = getISTDate();
-                let fH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
-                let fM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
-                let hCheck = parseInt(fH.format(nowCheck), 10);
-                let mCheck = Math.floor(parseInt(fM.format(nowCheck), 10) / 15) * 15;
-                let isMarketActiveCheck = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
-
-                if (isMarketActiveCheck) {
-                    let dateKeyStrCheck = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                    let targetKeyCheck = dateKeyStrCheck + "_" + String(hCheck).padStart(2, '0') + "_" + String(mCheck).padStart(2, '0');
-                    
-                    if (!blocksObj[targetKeyCheck]) {
-                        db.ref('lastGenerated').once('value', (snap) => {
-                            let genKey = dateKeyStrCheck + "-" + String(hCheck).padStart(2, '0') + "-" + String(mCheck).padStart(2, '0');
-                            if (snap.val() !== genKey) {
-                                generateAndSave();
-                                db.ref('lastGenerated').set(genKey);
-                            }
-                        }).catch(() => {});
-                    }
-                }
-
-                let keys = Object.keys(blocksObj);
-                let now = getISTDate();
-                let currentDay = String(now.getDate());
-                let currentDayPadded = String(now.getDate()).padStart(2, '0');
-                let currentYear = now.getFullYear().toString();
-                let currentMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                let currentMonthName = currentMonthNames[now.getMonth()];
-                let altMonthName = currentMonthName === "Sep" ? "Sept" : currentMonthName;
+                let hCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(nowCheck), 10);
+                let mCheck = Math.floor(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10) / 15) * 15;
                 
-                keys = keys.filter(k => {
-                    let matchDay = k.startsWith(currentDay + "_") || k.startsWith(currentDayPadded + "_");
-                    let matchMonth = k.includes("_" + currentMonthName + "_") || k.includes("_" + altMonthName + "_");
-                    let matchYear = k.includes("_" + currentYear);
-                    return matchDay && matchMonth && matchYear;
-                });
-
-                keys.sort((a, b) => {
-                    let partsA = a.split('_');
-                    let partsB = b.split('_');
-                    let hourA = parseInt(partsA[partsA.length - 2], 10) || 0;
-                    let minA = parseInt(partsA[partsA.length - 1], 10) || 0;
-                    let hourB = parseInt(partsB[partsB.length - 2], 10) || 0;
-                    let minB = parseInt(partsB[partsB.length - 1], 10) || 0;
-                    return (hourB * 60 + minB) - (hourA * 60 + minA);
-                });
-
-                let completedCount = keys.length;
-                let counterTextEl = document.getElementById('drawsCounterText');
-                if (counterTextEl) {
-                    counterTextEl.innerText = `Completed: ${completedCount} Draws | Remaining: ${Math.max(0, 53 - completedCount)} Draws`;
-                }
-
-                let htmlContent = "";
-                keys.forEach((k, index) => {
-                    if (blocksObj[k] && blocksObj[k].html) {
-                        let blockHtml = blocksObj[k].html;
-                        let tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = blockHtml;
-                        let th = tempDiv.querySelector('.time-header');
-                        if (th) {
-                            let tText = th.innerText.trim();
-                            th.setAttribute('data-time', tText);
-                            th.style.cssText = "padding: 5px 6px !important; font-size: 0.75em !important; background: #123b5a !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
-                            th.innerHTML = (index === 0) ? `<span class="live-dot"></span>` + tText : tText;
-                        }
-                        htmlContent += tempDiv.innerHTML;
+                if ((hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0))) {
+                    let dk = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+                    let tk = `${dk}_${String(hCheck).padStart(2, '0')}_${String(mCheck).padStart(2, '0')}`;
+                    let blocksObj = snapshot.exists() ? snapshot.val() : {};
+                    if (!blocksObj[tk]) {
+                        db.ref('lastGenerated').once('value', snap => {
+                            let gk = `${dk}-${hCheck}-${mCheck}`;
+                            if (snap.val() !== gk) { generateAndSave(); db.ref('lastGenerated').set(gk); }
+                        });
                     }
-                });
-
-                if (todayContainer) {
-                    todayContainer.innerHTML = htmlContent || "<div style='text-align:center; color:var(--text-muted); padding:12px;'>Waiting for today's first draw...</div>";
                 }
-                if (todayMain) todayMain.style.display = 'block';
-                switchSeries(currentSeriesFilter);
+
+                processSnapshotData(snapshot);
             });
 
             setInterval(() => {
                 let now = getISTDate();
-                let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
-                let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
-                let formatterS = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' });
-                
-                let h = parseInt(formatterH.format(now), 10);
-                let m = parseInt(formatterM.format(now), 10);
-                let s = parseInt(formatterS.format(now), 10);
+                let h = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(now), 10);
+                let m = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(now), 10);
+                let s = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(now), 10);
+                let active = (h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0));
 
-                let liveBadgeEl = document.getElementById('liveBadgeElement');
-                let liveDotEl = document.getElementById('liveDotElement');
-                let isMarketActive = (h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0));
-
-                let timerEl = document.getElementById('timer');
-                if (isMarketActive) {
-                    if (liveBadgeEl) liveBadgeEl.className = "live-badge active-blink";
-                    if (liveDotEl) liveDotEl.style.display = "inline-block";
-                    let remMin = 14 - (m % 15);
-                    let remSec = 59 - s;
-                    if (timerEl) timerEl.innerText = h < 22 ? `NEXT DRAW IN: ${remMin}m ${remSec}s` : "MARKET CLOSED";
-
-                    if (m % 15 === 0 && s === 0) {
-                        let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                        let key = dateKeyStr + "-" + String(h).padStart(2, '0') + "-" + String(m).padStart(2, '0');
-                        db.ref('lastGenerated').once('value', (snap) => { 
-                            if (snap.val() !== key) { 
-                                generateAndSave(); 
-                                db.ref('lastGenerated').set(key); 
-                            } 
-                        }).catch(() => {});
-                    }
+                let badge = document.getElementById('liveBadgeElement'), dot = document.getElementById('liveDotElement'), timer = document.getElementById('timer');
+                if (active) {
+                    badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
+                    timer.innerText = h < 22 ? `NEXT DRAW IN: ${14 - (m % 15)}m ${59 - s}s` : "MARKET CLOSED";
                 } else {
-                    if (liveBadgeEl) liveBadgeEl.className = "live-badge closed-static";
-                    if (liveDotEl) liveDotEl.style.display = "none";
-                    if (timerEl) timerEl.innerText = "MARKET CLOSED";
+                    badge.className = "live-badge closed-static"; dot.style.display = "none"; timer.innerText = "MARKET CLOSED";
                 }
             }, 1000);
         }
