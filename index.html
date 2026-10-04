@@ -470,7 +470,7 @@
             padding: 7px 0px; 
             text-align: center; 
             font-weight: 900; 
-            font-size: clamp(10px, 2.7vw, 14px); 
+            font-size: 13px; /* Medium and balanced size updated here */
             color: #111111 !important;
             border: 1px solid #e8e3b2;
             letter-spacing: -0.5px; 
@@ -606,7 +606,7 @@
           }
 
           .cell {
-            font-size: 10px;
+            font-size: 12px;
             padding: 7px 0;
           }
         }
@@ -1302,7 +1302,6 @@
                 if(snap.exists()) globalSettingsData = snap.val();
             });
 
-            // Limit 100 set ki gayi hai taaki saare draws poore dikhein
             db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).on('value', (snapshot) => {
                 let archiveInputVal = document.getElementById('archiveDateSelect').value;
                 let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
@@ -1312,7 +1311,6 @@
                 let todayContainer = document.getElementById('today-container');
                 let blocksObj = snapshot.exists() ? snapshot.val() : {};
 
-                // --- SERVER TIME CHECK ---
                 let nowCheck = getISTDate();
                 let fH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
                 let fM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
