@@ -605,7 +605,6 @@
         .modal-body ul { margin-left: 14px; margin-bottom: 6px; }
         .modal-body li { margin-bottom: 3px; }
         
-        /* Admin Panel Styles */
         .admin-input {
             width: 100%;
             background: #05080f;
@@ -638,7 +637,6 @@
 </head>
 <body>
 
-    <!-- Hidden Bottom-Right Corner Touch Target for Admin Panel (10 Taps) -->
     <div id="bottomCornerTrigger" style="position: fixed; bottom: 0; right: 0; width: 45px; height: 45px; z-index: 99999; cursor: pointer; background: transparent;"></div>
 
     <video id="noSleepVideo" loop muted playsinline style="display:none; width:1px; height:1px;">
@@ -647,7 +645,7 @@
 
     <div class="sticky-top-section">
         <div class="header-container">
-            <div class="banner-version-tag">v1.0.6</div>
+            <div class="banner-version-tag">v1.0.7</div>
 
             <div class="neon-title">CΛNVΛS4D<span class="tm-symbol">™</span></div>
             <div class="header-divider"></div>
@@ -661,7 +659,7 @@
             <div class="draws-counter" id="drawsCounterText">Completed: 0 Draws | Remaining: 53 Draws</div>
         </div>
 
-        <div class="timer-box" id="timer">SYNCHRONIZING SERVER...</div>
+        <div class="timer-box" id="timer">SYNCHRONIZING SERVER TIME...</div>
 
         <div class="series-tabs-wrapper">
             <div class="top-center-all">
@@ -761,15 +759,11 @@
                 <button class="admin-btn" style="background: linear-gradient(135deg, #d4af37, #855f06); color: #000; margin-bottom: 12px;" onclick="saveAdminSettings()">SAVE CONFIG</button>
 
                 <p>Manual Time Injection:</p>
-                <select id="adminManualTimeSelect" class="admin-input">
-                    <!-- Dynamic Time Options -->
-                </select>
+                <select id="adminManualTimeSelect" class="admin-input"></select>
                 <button class="admin-btn" style="background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; margin-bottom: 12px;" onclick="adminManualGenerate()">GENERATE</button>
 
                 <p>Delete Time Result (9:00 AM - 10:00 PM):</p>
-                <select id="adminDeleteTimeSelect" class="admin-input">
-                    <!-- Dynamic Time Options -->
-                </select>
+                <select id="adminDeleteTimeSelect" class="admin-input"></select>
                 <button class="admin-btn" style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff;" onclick="adminDeleteResult()">DELETE</button>
             </div>
         </div>
@@ -870,16 +864,11 @@
                     optionsHtml += `<option value="${timeLabel}">${timeLabel}</option>`;
                 }
             }
-
             let manualSelect = document.getElementById('adminManualTimeSelect');
-            if (manualSelect) {
-                manualSelect.innerHTML = optionsHtml;
-            }
+            if (manualSelect) manualSelect.innerHTML = optionsHtml;
 
             let deleteSelect = document.getElementById('adminDeleteTimeSelect');
-            if (deleteSelect) {
-                deleteSelect.innerHTML = '<option value="">Select Time to Delete</option>' + optionsHtml;
-            }
+            if (deleteSelect) deleteSelect.innerHTML = '<option value="">Select Time to Delete</option>' + optionsHtml;
         }
 
         function openAdminPanel() {
@@ -916,20 +905,14 @@
 
         function adminManualGenerate() {
             let timeStr = document.getElementById('adminManualTimeSelect').value;
-            if (!timeStr) {
-                alert('Please select a valid time');
-                return;
-            }
+            if (!timeStr) { alert('Please select a valid time'); return; }
             generateAndSave(timeStr);
             alert('Manual result generated for ' + timeStr);
         }
 
         function adminDeleteResult() {
             let timeStr = document.getElementById('adminDeleteTimeSelect').value;
-            if (!timeStr) {
-                alert('Please select a time to delete');
-                return;
-            }
+            if (!timeStr) { alert('Please select a time to delete'); return; }
             if (!confirm("Are you sure you want to delete the result for " + timeStr + "?")) return;
 
             let [timePart, modifier] = timeStr.split(' ');
@@ -939,13 +922,11 @@
             if (modifier === 'PM' && h < 12) h += 12;
             if (modifier === 'AM' && h === 12) h = 0;
 
-            let now = new Date();
+            let now = getISTDate();
             now.setHours(h, m, 0, 0);
 
             let dateKeyStr = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-            let padH = String(now.getHours()).padStart(2, '0');
-            let padM = String(now.getMinutes()).padStart(2, '0');
-            let targetKey = dateKeyStr + "_" + padH + "_" + padM;
+            let targetKey = dateKeyStr + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
 
             const db = firebase.database();
             db.ref('resultsData/blocks/' + targetKey).remove().then(() => {
@@ -959,37 +940,25 @@
             let dateInput = document.getElementById('archiveDateSelect');
             if (dateInput) {
                 if (typeof dateInput.showPicker === 'function') {
-                    try {
-                        dateInput.showPicker();
-                    } catch (err) {
-                        dateInput.click();
-                    }
-                } else {
-                    dateInput.click();
-                }
+                    try { dateInput.showPicker(); } catch (err) { dateInput.click(); }
+                } else { dateInput.click(); }
             }
         }
 
         function updateDateDisplayLabel(dateVal) {
             let labelEl = document.getElementById('dateBoxLabel');
-            if (!dateVal) {
-                labelEl.innerText = "📅 SELECT DATE";
-                return;
-            }
+            if (!dateVal) { labelEl.innerText = "📅 SELECT DATE"; return; }
             let parts = dateVal.split('-');
             let year = parts[0];
             let monthNum = parseInt(parts[1], 10);
             let dayNum = parseInt(parts[2], 10);
             const monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-            let mName = monthNames[monthNum - 1];
-            labelEl.innerText = `📅 ${String(dayNum).padStart(2, '0')}-${mName}-${year}`;
+            labelEl.innerText = `📅 ${String(dayNum).padStart(2, '0')}-${monthNames[monthNum - 1]}-${year}`;
         }
 
         function handleDateChange(dateVal) {
             updateDateDisplayLabel(dateVal);
-            
-            let now = new Date();
-            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
+            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
 
             if (!dateVal || dateVal === localTodayStr) {
                 let archiveContainer = document.getElementById('archive-container');
@@ -1003,29 +972,48 @@
             }
         }
 
+        // --- SERVER TIME OFFSET SYNC ---
+        let serverTimeOffset = 0;
+        function initServerTimeSync() {
+            if (typeof firebase === 'undefined') return;
+            const offsetRef = firebase.database().ref(".info/serverTimeOffset");
+            offsetRef.on("value", (snap) => {
+                serverTimeOffset = snap.val() || 0;
+            });
+        }
+
+        function getISTDate() {
+            return new Date(Date.now() + serverTimeOffset);
+        }
+
         const firebaseConfig = { apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", databaseURL: "https://canvas2d-result-default-rtdb.firebaseio.com", projectId: "canvas2d-result" };
         
         document.addEventListener("DOMContentLoaded", () => {
-            // Set default date picker value to today's date in IST
-            let now = new Date();
-            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
-            let dateInput = document.getElementById('archiveDateSelect');
-            if (dateInput) {
-                dateInput.value = localTodayStr;
-            }
-            updateDateDisplayLabel(localTodayStr);
-
             if (typeof firebase !== 'undefined') {
                 if (!firebase.apps.length) {
                     firebase.initializeApp(firebaseConfig);
                 }
-                initApp();
+                initServerTimeSync();
+                setTimeout(() => {
+                    let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+                    let dateInput = document.getElementById('archiveDateSelect');
+                    if (dateInput) dateInput.value = localTodayStr;
+                    updateDateDisplayLabel(localTodayStr);
+                    initApp();
+                }, 500);
             } else {
                 window.addEventListener('load', () => {
                     if (!firebase.apps.length) {
                         firebase.initializeApp(firebaseConfig);
                     }
-                    initApp();
+                    initServerTimeSync();
+                    setTimeout(() => {
+                        let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+                        let dateInput = document.getElementById('archiveDateSelect');
+                        if (dateInput) dateInput.value = localTodayStr;
+                        updateDateDisplayLabel(localTodayStr);
+                        initApp();
+                    }, 500);
                 });
             }
         });
@@ -1044,7 +1032,7 @@
         async function enableScreenKeepAlive() {
             try { if ('wakeLock' in navigator) { wakeLock = await navigator.wakeLock.request('screen'); } } catch (err) {}
             let videoEl = document.getElementById('noSleepVideo');
-            if (videoEl) { videoEl.play().catch(() => {}); }
+            if (videoEl) videoEl.play().catch(() => {});
         }
 
         window.addEventListener('click', () => { enableScreenKeepAlive(); }, { once: true });
@@ -1091,17 +1079,14 @@
                 let getTimeConfigs = (categoryKey) => {
                     let c = settingsObj[categoryKey] || {};
                     let g = settingsObj['all'] || {};
-                    
                     let fixVal = (c.fix !== undefined && c.fix !== "") ? String(c.fix).trim() : (g.fix ? String(g.fix).trim() : "");
                     let seriesBlocks = c.bExact ? String(c.bExact).split(/[\s,]+/) : [];
                     let globalBlocks = g.bExact ? String(g.bExact).split(/[\s,]+/) : [];
-                    let combinedBlocks = seriesBlocks.concat(globalBlocks).map(x => x.trim()).filter(x => x.length > 0);
-                    
-                    return { fix: fixVal, bExact: combinedBlocks };
+                    return { fix: fixVal, bExact: seriesBlocks.concat(globalBlocks).map(x => x.trim()).filter(x => x.length > 0) };
                 };
 
                 let timeString, timeKey;
-                let now = new Date();
+                let now = getISTDate();
 
                 if (customTimeString) {
                     let [timePart, modifier] = customTimeString.split(' ');
@@ -1147,27 +1132,19 @@
                         if (fixVal) {
                             let fixTokens = fixVal.split(/[\s,]+/).map(x => x.trim()).filter(x => x.length > 0);
                             matchedFix = fixTokens.find(token => {
-                                if (token.length >= 4) {
-                                    return token.startsWith(prefixStr);
-                                } else if (token.length === 2) {
-                                    return token === prefixStr;
-                                }
+                                if (token.length >= 4) return token.startsWith(prefixStr);
+                                else if (token.length === 2) return token === prefixStr;
                                 return false;
                             });
                         }
 
                         if (matchedFix) {
-                            if (matchedFix.length >= 4) {
-                                val = matchedFix;
-                            } else {
-                                val = matchedFix + "20"; 
-                            }
+                            val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
                         } else {
                             let validSuffixes = [];
                             for (let sIdx = 0; sIdx < 100; sIdx++) {
                                 let suffixStr = String(sIdx).padStart(2, '0');
                                 let candidateFull = prefixStr + suffixStr;
-                                
                                 let isBlocked = seriesBlockList.some(b => {
                                     let cleanB = b.replace(/[^0-9]/g, '');
                                     if (!cleanB) return false;
@@ -1175,7 +1152,6 @@
                                     else if (cleanB.length === 2) return suffixStr === cleanB || candidateFull.slice(-2) === cleanB;
                                     return false;
                                 });
-
                                 if (!isBlocked) validSuffixes.push(suffixStr);
                             }
 
@@ -1185,11 +1161,9 @@
                         }
 
                         if (val.length < 4) val = val.padEnd(4, '0');
-                        
                         let p1 = val.slice(0, 2);
                         let p2 = val.slice(2, 4);
-                        let isSame = (p2[0] === p2[1]);
-                        let suffixColor = isSame ? "var(--accent-red)" : "#111111";
+                        let suffixColor = (p2[0] === p2[1]) ? "var(--accent-red)" : "#111111";
 
                         newBlock += `<div class="cell"><span style="color: #111111; font-weight: 900;">${p1}</span><span style="color: ${suffixColor}; font-weight: 900;">${p2}</span></div>`;
                     }
@@ -1203,7 +1177,6 @@
                 }).catch((err) => {
                     alert('Firebase save failed: ' + err.message);
                 });
-
             }).catch((err) => {
                 alert('Error reading settings: ' + err.message);
             });
@@ -1218,7 +1191,7 @@
                 let th = blk.querySelector('.time-header');
                 if(th) {
                     let tText = th.getAttribute('data-time') || th.innerText.replace(/[^0-9APM:]/gi, '').trim();
-                    if(!tText) { tText = th.innerText.trim(); }
+                    if(!tText) tText = th.innerText.trim();
                     th.innerHTML = tText;
                     th.style.display = 'flex';
                 }
@@ -1255,8 +1228,7 @@
             let monthName = monthNamesFull[monthNum - 1];
             let altMonthName = monthName === "Sep" ? "Sept" : monthName;
 
-            let now = new Date();
-            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
+            let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
             if (dateVal === localTodayStr) {
                 archiveContainer.style.display = "none";
                 archiveContainer.innerHTML = "";
@@ -1270,7 +1242,6 @@
             archiveContainer.innerHTML = "<div style='text-align:center; color:var(--gold-primary); padding:12px; font-weight:800;'>Loading archive data...</div>";
 
             const db = firebase.database();
-            
             let possibleKeys = [
                 `${dayPadded}_${monthName}_${year}`,
                 `${dayPadded}_${altMonthName}_${year}`,
@@ -1282,7 +1253,6 @@
                 for (let keyFormat of possibleKeys) {
                     let snap1 = await db.ref('monthlyArchive/' + keyFormat).once('value');
                     if (snap1.exists()) return snap1.val();
-
                     let snap2 = await db.ref(keyFormat).once('value');
                     if (snap2.exists()) return snap2.val();
                 }
@@ -1308,8 +1278,7 @@
 
                         sortedKeys.forEach(k => {
                             let node = allBlocks[k];
-                            if (typeof node === 'string') matchedHtml += node;
-                            else if (node.html) matchedHtml += node.html;
+                            matchedHtml += (typeof node === 'string') ? node : (node.html || "");
                         });
                         return matchedHtml;
                     }
@@ -1320,25 +1289,17 @@
             fetchArchiveData().then((data) => {
                 if (data) {
                     let htmlData = "";
-                    if (typeof data === 'string') {
-                        htmlData = data;
-                    } else if (data.html) {
-                        htmlData = data.html;
-                    } else {
+                    if (typeof data === 'string') htmlData = data;
+                    else if (data.html) htmlData = data.html;
+                    else {
                         Object.keys(data).forEach(subK => {
-                            if (data[subK] && data[subK].html) {
-                                htmlData += data[subK].html;
-                            } else if (typeof data[subK] === 'string') {
-                                htmlData += data[subK];
-                            }
+                            if (data[subK] && data[subK].html) htmlData += data[subK].html;
+                            else if (typeof data[subK] === 'string') htmlData += data[subK];
                         });
                     }
 
-                    if (htmlData) {
-                        processArchiveHtml(htmlData);
-                    } else {
-                        archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
-                    }
+                    if (htmlData) processArchiveHtml(htmlData);
+                    else archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
                 } else {
                     archiveContainer.innerHTML = "<div style='text-align:center; color:var(--accent-red); padding:12px; font-weight:800;'>No data found for this date.</div>";
                 }
@@ -1355,32 +1316,26 @@
             blocksDbRef.orderByChild('timestamp').endAt(thirtyDaysAgo).once('value', (snap) => {
                 if (snap.exists()) {
                     let updates = {};
-                    snap.forEach((childSnap) => {
-                        updates[childSnap.key] = null;
-                    });
+                    snap.forEach((childSnap) => { updates[childSnap.key] = null; });
                     blocksDbRef.update(updates);
                 }
             }).catch(() => {});
 
             db.ref('settings').on('value', (snap) => {
-                if(snap.exists()) {
-                    globalSettingsData = snap.val();
-                }
+                if(snap.exists()) globalSettingsData = snap.val();
             });
 
             db.ref('resultsData/blocks').on('value', (snapshot) => {
                 let archiveInputVal = document.getElementById('archiveDateSelect').value;
-                let now = new Date();
-                let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(now);
+                let localTodayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveInputVal && archiveInputVal !== localTodayStr) return; 
 
                 let todayMain = document.getElementById('todayMainSection');
                 let todayContainer = document.getElementById('today-container');
-                
                 let blocksObj = snapshot.exists() ? snapshot.val() : {};
 
-                // --- IMMEDIATE SYNC CHECK ON OPEN/LOAD ---
-                let nowCheck = new Date();
+                // --- SERVER TIME CHECK ---
+                let nowCheck = getISTDate();
                 let fH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
                 let fM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
                 let hCheck = parseInt(fH.format(nowCheck), 10);
@@ -1401,10 +1356,9 @@
                         }).catch(() => {});
                     }
                 }
-                // ----------------------------------------
 
                 let keys = Object.keys(blocksObj);
-                
+                let now = getISTDate();
                 let currentDay = String(now.getDate());
                 let currentDayPadded = String(now.getDate()).padStart(2, '0');
                 let currentYear = now.getFullYear().toString();
@@ -1446,11 +1400,7 @@
                             let tText = th.innerText.trim();
                             th.setAttribute('data-time', tText);
                             th.style.cssText = "padding: 5px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
-                            if (index === 0) {
-                                th.innerHTML = `<span class="live-dot"></span>` + tText;
-                            } else {
-                                th.innerHTML = tText;
-                            }
+                            th.innerHTML = (index === 0) ? `<span class="live-dot"></span>` + tText : tText;
                         }
                         htmlContent += tempDiv.innerHTML;
                     }
@@ -1464,7 +1414,7 @@
             });
 
             setInterval(() => {
-                let now = new Date();
+                let now = getISTDate();
                 let formatterH = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false });
                 let formatterM = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' });
                 let formatterS = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' });
@@ -1473,7 +1423,7 @@
                 let m = parseInt(formatterM.format(now), 10);
                 let s = parseInt(formatterS.format(now), 10);
 
-                let liveBadgeEl = document.getElementById('liveBadgeEmail') || document.getElementById('liveBadgeElement');
+                let liveBadgeEl = document.getElementById('liveBadgeElement');
                 let liveDotEl = document.getElementById('liveDotElement');
                 let isMarketActive = (h > 9 || (h === 9 && m >= 0)) && (h < 22 || (h === 22 && m <= 0));
 
