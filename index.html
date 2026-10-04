@@ -50,18 +50,20 @@
 
         .sticky-top-section {
             flex-shrink: 0;
-            background-color: var(--bg-deep);
+            background-color: #000000;
             z-index: 1000;
             width: 100%;
         }
 
+        /* ------------------ BLACK & GOLDEN BANNER THEME ------------------ */
         .header-container {
-          background: linear-gradient(145deg, #102b49, #06101e 75%);
+          background: linear-gradient(145deg, #0a0a0a, #000000 85%);
           text-align: center;
           padding: 10px 4px 8px 4px;
-          border-bottom: 1px solid rgba(228, 185, 79, 0.4);
+          border-bottom: 1px solid rgba(228, 185, 79, 0.6);
           position: relative;
           width: 100%;
+          box-shadow: inset 0 0 15px rgba(228, 185, 79, 0.1);
         }
 
         .banner-version-tag {
@@ -71,8 +73,8 @@
             font-size: 0.5em;
             font-weight: 800;
             color: var(--gold-light);
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(228, 185, 79, 0.4);
+            background: #050505;
+            border: 1px solid rgba(228, 185, 79, 0.5);
             padding: 1px 4px;
             border-radius: 3px;
             z-index: 10;
@@ -101,7 +103,7 @@
         .header-divider {
             width: 50%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(228, 185, 79, 0.8), transparent);
+            background: linear-gradient(90deg, transparent, rgba(228, 185, 79, 0.9), transparent);
             margin: 2px auto;
         }
 
@@ -134,11 +136,11 @@
             -webkit-text-fill-color: transparent;
             margin-top: 2px;
             text-transform: uppercase;
-            border: 1px solid rgba(228, 185, 79, 0.5);
+            border: 1px solid rgba(228, 185, 79, 0.6);
             display: inline-block;
             padding: 1px 8px;
             border-radius: 3px;
-            background-color: rgba(10, 2, 4, 0.8);
+            background-color: #000000;
         }
 
         .market-status-bar {
@@ -146,7 +148,7 @@
             justify-content: space-between;
             align-items: center;
             background: #000000;
-            border-bottom: 1px solid rgba(228, 185, 79, 0.4);
+            border-bottom: 1px solid rgba(228, 185, 79, 0.5);
             padding: 4px 8px;
             font-size: 0.68em;
             font-weight: 800;
@@ -183,27 +185,28 @@
             text-transform: uppercase;
         }
 
-        .draws-counter { color: var(--text-muted); font-weight: 700; }
+        .draws-counter { color: var(--gold-light); font-weight: 700; }
 
         .timer-box {
             text-align: center;
-            color: #ffffff !important;
+            color: var(--gold-primary) !important;
             font-size: 0.72em;
             font-weight: 900;
-            background: linear-gradient(180deg, #0a0e17 0%, #000000 100%) !important;
-            padding: 4px;
-            border-bottom: 1px solid var(--border-glow);
-            letter-spacing: 1px;
+            background: linear-gradient(180deg, #050505 0%, #000000 100%) !important;
+            padding: 5px;
+            border-bottom: 1px solid rgba(228, 185, 79, 0.5);
+            letter-spacing: 1.5px;
             width: 100%;
         }
+        /* ----------------------------------------------------------------- */
 
         .series-tabs-wrapper {
-          background: #071426;
+          background: #000000;
           display: flex;
           flex-direction: column;
           width: 100%;
           padding: 3px 6px;
-          border-bottom: 1.5px solid rgba(228, 185, 79, 0.4);
+          border-bottom: 1.5px solid rgba(228, 185, 79, 0.5);
         }
 
         .top-center-all {
@@ -251,7 +254,7 @@
         }
 
         .sticky-date-wrapper {
-          background: #0b1b2d;
+          background: #000000;
           position: sticky;
           top: 0;
           z-index: 900;
@@ -260,7 +263,7 @@
           justify-content: space-between;
           align-items: center;
           width: 100%;
-          border-bottom: 1px solid rgba(228, 185, 79, 0.35);
+          border-bottom: 1px solid rgba(228, 185, 79, 0.5);
           height: 36px;
         }
 
@@ -293,7 +296,7 @@
         }
 
         .modern-date-box {
-          background: #071426;
+          background: #050505;
           border: 1px solid #c49b3d;
           min-height: 28px;
           display: flex;
@@ -328,9 +331,9 @@
         .canvas-marquee {
             width: 100%;
             overflow: hidden;
-            background: linear-gradient(90deg, #05070b 0%, #101726 50%, #05070b 100%);
-            border-top: 1px solid rgba(228, 185, 79, 0.4);
-            border-bottom: 1px solid rgba(228, 185, 79, 0.4);
+            background: linear-gradient(90deg, #000000 0%, #111111 50%, #000000 100%);
+            border-top: 1px solid rgba(228, 185, 79, 0.5);
+            border-bottom: 1px solid rgba(228, 185, 79, 0.5);
             padding: 4px 0;
         }
 
@@ -846,7 +849,6 @@
                 });
                 newBlock += `</div>`;
                 
-                // Save to Firebase (यहाँ पेज रीलोड नहीं होगा, डेटाबेस पर सेव होते ही रियल-टाइम लिसनर खुद अपडेट कर देगा)
                 firebase.database().ref('resultsData/blocks/' + timeKey).set({ html: newBlock, timestamp: now.getTime() });
             });
         }
@@ -931,7 +933,6 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            // Realtime Listener: डेटाबेस में बदलाव होते ही बिना रिफ्रेश के स्क्रीन अपडेट होगी[span_1](start_span)[span_1](end_span)
             db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
@@ -940,7 +941,6 @@
                 processSnapshotData(snapshot);
             });
 
-            // Automatic Full Background Generator when exact 15 mins hit[span_2](start_span)[span_2](end_span)
             setInterval(() => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
@@ -959,13 +959,12 @@
                     db.ref('lastGenerated').once('value', snap => {
                         if (snap.val() !== gk) {
                             db.ref('lastGenerated').set(gk).then(() => {
-                                generateAndSave(); // बिना पेज रिफ्रेश किए बैकग्राउंड में नया रिजल्ट जनरेट और सेव होगा[span_3](start_span)[span_3](end_span)
+                                generateAndSave();
                             });
                         }
                     });
                 }
 
-                // Header Timer Display Update
                 let badge = document.getElementById('liveBadgeElement'), dot = document.getElementById('liveDotElement'), timer = document.getElementById('timer');
                 let currentSec = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
                 let currentMin = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10);
