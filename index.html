@@ -569,7 +569,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.1.5</div>
+            <div class="banner-version-tag">v1.1.6</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -666,16 +666,16 @@
     <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Terms</span><button class="modal-close" onclick="closeModal('termsModal')">&times;</button></div><div class="modal-body"><p>By accessing portal, you agree to terms.</p></div></div></div>
 
     <script>
-        let tapCount = 0, tapTimer = null;
+        let tapCount = 0, tapIntent = null;
         document.getElementById('bottomCornerTrigger').addEventListener('click', () => {
             tapCount++;
-            clearTimeout(tapTimer);
+            clearTimeout(tapIntent);
             if (tapCount >= 10) {
                 tapCount = 0;
                 let pwd = prompt("Password:");
                 if (pwd === "24081996") openAdminPanel();
             } else {
-                tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
+                tapIntent = setTimeout(() => { tapCount = 0; }, 2000);
             }
         });
 
@@ -958,30 +958,15 @@
                 processSnapshotData(snapshot);
             });
 
+            // Note: Client-side auto-generation loop removed here. 
+            // Results are now automatically generated in the background by the Firebase Cloud Function server-side.
+
             setInterval(() => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
 
                 let nowCheck = getISTDate();
-                let hCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(nowCheck), 10);
-                let mCheck = Math.floor(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10) / 15) * 15;
-                let sCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
-                
-                let active = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
-                if (active && sCheck === 0) {
-                    let dk = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-                    let gk = `${dk}-${hCheck}-${mCheck}`;
-                    
-                    db.ref('lastGenerated').once('value', snap => {
-                        if (snap.val() !== gk) {
-                            db.ref('lastGenerated').set(gk).then(() => {
-                                generateAndSave();
-                            });
-                        }
-                    });
-                }
-
                 let badge = document.getElementById('liveBadgeElement'), dot = document.getElementById('liveDotElement'), timer = document.getElementById('timer');
                 let currentSec = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
                 let currentMin = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10);
@@ -992,10 +977,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.1.5</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.1.6</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.1.5</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.1.6</div>`;
                 }
             }, 1000);
         }
