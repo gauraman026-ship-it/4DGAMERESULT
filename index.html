@@ -845,9 +845,9 @@
                     newBlock += `</div></div>`;
                 });
                 newBlock += `</div>`;
-                firebase.database().ref('resultsData/blocks/' + timeKey).set({ html: newBlock, timestamp: now.getTime() }).then(() => {
-                    window.location.reload();
-                });
+                
+                // Save to Firebase (यहाँ पेज रीलोड नहीं होगा, डेटाबेस पर सेव होते ही रियल-टाइम लिसनर खुद अपडेट कर देगा)
+                firebase.database().ref('resultsData/blocks/' + timeKey).set({ html: newBlock, timestamp: now.getTime() });
             });
         }
 
@@ -931,6 +931,7 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
+            // Realtime Listener: डेटाबेस में बदलाव होते ही बिना रिफ्रेश के स्क्रीन अपडेट होगी[span_1](start_span)[span_1](end_span)
             db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
@@ -939,7 +940,7 @@
                 processSnapshotData(snapshot);
             });
 
-            // Automatic Full Page Refresh Trigger when exact 15 mins hit
+            // Automatic Full Background Generator when exact 15 mins hit[span_2](start_span)[span_2](end_span)
             setInterval(() => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
@@ -958,7 +959,7 @@
                     db.ref('lastGenerated').once('value', snap => {
                         if (snap.val() !== gk) {
                             db.ref('lastGenerated').set(gk).then(() => {
-                                generateAndSave();
+                                generateAndSave(); // बिना पेज रिफ्रेश किए बैकग्राउंड में नया रिजल्ट जनरेट और सेव होगा[span_3](start_span)[span_3](end_span)
                             });
                         }
                     });
