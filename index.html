@@ -17,19 +17,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
     <style>
+        /* CANVAS4D™ PREMIUM MOBILE DESIGN */
         :root {
-            --bg-deep: #030406;
-            --card-bg: rgba(8, 12, 20, 0.98);
-            --gold-primary: #d4af37;
-            --gold-light: #fef08a;
-            --gold-dark: #854d0e;
-            --gold-glow: rgba(212, 175, 55, 0.5);
-            --accent-red: #ff3838;
-            --accent-green: #2ecc71;
-            --border-glow: rgba(212, 175, 55, 0.3);
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --cream-bg: #fffdd0;
+          --bg-deep: #06101e;
+          --gold-primary: #e4b94f;
+          --gold-light: #fff0a6;
+          --gold-dark: #854d0e;
+          --gold-glow: rgba(228, 185, 79, 0.4);
+          --accent-red: #ff3838;
+          --accent-green: #2ecc71;
+          --border-glow: rgba(228, 185, 79, 0.3);
+          --text-main: #ffffff;
+          --text-muted: #aab8ca;
+          --cream-bg: #fffbe2;
         }
 
         * { 
@@ -47,10 +47,9 @@
         }
 
         body {
-            background-color: var(--bg-deep);
-            background-image: linear-gradient(180deg, #050608 0%, #000000 100%);
-            color: var(--text-main);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #06101e;
+            color: #fff;
+            font-family: system-ui, Arial, sans-serif;
             padding: 0px;
             display: flex;
             flex-direction: column;
@@ -66,20 +65,16 @@
         }
 
         .header-container {
-            text-align: center;
-            margin: 0;
-            background: radial-gradient(circle at 50% 0%, #131b2e 0%, #060911 65%, #000000 100%);
-            padding: 10px 4px 8px 4px;
-            border-radius: 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
-            box-shadow: 
-                0 8px 20px rgba(0, 0, 0, 0.99),
-                inset 0 1px 3px rgba(255, 255, 255, 0.25),
-                0 0 16px rgba(41, 128, 185, 0.25),
-                0 0 8px rgba(212, 175, 55, 0.2);
-            position: relative;
-            overflow: hidden;
-            width: 100%;
+          background: linear-gradient(145deg, #102b49, #06101e 75%);
+          box-shadow: none;
+          text-align: center;
+          margin: 0;
+          padding: 10px 4px 8px 4px;
+          border-radius: 0;
+          border-bottom: 1px solid rgba(228, 185, 79, 0.4);
+          position: relative;
+          overflow: hidden;
+          width: 100%;
         }
 
         .banner-version-tag {
@@ -91,68 +86,47 @@
             letter-spacing: 0.5px;
             color: var(--gold-light);
             background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 1px solid rgba(228, 185, 79, 0.4);
             padding: 1px 4px;
             border-radius: 3px;
             z-index: 10;
-            text-shadow: 0 0 4px rgba(212, 175, 55, 0.5);
-        }
-
-        .header-container::before {
-            content: '';
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 70px;
-            background: radial-gradient(ellipse at center, rgba(254, 240, 138, 0.5) 0%, rgba(41, 128, 185, 0.4) 45%, transparent 78%);
-            pointer-events: none;
-            z-index: 1;
-            filter: blur(8px);
-        }
-
-        .header-container::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 10%; right: 10%; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.9), rgba(41, 128, 185, 0.9), transparent);
-            z-index: 2;
         }
 
         .neon-title {
-            font-size: 1.4em;
-            font-weight: 900;
-            letter-spacing: 2.5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            text-transform: uppercase;
-            background: linear-gradient(180deg, #ffffff 0%, #ffc2cd 25%, #d63c56 60%, #520d1a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            z-index: 2;
+          background: linear-gradient(
+            180deg, #fff6cf, #f3cf73, #bd8730
+          );
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-size: 1.4em;
+          font-weight: 900;
+          letter-spacing: 2.5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          text-transform: uppercase;
+          position: relative;
+          z-index: 2;
         }
 
         .tm-symbol {
             font-size: 0.45em;
             vertical-align: super;
-            -webkit-text-fill-color: #fef08a;
+            -webkit-text-fill-color: var(--gold-light);
         }
 
         .header-divider {
             width: 50%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.8), transparent);
+            background: linear-gradient(90deg, transparent, rgba(228, 185, 79, 0.8), transparent);
             margin: 2px auto;
             position: relative;
             z-index: 2;
         }
 
         .kohinoor-sub {
-            background: linear-gradient(180deg, #ffffff 0%, #fffdf0 50%, #fef08a 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #fffdf0 50%, var(--gold-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 900;
@@ -164,7 +138,7 @@
         }
 
         .enterprises-sub {
-            background: linear-gradient(180deg, #ffffff 0%, #fef08a 60%, #d4af37 100%);
+            background: linear-gradient(180deg, #ffffff 0%, var(--gold-light) 60%, var(--gold-primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
@@ -179,12 +153,12 @@
             font-size: 0.5em;
             font-weight: 900;
             letter-spacing: 3px;
-            background: linear-gradient(180deg, #fffdf0 0%, #fef08a 30%, #e88895 60%, #a32c42 100%);
+            background: linear-gradient(180deg, #fffdf0 0%, var(--gold-light) 30%, #e88895 60%, #a32c42 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-top: 2px;
             text-transform: uppercase;
-            border: 1px solid rgba(212, 175, 55, 0.5);
+            border: 1px solid rgba(228, 185, 79, 0.5);
             display: inline-block;
             padding: 1px 8px;
             border-radius: 3px;
@@ -198,7 +172,7 @@
             justify-content: space-between;
             align-items: center;
             background: #000000;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+            border-bottom: 1px solid rgba(228, 185, 79, 0.4);
             padding: 4px 8px;
             font-size: 0.68em;
             font-weight: 800;
@@ -252,17 +226,16 @@
             border-bottom: 1px solid var(--border-glow);
             letter-spacing: 1px;
             width: 100%;
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
         }
 
         .series-tabs-wrapper {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            background: linear-gradient(145deg, #080e1a 0%, #030509 100%);
-            padding: 3px 6px;
-            border-bottom: 1.5px solid rgba(212, 175, 55, 0.55);
-            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 3px 10px rgba(0, 0, 0, 0.9);
+          background: #071426;
+          box-shadow: none;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          padding: 3px 6px;
+          border-bottom: 1.5px solid rgba(228, 185, 79, 0.4);
         }
 
         .top-center-all {
@@ -278,11 +251,6 @@
             padding: 4px 0; 
             font-size: 0.7em;
             letter-spacing: 1.5px;
-            background: linear-gradient(135deg, #1b2844 0%, #0a111d 100%);
-            border: 1px solid var(--gold-primary);
-            border-radius: 4px;
-            color: #fef08a;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
         }
 
         .series-tabs {
@@ -293,26 +261,25 @@
         }
 
         .tab-btn {
-            background: linear-gradient(145deg, #111827, #070a12);
-            color: #cbd5e1;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            padding: 4px 2px;
-            text-align: center;
-            font-weight: 800;
-            font-size: 0.62em;
-            border-radius: 4px;
-            cursor: pointer;
-            text-transform: uppercase;
-            white-space: nowrap;
-            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1), 0 2px 4px rgba(0,0,0,0.8);
-            transition: all 0.15s ease-in-out;
-            width: 100%;
+          background: #0b1b30;
+          border: 1px solid #31445b;
+          color: #e5edf7;
+          box-shadow: none;
+          padding: 4px 2px;
+          text-align: center;
+          font-weight: 800;
+          font-size: 0.62em;
+          border-radius: 4px;
+          cursor: pointer;
+          text-transform: uppercase;
+          white-space: nowrap;
+          transition: all 0.15s ease-in-out;
+          width: 100%;
         }
 
         .tab-btn:hover {
-            border-color: rgba(212, 175, 55, 0.8);
-            color: #fef08a;
-            background: linear-gradient(145deg, #1d2a44, #0e1524);
+            border-color: rgba(228, 185, 79, 0.8);
+            color: var(--gold-light);
         }
 
         .tab-btn:active {
@@ -320,43 +287,45 @@
         }
         
         .tab-btn.active {
-            background: linear-gradient(135deg, #fff275 0%, #d4af37 50%, #855f06 100%);
-            color: #000000;
-            border: 1px solid #ffffff;
-            font-weight: 900;
-            box-shadow: 0 0 8px var(--gold-glow), inset 0 1px 3px rgba(255, 255, 255, 0.7);
-            text-shadow: none;
+          background: linear-gradient(180deg, #fff0a0, #e4b94f);
+          color: #172033;
+          border-color: #fff3bd;
+          box-shadow: none;
+          font-weight: 900;
         }
 
         .sticky-date-wrapper {
-            position: sticky;
-            top: 0;
-            z-index: 900;
-            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
-            padding: 3px 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.35);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-            height: 32px;
+          background: #0b1b2d;
+          box-shadow: none;
+          position: sticky;
+          top: 0;
+          z-index: 900;
+          padding: 3px 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          border-bottom: 1px solid rgba(228, 185, 79, 0.35);
+          height: 32px;
         }
 
         .modern-date-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(7, 11, 20, 0.98));
-            border: 1px solid rgba(212, 175, 55, 0.7);
-            padding: 2px 10px;
-            border-radius: 14px;
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.5);
-            cursor: pointer;
-            width: 100%;
-            max-width: 220px;
-            position: relative;
+          background: #071426;
+          border-color: #c49b3d;
+          box-shadow: none;
+          min-height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          border-width: 1px;
+          border-style: solid;
+          padding: 2px 10px;
+          border-radius: 14px;
+          cursor: pointer;
+          width: 100%;
+          max-width: 220px;
+          position: relative;
         }
 
         .modern-date-box label {
@@ -385,11 +354,10 @@
             width: 100%;
             overflow: hidden;
             background: linear-gradient(90deg, #05070b 0%, #101726 50%, #05070b 100%);
-            border-top: 1px solid rgba(212, 175, 55, 0.5);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+            border-top: 1px solid rgba(228, 185, 79, 0.4);
+            border-bottom: 1px solid rgba(228, 185, 79, 0.4);
             padding: 4px 0;
             border-radius: 2px;
-            box-shadow: 0 0 8px rgba(212, 175, 55, 0.15), inset 0 0 6px rgba(212, 175, 55, 0.05);
         }
 
         .canvas-track {
@@ -406,17 +374,15 @@
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 1.2px;
-            background: linear-gradient(135deg, #ffffff 0%, #fffdf0 50%, #fef08a 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #fffdf0 50%, var(--gold-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
         }
 
         .canvas-track b {
             color: var(--gold-primary);
             opacity: 0.9;
             font-size: 9.5px;
-            text-shadow: 0 0 4px rgba(212, 175, 55, 0.5);
         }
 
         @keyframes premiumScroll {
@@ -447,7 +413,7 @@
             margin-bottom: 4px; 
             background: var(--cream-bg);
             width: 100%;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            box-shadow: none;
         }
         
         .time-header {
@@ -455,14 +421,13 @@
             display: flex;
             align-items: center;
             justify-content: center !important;
-            background: linear-gradient(135deg, #1b4f72 0%, #11354f 100%) !important;
+            background: #123b5a !important;
             color: #ffffff !important; 
             padding: 5px 6px !important; 
             font-size: 0.75em !important;
             letter-spacing: 1px;
             border-bottom: 1px solid #10324a;
             width: 100%;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         .live-dot {
             height: 5px;
@@ -505,7 +470,7 @@
             padding: 7px 0px; 
             text-align: center; 
             font-weight: 900; 
-            font-size: 0.8em; 
+            font-size: clamp(10px, 2.7vw, 14px); 
             color: #111111 !important;
             border: 1px solid #e8e3b2;
             letter-spacing: -0.5px; 
@@ -532,7 +497,7 @@
         .footer-links a {
             color: #ffffff;
             background: linear-gradient(145deg, #111622, #080b12);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(228, 185, 79, 0.3);
             padding: 4px 8px; 
             border-radius: 4px;
             font-size: 0.6em;
@@ -540,7 +505,6 @@
             text-decoration: none;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         .footer-copy {
             color: var(--text-muted);
@@ -555,7 +519,8 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(2, 4, 8, 0.92);
-            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
             z-index: 10000;
             justify-content: center;
             align-items: center;
@@ -608,7 +573,7 @@
         .admin-input {
             width: 100%;
             background: #05080f;
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 1px solid rgba(228, 185, 79, 0.4);
             color: #fff;
             padding: 6px;
             border-radius: 4px;
@@ -617,7 +582,7 @@
         }
         select.admin-input {
             appearance: none;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23d4af37%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e4b94f%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat;
             background-position: right 8px center;
             background-size: 10px;
@@ -632,6 +597,18 @@
             width: 100%;
             text-transform: uppercase;
             font-size: 0.8em;
+        }
+
+        @media (max-width: 360px) {
+          .neon-title {
+            font-size: 1.2em;
+            letter-spacing: 1px;
+          }
+
+          .cell {
+            font-size: 10px;
+            padding: 7px 0;
+          }
         }
     </style>
 </head>
@@ -756,7 +733,7 @@
                 <p>Block / Stop Numbers (Exact/Suffix):</p>
                 <input type="text" id="adminBlockInput" class="admin-input" placeholder="e.g. 55, 79, 33, 89...">
 
-                <button class="admin-btn" style="background: linear-gradient(135deg, #d4af37, #855f06); color: #000; margin-bottom: 12px;" onclick="saveAdminSettings()">SAVE CONFIG</button>
+                <button class="admin-btn" style="background: linear-gradient(135deg, #e4b94f, #855f06); color: #000; margin-bottom: 12px;" onclick="saveAdminSettings()">SAVE CONFIG</button>
 
                 <p>Manual Time Injection:</p>
                 <select id="adminManualTimeSelect" class="admin-input"></select>
@@ -1400,7 +1377,7 @@
                         if (th) {
                             let tText = th.innerText.trim();
                             th.setAttribute('data-time', tText);
-                            th.style.cssText = "padding: 5px 6px !important; font-size: 0.75em !important; background: linear-gradient(135deg, #1b4f72, #154360) !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
+                            th.style.cssText = "padding: 5px 6px !important; font-size: 0.75em !important; background: #123b5a !important; color: #ffffff !important; display: flex; align-items: center; justify-content: center !important;";
                             th.innerHTML = (index === 0) ? `<span class="live-dot"></span>` + tText : tText;
                         }
                         htmlContent += tempDiv.innerHTML;
