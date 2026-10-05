@@ -853,7 +853,6 @@
 
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 blockRef.once('value').then(existingSnap => {
-                    // FIX: Agar result pehle se generated/saved hai aur customTime nahi hai, toh overwrite mat karo taaki number change na ho!
                     if (existingSnap.exists() && !customTime) {
                         return;
                     }
@@ -951,21 +950,37 @@
 
             document.getElementById('drawsCounterText').innerText = `Completed: ${keys.length} Draws`;
 
-            let htmlContent = "";
             keys.forEach((k, idx) => {
                 if (blocksObj[k]?.html) {
-                    let tmp = document.createElement('div'); tmp.innerHTML = blocksObj[k].html;
-                    let th = tmp.querySelector('.time-header');
-                    if (th) {
-                        let tText = th.innerText.trim();
-                        th.setAttribute('data-time', tText);
-                        th.innerHTML = idx === 0 ? `<span class="live-dot"></span>${tText}` : tText;
+                    let existingBlock = document.getElementById('block-' + k);
+                    if (!existingBlock) {
+                        let tmp = document.createElement('div'); 
+                        tmp.innerHTML = blocksObj[k].html;
+                        let blk = tmp.firstElementChild;
+                        let th = blk.querySelector('.time-header');
+                        if (th) {
+                            let tText = th.innerText.trim();
+                            th.setAttribute('data-time', tText);
+                            th.innerHTML = idx === 0 ? `<span class="live-dot"></span>${tText}` : tText;
+                        }
+                        
+                        let inserted = false;
+                        let children = todayContainer.children;
+                        for (let child of children) {
+                            let childId = child.id.replace('block-', '');
+                            if (k > childId) {
+                                todayContainer.insertBefore(blk, child);
+                                inserted = true;
+                                break;
+                            }
+                        }
+                        if (!inserted) {
+                            todayContainer.appendChild(blk);
+                        }
                     }
-                    htmlContent += tmp.innerHTML;
                 }
             });
 
-            todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
             switchSeries(currentSeriesFilter);
         }
 
