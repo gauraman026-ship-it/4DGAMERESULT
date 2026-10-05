@@ -573,7 +573,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.1.9-skyblue</div>
+            <div class="banner-version-tag">v1.2.0-fixed</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -714,7 +714,7 @@
             firebase.database().ref('settings/' + sel).set({
                 fix: document.getElementById('adminFixInput').value,
                 bExact: document.getElementById('adminBlockInput').value
-            }).then(() => alert('Saved!')).catch(e => alert(e.message));
+            }).then(() => alert('Saved successfully!')).catch(e => alert(e.message));
         }
 
         function adminManualGenerate() {
@@ -732,7 +732,7 @@
             let now = getISTDate(); now.setHours(h, m, 0, 0);
             let key = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_') + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
             firebase.database().ref('resultsData/blocks/' + key).remove().then(() => {
-                alert('Deleted!');
+                alert('Deleted successfully!');
                 window.location.reload();
             });
         }
@@ -854,8 +854,13 @@
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 blockRef.once('value').then(existingSnap => {
                     if (existingSnap.exists() && !customTime) {
-                        return;
+                        return; // Lock check: already generated results will not overwrite automatically
                     }
+
+                    // Seed-based generation for universal consistency across all devices
+                    let seed = 0;
+                    for (let i = 0; i < timeKey.length; i++) { seed = (seed << 5) - seed + timeKey.charCodeAt(i); seed |= 0; }
+                    let pseudoRandom = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     allSeriesBases.forEach(baseVal => {
@@ -876,7 +881,8 @@
                                     })) valid.push(suf);
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
-                                val = prefix + valid[Math.floor(Math.random() * valid.length)];
+                                let rndIndex = Math.floor(pseudoRandom() * valid.length);
+                                val = prefix + valid[rndIndex];
                             }
                             if (val.length < 4) val = val.padEnd(4, '0');
                             let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
@@ -1030,10 +1036,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.1.9-skyblue</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-fixed</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.1.9-skyblue</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.0-fixed</div>`;
                 }
             }, 1000);
         }
