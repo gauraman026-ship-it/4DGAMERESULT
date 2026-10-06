@@ -1,4 +1,4 @@
-export default {
+Export default {
   async scheduled(event, env, ctx) {
     ctx.waitUntil(generateAndSaveResult());
   },
@@ -9,7 +9,8 @@ export default {
 };
 
 async function generateAndSaveResult() {
-  const firebaseDatabaseURL = "https://canvas3d-result-f057d-default-rtdb.firebaseio.com";
+  // Yahan 3D ki jagah 2D database ka URL set kar diya hai
+  const firebaseDatabaseURL = "https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com";
 
   // IST Time nikalne ke liye
   let now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
