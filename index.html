@@ -201,7 +201,7 @@
 
         .timer-box {
             text-align: center;
-            color: #ffffff !important; /* Timer text color changed to pure white */
+            color: #ffffff !important;
             font-size: 0.7em;
             font-weight: 800;
             background: #000000 !important;
@@ -590,7 +590,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.0-eagle</div>
+            <div class="banner-version-tag">v1.2.2-eagle</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -856,11 +856,12 @@
                     let [h, m] = tp.split(':').map(Number);
                     if (mod === 'PM' && h < 12) h += 12;
                     if (mod === 'AM' && h === 12) h = 0;
-                    now.setHours(h, Math.floor(m / 15) * 15, 0);
+                    now.setHours(h, Math.round(m / 15) * 15, 0);
                     timeString = customTime;
                 } else {
                     let h = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(now), 10);
-                    let m = Math.floor(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(now), 10) / 15) * 15;
+                    let m = Math.round(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(now), 10) / 15) * 15;
+                    if (m === 60) { m = 0; h = (h + 1) % 24; }
                     now.setHours(h, m, 0);
                     timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true });
                 }
@@ -870,6 +871,9 @@
 
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 blockRef.once('value').then(existingSnap => {
+                    // Strict lock: Agar result pehle se generated/saved hai, toh dobara overwrite mat karo!
+                    if (existingSnap.exists()) return;
+
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     allSeriesBases.forEach(baseVal => {
                         let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
@@ -1000,12 +1004,13 @@
 
                 let nowCheck = getISTDate();
                 let hCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(nowCheck), 10);
-                let mCheck = Math.floor(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10) / 15) * 15;
+                let mCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10);
                 let sCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
                 
                 let active = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
                 
-                if (active && sCheck === 0) {
+                let isTargetMinute = (mCheck % 15 === 0);
+                if (active && isTargetMinute && sCheck === 0) {
                     let dk = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                     let gk = `${dk}-${hCheck}-${mCheck}`;
                     
@@ -1019,19 +1024,16 @@
                 }
 
                 let badge = document.getElementById('liveBadgeElement'), dot = document.getElementById('liveDotElement'), timer = document.getElementById('timer');
-                let currentSec = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
-                let currentMin = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10);
-                let currentHour = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(nowCheck), 10);
-                let isActiveNow = (currentHour > 9 || (currentHour === 9 && currentMin >= 0)) && (currentHour < 22 || (currentHour === 22 && currentMin <= 0));
+                let isActiveNow = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
 
                 if (isActiveNow) {
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
-                    let remMin = 14 - (currentMin % 15);
-                    let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-eagle</div>`;
+                    let remMin = 14 - (mCheck % 15);
+                    let remSec = 59 - sCheck;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.2-eagle</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.0-eagle</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.2-eagle</div>`;
                 }
             }, 1000);
         }
