@@ -55,7 +55,6 @@
             width: 100%;
         }
 
-        /* ------------------ HEADER ------------------ */
         .header-container {
           background: radial-gradient(circle at center, #091424 0%, #03070f 70%, #000000 100%) !important;
           text-align: center;
@@ -202,7 +201,7 @@
 
         .timer-box {
             text-align: center;
-            color: var(--gold-primary) !important;
+            color: #ffffff !important; /* Timer text color changed to pure white */
             font-size: 0.7em;
             font-weight: 800;
             background: #000000 !important;
@@ -464,7 +463,7 @@
         }
         
         .cell { 
-            background: #fdfbf8 !important; 
+            background: #fdfbf8 !important;
             padding: 6px 0px; 
             text-align: center; 
             font-weight: 800; 
@@ -871,10 +870,6 @@
 
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 blockRef.once('value').then(existingSnap => {
-                    if (existingSnap.exists() && !customTime) {
-                        return;
-                    }
-
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     allSeriesBases.forEach(baseVal => {
                         let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
@@ -1009,6 +1004,7 @@
                 let sCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
                 
                 let active = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
+                
                 if (active && sCheck === 0) {
                     let dk = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                     let gk = `${dk}-${hCheck}-${mCheck}`;
