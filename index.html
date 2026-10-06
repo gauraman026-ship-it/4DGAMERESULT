@@ -590,7 +590,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.2-eagle</div>
+            <div class="banner-version-tag">v1.2.3-eagle</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -871,7 +871,7 @@
 
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 blockRef.once('value').then(existingSnap => {
-                    // Strict lock: Agar result pehle se generated/saved hai, toh dobara overwrite mat karo!
+                    // Agar pehle se firebase mein result maujud hai, toh dobara generate mat karo (Strict Lock)
                     if (existingSnap.exists()) return;
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
@@ -989,6 +989,7 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
+            // Sirf database se data load aur sync karega (Client khud random generate nahi karega)
             db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(400).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
@@ -1010,15 +1011,21 @@
                 let active = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
                 
                 let isTargetMinute = (mCheck % 15 === 0);
-                if (active && isTargetMinute && sCheck === 0) {
+                
+                // Sirf ek primary check taaki agar pehla user 00 second par ho toh server par entry lock ho jaye
+                if (active && isTargetMinute && sCheck <= 2) {
                     let dk = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                     let gk = `${dk}-${hCheck}-${mCheck}`;
                     
-                    db.ref('lastGenerated').once('value', snap => {
-                        if (snap.val() !== gk) {
-                            db.ref('lastGenerated').set(gk).then(() => {
-                                generateAndSave();
-                            });
+                    db.ref('resultsData/locks/' + gk).transaction(currentVal => {
+                        if (currentVal === null) {
+                            return "locked"; // Pehle lock lagayega taaki koi aur doosra browser dobara generate na kare
+                        }
+                        return; // Agar pehle se locked hai toh kuch nahi karega
+                    }, (error, committed) => {
+                        if (!error && committed) {
+                            // Sirf yahi client request bhejega generate karne ki kyunki isne lock jeeta hai
+                            generateAndSave();
                         }
                     });
                 }
@@ -1030,10 +1037,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (mCheck % 15);
                     let remSec = 59 - sCheck;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.2-eagle</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.3-eagle</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.2-eagle</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.3-eagle</div>`;
                 }
             }, 1000);
         }
