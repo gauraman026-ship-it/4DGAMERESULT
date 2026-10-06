@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get } from "firebase/database";
+const firebase = require('firebase/compat/app');
+require('firebase/compat/database');
 
 const firebaseConfig = {
     apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q",
@@ -7,15 +7,17 @@ const firebaseConfig = {
     projectId: "canvas2d-result"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.database();
 
 const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 
 async function generateAndSaveScheduledDraw() {
     try {
         // 1. Fetch settings from Firebase (Fix numbers & Blocked numbers)
-        const settingsSnap = await get(ref(db, 'settings'));
+        const settingsSnap = await db.ref('settings').once('value');
         let sObj = settingsSnap.exists() ? settingsSnap.val() : {};
 
         let getCfg = (k) => {
@@ -26,8 +28,7 @@ async function generateAndSaveScheduledDraw() {
         };
 
         // 2. Get current IST time details
-        let now = new Date(Date.now() + (5.5 * 60 * 60 * 1000)); // UTC to IST offset approx for server
-        // Better yet, use Intl to get exact IST hours/minutes
+        let now = new Date(Date.now() + (5.5 * 60 * 60 * 1000));
         let optionsIST = { timeZone: 'Asia/Kolkata', hour12: false, hour: 'numeric', minute: 'numeric', day: '2-digit', month: 'short', year: 'numeric' };
         
         let formatter = new Intl.DateTimeFormat('en-US', optionsIST);
@@ -45,8 +46,8 @@ async function generateAndSaveScheduledDraw() {
         let dateKey = targetDate.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
         let timeKey = `${dateKey}_${String(targetDate.getHours()).padStart(2, '0')}_${String(targetDate.getMinutes()).padStart(2, '0')}`;
 
-        let blockRef = ref(db, 'resultsData/blocks/' + timeKey);
-        let existingSnap = await get(blockRef);
+        let blockRef = db.ref('resultsData/blocks/' + timeKey);
+        let existingSnap = await blockRef.once('value');
         if (existingSnap.exists()) {
             console.log("Draw already exists for this slot:", timeKey);
             return;
@@ -89,7 +90,7 @@ async function generateAndSaveScheduledDraw() {
         newBlock += `</div>`;
 
         // 4. Save to Firebase
-        await set(blockRef, { 
+        await blockRef.set({ 
             html: newBlock, 
             timestamp: Date.now() 
         });
