@@ -17,10 +17,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Dependencies
-        run: npm install firebase-admin node-fetch
-
       - name: Run Draw Script
         run: node generate-draw.js
         env:
-          FIREBASE_DATABASE_URL: "https://canvas2d-result-default-rtdb.firebaseio.com/"
+          FIREBASE_DATABASE_URL: "https://canvas2d-result-default-rtdb.firebaseio.com"
