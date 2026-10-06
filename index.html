@@ -27,7 +27,7 @@
           --border-glow: rgba(184, 151, 62, 0.2);
           --text-main: #e2e8f0;
           --text-muted: #8c9bae;
-          --cream-bg: #fdfbf7;
+          --cream-bg: #f9f6ed;
         }
 
         * { 
@@ -50,35 +50,52 @@
 
         .sticky-top-section {
             flex-shrink: 0;
-            background-color: #000000;
+            background-color: #03070f;
             z-index: 1000;
             width: 100%;
         }
 
-        /* ------------------ BANNER WITH SKY BLUE GLOW ------------------ */
+        /* ------------------ HEADER ------------------ */
         .header-container {
-          background: #000000 !important;
+          background: radial-gradient(circle at center, #091424 0%, #03070f 70%, #000000 100%) !important;
           text-align: center;
-          padding: 10px 4px 8px 4px;
+          padding: 12px 6px 10px 6px;
           border-bottom: 2px solid #b8973e;
           position: relative;
           width: 100%;
-          box-shadow: 0 0 18px rgba(0, 210, 255, 0.35), inset 0 0 15px rgba(184, 151, 62, 0.15);
+          box-shadow: 0 0 20px rgba(0, 210, 255, 0.2), inset 0 0 15px rgba(184, 151, 62, 0.12);
         }
 
+        .header-container::before,
+        .header-container::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 18px;
+            background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.4), var(--gold-primary));
+            clip-path: polygon(0 50%, 100% 0, 80% 50%, 100% 100%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        .header-container::before { left: 8px; transform: translateY(-50%) scaleX(-1); }
+        .header-container::after { right: 8px; }
+
         .neon-title {
-          background: linear-gradient(180deg, #fffdf9 0%, #f3df96 40%, #b8973e 100%);
+          background: linear-gradient(180deg, #ffffff 0%, #f7e394 40%, #b8973e 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          font-size: 1.5em;
+          font-size: 1.55em;
           font-weight: 900;
-          letter-spacing: 2.5px;
+          letter-spacing: 3px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 4px;
           text-transform: uppercase;
-          text-shadow: 0 0 12px rgba(0, 210, 255, 0.6), 0 2px 4px rgba(0,0,0,0.8);
+          text-shadow: 0 0 10px rgba(0, 210, 255, 0.4), 0 3px 6px rgba(0,0,0,0.9);
+          transform: perspective(300px) rotateX(4deg);
         }
 
         .tm-symbol {
@@ -88,47 +105,49 @@
         }
 
         .header-divider {
-            width: 50%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.8), transparent);
-            margin: 4px auto;
-            box-shadow: 0 0 6px rgba(0, 210, 255, 0.8);
+            width: 60%;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, rgba(0, 210, 255, 0.7), var(--gold-primary), rgba(0, 210, 255, 0.7), transparent);
+            margin: 5px auto;
+            box-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
         }
 
         .kohinoor-sub {
-            background: linear-gradient(180deg, #e2e8f0 0%, #fdfbf7 50%, var(--gold-light) 100%);
+            background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 60%, var(--gold-light) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
-            font-size: 0.52em;
-            letter-spacing: 2.5px;
+            font-size: 0.54em;
+            letter-spacing: 3px;
             text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
         .enterprises-sub {
-            background: linear-gradient(180deg, #e2e8f0 0%, var(--gold-light) 60%, var(--gold-primary) 100%);
+            background: linear-gradient(180deg, #e2e8f0 0%, var(--gold-light) 50%, var(--gold-primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 600;
-            font-size: 0.42em;
-            letter-spacing: 3px;
+            font-weight: 700;
+            font-size: 0.44em;
+            letter-spacing: 3.5px;
             text-transform: uppercase;
         }
 
         .amusement-sub {
             font-size: 0.48em;
             font-weight: 800;
-            letter-spacing: 2.5px;
-            background: linear-gradient(180deg, #fdfbf7 0%, var(--gold-light) 30%, #d47482 60%, #8c2337 100%);
+            letter-spacing: 3px;
+            background: linear-gradient(180deg, #ffffff 0%, var(--gold-light) 30%, #e06c7c 70%, #902134 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-top: 2px;
+            margin-top: 3px;
             text-transform: uppercase;
             border: 1px solid rgba(184, 151, 62, 0.4);
             display: inline-block;
-            padding: 1px 6px;
+            padding: 1px 8px;
             border-radius: 3px;
-            background-color: #020408;
+            background-color: #03070f;
+            box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
         }
 
         .market-status-bar {
@@ -207,7 +226,6 @@
             border-radius: 3px;
             z-index: 10;
         }
-        /* ----------------------------------------------------------------- */
 
         .series-tabs-wrapper {
           background: #020408;
@@ -393,7 +411,7 @@
         }
         
         .result-block {
-            border-bottom: 1.5px solid #0f2c44;
+            border-bottom: 1.5px solid #116793;
             margin-bottom: 4px; 
             background: var(--cream-bg);
             width: 100%;
@@ -404,14 +422,14 @@
             display: flex;
             align-items: center;
             justify-content: center !important;
-            background: linear-gradient(135deg, #1b4d75, #0f2c44) !important;
+            background: #116793 !important;
             color: #ffffff !important; 
             padding: 5px 6px !important; 
             font-size: 0.74em !important;
             letter-spacing: 1px;
-            border-bottom: 1px solid #081a2b;
+            border-bottom: 1px solid #0c4d6f;
             width: 100%;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
         }
 
         .live-dot {
@@ -435,7 +453,7 @@
             grid-template-columns: 1fr; 
             width: 100%;
             background: var(--cream-bg);
-            border-bottom: 1px solid #e9e4c3;
+            border-bottom: 1px solid #e6e1c4;
         }
         .chart-table:last-child { border-bottom: none; }
 
@@ -446,13 +464,13 @@
         }
         
         .cell { 
-            background: #fdfbf7 !important;
+            background: #fdfbf8 !important; 
             padding: 6px 0px; 
             text-align: center; 
             font-weight: 800; 
             font-size: 12.5px;
             color: #1a1a1a !important;
-            border: 1px solid #e9e4c3 !important;
+            border: 1px solid #e8e3c5 !important;
             letter-spacing: -0.5px; 
             white-space: nowrap;
         }
@@ -573,7 +591,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.0-fixed</div>
+            <div class="banner-version-tag">v1.2.0-eagle</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -652,7 +670,7 @@
                 <input type="text" id="adminFixInput" class="admin-input">
                 <p>Block Numbers:</p>
                 <input type="text" id="adminBlockInput" class="admin-input">
-                <button class="admin-btn" style="background:#b8973e; color:#000; margin-bottom:10px;" onclick="saveAdminSettings()">SAVE</button>
+                <button class="admin-btn" style="background:var(--gold-primary); color:#000; margin-bottom:10px;" onclick="saveAdminSettings()">SAVE</button>
                 <p>Manual Time:</p>
                 <select id="adminManualTimeSelect" class="admin-input"></select>
                 <button class="admin-btn" style="background:#27ae60; color:#fff; margin-bottom:10px;" onclick="adminManualGenerate()">GENERATE</button>
@@ -714,7 +732,7 @@
             firebase.database().ref('settings/' + sel).set({
                 fix: document.getElementById('adminFixInput').value,
                 bExact: document.getElementById('adminBlockInput').value
-            }).then(() => alert('Saved successfully!')).catch(e => alert(e.message));
+            }).then(() => alert('Saved!')).catch(e => alert(e.message));
         }
 
         function adminManualGenerate() {
@@ -732,7 +750,7 @@
             let now = getISTDate(); now.setHours(h, m, 0, 0);
             let key = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_') + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
             firebase.database().ref('resultsData/blocks/' + key).remove().then(() => {
-                alert('Deleted successfully!');
+                alert('Deleted!');
                 window.location.reload();
             });
         }
@@ -854,13 +872,8 @@
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 blockRef.once('value').then(existingSnap => {
                     if (existingSnap.exists() && !customTime) {
-                        return; // Lock check: already generated results will not overwrite automatically
+                        return;
                     }
-
-                    // Seed-based generation for universal consistency across all devices
-                    let seed = 0;
-                    for (let i = 0; i < timeKey.length; i++) { seed = (seed << 5) - seed + timeKey.charCodeAt(i); seed |= 0; }
-                    let pseudoRandom = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     allSeriesBases.forEach(baseVal => {
@@ -881,8 +894,7 @@
                                     })) valid.push(suf);
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
-                                let rndIndex = Math.floor(pseudoRandom() * valid.length);
-                                val = prefix + valid[rndIndex];
+                                val = prefix + valid[Math.floor(Math.random() * valid.length)];
                             }
                             if (val.length < 4) val = val.padEnd(4, '0');
                             let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
@@ -956,37 +968,21 @@
 
             document.getElementById('drawsCounterText').innerText = `Completed: ${keys.length} Draws`;
 
+            let htmlContent = "";
             keys.forEach((k, idx) => {
                 if (blocksObj[k]?.html) {
-                    let existingBlock = document.getElementById('block-' + k);
-                    if (!existingBlock) {
-                        let tmp = document.createElement('div'); 
-                        tmp.innerHTML = blocksObj[k].html;
-                        let blk = tmp.firstElementChild;
-                        let th = blk.querySelector('.time-header');
-                        if (th) {
-                            let tText = th.innerText.trim();
-                            th.setAttribute('data-time', tText);
-                            th.innerHTML = idx === 0 ? `<span class="live-dot"></span>${tText}` : tText;
-                        }
-                        
-                        let inserted = false;
-                        let children = todayContainer.children;
-                        for (let child of children) {
-                            let childId = child.id.replace('block-', '');
-                            if (k > childId) {
-                                todayContainer.insertBefore(blk, child);
-                                inserted = true;
-                                break;
-                            }
-                        }
-                        if (!inserted) {
-                            todayContainer.appendChild(blk);
-                        }
+                    let tmp = document.createElement('div'); tmp.innerHTML = blocksObj[k].html;
+                    let th = tmp.querySelector('.time-header');
+                    if (th) {
+                        let tText = th.innerText.trim();
+                        th.setAttribute('data-time', tText);
+                        th.innerHTML = idx === 0 ? `<span class="live-dot"></span>${tText}` : tText;
                     }
+                    htmlContent += tmp.innerHTML;
                 }
             });
 
+            todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
             switchSeries(currentSeriesFilter);
         }
 
@@ -1036,10 +1032,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-fixed</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-eagle</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.0-fixed</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.0-eagle</div>`;
                 }
             }, 1000);
         }
