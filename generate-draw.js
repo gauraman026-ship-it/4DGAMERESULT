@@ -15,7 +15,7 @@ async function run() {
     
     console.log(`Current Time (IST): ${hours}:${minutes}`);
 
-    // Slot generation logic (Example: every 15 mins or based on your settings)
+    // Slot generation logic (Every 15 mins)
     const totalMinutes = hours * 60 + minutes;
     const slotMinutes = Math.floor(totalMinutes / 15) * 15;
     const slotHour = Math.floor(slotMinutes / 60);
@@ -27,8 +27,8 @@ async function run() {
 
     console.log(`Checking slot: ${slotKey}`);
 
-    // Check if slot already exists
-    const checkRes = await fetch(`${DB_URL}/blocks/${slotKey}.json`);
+    // Check if slot already exists in resultsData
+    const checkRes = await fetch(`${DB_URL}/resultsData/${slotKey}.json`);
     const existing = await checkRes.json();
 
     if (existing) {
@@ -43,8 +43,8 @@ async function run() {
       createdAt: new Date().toISOString()
     };
 
-    // Save to Firebase Database via REST API
-    const saveRes = await fetch(`${DB_URL}/blocks/${slotKey}.json`, {
+    // Save to Firebase Database under resultsData via REST API
+    const saveRes = await fetch(`${DB_URL}/resultsData/${slotKey}.json`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(mockResult)
