@@ -9,8 +9,51 @@ jobs:
   run-cron:
     runs-on: ubuntu-latest
     steps:
-      - name: Hit Firebase to Generate Result
+      - name: Generate and Push Result to Firebase
         run: |
-          curl -X POST "https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData.json" \
-          -H "Content-Type: application/json" \
-          -d '{"timestamp": '$(date +%s000)', "timeString": "Auto Generated", "source": "GitHub Actions"}'
+          node -e '
+          const https = require("https");
+          const now = new Date();
+          
+          // Convert to IST
+          const istTimeStr = new Intl.DateTimeFormat("en-US", {
+            timeZone: "Asia/Kolkata",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+          }).format(now);
+
+          // Format: DD-MM-YYYY and HH:MM
+          // Let us generate random numbers for 00 to 99
+          let results = {};
+          for (let i = 0; i < 100; i++) {
+            let key = i < 10 ? "0" + i : "" + i;
+            results[key] = Math.floor(1000 + Math.random() * 9000).toString();
+          }
+
+          const payload = JSON.stringify({
+            timestamp: now.getTime(),
+            results: results
+          });
+
+          const url = new URL("https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData.json");
+
+          const req = https.request({
+            hostname: url.hostname,
+            path: url.pathname,
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Content-Length": payload.length
+            }
+          }, res => {
+            res.on("data", d => process.stdout.write(d));
+          });
+
+          req.on("error", error => console.error(error));
+          req.write(payload);
+          req.end();
+          '
