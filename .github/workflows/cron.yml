@@ -14,46 +14,50 @@ jobs:
           node -e '
           const https = require("https");
           const now = new Date();
-          
-          // Convert to IST
-          const istTimeStr = new Intl.DateTimeFormat("en-US", {
-            timeZone: "Asia/Kolkata",
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false
-          }).format(now);
 
-          // Format: DD-MM-YYYY and HH:MM
-          // Let us generate random numbers for 00 to 99
+          // IST Time formatting for key (e.g., 07_Oct_2026_14_30)
+          const options = { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false };
+          const formatter = new Intl.DateTimeFormat("en-GB", options);
+          const parts = formatter.formatToParts(now);
+          
+          let day, month, year, hour, minute;
+          parts.forEach(p => {
+            if (p.type === "day") day = p.value;
+            if (p.type === "month") month = p.value;
+            if (p.type === "year") year = p.value;
+            if (p.type === "hour") hour = p.value;
+            if (p.type === "minute") minute = p.value;
+          });
+
+          // Round off minutes to nearest 15
+          let minInt = parseInt(minute);
+          let roundedMin = Math.floor(minInt / 15) * 15;
+          let minStr = roundedMin < 10 ? "0" + roundedMin : "" + roundedMin;
+
+          let timeKey = `${day}_${month}_${year}_${hour}_${minStr}`;
+
           let results = {};
           for (let i = 0; i < 100; i++) {
             let key = i < 10 ? "0" + i : "" + i;
             results[key] = Math.floor(1000 + Math.random() * 9000).toString();
           }
 
-          const payload = JSON.stringify({
-            timestamp: now.getTime(),
-            results: results
-          });
-
-          const url = new URL("https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData.json");
+          const data = JSON.stringify(results);
+          const url = new URL(`https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/${timeKey}.json`);
 
           const req = https.request({
             hostname: url.hostname,
             path: url.pathname,
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              "Content-Length": payload.length
+              "Content-Length": data.length
             }
           }, res => {
             res.on("data", d => process.stdout.write(d));
           });
 
           req.on("error", error => console.error(error));
-          req.write(payload);
+          req.write(data);
           req.end();
           '
