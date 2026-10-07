@@ -15,7 +15,6 @@ jobs:
           (async () => {
             const now = new Date();
 
-            // IST Time formatting for key (e.g., 07_Oct_2026_14_45)
             const options = { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false };
             const formatter = new Intl.DateTimeFormat("en-GB", options);
             const parts = formatter.formatToParts(now);
@@ -29,30 +28,49 @@ jobs:
               if (p.type === "minute") minute = p.value;
             });
 
-            // Round off minutes to nearest 15
             let minInt = parseInt(minute);
             let roundedMin = Math.floor(minInt / 15) * 15;
             let minStr = roundedMin < 10 ? "0" + roundedMin : "" + roundedMin;
 
             let timeKey = `${day}_${month}_${year}_${hour}_${minStr}`;
-            console.log("Generated timeKey:", timeKey);
 
-            let results = {};
-            for (let i = 0; i < 100; i++) {
-              let key = i < 10 ? "0" + i : "" + i;
-              results[key] = Math.floor(1000 + Math.random() * 9000).toString();
-            }
+            // Format time string for header (e.g., 02:30 PM)
+            let hourNum = parseInt(hour, 10);
+            let ampm = hourNum >= 12 ? "PM" : "AM";
+            let displayHour = hourNum % 12;
+            displayHour = displayHour ? displayHour : 12;
+            let timeString = `${displayHour < 10 ? "0" + displayHour : displayHour}:${minStr} ${ampm}`;
 
-            const url = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/${timeKey}.json`;
+            const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+            let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
+            
+            allSeriesBases.forEach(baseVal => {
+              newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
+              for(let i = 0; i < 10; i++) {
+                let prefix = String(baseVal + i).padStart(2, '0');
+                let suf = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+                let val = prefix + suf;
+                let p1 = val.slice(0, 2);
+                let p2 = val.slice(2, 4);
+                let sc = p2[0] === p2[1] ? "var(--accent-red)" : "#1a1a1a";
+                newBlock += `<div class="cell"><span style="color:#1a1a1a;font-weight:800;">${p1}</span><span style="color:${sc};font-weight:800;">${p2}</span></div>`;
+              }
+              newBlock += `</div></div>`;
+            });
+            newBlock += `</div>`;
+
+            const url = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/blocks/${timeKey}.json`;
             console.log("Target URL:", url);
 
             try {
               const response = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(results)
+                body: JSON.stringify({
+                  html: newBlock,
+                  timestamp: now.getTime()
+                })
               });
-              
               const text = await response.text();
               console.log("Firebase Status:", response.status);
               console.log("Firebase Response:", text);
