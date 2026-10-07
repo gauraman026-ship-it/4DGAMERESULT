@@ -1055,7 +1055,7 @@
                 let isActiveNow = (currentHour > 9 || (currentHour === 9 && currentMin >= 0)) && (currentHour < 22 || (currentHour === 22 && currentMin <= 0));
 
                 if (isActiveNow) {
-                    badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
+                    badge.className = "live-badge active-blink"; dot.style.display = "inline-board";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
                     timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-eagle</div>`;
