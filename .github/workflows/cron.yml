@@ -35,6 +35,7 @@ jobs:
             let minStr = roundedMin < 10 ? "0" + roundedMin : "" + roundedMin;
 
             let timeKey = `${day}_${month}_${year}_${hour}_${minStr}`;
+            console.log("Generated timeKey:", timeKey);
 
             let results = {};
             for (let i = 0; i < 100; i++) {
@@ -42,16 +43,22 @@ jobs:
               results[key] = Math.floor(1000 + Math.random() * 9000).toString();
             }
 
+            const url = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/${timeKey}.json`;
+            console.log("Target URL:", url);
+
             try {
-              const response = await fetch(`https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/${timeKey}.json`, {
+              const response = await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(results)
               });
+              
               const text = await response.text();
+              console.log("Firebase Status:", response.status);
               console.log("Firebase Response:", text);
             } catch (error) {
-              console.error("Error pushing to Firebase:", error);
+              console.error("Fetch Error:", error);
+              process.exit(1);
             }
           })();
           '
