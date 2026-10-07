@@ -750,7 +750,6 @@
             let key = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_') + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
             firebase.database().ref('resultsData/blocks/' + key).remove().then(() => {
                 alert('Deleted!');
-                window.location.reload();
             });
         }
 
@@ -935,12 +934,11 @@
                         tmp.querySelectorAll('.result-block').forEach(blk => {
                             let th = blk.querySelector('.time-header');
                             if (th) {
-                                let curr = th.previousSibling;
-                                while (curr) {
-                                    let toRemove = curr;
-                                    curr = curr.previousSibling;
-                                    toRemove.parentNode.removeChild(toRemove);
-                                }
+                                let prev = th.previousElementSibling;
+                                while (prev) { let t = prev; prev = prev.previousElementSibling; t.remove(); }
+                                let node = th.previousSibling;
+                                while (node) { let t = node; node = node.previousSibling; if (t.nodeType === Node.TEXT_NODE) t.remove(); }
+                                
                                 th.innerHTML = th.getAttribute('data-time') || th.innerText;
                             }
                         });
@@ -957,7 +955,17 @@
             let icon = document.getElementById('refreshIcon');
             icon.classList.add('spinning');
             setTimeout(() => {
-                window.location.reload();
+                let archiveVal = document.getElementById('archiveDateSelect').value;
+                let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+                if (!archiveVal || archiveVal === todayStr) {
+                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(400).once('value').then(snap => {
+                        processSnapshotData(snap);
+                        icon.classList.remove('spinning');
+                    });
+                } else {
+                    loadArchiveDate(archiveVal);
+                    icon.classList.remove('spinning');
+                }
             }, 400);
         }
 
@@ -987,12 +995,10 @@
                     
                     let th = tmp.querySelector('.time-header');
                     if (th) {
-                        let curr = th.previousSibling;
-                        while (curr) {
-                            let toRemove = curr;
-                            curr = curr.previousSibling;
-                            toRemove.parentNode.removeChild(toRemove);
-                        }
+                        let prev = th.previousElementSibling;
+                        while (prev) { let t = prev; prev = prev.previousElementSibling; t.remove(); }
+                        let node = th.previousSibling;
+                        while (node) { let t = node; node = node.previousSibling; if (t.nodeType === Node.TEXT_NODE) t.remove(); }
 
                         let tText = th.innerText.trim();
                         th.setAttribute('data-time', tText);
