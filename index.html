@@ -201,7 +201,7 @@
 
         .timer-box {
             text-align: center;
-            color: var(--gold-primary) !important;
+            color: #ffffff !important;
             font-size: 0.7em;
             font-weight: 800;
             background: #000000 !important;
@@ -975,14 +975,28 @@
 
             let keys = Object.keys(blocksObj).filter(k => {
                 let n = getISTDate();
-                return (k.startsWith(n.getDate() + "_") || k.startsWith(String(n.getDate()).padStart(2, '0') + "_")) &&
-                       k.includes(n.toLocaleString('en-GB', { month: 'short' })) && k.includes(n.getFullYear());
+                let isToday = (k.startsWith(n.getDate() + "_") || k.startsWith(String(n.getDate()).padStart(2, '0') + "_")) &&
+                              k.includes(n.toLocaleString('en-GB', { month: 'short' })) && k.includes(n.getFullYear());
+                
+                if (!isToday) return false;
+
+                let parts = k.split('_');
+                let h = parseInt(parts[parts.length - 2], 10);
+                let m = parseInt(parts[parts.length - 1], 10);
+                let totalMins = h * 60 + m;
+                
+                return totalMins >= 540 && totalMins <= 1320;
             });
 
             keys.sort((a,b) => {
                 let pa = a.split('_'), pb = b.split('_');
                 return ((parseInt(pb[pb.length-2],10)||0)*60 + (parseInt(pb[pb.length-1],10)||0)) - ((parseInt(pa[pa.length-2],10)||0)*60 + (parseInt(pa[pa.length-1],10)||0));
             });
+
+            // Strict 53 draws limit enforcement
+            if (keys.length > 53) {
+                keys = keys.slice(0, 53);
+            }
 
             document.getElementById('drawsCounterText').innerText = `Completed: ${keys.length} Draws`;
 
@@ -1055,7 +1069,7 @@
                 let isActiveNow = (currentHour > 9 || (currentHour === 9 && currentMin >= 0)) && (currentHour < 22 || (currentHour === 22 && currentMin <= 0));
 
                 if (isActiveNow) {
-                    badge.className = "live-badge active-blink"; dot.style.display = "inline-board";
+                    badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
                     timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-eagle</div>`;
