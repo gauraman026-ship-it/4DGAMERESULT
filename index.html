@@ -935,11 +935,12 @@
                         tmp.querySelectorAll('.result-block').forEach(blk => {
                             let th = blk.querySelector('.time-header');
                             if (th) {
-                                let prev = th.previousElementSibling;
-                                while (prev) { let t = prev; prev = prev.previousElementSibling; t.remove(); }
-                                let node = th.previousSibling;
-                                while (node) { let t = node; node = node.previousSibling; if (t.nodeType === Node.TEXT_NODE) t.remove(); }
-                                
+                                let curr = th.previousSibling;
+                                while (curr) {
+                                    let toRemove = curr;
+                                    curr = curr.previousSibling;
+                                    toRemove.parentNode.removeChild(toRemove);
+                                }
                                 th.innerHTML = th.getAttribute('data-time') || th.innerText;
                             }
                         });
@@ -984,13 +985,14 @@
                 if (rawHtml) {
                     let tmp = document.createElement('div'); tmp.innerHTML = rawHtml;
                     
-                    // Automatically strip any text or element appearing before .time-header
                     let th = tmp.querySelector('.time-header');
                     if (th) {
-                        let prev = th.previousElementSibling;
-                        while (prev) { let t = prev; prev = prev.previousElementSibling; t.remove(); }
-                        let node = th.previousSibling;
-                        while (node) { let t = node; node = node.previousSibling; if (t.nodeType === Node.TEXT_NODE) t.remove(); }
+                        let curr = th.previousSibling;
+                        while (curr) {
+                            let toRemove = curr;
+                            curr = curr.previousSibling;
+                            toRemove.parentNode.removeChild(toRemove);
+                        }
 
                         let tText = th.innerText.trim();
                         th.setAttribute('data-time', tText);
