@@ -1,0 +1,16 @@
+name: Canvas Auto Result Cron
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run-cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit Firebase to Generate Result
+        run: |
+          curl -X POST "https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData.json" \
+          -H "Content-Type: application/json" \
+          -d '{"timestamp": '$(date +%s000)', "timeString": "Auto Generated", "source": "GitHub Actions"}'
