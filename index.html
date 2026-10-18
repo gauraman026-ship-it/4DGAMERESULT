@@ -828,7 +828,7 @@
             });
         }
 
-        // Mathematical Seeded Algorithm (Duniya ke kisi bhi phone par same calculation aayegi)
+        // Advanced Seeded Hash to generate fully shuffled, non-sequential numbers per cell
         function getSeededIndex(seedString, maxLimit) {
             let hash = 0;
             for (let i = 0; i < seedString.length; i++) {
@@ -870,7 +870,7 @@
                 
                 blockRef.once('value').then(existingSnap => {
                     if (existingSnap.exists() && !customTime) {
-                        return; // Pehle se data hai to ignore karein
+                        return; // Lock mechanism: Agar pehle se save hai toh overwrite nahi hoga
                     }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
@@ -893,8 +893,8 @@
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
                                 
-                                // deterministic seed string for exact 100% same output on all browsers
-                                let seedKey = timeKey + "_" + prefix;
+                                // Unique mixed hash seed per cell for non-sequential, random, but permanent results
+                                let seedKey = timeKey + "_cell_" + baseVal + "_" + i + "_" + (i * 997 + baseVal * 31);
                                 let chosenIndex = getSeededIndex(seedKey, valid.length);
                                 val = prefix + valid[chosenIndex];
                             }
