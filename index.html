@@ -862,9 +862,10 @@
 
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 
-                blockRef.once('value').then(existingSnap => {
-                    if (existingSnap.exists() && !customTime) {
-                        return; // Agar pehle se saved hai toh naya generate nahi karega, wahi purana dikhayega
+                // Strict Transaction / Once Check: Agar database me pehle se data hai, toh dobara overwrite bilkul nahi hoga!
+                blockRef.transaction(currentData => {
+                    if (currentData !== null) {
+                        return; // Agar pehle se kuch saved hai toh transaction cancel kar do (purana data safe rahega)
                     }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
@@ -887,7 +888,7 @@
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
                                 
-                                // Math.random() ka use kiya gaya hai taaki har naye draw par ekdum fresh aur random number aaye
+                                // Bilkul fresh aur random number generation
                                 val = prefix + valid[Math.floor(Math.random() * valid.length)];
                             }
                             if (val.length < 4) val = val.padEnd(4, '0');
@@ -898,8 +899,17 @@
                         newBlock += `</div></div>`;
                     });
                     newBlock += `</div>`;
-                    
-                    blockRef.set({ html: newBlock, timestamp: now.getTime() });
+
+                    // Pehli baar generate karke lock kar do
+                    return { html: newBlock, timestamp: now.getTime() };
+                }, (error, committed, snapshot) => {
+                    if (error) {
+                        console.error("Transaction failed", error);
+                    } else if (committed) {
+                        console.log("New result generated and locked successfully for:", timeKey);
+                    } else {
+                        console.log("Result already exists for:", timeKey, " - Kept original.");
+                    }
                 });
             });
         }
