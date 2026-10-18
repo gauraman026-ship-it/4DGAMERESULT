@@ -215,67 +215,72 @@
             z-index: 10;
         }
 
+        /* Trending Glow Glassmorphism Control Bar */
         .series-tabs-wrapper {
           background: #020408;
           display: flex;
           flex-direction: column;
           width: 100%;
-          padding: 2px 4px;
-          border-bottom: 1px solid rgba(184, 151, 62, 0.35);
+          padding: 6px;
+          border-bottom: 1px solid rgba(184, 151, 62, 0.3);
         }
 
         .top-center-all {
             display: flex;
             justify-content: center;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
             width: 100%;
-        }
-
-        .top-center-all .tab-btn {
-            width: 100%;
-            max-width: 140px;
-            padding: 2px 2px; 
-            font-size: 0.6em;
-            letter-spacing: 0.8px;
-            background: linear-gradient(145deg, #0d1726, #070d17);
-            border: 1px solid rgba(184, 151, 62, 0.4);
-            border-radius: 3px;
         }
 
         .series-tabs {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 2px;
+            gap: 4px;
             width: 100%;
         }
 
         .tab-btn {
-          background: #08111d;
-          border: 1px solid #233246;
-          color: #cbd5e1;
-          padding: 3px 1px;
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(184, 151, 62, 0.25);
+          color: #94a3b8;
+          padding: 6px 2px;
           text-align: center;
           font-weight: 700;
-          font-size: 0.58em;
-          border-radius: 3px;
+          font-size: 0.6em;
+          border-radius: 20px;
           cursor: pointer;
           text-transform: uppercase;
           white-space: nowrap;
           width: 100%;
-          transition: all 0.15s ease;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .top-center-all .tab-btn {
+            max-width: 180px;
+            padding: 6px 12px;
+            font-size: 0.65em;
+            letter-spacing: 0.8px;
+            border-radius: 20px;
         }
 
         .tab-btn:hover {
-            border-color: rgba(184, 151, 62, 0.6);
-            color: #fff;
+            color: #ffffff;
+            border-color: rgba(226, 201, 117, 0.6);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .tab-btn:active {
+            transform: scale(0.94);
         }
 
         .tab-btn.active {
-          background: linear-gradient(180deg, #d8bc68, #a88432);
-          color: #050b14;
-          border-color: #f3df96;
+          background: linear-gradient(135deg, rgba(226, 201, 117, 0.25) 0%, rgba(184, 151, 62, 0.1) 100%);
+          border: 1px solid #e2c975;
+          color: #fffdf0;
           font-weight: 800;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+          box-shadow: 0 0 12px rgba(184, 151, 62, 0.4), inset 0 0 8px rgba(226, 201, 117, 0.2);
         }
 
         .sticky-date-wrapper {
@@ -584,19 +589,19 @@
 
         <div class="series-tabs-wrapper">
             <div class="top-center-all">
-                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All (00 - 99)</div>
+                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Charts (00 - 99)</div>
             </div>
             <div class="series-tabs">
-                <div class="tab-btn" id="tab-0" onclick="switchSeries('0')">00-09</div>
-                <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10-19</div>
-                <div class="tab-btn" id="tab-20" onclick="switchSeries('20')">20-29</div>
-                <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30-39</div>
-                <div class="tab-btn" id="tab-40" onclick="switchSeries('40')">40-49</div>
-                <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50-59</div>
-                <div class="tab-btn" id="tab-60" onclick="switchSeries('60')">60-69</div>
-                <div class="tab-btn" id="tab-70" onclick="switchSeries('70')">70-79</div>
-                <div class="tab-btn" id="tab-80" onclick="switchSeries('80')">80-89</div>
-                <div class="tab-btn" id="tab-90" onclick="switchSeries('90')">90-99</div>
+                <div class="tab-btn" id="tab-0" onclick="switchSeries('0')">00 - 09</div>
+                <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10 - 19</div>
+                <div class="tab-btn" id="tab-20" onclick="switchSeries('20')">20 - 29</div>
+                <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30 - 39</div>
+                <div class="tab-btn" id="tab-40" onclick="switchSeries('40')">40 - 49</div>
+                <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50 - 59</div>
+                <div class="tab-btn" id="tab-60" onclick="switchSeries('60')">60 - 69</div>
+                <div class="tab-btn" id="tab-70" onclick="switchSeries('70')">70 - 79</div>
+                <div class="tab-btn" id="tab-80" onclick="switchSeries('80')">80 - 89</div>
+                <div class="tab-btn" id="tab-90" onclick="switchSeries('90')">90 - 99</div>
             </div>
         </div>
 
@@ -828,7 +833,6 @@
             });
         }
 
-        // Advanced Seeded Hash to generate fully shuffled, non-sequential numbers per cell
         function getSeededIndex(seedString, maxLimit) {
             let hash = 0;
             for (let i = 0; i < seedString.length; i++) {
@@ -870,7 +874,7 @@
                 
                 blockRef.once('value').then(existingSnap => {
                     if (existingSnap.exists() && !customTime) {
-                        return; // Lock mechanism: Agar pehle se save hai toh overwrite nahi hoga
+                        return;
                     }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
@@ -893,7 +897,6 @@
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
                                 
-                                // Unique mixed hash seed per cell for non-sequential, random, but permanent results
                                 let seedKey = timeKey + "_cell_" + baseVal + "_" + i + "_" + (i * 997 + baseVal * 31);
                                 let chosenIndex = getSeededIndex(seedKey, valid.length);
                                 val = prefix + valid[chosenIndex];
