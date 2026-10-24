@@ -49,23 +49,24 @@
 
         .sticky-top-section {
             flex-shrink: 0;
-            background-color: #03070f;
+            /* Banner se match karta hua professional gradient background */
+            background: linear-gradient(135deg, #f5efe6 0%, #e2d9c4 50%, #d4cbaf 100%);
             z-index: 1000;
             width: 100%;
+            border-bottom: 1.5px solid #b8973e;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
 
-        /* Slim & Compact VIP Header Container */
+        /* Maximum Ultra Slim & Compact VIP Header Container */
         .header-container {
-          background: linear-gradient(135deg, #fdfbf7 0%, #f4efe6 50%, #eae3d2 100%) !important;
+          background: transparent !important;
           text-align: center;
-          padding: 4px 4px 4px 4px;
-          border-bottom: 1.5px solid #d4af37;
+          padding: 2px 4px;
           position: relative;
           width: 100%;
-          box-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
         }
 
-        /* Bada aur Mota Title */
+        /* Ultra Compact Title */
         .neon-title {
           background: linear-gradient(
             180deg, 
@@ -77,45 +78,48 @@
           );
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          font-size: 1.6em;
+          font-size: 1.15em;
           font-weight: 900;
-          letter-spacing: 2px;
+          letter-spacing: 1.2px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 2px;
           text-transform: uppercase;
+          line-height: 1.0;
+          margin-bottom: 0px;
           text-shadow: 
-            1px 1.5px 0px rgba(101, 58, 8, 0.6),
-            0px 2px 3px rgba(0, 0, 0, 0.25);
+            1px 1px 0px rgba(101, 58, 8, 0.4),
+            0px 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .tm-symbol {
-            font-size: 0.42em;
+            font-size: 0.38em;
             vertical-align: super;
             -webkit-text-fill-color: #d4af37;
         }
 
         .skill-game-sub {
-            font-size: 0.38em;
+            font-size: 0.30em;
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 1.2px;
             color: #111111 !important;
             -webkit-text-fill-color: #111111 !important;
             text-transform: uppercase;
             border: 1px solid #b8973e;
             display: inline-block;
-            padding: 0px 6px;
+            padding: 0px 3px;
             border-radius: 2px;
             background: linear-gradient(135deg, #fff2b3 0%, #d4af37 100%);
-            margin: 1px auto 2px auto;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            margin: 0px auto;
+            line-height: 1.0;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
         }
 
         .header-divider {
-            width: 40%;
+            width: 25%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, #d4af37, #8a6405, #d4af37, transparent);
+            background: linear-gradient(90deg, transparent, #b8973e, #653a08, #b8973e, transparent);
             margin: 1px auto;
         }
 
@@ -123,35 +127,39 @@
             color: #111111 !important;
             -webkit-text-fill-color: #111111 !important;
             font-weight: 900;
-            font-size: 0.44em;
-            letter-spacing: 2px;
+            font-size: 0.33em;
+            letter-spacing: 1px;
             text-transform: uppercase;
+            line-height: 1.0;
+            margin-top: 0px;
         }
 
         .enterprises-sub {
             color: #111111 !important;
             -webkit-text-fill-color: #111111 !important;
             font-weight: 900;
-            font-size: 0.38em;
-            letter-spacing: 2.5px;
+            font-size: 0.30em;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
-            margin-top: 0px;
+            margin-top: -1px;
+            line-height: 1.0;
         }
 
         .amusement-sub {
-            font-size: 0.38em;
+            font-size: 0.30em;
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 1.2px;
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
             text-transform: uppercase;
             border: 1px solid #d4af37;
             display: inline-block;
-            padding: 0px 5px;
+            padding: 0px 3px;
             border-radius: 2px;
             background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            margin-top: 1px;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+            margin-top: 0px;
+            line-height: 1.0;
         }
 
         /* Cream Color Market Status Bar */
@@ -159,13 +167,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(135deg, #fdfbf7 0%, #f4efe6 50%, #eae3d2 100%) !important;
-            border-bottom: 1.5px solid #d4af37;
+            background: transparent !important;
+            border-top: 1px solid rgba(184, 151, 62, 0.3);
+            border-bottom: 1px solid rgba(184, 151, 62, 0.3);
             padding: 2px 8px;
             font-size: 0.58em;
             font-weight: 800;
             width: 100%;
-            box-shadow: inset 0 0 4px rgba(212, 175, 55, 0.2);
         }
 
         @keyframes redOnlyLoop {
@@ -235,14 +243,14 @@
             z-index: 10;
         }
 
-        /* Series Tabs Wrapper */
+        /* Simple Style Series Tabs Wrapper */
         .series-tabs-wrapper {
-          background: radial-gradient(circle at center, #0f141d 0%, #030508 100%);
+          background: transparent;
           display: flex;
           flex-direction: column;
           width: 100%;
           padding: 3px 6px;
-          border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+          border-bottom: 1px solid rgba(184, 151, 62, 0.25);
         }
 
         .top-center-all {
@@ -255,9 +263,9 @@
         .top-center-all .tab-btn {
             width: 100%;
             max-width: 150px;
-            padding: 3px 2px; 
-            font-size: 0.6em;
-            letter-spacing: 1px;
+            padding: 4px 2px; 
+            font-size: 0.62em;
+            letter-spacing: 0.5px;
         }
 
         .series-tabs {
@@ -267,77 +275,76 @@
             width: 100%;
         }
 
+        /* Clean Simple Button Style matching theme */
         .tab-btn {
-          background: #0e1726;
-          border: 1px solid #232d3f;
-          color: #cbd5e1;
-          padding: 3.5px 1px;
+          background: rgba(255, 255, 255, 0.65);
+          border: 1px solid #b8973e;
+          color: #2b1f02;
+          padding: 4px 1px;
           text-align: center;
           font-weight: 800;
-          font-size: 0.58em;
-          border-radius: 4px;
+          font-size: 0.6em;
+          border-radius: 3px;
           cursor: pointer;
           text-transform: uppercase;
           white-space: nowrap;
           width: 100%;
-          transition: all 0.1s ease;
+          transition: all 0.15s ease;
           user-select: none;
         }
 
         .tab-btn:hover {
-            border-color: #d4af37;
-            color: #ffffff;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
         }
 
         .tab-btn:active {
-            transform: scale(0.96);
+            transform: scale(0.97);
         }
 
         .tab-btn.active {
-          background: #d4af37;
-          color: #000000;
-          border: 1px solid #fff0a0;
+          background: #2b1f02;
+          color: #fff0b4;
+          border-color: #653a08;
           font-weight: 900;
         }
 
-        /* Slim & Compact Cream Sticky Date Bar */
+        /* Black Background Sticky Date Bar */
         .sticky-date-wrapper {
-          background: linear-gradient(135deg, #fdfbf7 0%, #f4efe6 50%, #eae3d2 100%) !important;
+          background: #040810;
           position: sticky;
           top: 0;
           z-index: 900;
-          padding: 1px 8px;
+          padding: 3px 8px;
           display: flex;
           justify-content: space-between;
           align-items: center;
           width: 100%;
-          border-bottom: 1.5px solid #d4af37;
-          box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
-          height: 22px;
+          height: 26px;
+          border-top: 1px solid rgba(184, 151, 62, 0.4);
+          border-bottom: 1px solid rgba(184, 151, 62, 0.4);
         }
 
-        /* Update Result Button - Crystal Clear & Bold */
+        /* Update Button matching Black & Gold theme */
         .update-btn-corner {
-            background: #ffffff;
-            border: 2px solid #997515;
-            color: #000000;
+            background: #0c1424;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
             padding: 0px 8px;
-            border-radius: 6px;
-            font-size: 0.62em;
-            font-weight: 900;
+            border-radius: 3px;
+            font-size: 0.6em;
+            font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 3px;
             text-transform: uppercase;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             transition: all 0.15s ease;
-            height: 18px;
-            line-height: 18px;
+            height: 20px;
+            line-height: 20px;
         }
         .update-btn-corner:active {
-            transform: scale(0.95);
-            background: #fff8e7;
+            background: #152036;
         }
         @keyframes spinSync {
             0% { transform: rotate(0deg); }
@@ -347,31 +354,30 @@
             animation: spinSync 0.6s linear infinite;
         }
 
-        /* Date Box - Crystal Clear & Bold */
+        /* Date Box matching Black & Gold theme */
         .modern-date-box {
-          background: #ffffff;
-          border: 2px solid #997515;
-          height: 18px;
+          background: #0c1424;
+          border: 1px solid var(--gold-primary);
+          height: 20px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 4px;
           padding: 0px 8px;
-          border-radius: 6px;
+          border-radius: 3px;
           cursor: pointer;
-          width: 140px;
+          width: 135px;
           position: relative;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .modern-date-box label {
-            color: #000000;
-            font-size: 0.62em;
-            font-weight: 900;
+            color: var(--gold-light);
+            font-size: 0.6em;
+            font-weight: 800;
             text-transform: uppercase;
             pointer-events: none;
-            line-height: 18px;
-            letter-spacing: 0.5px;
+            line-height: 20px;
+            letter-spacing: 0.3px;
         }
 
         .modern-date-box input[type="date"] {
