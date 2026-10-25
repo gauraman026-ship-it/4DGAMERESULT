@@ -59,35 +59,36 @@
         .header-container {
           background: transparent !important;
           text-align: center;
-          padding: 2px 4px;
+          padding: 4px 4px;
           position: relative;
           width: 100%;
         }
 
+        /* Bada aur Dark Neon Title */
         .neon-title {
           background: linear-gradient(
             180deg, 
             #ffffff 0%, 
-            #ffe57f 25%, 
-            #d4af37 55%, 
-            #8a6405 85%, 
+            #ffe57f 20%, 
+            #d4af37 50%, 
+            #5a3a03 85%, 
             #fffdf0 100%
           );
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          font-size: 1.15em;
+          font-size: 1.4em;
           font-weight: 900;
-          letter-spacing: 1.2px;
+          letter-spacing: 1.5px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 2px;
           text-transform: uppercase;
-          line-height: 1.0;
-          margin-bottom: 0px;
+          line-height: 1.1;
+          margin-bottom: 2px;
           text-shadow: 
-            1px 1px 0px rgba(101, 58, 8, 0.4),
-            0px 1px 2px rgba(0, 0, 0, 0.2);
+            2px 2px 0px rgba(75, 42, 4, 0.5),
+            0px 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .tm-symbol {
@@ -96,67 +97,69 @@
             -webkit-text-fill-color: #d4af37;
         }
 
+        /* Niche ke sub-names ko bada aur dark kiya gaya hai */
         .skill-game-sub {
-            font-size: 0.30em;
+            font-size: 0.38em;
             font-weight: 900;
-            letter-spacing: 1.2px;
-            color: #111111 !important;
-            -webkit-text-fill-color: #111111 !important;
+            letter-spacing: 1.5px;
+            color: #000000 !important;
+            -webkit-text-fill-color: #000000 !important;
             text-transform: uppercase;
-            border: 1px solid #b8973e;
+            border: 1.5px solid #a37f28;
             display: inline-block;
-            padding: 0px 3px;
-            border-radius: 2px;
+            padding: 1px 6px;
+            border-radius: 3px;
             background: linear-gradient(135deg, #fff2b3 0%, #d4af37 100%);
-            margin: 0px auto;
-            line-height: 1.0;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+            margin: 1px auto;
+            line-height: 1.2;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
         }
 
         .header-divider {
-            width: 25%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #b8973e, #653a08, #b8973e, transparent);
-            margin: 1px auto;
+            width: 30%;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, #b8973e, #5a3a03, #b8973e, transparent);
+            margin: 2px auto;
         }
 
         .kohinoor-sub {
-            color: #111111 !important;
-            -webkit-text-fill-color: #111111 !important;
+            color: #0b0b0b !important;
+            -webkit-text-fill-color: #0b0b0b !important;
             font-weight: 900;
-            font-size: 0.33em;
-            letter-spacing: 1px;
+            font-size: 0.42em;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            line-height: 1.0;
-            margin-top: 0px;
+            line-height: 1.2;
+            margin-top: 1px;
+            text-shadow: 0px 1px 1px rgba(255,255,255,0.4);
         }
 
         .enterprises-sub {
-            color: #111111 !important;
-            -webkit-text-fill-color: #111111 !important;
+            color: #0b0b0b !important;
+            -webkit-text-fill-color: #0b0b0b !important;
             font-weight: 900;
-            font-size: 0.30em;
-            letter-spacing: 1.2px;
+            font-size: 0.38em;
+            letter-spacing: 1.8px;
             text-transform: uppercase;
-            margin-top: -1px;
-            line-height: 1.0;
+            margin-top: 0px;
+            line-height: 1.2;
         }
 
         .amusement-sub {
-            font-size: 0.30em;
+            font-size: 0.38em;
             font-weight: 900;
-            letter-spacing: 1.2px;
+            letter-spacing: 1.5px;
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
             text-transform: uppercase;
-            border: 1px solid #d4af37;
+            border: 1.5px solid #d4af37;
             display: inline-block;
-            padding: 0px 3px;
-            border-radius: 2px;
-            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
-            box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-            margin-top: 0px;
-            line-height: 1.0;
+            padding: 1px 6px;
+            border-radius: 3px;
+            background: linear-gradient(135deg, #111111 0%, #292929 100%);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            margin-top: 2px;
+            line-height: 1.2;
         }
 
         .market-status-bar {
@@ -608,7 +611,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.3-smooth</div>
+            <div class="banner-version-tag">v1.2.4-bold</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -807,7 +810,6 @@
             projectId: "canvas2d-result" 
         };
 
-        // Smooth Silent Cache Load on Startup
         document.addEventListener("DOMContentLoaded", () => {
             let cachedHtml = localStorage.getItem('canvas_cached_today_results');
             if (cachedHtml) {
@@ -1069,7 +1071,6 @@
 
             let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
             
-            // SILENT UPDATE: Only update DOM if content is actually different to avoid flickering
             if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
                 todayContainer.innerHTML = finalHtml;
                 if (htmlContent) {
@@ -1125,10 +1126,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.3-smooth</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.4-bold</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.3-smooth</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.4-bold</div>`;
                 }
             }, 1000);
         }
