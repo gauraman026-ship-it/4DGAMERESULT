@@ -610,7 +610,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.5-mixed</div>
+            <div class="banner-version-tag">v1.2.6-allmixed</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -928,17 +928,18 @@
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     
+                    // Generate a pool of 100 unique mixed 2-digit numbers for every single draw
+                    let pool = [];
+                    for (let s = 0; s < 100; s++) {
+                        pool.push(String(s).padStart(2, '0'));
+                    }
+                    let globalSeedKey = "CANVAS_FULL_MIX_" + timeKey;
+                    let fullMixedPool = shuffleArrayWithSeed(pool, globalSeedKey);
+                    let poolIndex = 0;
+
                     allSeriesBases.forEach(baseVal => {
                         let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
                         newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
-                        
-                        // Mixed Array pool generation
-                        let pool = [];
-                        for (let s = 0; s < 100; s++) {
-                            pool.push(String(s).padStart(2, '0'));
-                        }
-                        let seedKey = "CANVAS_MIX_" + timeKey + "_" + baseVal;
-                        let mixedPool = shuffleArrayWithSeed(pool, seedKey);
 
                         for(let i = 0; i < 10; i++) {
                             let prefix = String(baseVal + i).padStart(2, '0'), val;
@@ -947,12 +948,15 @@
                             if (matchedFix) {
                                 val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
                             } else {
-                                let suf = mixedPool.find(s => !blocks.some(b => {
-                                    let clean = b.replace(/[^0-9]/g, '');
-                                    let full = prefix + s;
-                                    return clean.length >= 4 ? full === clean : s === clean || full.slice(-2) === clean;
-                                })) || "20";
-                                val = prefix + suf;
+                                // Pick completely independent mixed numbers across all cells
+                                let chosenNum = fullMixedPool[poolIndex % fullMixedPool.length];
+                                poolIndex++;
+
+                                // Fallback check for blocked numbers
+                                if (blocks.some(b => b.replace(/[^0-9]/g, '') === chosenNum)) {
+                                    chosenNum = "45";
+                                }
+                                val = prefix + chosenNum;
                             }
 
                             if (val.length < 4) val = val.padEnd(4, '0');
@@ -1141,10 +1145,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.5-mixed</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.6-allmixed</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.5-mixed</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.6-allmixed</div>`;
                 }
             }, 1000);
         }
