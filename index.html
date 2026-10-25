@@ -49,7 +49,6 @@
 
         .sticky-top-section {
             flex-shrink: 0;
-            /* Banner se match karta hua professional gradient background */
             background: linear-gradient(135deg, #f5efe6 0%, #e2d9c4 50%, #d4cbaf 100%);
             z-index: 1000;
             width: 100%;
@@ -275,7 +274,6 @@
             width: 100%;
         }
 
-        /* Clean Simple Button Style matching theme */
         .tab-btn {
           background: rgba(255, 255, 255, 0.65);
           border: 1px solid #b8973e;
@@ -325,7 +323,6 @@
           border-bottom: 1px solid rgba(184, 151, 62, 0.4);
         }
 
-        /* Update Button matching Black & Gold theme */
         .update-btn-corner {
             background: #0c1424;
             border: 1px solid var(--gold-primary);
@@ -354,7 +351,6 @@
             animation: spinSync 0.6s linear infinite;
         }
 
-        /* Date Box matching Black & Gold theme */
         .modern-date-box {
           background: #0c1424;
           border: 1px solid var(--gold-primary);
@@ -617,7 +613,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.0-eagle</div>
+            <div class="banner-version-tag">v1.2.1-fast</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -816,22 +812,31 @@
             projectId: "canvas2d-result" 
         };
 
+        // INSTANT LOAD: Load cached data immediately before Firebase initializes
         document.addEventListener("DOMContentLoaded", () => {
-            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-            firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
-            setTimeout(() => {
-                let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
-                let archiveInput = document.getElementById('archiveDateSelect');
-                archiveInput.value = todayStr;
-                
-                let minDate = new Date(getISTDate());
-                minDate.setDate(minDate.getDate() - 7);
-                archiveInput.min = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(minDate);
-                archiveInput.max = todayStr;
+            let cachedHtml = localStorage.getItem('canvas_cached_today_results');
+            if (cachedHtml) {
+                document.getElementById('today-container').innerHTML = cachedHtml;
+            }
 
-                updateDateDisplayLabel(todayStr);
-                initApp();
-            }, 300);
+            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+            
+            // Non-blocking background server time sync
+            setTimeout(() => {
+                firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
+            }, 100);
+
+            let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+            let archiveInput = document.getElementById('archiveDateSelect');
+            archiveInput.value = todayStr;
+            
+            let minDate = new Date();
+            minDate.setDate(minDate.getDate() - 7);
+            archiveInput.min = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(minDate);
+            archiveInput.max = todayStr;
+
+            updateDateDisplayLabel(todayStr);
+            initApp();
         });
 
         let currentSeriesFilter = 'all';
@@ -1065,7 +1070,14 @@
                 }
             });
 
-            todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            todayContainer.innerHTML = finalHtml;
+            
+            // Save to LocalStorage for instant load next time
+            if (htmlContent) {
+                localStorage.setItem('canvas_cached_today_results', htmlContent);
+            }
+
             switchSeries(currentSeriesFilter);
         }
 
@@ -1115,10 +1127,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-eagle</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.1-fast</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.0-eagle</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.1-fast</div>`;
                 }
             }, 1000);
         }
