@@ -64,7 +64,6 @@
           width: 100%;
         }
 
-        /* Bada aur Dark Neon Title */
         .neon-title {
           background: linear-gradient(
             180deg, 
@@ -97,7 +96,6 @@
             -webkit-text-fill-color: #d4af37;
         }
 
-        /* Niche ke sub-names ko bada aur dark kiya gaya hai */
         .skill-game-sub {
             font-size: 0.38em;
             font-weight: 900;
@@ -879,11 +877,12 @@
             });
         }
 
+        // Strong FNV-1a Hashing for Mixed Unpredictable Numbers
         function getSeededIndex(seedString, maxLimit) {
-            let hash = 0;
+            let hash = 2166136261;
             for (let i = 0; i < seedString.length; i++) {
-                hash = (hash << 5) - hash + seedString.charCodeAt(i);
-                hash |= 0;
+                hash ^= seedString.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
             }
             return Math.abs(hash) % maxLimit;
         }
@@ -949,7 +948,7 @@
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
                                 
-                                let seedKey = "CANVAS_STABLE_" + timeKey + "_cell_" + baseVal + "_" + i;
+                                let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + baseVal + "_cell_" + i + "_mix_" + (Math.sin(i + 1) * 10000);
                                 let chosenIndex = getSeededIndex(seedKey, valid.length);
                                 val = prefix + valid[chosenIndex];
                             }
