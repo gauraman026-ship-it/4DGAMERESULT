@@ -66,6 +66,16 @@ export default async function handler(req, res) {
             return { fix, bExact: b.map(x => x.trim()).filter(x => x.length > 0) };
         };
 
+        // Strong FNV-1a Hashing for Mixed Unpredictable Numbers
+        const getSeededIndex = (seedString, maxLimit) => {
+            let hash = 2166136261;
+            for (let i = 0; i < seedString.length; i++) {
+                hash ^= seedString.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
+            }
+            return Math.abs(hash) % maxLimit;
+        };
+
         const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
         let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
 
@@ -90,14 +100,9 @@ export default async function handler(req, res) {
                     }
                     if (valid.length === 0) valid = ["20", "55", "77"];
                     
-                    // Simple deterministic pseudo-random index based on timeKey and cell
-                    let seedString = "CANVAS_STABLE_" + timeKey + "_cell_" + baseVal + "_" + i;
-                    let hash = 0;
-                    for (let cIdx = 0; cIdx < seedString.length; cIdx++) {
-                        hash = (hash << 5) - hash + seedString.charCodeAt(cIdx);
-                        hash |= 0;
-                    }
-                    let chosenIndex = Math.abs(hash) % valid.length;
+                    // Strong Random Mixed Seed Key for Cron
+                    let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + baseVal + "_cell_" + i + "_mix_" + (Math.sin(i + 1) * 10000);
+                    let chosenIndex = getSeededIndex(seedKey, valid.length);
                     val = prefix + valid[chosenIndex];
                 }
                 
