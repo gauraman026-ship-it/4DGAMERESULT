@@ -1,29 +1,51 @@
 export default async function handler(req, res) {
     try {
         const now = new Date();
-        const istTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+        
+        // Exact IST Time Extraction for Node.js (Vercel)
+        const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'Asia/Kolkata',
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: false
+        });
 
-        let h = istTime.getHours();
-        let m = Math.floor(istTime.getMinutes() / 15) * 15; // Hamesha exact 00, 15, 30, 45 slot
+        const parts = formatter.formatToParts(now);
+        let h = 0, m = 0, day = '', month = '', year = '';
+        
+        parts.forEach(p => {
+            if (p.type === 'hour') h = parseInt(p.value, 10);
+            if (p.type === 'minute') m = parseInt(p.value, 10);
+            if (p.type === 'day') day = p.value;
+            if (p.type === 'month') month = p.value;
+            if (p.type === 'year') year = p.value;
+        });
 
-        // Market Hours Check (09:00 AM to 10:00 PM)
-        if (h < 9 || h > 22 || (h === 22 && m > 0)) {
+        // Exact 15-min rounding
+        m = Math.floor(m / 15) * 15;
+
+        // Market Hours Check (09:00 AM to 10:00 PM IST)
+        if (h < 9 || (h > 22 || (h === 22 && m > 0))) {
             return res.status(200).json({ status: "Market closed" });
         }
 
-        const dateKey = istTime.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
+        const dateKey = `${day}_${month}_${year}`;
         const timeKey = `${dateKey}_${String(h).padStart(2, '0')}_${String(m).padStart(2, '0')}`;
-        
-        // Exact 15-min slot time string for heading
-        const slotDate = new Date(istTime);
-        slotDate.setMinutes(m, 0, 0);
+
+        // Slot Date for Time Header
+        let slotDate = new Date();
+        slotDate.setHours(h, m, 0, 0);
         const timeString = slotDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-        const firebaseUrl = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/blocks/${timeKey}.json`;
-        const settingsUrl = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/settings.json`;
+        const firebaseBaseUrl = 'https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com';
+        const firebaseUri = `${firebaseBaseUrl}/resultsData/blocks/${timeKey}.json`;
+        const settingsUrl = `${firebaseBaseUrl}/settings.json`;
 
         // Check if result already exists for this exact slot
-        const checkRes = await fetch(firebaseUrl);
+        const checkRes = await fetch(firebaseUri);
         const checkData = await checkRes.json();
 
         if (checkData && checkData.html) {
@@ -34,8 +56,8 @@ export default async function handler(req, res) {
         let sObj = {};
         try {
             const settingsRes = await fetch(settingsUrl);
-            sObj = (await settingsRes.json()) || {};
-        } catch(e) {}
+            sObj = await settingsRes.json() || {};
+        } catch (w) {}
 
         const getCfg = (k) => {
             let c = sObj[k] || {}, g = sObj['all'] || {};
@@ -50,11 +72,11 @@ export default async function handler(req, res) {
         allSeriesBases.forEach(baseVal => {
             let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
             newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
-
+            
             for (let i = 0; i < 10; i++) {
                 let prefix = String(baseVal + i).padStart(2, '0'), val;
                 let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
-
+                
                 if (matchedFix) {
                     val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
                 } else {
@@ -67,10 +89,18 @@ export default async function handler(req, res) {
                         })) valid.push(suf);
                     }
                     if (valid.length === 0) valid = ["20", "55", "77"];
-                    let chosenIndex = Math.floor(Math.random() * valid.length);
+                    
+                    // Simple deterministic pseudo-random index based on timeKey and cell
+                    let seedString = "CANVAS_STABLE_" + timeKey + "_cell_" + baseVal + "_" + i;
+                    let hash = 0;
+                    for (let cIdx = 0; cIdx < seedString.length; cIdx++) {
+                        hash = (hash << 5) - hash + seedString.charCodeAt(cIdx);
+                        hash |= 0;
+                    }
+                    let chosenIndex = Math.abs(hash) % valid.length;
                     val = prefix + valid[chosenIndex];
                 }
-
+                
                 if (val.length < 4) val = val.padEnd(4, '0');
                 let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
                 let sc = p2[0] === p2[1] ? "var(--accent-red)" : "#1a1a1a";
@@ -78,17 +108,20 @@ export default async function handler(req, res) {
             }
             newBlock += `</div></div>`;
         });
-
         newBlock += `</div>`;
 
-        // Save result directly to Firebase
-        await fetch(firebaseUrl, {
+        // Save to Firebase Realtime Database
+        const saveRes = await fetch(firebaseUri, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ html: newBlock, timestamp: istTime.getTime() })
+            body: JSON.stringify({ html: newBlock, timestamp: now.getTime() })
         });
 
-        return res.status(200).json({ success: true, message: "Result generated successfully!", timeKey });
+        if (saveRes.ok) {
+            return res.status(200).json({ status: "Success", timeKey });
+        } else {
+            return res.status(500).json({ status: "Firebase save failed" });
+        }
 
     } catch (error) {
         return res.status(500).json({ error: error.message });
