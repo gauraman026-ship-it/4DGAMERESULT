@@ -4,7 +4,7 @@ export default async function handler(req, res) {
         const istTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
 
         let h = istTime.getHours();
-        let m = Math.floor(istTime.getMinutes() / 15) * 15; // Hamesha 00, 15, 30, 45 wala exact slot hi banega
+        let m = Math.floor(istTime.getMinutes() / 15) * 15; // Hamesha exact 00, 15, 30, 45 slot
 
         // Market Hours Check (09:00 AM to 10:00 PM)
         if (h < 9 || h > 22 || (h === 22 && m > 0)) {
@@ -13,7 +13,11 @@ export default async function handler(req, res) {
 
         const dateKey = istTime.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
         const timeKey = `${dateKey}_${String(h).padStart(2, '0')}_${String(m).padStart(2, '0')}`;
-        const timeString = istTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+        
+        // Exact 15-min slot time string for heading
+        const slotDate = new Date(istTime);
+        slotDate.setMinutes(m, 0, 0);
+        const timeString = slotDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
         const firebaseUrl = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/blocks/${timeKey}.json`;
         const settingsUrl = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/settings.json`;
