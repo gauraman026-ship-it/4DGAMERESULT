@@ -2,10 +2,11 @@ export default async function handler(req, res) {
     try {
         const now = new Date();
         const istTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-        
+
         let h = istTime.getHours();
         let m = Math.floor(istTime.getMinutes() / 15) * 15;
-        
+
+        // Market Hours Check (09:00 AM to 10:00 PM)
         if (h < 9 || h > 22 || (h === 22 && m > 0)) {
             return res.status(200).json({ status: "Market closed" });
         }
@@ -13,22 +14,23 @@ export default async function handler(req, res) {
         const dateKey = istTime.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
         const timeKey = `${dateKey}_${String(h).padStart(2, '0')}_${String(m).padStart(2, '0')}`;
         const timeString = istTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-        
+
         const firebaseUrl = `https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com/resultsData/blocks/${timeKey}.json`;
-        
+
+        // Check if result already exists for this exact slot
         const checkRes = await fetch(firebaseUrl);
         const checkData = await checkRes.json();
-        
-        if (checkData !== null) {
+
+        if (checkData && checkData.html) {
             return res.status(200).json({ status: "Already generated", timeKey });
         }
 
         const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
         let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
-        
+
         allSeriesBases.forEach(baseVal => {
             newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
-            for(let i=0; i<10; i++) {
+            for (let i = 0; i < 10; i++) {
                 let prefix = String(baseVal + i).padStart(2, '0');
                 let valid = [];
                 for (let s = 0; s < 100; s++) {
@@ -42,8 +44,10 @@ export default async function handler(req, res) {
             }
             newBlock += `</div></div>`;
         });
+
         newBlock += `</div>`;
 
+        // Save result directly to Firebase
         await fetch(firebaseUrl, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -51,6 +55,7 @@ export default async function handler(req, res) {
         });
 
         return res.status(200).json({ success: true, message: "Result generated successfully!", timeKey });
+
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
