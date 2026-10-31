@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Cache-Control" content="max-age=3600, public">
+    <meta http-equiv="Cache-Control" content="max-age=86400, public">
     <title>CΛNVΛS 4D™ - Royal Gaming Exchange</title>
     
-    <!-- Fast Network Preconnect & DNS Prefetch -->
+    <!-- Ultra-Fast DNS Prefetch & Preconnect -->
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com">
 
-    <!-- Deferred Scripts -->
+    <!-- Deferred Scripts for Zero Render Blocking -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
@@ -45,6 +45,7 @@
             font-family: system-ui, -apple-system, sans-serif;
             display: flex;
             flex-direction: column;
+            contain: content;
         }
 
         .sticky-top-section {
@@ -54,6 +55,7 @@
             width: 100%;
             border-bottom: 1.5px solid #b8973e;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            will-change: transform;
         }
 
         .header-container {
@@ -65,14 +67,7 @@
         }
 
         .neon-title {
-          background: linear-gradient(
-            180deg, 
-            #ffffff 0%, 
-            #ffe57f 20%, 
-            #d4af37 50%, 
-            #5a3a03 85%, 
-            #fffdf0 100%
-          );
+          background: linear-gradient(180deg, #ffffff 0%, #ffe57f 20%, #d4af37 50%, #5a3a03 85%, #fffdf0 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           font-size: 1.4em;
@@ -85,9 +80,7 @@
           text-transform: uppercase;
           line-height: 1.1;
           margin-bottom: 2px;
-          text-shadow: 
-            2px 2px 0px rgba(75, 42, 4, 0.5),
-            0px 1px 3px rgba(0, 0, 0, 0.3);
+          text-shadow: 2px 2px 0px rgba(75, 42, 4, 0.5), 0px 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .tm-symbol {
@@ -284,17 +277,8 @@
           text-transform: uppercase;
           white-space: nowrap;
           width: 100%;
-          transition: all 0.15s ease;
+          transition: transform 0.1s linear, background 0.15s ease;
           user-select: none;
-        }
-
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.9);
-            color: #000000;
-        }
-
-        .tab-btn:active {
-            transform: scale(0.97);
         }
 
         .tab-btn.active {
@@ -332,20 +316,12 @@
             align-items: center;
             gap: 3px;
             text-transform: uppercase;
-            transition: all 0.15s ease;
             height: 20px;
             line-height: 20px;
         }
-        .update-btn-corner:active {
-            background: #152036;
-        }
-        @keyframes spinSync {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .spinning {
-            animation: spinSync 0.6s linear infinite;
-        }
+
+        @keyframes spinSync { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .spinning { animation: spinSync 0.6s linear infinite; }
 
         .modern-date-box {
           background: #0c1424;
@@ -398,6 +374,7 @@
             white-space: nowrap;
             padding-left: 100%;
             animation: premiumScroll 45s linear infinite;
+            will-change: transform;
         }
 
         .canvas-track span {
@@ -411,10 +388,7 @@
 
         .canvas-track b { color: var(--gold-primary); font-size: 8px; }
 
-        @keyframes premiumScroll {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
-        }
+        @keyframes premiumScroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
         .main-scroll-viewport {
             flex-grow: 1;
@@ -422,7 +396,6 @@
             overflow-x: hidden;
             padding-bottom: 4px;
             scrollbar-width: thin;
-            scrollbar-color: var(--gold-primary) rgba(8, 17, 29, 0.5);
             width: 100%;
             -webkit-overflow-scrolling: touch;
         }
@@ -432,6 +405,7 @@
             margin-bottom: 4px; 
             background: var(--cream-bg);
             width: 100%;
+            contain: content;
         }
         
         .time-header {
@@ -559,8 +533,6 @@
         .modal-close { background: none; border: none; color: var(--accent-red); font-size: 1.1em; font-weight: 800; cursor: pointer; padding: 3px 6px; }
         .modal-body { color: #cbd5e1; font-size: 0.7em; line-height: 1.4; font-weight: 500; }
         .modal-body p { margin-bottom: 4px; font-weight: 700; color: var(--gold-light); }
-        .modal-body ul { margin-left: 14px; margin-bottom: 6px; }
-        .modal-body li { margin-bottom: 3px; }
         
         .admin-input {
             width: 100%;
@@ -608,8 +580,8 @@
         </div>
 
         <div class="timer-box" id="timer">
-            SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.5-deletefix</div>
+            SYNCHRONIZING...
+            <div class="banner-version-tag">v1.2.6-fast</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -815,20 +787,19 @@
             projectId: "canvas2d-result" 
         };
 
+        // Instant Cache Fast Load (Slow 4G Optimization)
         document.addEventListener("DOMContentLoaded", () => {
             let cachedHtml = localStorage.getItem('canvas_cached_today_results');
             if (cachedHtml) {
                 let cont = document.getElementById('today-container');
-                if (!cont.innerHTML.trim()) {
-                    cont.innerHTML = cachedHtml;
-                }
+                if (!cont.innerHTML.trim()) cont.innerHTML = cachedHtml;
             }
 
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             
             setTimeout(() => {
                 firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
-            }, 100);
+            }, 50);
 
             let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
             let archiveInput = document.getElementById('archiveDateSelect');
@@ -857,6 +828,7 @@
         }
         window.addEventListener('load', enableScreenKeepAlive);
 
+        // Fast Dynamic CSS Filtering without DOM Redraw
         function switchSeries(series) {
             currentSeriesFilter = series;
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -864,20 +836,28 @@
             if (tb) tb.classList.add('active');
 
             let cont = document.getElementById('archive-container').style.display === 'block' ? document.getElementById('archive-container') : document.getElementById('todayMainSection');
-            cont.querySelectorAll('.result-block').forEach(blk => {
+            let blocks = cont.querySelectorAll('.result-block');
+            
+            for (let i = 0; i < blocks.length; i++) {
+                let blk = blocks[i];
                 let hasVis = false;
-                allSeriesBases.forEach(b => {
+                for (let j = 0; j < allSeriesBases.length; j++) {
+                    let b = allSeriesBases[j];
                     let sSec = blk.querySelector('.series-' + b);
                     if (sSec) {
-                        if (series === 'all' || series === String(b)) { sSec.style.display = 'grid'; hasVis = true; }
-                        else { sSec.style.display = 'none'; }
+                        if (series === 'all' || series === String(b)) {
+                            sSec.style.display = 'grid'; 
+                            hasVis = true;
+                        } else {
+                            sSec.style.display = 'none';
+                        }
                     }
-                });
+                }
                 blk.style.display = hasVis ? 'block' : 'none';
-            });
+            }
         }
 
-        // Strong FNV-1a Hashing for Mixed Unpredictable Numbers
+        // Strong FNV-1a Hashing
         function getSeededIndex(seedString, maxLimit) {
             let hash = 2166136261;
             for (let i = 0; i < seedString.length; i++) {
@@ -924,9 +904,7 @@
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 
                 blockRef.once('value').then(existingSnap => {
-                    if (existingSnap.exists() && !customTime) {
-                        return;
-                    }
+                    if (existingSnap.exists() && !customTime) return;
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     allSeriesBases.forEach(baseVal => {
@@ -996,19 +974,7 @@
                     });
                     
                     if (html) {
-                        let tmp = document.createElement('div'); tmp.innerHTML = html;
-                        tmp.querySelectorAll('.result-block').forEach(blk => {
-                            let th = blk.querySelector('.time-header');
-                            if (th) {
-                                let prev = th.previousElementSibling;
-                                while (prev) { let t = prev; prev = prev.previousElementSibling; t.remove(); }
-                                let node = th.previousSibling;
-                                while (node) { let t = node; node = node.previousSibling; if (t.nodeType === Node.TEXT_NODE) t.remove(); }
-                                
-                                th.innerHTML = th.getAttribute('data-time') || th.innerText;
-                            }
-                        });
-                        archiveCont.innerHTML = tmp.innerHTML;
+                        archiveCont.innerHTML = html;
                         switchSeries(currentSeriesFilter);
                         return;
                     }
@@ -1024,7 +990,7 @@
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
-                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(400).once('value').then(snap => {
+                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(120).once('value').then(snap => {
                         processSnapshotData(snap);
                         icon.classList.remove('spinning');
                     });
@@ -1032,9 +998,10 @@
                     loadArchiveDate(archiveVal);
                     icon.classList.remove('spinning');
                 }
-            }, 400);
+            }, 250);
         }
 
+        // Optimized Data Rendering Logic for Slow Networks
         function processSnapshotData(snapshot) {
             let todayContainer = document.getElementById('today-container');
             let blocksObj = snapshot.exists() ? snapshot.val() : {};
@@ -1064,20 +1031,10 @@
                 let blockData = blocksObj[k];
                 let rawHtml = blockData?.html || blockData?.htmlBlock;
                 if (rawHtml) {
-                    let tmp = document.createElement('div'); tmp.innerHTML = rawHtml;
-                    
-                    let th = tmp.querySelector('.time-header');
-                    if (th) {
-                        let prev = th.previousElementSibling;
-                        while (prev) { let t = prev; prev = prev.previousElementSibling; t.remove(); }
-                        let node = th.previousSibling;
-                        while (node) { let t = node; node = node.previousSibling; if (t.nodeType === Node.TEXT_NODE) t.remove(); }
-
-                        let tText = th.innerText.trim();
-                        th.setAttribute('data-time', tText);
-                        th.innerHTML = idx === 0 ? `<span class="live-dot"></span>${tText}` : tText;
+                    if (idx === 0) {
+                        rawHtml = rawHtml.replace(/<div class="time-header" data-time="([^"]+)">([^<]+)<\/div>/, '<div class="time-header" data-time="$1"><span class="live-dot"></span>$2</div>');
                     }
-                    htmlContent += tmp.innerHTML;
+                    htmlContent += rawHtml;
                 }
             });
 
@@ -1096,7 +1053,8 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(400).on('value', snapshot => {
+            // Fetch only last 120 slots to save mobile data / MB bandwidth
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(120).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
@@ -1138,10 +1096,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.5-deletefix</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.6-fast</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.5-deletefix</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.6-fast</div>`;
                 }
             }, 1000);
         }
