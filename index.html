@@ -74,8 +74,7 @@
         .live-badge.closed-static { color: #555555; background: rgba(0, 0, 0, 0.05); border: 1px solid #888888; padding: 1px 5px; border-radius: 3px; display: flex; align-items: center; gap: 3px; text-transform: uppercase; font-weight: 800; }
         .draws-counter { color: #2b1f02 !important; -webkit-text-fill-color: #2b1f02 !important; font-weight: 900; letter-spacing: 0.5px; }
 
-        .timer-box { text-align: center; color: var(--gold-primary) !important; font-size: 0.62em; font-weight: 800; background: #000000 !important; padding: 2px 4px; border-bottom: 1px solid rgba(184, 151, 62, 0.3); letter-spacing: 0.8px; width: 100%; position: relative; }
-        .banner-version-tag { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 0.55em; font-weight: 700; color: var(--gold-light); background: #030508; border: 1px solid rgba(184, 151, 62, 0.4); padding: 0px 4px; border-radius: 3px; z-index: 10; }
+        .timer-box { text-align: center; color: var(--gold-primary) !important; font-size: 0.62em; font-weight: 800; background: #000000 !important; padding: 3px 4px; border-bottom: 1px solid rgba(184, 151, 62, 0.3); letter-spacing: 0.8px; width: 100%; }
 
         .series-tabs-wrapper { background: transparent; display: flex; flex-direction: column; width: 100%; padding: 3px 6px; border-bottom: 1px solid rgba(184, 151, 62, 0.25); }
         .top-center-all { display: flex; justify-content: center; margin-bottom: 2.5px; width: 100%; }
@@ -157,7 +156,6 @@
 
         <div class="timer-box" id="timer">
             MARKET OPENS AT 09:00 AM
-            <div class="banner-version-tag">v1.3.3-fix</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -370,7 +368,6 @@
             let cachedDate = localStorage.getItem('canvas_cache_date');
             let cachedHtml = localStorage.getItem('canvas_cached_today_results');
 
-            // Strictly check if cached HTML belongs to today before rendering to prevent morning flicker
             if (cachedHtml && cachedDate === todayStr) {
                 let cont = document.getElementById('today-container');
                 if (!cont.innerHTML.trim() || cont.innerHTML.includes("MARKET OPENS")) {
@@ -492,6 +489,7 @@
                     
                     let slotDate = new Date(now);
                     slotDate.setMinutes(m, 0, 0);
+                    timeString = slotDate.toLocaleTimeString('en-T', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true });
                     timeString = slotDate.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true });
                 }
 
@@ -693,13 +691,13 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.3.3-fix</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s`;
                 } else if (currentHour < 9) {
                     badge.className = "live-badge closed-static"; dot.style.display = "none";
-                    timer.innerHTML = `MARKET OPENS AT 09:00 AM<div class="banner-version-tag">v1.3.3-fix</div>`;
+                    timer.innerHTML = `MARKET OPENS AT 09:00 AM`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.3.3-fix</div>`;
+                    timer.innerHTML = `MARKET CLOSED`;
                 }
             }, 1000);
         }
