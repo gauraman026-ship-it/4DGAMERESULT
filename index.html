@@ -156,8 +156,8 @@
         </div>
 
         <div class="timer-box" id="timer">
-            SYNCHRONIZING...
-            <div class="banner-version-tag">v1.3.1-30days</div>
+            MARKET OPENS AT 09:00 AM
+            <div class="banner-version-tag">v1.3.3-fix</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -204,7 +204,9 @@
     <div class="main-scroll-viewport">
         <div id="archive-container" style="display: none;"></div>
         <div id="todayMainSection" style="display: block;">
-            <div id="today-container"></div>
+            <div id="today-container">
+                <div style="text-align:center; color:var(--text-muted); padding:20px; font-weight:800;">MARKET OPENS AT 09:00 AM</div>
+            </div>
         </div>
 
         <footer class="site-footer">
@@ -364,10 +366,16 @@
         };
 
         document.addEventListener("DOMContentLoaded", () => {
+            let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+            let cachedDate = localStorage.getItem('canvas_cache_date');
             let cachedHtml = localStorage.getItem('canvas_cached_today_results');
-            if (cachedHtml) {
+
+            // Strictly check if cached HTML belongs to today before rendering to prevent morning flicker
+            if (cachedHtml && cachedDate === todayStr) {
                 let cont = document.getElementById('today-container');
-                if (!cont.innerHTML.trim()) cont.innerHTML = cachedHtml;
+                if (!cont.innerHTML.trim() || cont.innerHTML.includes("MARKET OPENS")) {
+                    cont.innerHTML = cachedHtml;
+                }
             }
 
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -376,11 +384,9 @@
                 firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
             }, 50);
 
-            let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
             let archiveInput = document.getElementById('archiveDateSelect');
             archiveInput.value = todayStr;
             
-            // Limit calendar picker selection strictly to past 30 days
             let minDate = new Date();
             minDate.setDate(minDate.getDate() - 30);
             archiveInput.min = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(minDate);
@@ -389,11 +395,9 @@
             updateDateDisplayLabel(todayStr);
             initApp();
             
-            // Run automatic cleanup check on load
             setTimeout(cleanupOldResultsFromFirebase, 3000);
         });
 
-        // Function to automatically purge Firebase records older than 30 days
         function cleanupOldResultsFromFirebase() {
             const db = firebase.database();
             let thirtyDaysAgo = getISTDate().getTime() - (30 * 24 * 60 * 60 * 1000);
@@ -402,7 +406,7 @@
                 if (snapshot.exists()) {
                     let updates = {};
                     snapshot.forEach(childSnap => {
-                        updates[childSnap.key] = null; // Setting to null deletes the entry in Firebase
+                        updates[childSnap.key] = null;
                     });
                     db.ref('resultsData/blocks').update(updates).catch(() => {});
                 }
@@ -630,12 +634,14 @@
                 }
             });
 
-            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:20px;font-weight:800;'>MARKET OPENS AT 09:00 AM</div>";
             
             if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
                 todayContainer.innerHTML = finalHtml;
                 if (htmlContent) {
+                    let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                     localStorage.setItem('canvas_cached_today_results', htmlContent);
+                    localStorage.setItem('canvas_cache_date', todayStr);
                 }
                 switchSeries(currentSeriesFilter);
             }
@@ -687,10 +693,13 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.3.1-30days</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.3.3-fix</div>`;
+                } else if (currentHour < 9) {
+                    badge.className = "live-badge closed-static"; dot.style.display = "none";
+                    timer.innerHTML = `MARKET OPENS AT 09:00 AM<div class="banner-version-tag">v1.3.3-fix</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.3.1-30days</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.3.3-fix</div>`;
                 }
             }, 1000);
         }
