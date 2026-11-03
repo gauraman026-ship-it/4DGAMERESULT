@@ -787,7 +787,7 @@
             projectId: "canvas2d-result" 
         };
 
-        // 30 Din Purana Data Delete Logic
+        // 30 Din Purana Data Auto-Delete
         function cleanOldResultsFromFirebase() {
             let dbRef = firebase.database().ref('resultsData/blocks');
             let thirtyDaysInMillis = 30 * 24 * 60 * 60 * 1000;
@@ -798,15 +798,14 @@
                 let updates = {};
                 snapshot.forEach(child => {
                     let data = child.val();
-                    if (data.timestamp && (nowTime - data.timestamp) > thirtyDaysInMillis) {
+                    if (data && data.timestamp && (nowTime - data.timestamp) > thirtyDaysInMillis) {
                         updates[child.key] = null;
                     }
                 });
-                dbRef.update(updates);
+                if(Object.keys(updates).length > 0) dbRef.update(updates);
             });
         }
 
-        // Cache hata diya hai taaki hamesha fresh data load ho
         document.addEventListener("DOMContentLoaded", () => {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             
@@ -830,7 +829,6 @@
             initApp();
         });
 
-        // Tab Visibility Sync
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === 'visible') {
                 manualRefreshResults();
@@ -858,7 +856,6 @@
             }, 30000);
         });
 
-        // Fast Dynamic CSS Filtering without DOM Redraw
         function switchSeries(series) {
             currentSeriesFilter = series;
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -887,7 +884,6 @@
             }
         }
 
-        // Strong FNV-1a Hashing
         function getSeededIndex(seedString, maxLimit) {
             let hash = 2166136261;
             for (let i = 0; i < seedString.length; i++) {
@@ -985,7 +981,11 @@
             
             firebase.database().ref('resultsData/blocks').once('value').then(snap => {
                 if (snap.exists()) {
-                    let blocks = snap.val(), html = "";
+                    let blocks = snap.val();
+                    let fragment = document.createDocumentFragment();
+                    let tempDiv = document.createElement('div');
+                    let htmlContent = "";
+
                     Object.keys(blocks).filter(k => {
                         let matchDate = (k.startsWith(String(dNum) + "_") || k.startsWith(String(dNum).padStart(2, '0') + "_")) && k.includes(mn) && k.includes(y);
                         if (!matchDate) return false;
@@ -1000,11 +1000,16 @@
                         return ((parseInt(pb[pb.length-2],10)||0)*60 + (parseInt(pb[pb.length-1],10)||0)) - ((parseInt(pa[pa.length-2],10)||0)*60 + (parseInt(pa[pa.length-1],10)||0));
                     }).forEach(k => { 
                         let blockData = blocks[k];
-                        html += blockData.html || blockData.htmlBlock || ""; 
+                        htmlContent += blockData.html || blockData.htmlBlock || ""; 
                     });
                     
-                    if (html) {
-                        archiveCont.innerHTML = html;
+                    if (htmlContent) {
+                        tempDiv.innerHTML = htmlContent;
+                        while (tempDiv.firstChild) {
+                            fragment.appendChild(tempDiv.firstChild);
+                        }
+                        archiveCont.innerHTML = "";
+                        archiveCont.appendChild(fragment);
                         switchSeries(currentSeriesFilter);
                         return;
                     }
@@ -1015,23 +1020,23 @@
 
         function manualRefreshResults() {
             let icon = document.getElementById('refreshIcon');
-            icon.classList.add('spinning');
+            if(icon) icon.classList.add('spinning');
             setTimeout(() => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
                     firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(120).once('value').then(snap => {
                         processSnapshotData(snap);
-                        icon.classList.remove('spinning');
+                        if(icon) icon.classList.remove('spinning');
                     });
                 } else {
                     loadArchiveDate(archiveVal);
-                    icon.classList.remove('spinning');
+                    if(icon) icon.classList.remove('spinning');
                 }
             }, 250);
         }
 
-        // Optimized Data Rendering Logic for Slow Networks
+        let lastRenderedHtml = "";
         function processSnapshotData(snapshot) {
             let todayContainer = document.getElementById('today-container');
             let blocksObj = snapshot.exists() ? snapshot.val() : {};
@@ -1068,10 +1073,18 @@
                 }
             });
 
-            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;font-weight:800;letter-spacing:1px;'>MARKET OPEN AT 09:00 AM</div>";
             
-            if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
-                todayContainer.innerHTML = finalHtml;
+            if (lastRenderedHtml !== finalHtml) {
+                lastRenderedHtml = finalHtml;
+                let tempDiv = document.createElement('div');
+                tempDiv.innerHTML = finalHtml;
+                let fragment = document.createDocumentFragment();
+                while (tempDiv.firstChild) {
+                    fragment.appendChild(tempDiv.firstChild);
+                }
+                todayContainer.innerHTML = "";
+                todayContainer.appendChild(fragment);
                 switchSeries(currentSeriesFilter);
             }
         }
@@ -1119,12 +1132,12 @@
                 let isActiveNow = (currentHour > 9 || (currentHour === 9 && currentMin >= 0)) && (currentHour < 22 || (currentHour === 22 && currentMin <= 0));
 
                 if (isActiveNow) {
-                    badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
+                    badge.className = "live-badge active-blink"; if(dot) dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
                     timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.6-fast</div>`;
                 } else {
-                    badge.className = "live-badge closed-static"; dot.style.display = "none"; 
+                    badge.className = "live-badge closed-static"; if(dot) dot.style.display = "none"; 
                     timer.innerHTML = `MARKET OPEN AT 09:00 AM<div class="banner-version-tag">v1.2.6-fast</div>`;
                 }
             }, 1000);
