@@ -787,18 +787,34 @@
             projectId: "canvas2d-result" 
         };
 
-        // Instant Cache Fast Load (Slow 4G Optimization)
-        document.addEventListener("DOMContentLoaded", () => {
-            let cachedHtml = localStorage.getItem('canvas_cached_today_results');
-            if (cachedHtml) {
-                let cont = document.getElementById('today-container');
-                if (!cont.innerHTML.trim()) cont.innerHTML = cachedHtml;
-            }
+        // 30 Din Purana Data Delete Logic
+        function cleanOldResultsFromFirebase() {
+            let dbRef = firebase.database().ref('resultsData/blocks');
+            let thirtyDaysInMillis = 30 * 24 * 60 * 60 * 1000;
+            let nowTime = getISTDate().getTime();
 
+            dbRef.once('value').then(snapshot => {
+                if (!snapshot.exists()) return;
+                let updates = {};
+                snapshot.forEach(child => {
+                    let data = child.val();
+                    if (data.timestamp && (nowTime - data.timestamp) > thirtyDaysInMillis) {
+                        updates[child.key] = null;
+                    }
+                });
+                dbRef.update(updates);
+            });
+        }
+
+        // Cache hata diya hai taaki hamesha fresh data load ho
+        document.addEventListener("DOMContentLoaded", () => {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             
             setTimeout(() => {
-                firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
+                firebase.database().ref(".info/serverTimeOffset").on("value", s => { 
+                    serverTimeOffset = s.val() || 0; 
+                    cleanOldResultsFromFirebase();
+                });
             }, 50);
 
             let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
@@ -806,7 +822,7 @@
             archiveInput.value = todayStr;
             
             let minDate = new Date();
-            minDate.setDate(minDate.getDate() - 7);
+            minDate.setDate(minDate.getDate() - 30);
             archiveInput.min = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(minDate);
             archiveInput.max = todayStr;
 
@@ -1056,9 +1072,6 @@
             
             if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
                 todayContainer.innerHTML = finalHtml;
-                if (htmlContent) {
-                    localStorage.setItem('canvas_cached_today_results', htmlContent);
-                }
                 switchSeries(currentSeriesFilter);
             }
         }
@@ -1112,7 +1125,6 @@
                     timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.6-fast</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    // 10:00 PM ke baad market closed hone par "MARKET OPEN AT 09:00 AM" dikhega
                     timer.innerHTML = `MARKET OPEN AT 09:00 AM<div class="banner-version-tag">v1.2.6-fast</div>`;
                 }
             }, 1000);
