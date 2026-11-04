@@ -12,7 +12,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
     <style>
         :root {
@@ -33,7 +32,7 @@
             width: 100%; height: 100%; overflow: hidden;
             background: var(--bg-deep); color: var(--text-main);
             font-family: system-ui, -apple-system, sans-serif;
-            display: flex; flex-direction: column; contain: content;
+            display: flex; flex-direction: column;
         }
 
         .sticky-top-section {
@@ -41,6 +40,7 @@
             background: linear-gradient(135deg, #f5efe6 0%, #e2d9c4 50%, #d4cbaf 100%);
             z-index: 1000; width: 100%; border-bottom: 1.5px solid #b8973e;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); will-change: transform;
+            transform: translateZ(0);
         }
 
         .header-container { background: transparent !important; text-align: center; padding: 4px 4px; position: relative; width: 100%; }
@@ -81,7 +81,7 @@
         .top-center-all { display: flex; justify-content: center; margin-bottom: 2.5px; width: 100%; }
         .top-center-all .tab-btn { width: 100%; max-width: 150px; padding: 4px 2px; font-size: 0.62em; letter-spacing: 0.5px; }
         .series-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; width: 100%; }
-        .tab-btn { background: rgba(255, 255, 255, 0.65); border: 1px solid #b8973e; color: #2b1f02; padding: 4px 1px; text-align: center; font-weight: 800; font-size: 0.6em; border-radius: 3px; cursor: pointer; text-transform: uppercase; white-space: nowrap; width: 100%; transition: transform 0.1s linear, background 0.15s ease; user-select: none; }
+        .tab-btn { background: rgba(255, 255, 255, 0.65); border: 1px solid #b8973e; color: #2b1f02; padding: 4px 1px; text-align: center; font-weight: 800; font-size: 0.6em; border-radius: 3px; cursor: pointer; text-transform: uppercase; white-space: nowrap; width: 100%; user-select: none; }
         .tab-btn.active { background: #2b1f02; color: #fff0b4; border-color: #653a08; font-weight: 900; }
 
         .sticky-date-wrapper { background: #040810; position: sticky; top: 0; z-index: 900; padding: 3px 8px; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 26px; border-top: 1px solid rgba(184, 151, 62, 0.4); border-bottom: 1px solid rgba(184, 151, 62, 0.4); }
@@ -102,7 +102,7 @@
 
         .main-scroll-viewport { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 4px; scrollbar-width: thin; width: 100%; -webkit-overflow-scrolling: touch; }
         
-        .result-block { border-bottom: 1.5px solid #116793; margin-bottom: 4px; background: var(--cream-bg); width: 100%; contain: content; }
+        .result-block { border-bottom: 1.5px solid #116793; margin-bottom: 4px; background: var(--cream-bg); width: 100%; content-visibility: auto; contain-intrinsic-size: 150px; }
         
         .time-header { font-weight: 800; display: flex; align-items: center; justify-content: center !important; background: #116793 !important; color: #ffffff !important; padding: 4px 6px !important; font-size: 0.72em !important; letter-spacing: 1px; border-bottom: 1px solid #0c4d6f; width: 100%; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25); }
 
@@ -364,12 +364,6 @@
         };
 
         document.addEventListener("DOMContentLoaded", () => {
-            let cachedHtml = localStorage.getItem('canvas_cached_today_results');
-            if (cachedHtml) {
-                let cont = document.getElementById('today-container');
-                if (!cont.innerHTML.trim()) cont.innerHTML = cachedHtml;
-            }
-
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             
             setTimeout(() => {
@@ -496,10 +490,10 @@
                 blockRef.once('value').then(existingSnap => {
                     if (existingSnap.exists() && !customTime) return;
 
-                    let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
+                    let numbersData = {};
                     allSeriesBases.forEach(baseVal => {
                         let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
-                        newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
+                        let sNums = [];
                         for(let i=0; i<10; i++) {
                             let prefix = String(baseVal + i).padStart(2, '0'), val;
                             let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
@@ -521,17 +515,43 @@
                                 val = prefix + valid[chosenIndex];
                             }
                             if (val.length < 4) val = val.padEnd(4, '0');
-                            let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
-                            let sc = p2[0] === p2[1] ? "var(--accent-red)" : "#1a1a1a";
-                            newBlock += `<div class="cell"><span style="color:#1a1a1a;font-weight:800;">${p1}</span><span style="color:${sc};font-weight:800;">${p2}</span></div>`;
+                            sNums.push(val);
                         }
-                        newBlock += `</div></div>`;
+                        numbersData['s_' + baseVal] = sNums;
                     });
-                    newBlock += `</div>`;
                     
-                    blockRef.set({ html: newBlock, timestamp: now.getTime() });
+                    blockRef.set({ timeString: timeString, data: numbersData, timestamp: now.getTime() });
                 });
             });
+        }
+
+        function renderBlockHTML(timeKey, blockData, isFirst = false) {
+            let timeString = blockData.timeString || "";
+            let numbers = blockData.data || {};
+            
+            if (blockData.html || blockData.htmlBlock) {
+                let raw = blockData.html || blockData.htmlBlock;
+                if (isFirst) {
+                    raw = raw.replace(/<div class="time-header" data-time="([^"]+)">([^<]+)<\/div>/, '<div class="time-header" data-time="$1"><span class="live-dot"></span>$2</div>');
+                }
+                return raw;
+            }
+
+            let liveDotHtml = isFirst ? '<span class="live-dot"></span>' : '';
+            let html = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${liveDotHtml}${timeString}</div>`;
+            
+            allSeriesBases.forEach(baseVal => {
+                let nums = numbers['s_' + baseVal] || [];
+                html += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
+                nums.forEach(val => {
+                    let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
+                    let sc = p2[0] === p2[1] ? "var(--accent-red)" : "#1a1a1a";
+                    html += `<div class="cell"><span style="color:#1a1a1a;font-weight:800;">${p1}</span><span style="color:${sc};font-weight:800;">${p2}</span></div>`;
+                });
+                html += `</div></div>`;
+            });
+            html += `</div>`;
+            return html;
         }
 
         function loadArchiveDate(dateVal) {
@@ -546,7 +566,7 @@
             firebase.database().ref('resultsData/blocks').once('value').then(snap => {
                 if (snap.exists()) {
                     let blocks = snap.val(), html = "";
-                    Object.keys(blocks).filter(k => {
+                    let keys = Object.keys(blocks).filter(k => {
                         let matchDate = (k.startsWith(String(dNum) + "_") || k.startsWith(String(dNum).padStart(2, '0') + "_")) && k.includes(mn) && k.includes(y);
                         if (!matchDate) return false;
                         
@@ -558,9 +578,10 @@
                     }).sort((a,b) => {
                         let pa = a.split('_'), pb = b.split('_');
                         return ((parseInt(pb[pb.length-2],10)||0)*60 + (parseInt(pb[pb.length-1],10)||0)) - ((parseInt(pa[pa.length-2],10)||0)*60 + (parseInt(pa[pa.length-1],10)||0));
-                    }).forEach(k => { 
-                        let blockData = blocks[k];
-                        html += blockData.html || blockData.htmlBlock || ""; 
+                    });
+                    
+                    keys.forEach((k, idx) => { 
+                        html += renderBlockHTML(k, blocks[k], idx === 0); 
                     });
                     
                     if (html) {
@@ -580,10 +601,10 @@
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
-                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(40).once('value').then(snap => {
+                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(53).once('value').then(snap => {
                         processSnapshotData(snap);
                         icon.classList.remove('spinning');
-                    });
+                    }).catch(() => { icon.classList.remove('spinning'); });
                 } else {
                     loadArchiveDate(archiveVal);
                     icon.classList.remove('spinning');
@@ -617,23 +638,14 @@
 
             let htmlContent = "";
             keys.forEach((k, idx) => {
-                let blockData = blocksObj[k];
-                let rawHtml = blockData?.html || blockData?.htmlBlock;
-                if (rawHtml) {
-                    if (idx === 0) {
-                        rawHtml = rawHtml.replace(/<div class="time-header" data-time="([^"]+)">([^<]+)<\/div>/, '<div class="time-header" data-time="$1"><span class="live-dot"></span>$2</div>');
-                    }
-                    htmlContent += rawHtml;
-                }
+                htmlContent += renderBlockHTML(k, blocksObj[k], idx === 0);
             });
 
-            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            // UPDATED: Ab result panel mein "MARKET OPENS AT 09:00 AM" show karega
+            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--gold-light);padding:25px;font-weight:800;font-size:0.85em;letter-spacing:1px;'>⏳ MARKET OPENS AT 09:00 AM</div>";
             
             if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
                 todayContainer.innerHTML = finalHtml;
-                if (htmlContent) {
-                    localStorage.setItem('canvas_cached_today_results', htmlContent);
-                }
                 switchSeries(currentSeriesFilter);
             }
         }
@@ -642,7 +654,7 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(40).on('value', snapshot => {
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(53).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
