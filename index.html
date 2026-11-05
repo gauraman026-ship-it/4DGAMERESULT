@@ -80,7 +80,7 @@
         .series-tabs-wrapper { background: transparent; display: flex; flex-direction: column; width: 100%; padding: 3px 6px; border-bottom: 1px solid rgba(184, 151, 62, 0.25); }
         .top-center-all { display: flex; justify-content: center; margin-bottom: 2.5px; width: 100%; }
         .top-center-all .tab-btn { width: 100%; max-width: 150px; padding: 4px 2px; font-size: 0.62em; letter-spacing: 0.5px; }
-        .series-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; width: 100%; }
+        .series-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; width: 100%; }
         .tab-btn { background: rgba(255, 255, 255, 0.65); border: 1px solid #b8973e; color: #2b1f02; padding: 4px 1px; text-align: center; font-weight: 800; font-size: 0.6em; border-radius: 3px; cursor: pointer; text-transform: uppercase; white-space: nowrap; width: 100%; user-select: none; }
         .tab-btn.active { background: #2b1f02; color: #fff0b4; border-color: #653a08; font-weight: 900; }
 
@@ -157,24 +157,17 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING...
-            <div class="banner-version-tag">v1.3.1-30days</div>
+            <div class="banner-version-tag">VERSION.8.0</div>
         </div>
 
         <div class="series-tabs-wrapper">
             <div class="top-center-all">
-                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All (00 - 99)</div>
+                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Charts</div>
             </div>
             <div class="series-tabs">
-                <div class="tab-btn" id="tab-0" onclick="switchSeries('0')">00-09</div>
                 <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10-19</div>
-                <div class="tab-btn" id="tab-20" onclick="switchSeries('20')">20-29</div>
                 <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30-39</div>
-                <div class="tab-btn" id="tab-40" onclick="switchSeries('40')">40-49</div>
                 <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50-59</div>
-                <div class="tab-btn" id="tab-60" onclick="switchSeries('60')">60-69</div>
-                <div class="tab-btn" id="tab-70" onclick="switchSeries('70')">70-79</div>
-                <div class="tab-btn" id="tab-80" onclick="switchSeries('80')">80-89</div>
-                <div class="tab-btn" id="tab-90" onclick="switchSeries('90')">90-99</div>
             </div>
         </div>
 
@@ -230,9 +223,9 @@
                 <p>Series:</p>
                 <select id="adminSeriesSelect" class="admin-input" onchange="loadAdminSeriesData()">
                     <option value="all">Global (All)</option>
-                    <option value="0">00 - 09</option><option value="10">10 - 19</option><option value="20">20 - 29</option>
-                    <option value="30">30 - 39</option><option value="40">40 - 49</option><option value="50">50 - 59</option>
-                    <option value="60">60 - 69</option><option value="70">70 - 79</option><option value="80">80 - 89</option><option value="90">90 - 99</option>
+                    <option value="10">10 - 19</option>
+                    <option value="30">30 - 39</option>
+                    <option value="50">50 - 59</option>
                 </select>
                 <p>Fix Number:</p>
                 <input type="text" id="adminFixInput" class="admin-input">
@@ -401,7 +394,7 @@
         }
 
         let currentSeriesFilter = 'all';
-        const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+        const allSeriesBases = [10, 30, 50];
         let globalSettingsData = {};
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -495,7 +488,8 @@
                         let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
                         let sNums = [];
                         for(let i=0; i<10; i++) {
-                            let prefix = String(baseVal + i).padStart(2, '0'), val;
+                            let seriesVal = baseVal + i;
+                            let prefix = String(seriesVal).padStart(2, '0'), val;
                             let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
                             if (matchedFix) {
                                 val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
@@ -510,7 +504,7 @@
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
                                 
-                                let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + baseVal + "_cell_" + i + "_mix_" + (Math.sin(i + 1) * 10000);
+                                let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + seriesVal + "_cell_" + i + "_mix_" + (Math.sin(i + 1) * 10000);
                                 let chosenIndex = getSeededIndex(seedKey, valid.length);
                                 val = prefix + valid[chosenIndex];
                             }
@@ -527,21 +521,32 @@
 
         function renderBlockHTML(timeKey, blockData, isFirst = false) {
             let timeString = blockData.timeString || "";
-            let numbers = blockData.data || {};
-            
-            if (blockData.html || blockData.htmlBlock) {
-                let raw = blockData.html || blockData.htmlBlock;
-                if (isFirst) {
-                    raw = raw.replace(/<div class="time-header" data-time="([^"]+)">([^<]+)<\/div>/, '<div class="time-header" data-time="$1"><span class="live-dot"></span>$2</div>');
+            if (!timeString) {
+                let parts = timeKey.split('_');
+                if (parts.length >= 3) {
+                    let h = parseInt(parts[parts.length - 2], 10);
+                    let m = parseInt(parts[parts.length - 1], 10);
+                    let d = new Date(); d.setHours(h, m, 0);
+                    timeString = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                } else {
+                    timeString = "09:00 AM";
                 }
-                return raw;
             }
 
+            let numbers = blockData.data || {};
             let liveDotHtml = isFirst ? '<span class="live-dot"></span>' : '';
             let html = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${liveDotHtml}${timeString}</div>`;
             
             allSeriesBases.forEach(baseVal => {
-                let nums = numbers['s_' + baseVal] || [];
+                let nums = numbers['s_' + baseVal];
+                if (!nums || nums.length === 0) {
+                    nums = [];
+                    for(let i=0; i<10; i++) {
+                        let prefix = String(baseVal + i).padStart(2, '0');
+                        nums.push(prefix + "20");
+                    }
+                }
+
                 html += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                 nums.forEach(val => {
                     let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
@@ -641,7 +646,6 @@
                 htmlContent += renderBlockHTML(k, blocksObj[k], idx === 0);
             });
 
-            // UPDATED: Ab result panel mein "MARKET OPENS AT 09:00 AM" show karega
             let finalHtml = htmlContent || "<div style='text-align:center;color:var(--gold-light);padding:25px;font-weight:800;font-size:0.85em;letter-spacing:1px;'>⏳ MARKET OPENS AT 09:00 AM</div>";
             
             if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
@@ -696,10 +700,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.3.1-30days</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">VERSION.8.0</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.3.1-30days</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">VERSION.8.0</div>`;
                 }
             }, 1000);
         }
