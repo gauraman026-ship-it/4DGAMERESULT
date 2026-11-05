@@ -12,6 +12,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js" defer></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
     <style>
         :root {
@@ -32,7 +33,7 @@
             width: 100%; height: 100%; overflow: hidden;
             background: var(--bg-deep); color: var(--text-main);
             font-family: system-ui, -apple-system, sans-serif;
-            display: flex; flex-direction: column;
+            display: flex; flex-direction: column; contain: content;
         }
 
         .sticky-top-section {
@@ -40,7 +41,6 @@
             background: linear-gradient(135deg, #f5efe6 0%, #e2d9c4 50%, #d4cbaf 100%);
             z-index: 1000; width: 100%; border-bottom: 1.5px solid #b8973e;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); will-change: transform;
-            transform: translateZ(0);
         }
 
         .header-container { background: transparent !important; text-align: center; padding: 4px 4px; position: relative; width: 100%; }
@@ -80,8 +80,8 @@
         .series-tabs-wrapper { background: transparent; display: flex; flex-direction: column; width: 100%; padding: 3px 6px; border-bottom: 1px solid rgba(184, 151, 62, 0.25); }
         .top-center-all { display: flex; justify-content: center; margin-bottom: 2.5px; width: 100%; }
         .top-center-all .tab-btn { width: 100%; max-width: 150px; padding: 4px 2px; font-size: 0.62em; letter-spacing: 0.5px; }
-        .series-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; width: 100%; }
-        .tab-btn { background: rgba(255, 255, 255, 0.65); border: 1px solid #b8973e; color: #2b1f02; padding: 4px 1px; text-align: center; font-weight: 800; font-size: 0.6em; border-radius: 3px; cursor: pointer; text-transform: uppercase; white-space: nowrap; width: 100%; user-select: none; }
+        .series-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; width: 100%; }
+        .tab-btn { background: rgba(255, 255, 255, 0.65); border: 1px solid #b8973e; color: #2b1f02; padding: 4px 1px; text-align: center; font-weight: 800; font-size: 0.6em; border-radius: 3px; cursor: pointer; text-transform: uppercase; white-space: nowrap; width: 100%; transition: transform 0.1s linear, background 0.15s ease; user-select: none; }
         .tab-btn.active { background: #2b1f02; color: #fff0b4; border-color: #653a08; font-weight: 900; }
 
         .sticky-date-wrapper { background: #040810; position: sticky; top: 0; z-index: 900; padding: 3px 8px; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 26px; border-top: 1px solid rgba(184, 151, 62, 0.4); border-bottom: 1px solid rgba(184, 151, 62, 0.4); }
@@ -102,7 +102,7 @@
 
         .main-scroll-viewport { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 4px; scrollbar-width: thin; width: 100%; -webkit-overflow-scrolling: touch; }
         
-        .result-block { border-bottom: 1.5px solid #116793; margin-bottom: 4px; background: var(--cream-bg); width: 100%; content-visibility: auto; contain-intrinsic-size: 150px; }
+        .result-block { border-bottom: 1.5px solid #116793; margin-bottom: 4px; background: var(--cream-bg); width: 100%; contain: content; }
         
         .time-header { font-weight: 800; display: flex; align-items: center; justify-content: center !important; background: #116793 !important; color: #ffffff !important; padding: 4px 6px !important; font-size: 0.72em !important; letter-spacing: 1px; border-bottom: 1px solid #0c4d6f; width: 100%; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25); }
 
@@ -157,17 +157,24 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING...
-            <div class="banner-version-tag">VERSION.8.0</div>
+            <div class="banner-version-tag">v1.3.1-30days</div>
         </div>
 
         <div class="series-tabs-wrapper">
             <div class="top-center-all">
-                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All Charts</div>
+                <div class="tab-btn active" id="tab-all" onclick="switchSeries('all')">All (00 - 99)</div>
             </div>
             <div class="series-tabs">
+                <div class="tab-btn" id="tab-0" onclick="switchSeries('0')">00-09</div>
                 <div class="tab-btn" id="tab-10" onclick="switchSeries('10')">10-19</div>
+                <div class="tab-btn" id="tab-20" onclick="switchSeries('20')">20-29</div>
                 <div class="tab-btn" id="tab-30" onclick="switchSeries('30')">30-39</div>
+                <div class="tab-btn" id="tab-40" onclick="switchSeries('40')">40-49</div>
                 <div class="tab-btn" id="tab-50" onclick="switchSeries('50')">50-59</div>
+                <div class="tab-btn" id="tab-60" onclick="switchSeries('60')">60-69</div>
+                <div class="tab-btn" id="tab-70" onclick="switchSeries('70')">70-79</div>
+                <div class="tab-btn" id="tab-80" onclick="switchSeries('80')">80-89</div>
+                <div class="tab-btn" id="tab-90" onclick="switchSeries('90')">90-99</div>
             </div>
         </div>
 
@@ -223,9 +230,9 @@
                 <p>Series:</p>
                 <select id="adminSeriesSelect" class="admin-input" onchange="loadAdminSeriesData()">
                     <option value="all">Global (All)</option>
-                    <option value="10">10 - 19</option>
-                    <option value="30">30 - 39</option>
-                    <option value="50">50 - 59</option>
+                    <option value="0">00 - 09</option><option value="10">10 - 19</option><option value="20">20 - 29</option>
+                    <option value="30">30 - 39</option><option value="40">40 - 49</option><option value="50">50 - 59</option>
+                    <option value="60">60 - 69</option><option value="70">70 - 79</option><option value="80">80 - 89</option><option value="90">90 - 99</option>
                 </select>
                 <p>Fix Number:</p>
                 <input type="text" id="adminFixInput" class="admin-input">
@@ -357,6 +364,12 @@
         };
 
         document.addEventListener("DOMContentLoaded", () => {
+            let cachedHtml = localStorage.getItem('canvas_cached_today_results');
+            if (cachedHtml) {
+                let cont = document.getElementById('today-container');
+                if (!cont.innerHTML.trim()) cont.innerHTML = cachedHtml;
+            }
+
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             
             setTimeout(() => {
@@ -394,7 +407,7 @@
         }
 
         let currentSeriesFilter = 'all';
-        const allSeriesBases = [10, 30, 50];
+        const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
         let globalSettingsData = {};
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -474,16 +487,15 @@
                 blockRef.once('value').then(existingSnap => {
                     if (existingSnap.exists() && !customTime) return;
 
-                    let numbersData = {};
+                    let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     allSeriesBases.forEach(baseVal => {
                         let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
-                        let sNums = [];
+                        newBlock += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
                         for(let i=0; i<10; i++) {
-                            let seriesVal = baseVal + i;
-                            let prefix = String(seriesVal).padStart(2, '0'), val;
+                            let prefix = String(baseVal + i).padStart(2, '0'), val;
                             let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
                             if (matchedFix) {
-                                val = matchedFix.length >= 4 ? matchedFix : matchedFix + "96";
+                                val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
                             } else {
                                 let valid = [];
                                 for (let s = 0; s < 100; s++) {
@@ -493,74 +505,24 @@
                                         return clean.length >= 4 ? full === clean : suf === clean || full.slice(-2) === clean;
                                     })) valid.push(suf);
                                 }
+                                if (valid.length === 0) valid = ["20", "55", "77"];
                                 
-                                // TRUE RANDOM MIX POOL (Ensuring natural varying suffixes like the reference image)
-                                if (valid.length === 0) valid = ["96", "37", "00", "04", "68", "98", "96", "66", "05", "00"];
-                                
-                                // Completely independent pseudo-random index per cell
-                                let uniqueSeed = Math.random() * 1000000 + i * 99 + baseVal;
-                                let randomIndex = Math.floor(Math.abs(Math.sin(uniqueSeed)) * valid.length);
-                                if (randomIndex >= valid.length) randomIndex = 0;
-                                
+                                // FIXED: Replaced Math.sin fixed seed with Math.random() for true mix numbers on refresh/generation
+                                let randomIndex = Math.floor(Math.random() * valid.length);
                                 val = prefix + valid[randomIndex];
                             }
                             if (val.length < 4) val = val.padEnd(4, '0');
-                            sNums.push(val);
+                            let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
+                            let sc = p2[0] === p2[1] ? "var(--accent-red)" : "#1a1a1a";
+                            newBlock += `<div class="cell"><span style="color:#1a1a1a;font-weight:800;">${p1}</span><span style="color:${sc};font-weight:800;">${p2}</span></div>`;
                         }
-                        numbersData['s_' + baseVal] = sNums;
+                        newBlock += `</div></div>`;
                     });
+                    newBlock += `</div>`;
                     
-                    blockRef.set({ timeString: timeString, data: numbersData, timestamp: now.getTime() });
+                    blockRef.set({ html: newBlock, timestamp: now.getTime() });
                 });
             });
-        }
-
-        function renderBlockHTML(timeKey, blockData, isFirst = false) {
-            let timeString = blockData.timeString || "";
-            if (!timeString) {
-                let parts = timeKey.split('_');
-                if (parts.length >= 3) {
-                    let h = parseInt(parts[parts.length - 2], 10);
-                    let m = parseInt(parts[parts.length - 1], 10);
-                    let d = new Date(); d.setHours(h, m, 0);
-                    timeString = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-                } else {
-                    timeString = "09:00 AM";
-                }
-            }
-
-            let numbers = blockData.data || {};
-            let liveDotHtml = isFirst ? '<span class="live-dot"></span>' : '';
-            let html = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${liveDotHtml}${timeString}</div>`;
-            
-            allSeriesBases.forEach(baseVal => {
-                let nums = numbers['s_' + baseVal];
-                if (!nums || nums.length === 0) {
-                    nums = [];
-                    for(let i=0; i<10; i++) {
-                        let seriesVal = baseVal + i;
-                        let prefix = String(seriesVal).padStart(2, '0');
-                        nums.push(prefix + "96");
-                    }
-                }
-
-                html += `<div class="chart-table series-${baseVal}"><div class="row-grid">`;
-                nums.forEach(val => {
-                    let p1 = val.slice(0, 2), p2 = val.slice(2, 4);
-                    let sc = p2[0] === p2[1] ? "var(--accent-red)" : "#1a1a1a";
-                    html += `<div class="cell"><span style="color:#1a1a1a;font-weight:800;">${p1}</span><span style="color:${sc};font-weight:800;">${p2}</span></div>`;
-                });
-                html += `</div></div>`;
-            });
-            html += `</div>`;
-            return html;
-        }
-
-        function isExcludedDate(timestamp) {
-            if (!timestamp) return false;
-            let startExclude = new Date('2026-09-25T00:00:00+05:30').getTime();
-            let endExclude = new Date('2026-11-04T23:59:59+05:30').getTime();
-            return (timestamp >= startExclude && timestamp <= endExclude);
         }
 
         function loadArchiveDate(dateVal) {
@@ -575,10 +537,7 @@
             firebase.database().ref('resultsData/blocks').once('value').then(snap => {
                 if (snap.exists()) {
                     let blocks = snap.val(), html = "";
-                    let keys = Object.keys(blocks).filter(k => {
-                        let bData = blocks[k];
-                        if (isExcludedDate(bData.timestamp)) return false;
-
+                    Object.keys(blocks).filter(k => {
                         let matchDate = (k.startsWith(String(dNum) + "_") || k.startsWith(String(dNum).padStart(2, '0') + "_")) && k.includes(mn) && k.includes(y);
                         if (!matchDate) return false;
                         
@@ -590,10 +549,9 @@
                     }).sort((a,b) => {
                         let pa = a.split('_'), pb = b.split('_');
                         return ((parseInt(pb[pb.length-2],10)||0)*60 + (parseInt(pb[pb.length-1],10)||0)) - ((parseInt(pa[pa.length-2],10)||0)*60 + (parseInt(pa[pa.length-1],10)||0));
-                    });
-                    
-                    keys.forEach((k, idx) => { 
-                        html += renderBlockHTML(k, blocks[k], idx === 0); 
+                    }).forEach(k => { 
+                        let blockData = blocks[k];
+                        html += blockData.html || blockData.htmlBlock || ""; 
                     });
                     
                     if (html) {
@@ -613,10 +571,10 @@
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
-                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).once('value').then(snap => {
+                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(40).once('value').then(snap => {
                         processSnapshotData(snap);
                         icon.classList.remove('spinning');
-                    }).catch(() => { icon.classList.remove('spinning'); });
+                    });
                 } else {
                     loadArchiveDate(archiveVal);
                     icon.classList.remove('spinning');
@@ -629,9 +587,6 @@
             let blocksObj = snapshot.exists() ? snapshot.val() : {};
 
             let keys = Object.keys(blocksObj).filter(k => {
-                let bData = blocksObj[k];
-                if (isExcludedDate(bData.timestamp)) return false;
-
                 let n = getISTDate();
                 let isToday = (k.startsWith(n.getDate() + "_") || k.startsWith(String(n.getDate()).padStart(2, '0') + "_")) &&
                        k.includes(n.toLocaleString('en-GB', { month: 'short' })) && k.includes(n.getFullYear());
@@ -653,13 +608,23 @@
 
             let htmlContent = "";
             keys.forEach((k, idx) => {
-                htmlContent += renderBlockHTML(k, blocksObj[k], idx === 0);
+                let blockData = blocksObj[k];
+                let rawHtml = blockData?.html || blockData?.htmlBlock;
+                if (rawHtml) {
+                    if (idx === 0) {
+                        rawHtml = rawHtml.replace(/<div class="time-header" data-time="([^"]+)">([^<]+)<\/div>/, '<div class="time-header" data-time="$1"><span class="live-dot"></span>$2</div>');
+                    }
+                    htmlContent += rawHtml;
+                }
             });
 
-            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--gold-light);padding:25px;font-weight:800;font-size:0.85em;letter-spacing:1px;'>⏳ MARKET OPENS AT 09:00 AM</div>";
+            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
             
             if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
                 todayContainer.innerHTML = finalHtml;
+                if (htmlContent) {
+                    localStorage.setItem('canvas_cached_today_results', htmlContent);
+                }
                 switchSeries(currentSeriesFilter);
             }
         }
@@ -668,7 +633,7 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).on('value', snapshot => {
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(40).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
@@ -710,10 +675,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">VERSION.8.0</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.3.1-30days</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">VERSION.8.0</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.3.1-30days</div>`;
                 }
             }, 1000);
         }
