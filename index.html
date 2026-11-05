@@ -492,7 +492,7 @@
                             let prefix = String(seriesVal).padStart(2, '0'), val;
                             let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
                             if (matchedFix) {
-                                val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
+                                val = matchedFix.length >= 4 ? matchedFix : matchedFix + "89";
                             } else {
                                 let valid = [];
                                 for (let s = 0; s < 100; s++) {
@@ -502,9 +502,9 @@
                                         return clean.length >= 4 ? full === clean : suf === clean || full.slice(-2) === clean;
                                     })) valid.push(suf);
                                 }
-                                if (valid.length === 0) valid = ["20", "55", "77"];
+                                if (valid.length === 0) valid = ["11", "34", "67", "89", "45", "92", "23", "58"];
                                 
-                                let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + seriesVal + "_cell_" + i + "_mix_" + (Math.sin(i + 1) * 10000);
+                                let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + seriesVal + "_cell_" + i + "_mix_" + Math.random();
                                 let chosenIndex = getSeededIndex(seedKey, valid.length);
                                 val = prefix + valid[chosenIndex];
                             }
@@ -542,8 +542,9 @@
                 if (!nums || nums.length === 0) {
                     nums = [];
                     for(let i=0; i<10; i++) {
-                        let prefix = String(baseVal + i).padStart(2, '0');
-                        nums.push(prefix + "20");
+                        let seriesVal = baseVal + i;
+                        let prefix = String(seriesVal).padStart(2, '0');
+                        nums.push(prefix + "34");
                     }
                 }
 
@@ -559,6 +560,13 @@
             return html;
         }
 
+        function isExcludedDate(timestamp) {
+            if (!timestamp) return false;
+            let startExclude = new Date('2026-09-25T00:00:00+05:30').getTime();
+            let endExclude = new Date('2026-11-04T23:59:59+05:30').getTime();
+            return (timestamp >= startExclude && timestamp <= endExclude);
+        }
+
         function loadArchiveDate(dateVal) {
             let archiveCont = document.getElementById('archive-container');
             document.getElementById('todayMainSection').style.display = "none";
@@ -572,6 +580,9 @@
                 if (snap.exists()) {
                     let blocks = snap.val(), html = "";
                     let keys = Object.keys(blocks).filter(k => {
+                        let bData = blocks[k];
+                        if (isExcludedDate(bData.timestamp)) return false;
+
                         let matchDate = (k.startsWith(String(dNum) + "_") || k.startsWith(String(dNum).padStart(2, '0') + "_")) && k.includes(mn) && k.includes(y);
                         if (!matchDate) return false;
                         
@@ -606,7 +617,7 @@
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
-                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(53).once('value').then(snap => {
+                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).once('value').then(snap => {
                         processSnapshotData(snap);
                         icon.classList.remove('spinning');
                     }).catch(() => { icon.classList.remove('spinning'); });
@@ -622,6 +633,9 @@
             let blocksObj = snapshot.exists() ? snapshot.val() : {};
 
             let keys = Object.keys(blocksObj).filter(k => {
+                let bData = blocksObj[k];
+                if (isExcludedDate(bData.timestamp)) return false;
+
                 let n = getISTDate();
                 let isToday = (k.startsWith(n.getDate() + "_") || k.startsWith(String(n.getDate()).padStart(2, '0') + "_")) &&
                        k.includes(n.toLocaleString('en-GB', { month: 'short' })) && k.includes(n.getFullYear());
@@ -658,7 +672,7 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(53).on('value', snapshot => {
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
