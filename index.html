@@ -435,15 +435,6 @@
             }
         }
 
-        function getSeededIndex(seedString, maxLimit) {
-            let hash = 2166136261;
-            for (let i = 0; i < seedString.length; i++) {
-                hash ^= seedString.charCodeAt(i);
-                hash = Math.imul(hash, 16777619);
-            }
-            return Math.abs(hash) % maxLimit;
-        }
-
         function generateAndSave(customTime = null) {
             firebase.database().ref('settings').once('value').then(snap => {
                 let sObj = snap.val() || {};
@@ -492,7 +483,7 @@
                             let prefix = String(seriesVal).padStart(2, '0'), val;
                             let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
                             if (matchedFix) {
-                                val = matchedFix.length >= 4 ? matchedFix : matchedFix + "89";
+                                val = matchedFix.length >= 4 ? matchedFix : matchedFix + "96";
                             } else {
                                 let valid = [];
                                 for (let s = 0; s < 100; s++) {
@@ -502,11 +493,16 @@
                                         return clean.length >= 4 ? full === clean : suf === clean || full.slice(-2) === clean;
                                     })) valid.push(suf);
                                 }
-                                if (valid.length === 0) valid = ["11", "34", "67", "89", "45", "92", "23", "58"];
                                 
-                                let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + seriesVal + "_cell_" + i + "_mix_" + Math.random();
-                                let chosenIndex = getSeededIndex(seedKey, valid.length);
-                                val = prefix + valid[chosenIndex];
+                                // TRUE RANDOM MIX POOL (Ensuring natural varying suffixes like the reference image)
+                                if (valid.length === 0) valid = ["96", "37", "00", "04", "68", "98", "96", "66", "05", "00"];
+                                
+                                // Completely independent pseudo-random index per cell
+                                let uniqueSeed = Math.random() * 1000000 + i * 99 + baseVal;
+                                let randomIndex = Math.floor(Math.abs(Math.sin(uniqueSeed)) * valid.length);
+                                if (randomIndex >= valid.length) randomIndex = 0;
+                                
+                                val = prefix + valid[randomIndex];
                             }
                             if (val.length < 4) val = val.padEnd(4, '0');
                             sNums.push(val);
@@ -544,7 +540,7 @@
                     for(let i=0; i<10; i++) {
                         let seriesVal = baseVal + i;
                         let prefix = String(seriesVal).padStart(2, '0');
-                        nums.push(prefix + "34");
+                        nums.push(prefix + "96");
                     }
                 }
 
