@@ -609,7 +609,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.8-limit60</div>
+            <div class="banner-version-tag">v1.3.0-ultra</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -658,7 +658,7 @@
     <div class="main-scroll-viewport">
         <div id="archive-container" style="display: none;"></div>
         <div id="todayMainSection" style="display: block;">
-            <div id="today-container"></div>
+            <div id="today-container"><div style="text-align:center;color:var(--gold-light);padding:20px;font-weight:800;">LOADING RESULT...</div></div>
         </div>
 
         <footer class="site-footer">
@@ -821,9 +821,7 @@
             let cachedHtml = localStorage.getItem('canvas_cached_today_results');
             if (cachedHtml) {
                 let cont = document.getElementById('today-container');
-                if (!cont.innerHTML.trim()) {
-                    cont.innerHTML = cachedHtml;
-                }
+                cont.innerHTML = cachedHtml;
             }
 
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -1025,7 +1023,6 @@
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
-                    // लिमिट को यहाँ 60 कर दिया गया है
                     firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).once('value').then(snap => {
                         processSnapshotData(snap);
                         icon.classList.remove('spinning');
@@ -1043,16 +1040,30 @@
 
             let keys = Object.keys(blocksObj).filter(k => {
                 let n = getISTDate();
-                let isToday = (k.startsWith(n.getDate() + "_") || k.startsWith(String(n.getDate()).padStart(2, '0') + "_")) &&
-                       k.includes(n.toLocaleString('en-GB', { month: 'short' })) && k.includes(n.getFullYear());
+                let dStr = String(n.getDate());
+                let dStrPad = String(n.getDate()).padStart(2, '0');
+                let monthStr = n.toLocaleString('en-GB', { month: 'short' });
+                let yearStr = String(n.getFullYear());
+
+                let isToday = (k.includes(dStr + "_") || k.includes(dStrPad + "_")) &&
+                               k.includes(monthStr) && k.includes(yearStr);
+                
+                if (!isToday && Object.keys(blocksObj).length > 0) {
+                    isToday = k.includes(monthStr); 
+                }
+
                 if (!isToday) return false;
 
                 let pa = k.split('_');
-                let h = parseInt(pa[pa.length - 2], 10);
-                let m = parseInt(pa[pa.length - 1], 10);
+                let h = parseInt(pa[pa.length - 2], 10) || 0;
+                let m = parseInt(pa[pa.length - 1], 10) || 0;
                 let totalMins = h * 60 + m;
                 return totalMins >= (9 * 60) && totalMins <= (22 * 60);
             });
+
+            if (keys.length === 0 && Object.keys(blocksObj).length > 0) {
+                keys = Object.keys(blocksObj);
+            }
 
             keys.sort((a,b) => {
                 let pa = a.split('_'), pb = b.split('_');
@@ -1083,23 +1094,37 @@
                 }
             });
 
-            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            let finalHtml = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:20px;font-weight:750;'>No results available for today yet.</div>";
             
-            if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
-                todayContainer.innerHTML = finalHtml;
-                if (htmlContent) {
-                    localStorage.setItem('canvas_cached_today_results', htmlContent);
-                }
-                switchSeries(currentSeriesFilter);
+            todayContainer.innerHTML = finalHtml;
+            if (htmlContent) {
+                localStorage.setItem('canvas_cached_today_results', htmlContent);
             }
+            switchSeries(currentSeriesFilter);
         }
 
         function initApp() {
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            // रियल-टाइम लिसनर की लिमिट को यहाँ भी 60 कर दिया गया है ताकि 4G पर लोड न बढ़े
+            let dataLoaded = false;
+
+            let fallbackTimer = setTimeout(() => {
+                if (!dataLoaded) {
+                    let cached = localStorage.getItem('canvas_cached_today_results');
+                    if (cached) {
+                        document.getElementById('today-container').innerHTML = cached;
+                        switchSeries(currentSeriesFilter);
+                    } else {
+                        document.getElementById('today-container').innerHTML = "<div style='text-align:center;color:var(--accent-red);padding:20px;font-weight:750;'>Network slow. Click 'Update Result'.</div>";
+                    }
+                }
+            }, 2000);
+
             db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).on('value', snapshot => {
+                dataLoaded = true;
+                clearTimeout(fallbackTimer);
+
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
@@ -1143,10 +1168,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.8-limit60</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.3.0-ultra</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.8-limit60</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.3.0-ultra</div>`;
                 }
             }, 200);
         }
