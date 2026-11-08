@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Cache-Control" content="max-age=3600, public">
     <title>CΛNVΛS 4D™ - Royal Gaming Exchange</title>
-
-    <!-- 🚀 DIRECT NETWORK PRIORITY BOOSTERS -->
-    <link rel="preconnect" href="https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com" crossorigin>
+    
+    <!-- Fast Network Preconnect & DNS Prefetch -->
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="dns-prefetch" href="https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com">
-    <link rel="dns-prefetch" href="https://www.gstatic.com">
+
+    <!-- Deferred Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 
     <style>
         :root {
@@ -45,59 +49,126 @@
 
         .sticky-top-section {
             flex-shrink: 0;
-            background: linear-gradient(135deg, #f5efe6 0%, #e2d9c4 50%, #d4cbaf 100%);
+            background-color: #03070f;
             z-index: 1000;
             width: 100%;
-            border-bottom: 1.5px solid #b8973e;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
         }
 
+        /* Super Slim & Compact VIP Header Container */
         .header-container {
-          background: transparent !important;
+          background: linear-gradient(135deg, #fdfbf7 0%, #f4efe6 50%, #eae3d2 100%) !important;
           text-align: center;
-          padding: 4px 4px;
+          padding: 2px 4px;
+          border-bottom: 1.5px solid #d4af37;
           position: relative;
           width: 100%;
+          box-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
         }
 
+        /* Bada aur Mota Title with Reduced Margins */
         .neon-title {
-          background: linear-gradient(180deg, #ffffff 0%, #ffe57f 20%, #d4af37 50%, #5a3a03 85%, #fffdf0 100%);
+          background: linear-gradient(
+            180deg, 
+            #ffffff 0%, 
+            #ffe57f 25%, 
+            #d4af37 55%, 
+            #8a6405 85%, 
+            #fffdf0 100%
+          );
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          font-size: 1.4em;
+          font-size: 1.45em;
           font-weight: 900;
-          letter-spacing: 1.5px;
+          letter-spacing: 2px;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 2px;
           text-transform: uppercase;
           line-height: 1.1;
-          margin-bottom: 2px;
-          text-shadow: 2px 2px 0px rgba(75, 42, 4, 0.5), 0px 1px 3px rgba(0, 0, 0, 0.3);
+          text-shadow: 
+            1px 1.5px 0px rgba(101, 58, 8, 0.6),
+            0px 2px 3px rgba(0, 0, 0, 0.25);
         }
 
-        .tm-symbol { font-size: 0.38em; vertical-align: super; -webkit-text-fill-color: #d4af37; }
+        .tm-symbol {
+            font-size: 0.42em;
+            vertical-align: super;
+            -webkit-text-fill-color: #d4af37;
+        }
+
         .skill-game-sub {
-            font-size: 0.38em; font-weight: 900; letter-spacing: 1.5px;
-            color: #000000 !important; -webkit-text-fill-color: #000000 !important;
-            text-transform: uppercase; border: 1.5px solid #a37f28; display: inline-block;
-            padding: 1px 6px; border-radius: 3px; background: linear-gradient(135deg, #fff2b3 0%, #d4af37 100%);
-            margin: 1px auto; line-height: 1.2; box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-        }
-        .header-divider { width: 30%; height: 1.5px; background: linear-gradient(90deg, transparent, #b8973e, #5a3a03, #b8973e, transparent); margin: 2px auto; }
-        .kohinoor-sub { color: #0b0b0b !important; -webkit-text-fill-color: #0b0b0b !important; font-weight: 900; font-size: 0.42em; letter-spacing: 1.5px; text-transform: uppercase; line-height: 1.2; margin-top: 1px; }
-        .enterprises-sub { color: #0b0b0b !important; -webkit-text-fill-color: #0b0b0b !important; font-weight: 900; font-size: 0.38em; letter-spacing: 1.8px; text-transform: uppercase; margin-top: 0px; line-height: 1.2; }
-        .amusement-sub {
-            font-size: 0.38em; font-weight: 900; letter-spacing: 1.5px; color: #ffffff !important; -webkit-text-fill-color: #ffffff !important;
-            text-transform: uppercase; border: 1.5px solid #d4af37; display: inline-block; padding: 1px 6px; border-radius: 3px;
-            background: linear-gradient(135deg, #111111 0%, #292929 100%); box-shadow: 0 1px 2px rgba(0,0,0,0.2); margin-top: 2px; line-height: 1.2;
+            font-size: 0.35em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #111111 !important;
+            -webkit-text-fill-color: #111111 !important;
+            text-transform: uppercase;
+            border: 1px solid #b8973e;
+            display: inline-block;
+            padding: 0px 5px;
+            border-radius: 2px;
+            background: linear-gradient(135deg, #fff2b3 0%, #d4af37 100%);
+            margin: 0px auto 1px auto;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
+        .header-divider {
+            width: 35%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, #8a6405, #d4af37, transparent);
+            margin: 0px auto;
+        }
+
+        .kohinoor-sub {
+            color: #111111 !important;
+            -webkit-text-fill-color: #111111 !important;
+            font-weight: 900;
+            font-size: 0.4em;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .enterprises-sub {
+            color: #111111 !important;
+            -webkit-text-fill-color: #111111 !important;
+            font-weight: 900;
+            font-size: 0.35em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 0px;
+            line-height: 1.1;
+        }
+
+        .amusement-sub {
+            font-size: 0.35em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            text-transform: uppercase;
+            border: 1px solid #d4af37;
+            display: inline-block;
+            padding: 0px 4px;
+            border-radius: 2px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            margin-top: 1px;
+        }
+
+        /* Cream Color Market Status Bar */
         .market-status-bar {
-            display: flex; justify-content: space-between; align-items: center; background: transparent !important;
-            border-top: 1px solid rgba(184, 151, 62, 0.3); border-bottom: 1px solid rgba(184, 151, 62, 0.3);
-            padding: 2px 8px; font-size: 0.58em; font-weight: 800; width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #fdfbf7 0%, #f4efe6 50%, #eae3d2 100%) !important;
+            border-bottom: 1.5px solid #d4af37;
+            padding: 2px 8px;
+            font-size: 0.58em;
+            font-weight: 800;
+            width: 100%;
+            box-shadow: inset 0 0 4px rgba(212, 175, 55, 0.2);
         }
 
         @keyframes redOnlyLoop {
@@ -105,113 +176,426 @@
             50% { color: #ff3333; border-color: #ff3333; background: rgba(204, 0, 0, 0.25); }
         }
 
-        .live-badge.active-blink { color: #cc0000; background: rgba(204, 0, 0, 0.12); border: 1px solid #cc0000; padding: 1px 5px; border-radius: 3px; display: flex; align-items: center; gap: 3px; text-transform: uppercase; font-weight: 900; animation: redOnlyLoop 1.5s infinite ease-in-out; }
-        .live-badge.closed-static { color: #555555; background: rgba(0, 0, 0, 0.05); border: 1px solid #888888; padding: 1px 5px; border-radius: 3px; display: flex; align-items: center; gap: 3px; text-transform: uppercase; font-weight: 800; }
-        .draws-counter { color: #2b1f02 !important; -webkit-text-fill-color: #2b1f02 !important; font-weight: 900; letter-spacing: 0.5px; }
+        .live-badge.active-blink {
+            color: #cc0000;
+            background: rgba(204, 0, 0, 0.12);
+            border: 1px solid #cc0000;
+            padding: 1px 5px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            text-transform: uppercase;
+            font-weight: 900;
+            animation: redOnlyLoop 1.5s infinite ease-in-out;
+        }
+
+        .live-badge.closed-static {
+            color: #555555;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid #888888;
+            padding: 1px 5px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .draws-counter { 
+            color: #2b1f02 !important;
+            -webkit-text-fill-color: #2b1f02 !important;
+            font-weight: 900; 
+            letter-spacing: 0.5px;
+        }
 
         .timer-box {
-            text-align: center; color: var(--gold-primary) !important; font-size: 0.62em; font-weight: 800;
-            background: #000000 !important; padding: 2px 4px; border-bottom: 1px solid rgba(184, 151, 62, 0.3);
-            letter-spacing: 0.8px; width: 100%; position: relative;
+            text-align: center;
+            color: var(--gold-primary) !important;
+            font-size: 0.62em;
+            font-weight: 800;
+            background: #000000 !important;
+            padding: 2px 4px;
+            border-bottom: 1px solid rgba(184, 151, 62, 0.3);
+            letter-spacing: 0.8px;
+            width: 100%;
+            position: relative;
         }
 
         .banner-version-tag {
-            position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-            font-size: 0.55em; font-weight: 700; color: var(--gold-light); background: #030508;
-            border: 1px solid rgba(184, 151, 62, 0.4); padding: 0px 4px; border-radius: 3px; z-index: 10;
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.55em;
+            font-weight: 700;
+            color: var(--gold-light);
+            background: #030508;
+            border: 1px solid rgba(184, 151, 62, 0.4);
+            padding: 0px 4px;
+            border-radius: 3px;
+            z-index: 10;
         }
 
-        .series-tabs-wrapper { background: transparent; display: flex; flex-direction: column; width: 100%; padding: 3px 6px; border-bottom: 1px solid rgba(184, 151, 62, 0.25); }
-        .top-center-all { display: flex; justify-content: center; margin-bottom: 2.5px; width: 100%; }
-        .top-center-all .tab-btn { width: 100%; max-width: 150px; padding: 4px 2px; font-size: 0.62em; letter-spacing: 0.5px; }
-        .series-tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; width: 100%; }
+        /* Series Tabs Wrapper */
+        .series-tabs-wrapper {
+          background: radial-gradient(circle at center, #0f141d 0%, #030508 100%);
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          padding: 3px 6px;
+          border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .top-center-all {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2.5px;
+            width: 100%;
+        }
+
+        .top-center-all .tab-btn {
+            width: 100%;
+            max-width: 150px;
+            padding: 3px 2px; 
+            font-size: 0.6em;
+            letter-spacing: 1px;
+        }
+
+        .series-tabs {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 3px;
+            width: 100%;
+        }
 
         .tab-btn {
-          background: rgba(255, 255, 255, 0.65); border: 1px solid #b8973e; color: #2b1f02;
-          padding: 4px 1px; text-align: center; font-weight: 800; font-size: 0.6em; border-radius: 3px;
-          cursor: pointer; text-transform: uppercase; white-space: nowrap; width: 100%; transition: all 0.15s ease; user-select: none;
+          background: #0e1726;
+          border: 1px solid #232d3f;
+          color: #cbd5e1;
+          padding: 3.5px 1px;
+          text-align: center;
+          font-weight: 800;
+          font-size: 0.58em;
+          border-radius: 4px;
+          cursor: pointer;
+          text-transform: uppercase;
+          white-space: nowrap;
+          width: 100%;
+          transition: all 0.1s ease;
+          user-select: none;
         }
-        .tab-btn.active { background: #2b1f02; color: #fff0b4; border-color: #653a08; font-weight: 900; }
 
+        .tab-btn:hover {
+            border-color: #d4af37;
+            color: #ffffff;
+        }
+
+        .tab-btn:active {
+            transform: scale(0.96);
+        }
+
+        .tab-btn.active {
+          background: #d4af37;
+          color: #000000;
+          border: 1px solid #fff0a0;
+          font-weight: 900;
+        }
+
+        /* Slim & Compact Cream Sticky Date Bar */
         .sticky-date-wrapper {
-          background: #040810; position: sticky; top: 0; z-index: 900; padding: 3px 8px;
-          display: flex; justify-content: space-between; align-items: center; width: 100%; height: 26px;
-          border-top: 1px solid rgba(184, 151, 62, 0.4); border-bottom: 1px solid rgba(184, 151, 62, 0.4);
+          background: linear-gradient(135deg, #fdfbf7 0%, #f4efe6 50%, #eae3d2 100%) !important;
+          position: sticky;
+          top: 0;
+          z-index: 900;
+          padding: 1px 8px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          border-bottom: 1.5px solid #d4af37;
+          box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+          height: 22px;
         }
 
+        /* Update Result Button - Crystal Clear & Bold */
         .update-btn-corner {
-            background: #0c1424; border: 1px solid var(--gold-primary); color: var(--gold-light);
-            padding: 0px 8px; border-radius: 3px; font-size: 0.6em; font-weight: 800; cursor: pointer;
-            display: flex; align-items: center; gap: 3px; text-transform: uppercase; height: 20px; line-height: 20px;
+            background: #ffffff;
+            border: 2px solid #997515;
+            color: #000000;
+            padding: 0px 8px;
+            border-radius: 6px;
+            font-size: 0.62em;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.15s ease;
+            height: 18px;
+            line-height: 18px;
         }
-        @keyframes spinSync { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .spinning { animation: spinSync 0.6s linear infinite; }
+        .update-btn-corner:active {
+            transform: scale(0.95);
+            background: #fff8e7;
+        }
+        @keyframes spinSync {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinning {
+            animation: spinSync 0.6s linear infinite;
+        }
 
+        /* Date Box - Crystal Clear & Bold */
         .modern-date-box {
-          background: #0c1424; border: 1px solid var(--gold-primary); height: 20px;
-          display: flex; align-items: center; justify-content: center; gap: 4px; padding: 0px 8px;
-          border-radius: 3px; cursor: pointer; width: 135px; position: relative;
+          background: #ffffff;
+          border: 2px solid #997515;
+          height: 18px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          padding: 0px 8px;
+          border-radius: 6px;
+          cursor: pointer;
+          width: 140px;
+          position: relative;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .modern-date-box label { color: var(--gold-light); font-size: 0.6em; font-weight: 800; text-transform: uppercase; pointer-events: none; line-height: 20px; }
-        .modern-date-box input[type="date"] { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; left: 0; top: 0; }
+
+        .modern-date-box label {
+            color: #000000;
+            font-size: 0.62em;
+            font-weight: 900;
+            text-transform: uppercase;
+            pointer-events: none;
+            line-height: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        .modern-date-box input[type="date"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            left: 0;
+            top: 0;
+        }
 
         .canvas-marquee {
-            width: 100%; overflow: hidden; background: linear-gradient(90deg, #020408 0%, #0d131f 50%, #020408 100%);
-            border-top: 1px solid rgba(184, 151, 62, 0.3); border-bottom: 1px solid rgba(184, 151, 62, 0.3); padding: 2px 0;
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(90deg, #020408 0%, #0d131f 50%, #020408 100%);
+            border-top: 1px solid rgba(184, 151, 62, 0.3);
+            border-bottom: 1px solid rgba(184, 151, 62, 0.3);
+            padding: 2px 0;
         }
-        .canvas-track { display: inline-flex; align-items: center; gap: 25px; white-space: nowrap; padding-left: 100%; animation: premiumScroll 55s linear infinite; }
-        .canvas-track span { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 50%, var(--gold-light) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .canvas-track b { color: var(--gold-primary); font-size: 9px; }
-        @keyframes premiumScroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+        .canvas-track {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: premiumScroll 45s linear infinite;
+        }
+
+        .canvas-track span {
+            font-size: 9.5px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 50%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .canvas-track b { color: var(--gold-primary); font-size: 8px; }
+
+        @keyframes premiumScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
 
         .main-scroll-viewport {
-            flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding-bottom: 4px;
-            scrollbar-width: thin; scrollbar-color: var(--gold-primary) rgba(8, 17, 29, 0.5); width: 100%; -webkit-overflow-scrolling: touch;
+            flex-grow: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold-primary) rgba(8, 17, 29, 0.5);
+            width: 100%;
+            -webkit-overflow-scrolling: touch;
         }
         
-        .result-block { border-bottom: 1.5px solid #116793; margin-bottom: 4px; background: var(--cream-bg); width: 100%; }
+        .result-block {
+            border-bottom: 1.5px solid #116793;
+            margin-bottom: 4px; 
+            background: var(--cream-bg);
+            width: 100%;
+        }
+        
         .time-header {
-            font-weight: 800; display: flex; align-items: center; justify-content: center !important;
-            background: #116793 !important; color: #ffffff !important; padding: 4px 6px !important; 
-            font-size: 0.72em !important; letter-spacing: 1px; border-bottom: 1px solid #0c4d6f; width: 100%;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center !important;
+            background: #116793 !important;
+            color: #ffffff !important; 
+            padding: 4px 6px !important; 
+            font-size: 0.72em !important;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #0c4d6f;
+            width: 100%;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
         }
 
-        .live-dot { height: 5px; width: 5px; background-color: var(--accent-red); border-radius: 50%; margin-right: 5px; box-shadow: 0 0 4px var(--accent-red); animation: pulse-dot 1s infinite; }
-        @keyframes pulse-dot { 0% { transform: scale(0.95); opacity: 1; } 70% { transform: scale(1); opacity: 0.4; } 100% { transform: scale(0.95); opacity: 1; } }
+        .live-dot {
+            height: 5px;
+            width: 5px;
+            background-color: var(--accent-red);
+            border-radius: 50%;
+            margin-right: 5px;
+            box-shadow: 0 0 4px var(--accent-red);
+            animation: pulse-dot 1s infinite;
+        }
         
-        .chart-table { display: grid; grid-template-columns: 1fr; width: 100%; background: var(--cream-bg); border-bottom: 1px solid #e6e1c4; }
-        .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); width: 100%; }
+        @keyframes pulse-dot { 
+            0% { transform: scale(0.95); opacity: 1; } 
+            70% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+        
+        .chart-table { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            width: 100%;
+            background: var(--cream-bg);
+            border-bottom: 1px solid #e6e1c4;
+        }
+        .chart-table:last-child { border-bottom: none; }
+
+        .row-grid { 
+            display: grid; 
+            grid-template-columns: repeat(10, 1fr); 
+            width: 100%;
+        }
+        
         .cell { 
-            background: #fdfbf8 !important; padding: 5px 0px; text-align: center; font-weight: 800; 
-            font-size: 12px; color: #1a1a1a !important; border: 1px solid #e8e3c5 !important; letter-spacing: -0.5px; white-space: nowrap;
+            background: #fdfbf8 !important;
+            padding: 5px 0px; 
+            text-align: center; 
+            font-weight: 800; 
+            font-size: 12px;
+            color: #1a1a1a !important;
+            border: 1px solid #e8e3c5 !important;
+            letter-spacing: -0.5px; 
+            white-space: nowrap;
         }
 
-        .site-footer { background: #020408 !important; border-top: 1px solid rgba(184, 151, 62, 0.25) !important; padding: 6px 4px; margin-top: 4px; text-align: center; width: 100%; }
-        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; margin-bottom: 3px; }
+        .site-footer {
+            background: #020408 !important;
+            border-top: 1px solid rgba(184, 151, 62, 0.25) !important;
+            padding: 6px 4px;
+            margin-top: 4px;
+            text-align: center;
+            width: 100%;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px 8px;
+            margin-bottom: 3px;
+        }
         .footer-links a {
-            color: #e2e8f0; background: linear-gradient(145deg, #0e1420, #060910); border: 1px solid rgba(184, 151, 62, 0.25);
-            padding: 2px 6px; border-radius: 3px; font-size: 0.55em; font-weight: 700; text-decoration: none; cursor: pointer; text-transform: uppercase;
+            color: #e2e8f0;
+            background: linear-gradient(145deg, #0e1420, #060910);
+            border: 1px solid rgba(184, 151, 62, 0.25);
+            padding: 2px 6px; 
+            border-radius: 3px;
+            font-size: 0.55em;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            text-transform: uppercase;
         }
-        .footer-copy { color: var(--text-muted); font-size: 0.45em; font-weight: 500; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2px; }
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.45em;
+            font-weight: 500;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 2px;
+        }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 4, 8, 0.88); z-index: 10000; justify-content: center; align-items: center; padding: 10px; }
-        .modal-card { background: linear-gradient(145deg, #09101d, #03060a); border: 1px solid rgba(184, 151, 62, 0.6); border-radius: 8px; width: 100%; max-width: 350px; max-height: 85vh; overflow-y: auto; padding: 10px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(184, 151, 62, 0.3); padding-bottom: 5px; margin-bottom: 6px; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 4, 8, 0.88);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        .modal-card {
+            background: linear-gradient(145deg, #09101d, #03060a);
+            border: 1px solid rgba(184, 151, 62, 0.6);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 350px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(184, 151, 62, 0.3);
+            padding-bottom: 5px;
+            margin-bottom: 6px;
+        }
         .modal-title { color: var(--gold-primary); font-size: 0.8em; font-weight: 800; text-transform: uppercase; }
         .modal-close { background: none; border: none; color: var(--accent-red); font-size: 1.1em; font-weight: 800; cursor: pointer; padding: 3px 6px; }
         .modal-body { color: #cbd5e1; font-size: 0.7em; line-height: 1.4; font-weight: 500; }
         .modal-body p { margin-bottom: 4px; font-weight: 700; color: var(--gold-light); }
-        .admin-input { width: 100%; background: #040810; border: 1px solid rgba(184, 151, 62, 0.35); color: #fff; padding: 5px; border-radius: 4px; margin-bottom: 6px; font-size: 0.85em; }
-        .admin-btn { font-weight: 800; border: none; padding: 7px 10px; border-radius: 4px; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 0.75em; }
+        .modal-body ul { margin-left: 14px; margin-bottom: 6px; }
+        .modal-body li { margin-bottom: 3px; }
+        
+        .admin-input {
+            width: 100%;
+            background: #040810;
+            border: 1px solid rgba(184, 151, 62, 0.35);
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+        .admin-btn {
+            font-weight: 800;
+            border: none;
+            padding: 7px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            font-size: 0.75em;
+        }
     </style>
-
-    <!-- Pre-loaded Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 </head>
 <body>
 
     <div id="bottomCornerTrigger" style="position: fixed; bottom: 0; right: 0; width: 45px; height: 45px; z-index: 99999; background: transparent;"></div>
+
+    <video id="noSleepVideo" loop muted playsinline style="display:none; width:1px; height:1px;">
+        <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
+    </video>
 
     <div class="sticky-top-section">
         <div class="header-container">
@@ -229,8 +613,8 @@
         </div>
 
         <div class="timer-box" id="timer">
-            SYNCHRONIZING...
-            <div class="banner-version-tag">v3.1-turbo</div>
+            SYNCHRONIZING SERVER TIME...
+            <div class="banner-version-tag">v1.2.0-eagle</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -253,10 +637,14 @@
 
         <div class="canvas-marquee">
           <div class="canvas-track">
-            <span>🪔✨ शुभ दीपावली ✨🪔 WISHING YOU A HAPPY DIWALI FROM CΛNVΛS4D™ 👑</span><b>◇</b>
-            <span>इस दीपावली खुशियों की रोशनी हो, सपनों की नई उड़ान हो और हर पल यादगार हो!</span><b>◇</b>
-            <span>💎 FESTIVE SPECIAL • DOUBLE PRICE OFFER 💎</span><b>◇</b>
-            <span>👑 CΛNVΛS4D™ OFFICIAL | KOHINOOR ENTERPRISES 👑</span><b>◇</b>
+            <span>🪔✨ शुभ दीपावली ✨🪔</span><b>•</b>
+            <span>WISHING YOU A HAPPY DIWALI FROM CΛNVΛS4D™ 👑</span><b>•</b>
+            <span>इस दीपावली खुशियों की रोशनी हो, सपनों की नई उड़ान हो और हर पल यादगार हो!</span><b>•</b>
+            <span>💎 FESTIVE SPECIAL • DOUBLE PRICE OFFER 💎</span><b>•</b>
+            <span>🎁 दीपावली का खास उत्सव • खुशियों के साथ शानदार ऑफर 🎁</span><b>•</b>
+            <span>🌟 सुख • समृद्धि • सफलता 🌟</span><b>•</b>
+            <span>👑 CΛNVΛS4D™ OFFICIAL | KOHINOOR ENTERPRISES 👑</span><b>•</b>
+            <span>✨ LIGHT UP YOUR FESTIVAL ✨</span><b>•</b>
           </div>
         </div>
 
@@ -313,7 +701,7 @@
                 <p>Manual Time:</p>
                 <select id="adminManualTimeSelect" class="admin-input"></select>
                 <button class="admin-btn" style="background:#27ae60; color:#fff; margin-bottom:10px;" onclick="adminManualGenerate()">GENERATE</button>
-                <p>Delete Time (Aaj ka):</p>
+                <p>Delete Time:</p>
                 <select id="adminDeleteTimeSelect" class="admin-input"></select>
                 <button class="admin-btn" style="background:#d93838; color:#fff;" onclick="adminDeleteResult()">DELETE</button>
             </div>
@@ -351,7 +739,7 @@
                 }
             }
             document.getElementById('adminManualTimeSelect').innerHTML = optionsHtml;
-            document.getElementById('adminDeleteTimeSelect').innerHTML = '<option value="">Select Time to Delete</option>' + optionsHtml;
+            document.getElementById('adminDeleteTimeSelect').innerHTML = '<option value="">Select Time</option>' + optionsHtml;
         }
 
         function openAdminPanel() { openModal('adminPanelModal'); loadAdminSeriesData(); populateTimeDropdowns(); }
@@ -382,22 +770,15 @@
         function adminDeleteResult() {
             let t = document.getElementById('adminDeleteTimeSelect').value;
             if (!t || !confirm("Delete " + t + "?")) return;
-            
             let [tp, mod] = t.split(' ');
             let [h, m] = tp.split(':').map(Number);
             if (mod === 'PM' && h < 12) h += 12;
             if (mod === 'AM' && h === 12) h = 0;
-            
-            let now = getISTDate(); 
-            now.setHours(h, m, 0, 0);
-            
-            let dateKey = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
-            let key = `${dateKey}_${String(now.getHours()).padStart(2, '0')}_${String(now.getMinutes()).padStart(2, '0')}`;
-            
+            let now = getISTDate(); now.setHours(h, m, 0, 0);
+            let key = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_') + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
             firebase.database().ref('resultsData/blocks/' + key).remove().then(() => {
-                alert('Successfully Deleted ' + t + '!');
-                closeModal('adminPanelModal');
-            }).catch(e => alert(e.message));
+                alert('Deleted!');
+            });
         }
 
         function triggerCalendarPicker() {
@@ -434,29 +815,22 @@
             projectId: "canvas2d-result" 
         };
 
-        // Instant Turbo Render from Local Storage Cache
         document.addEventListener("DOMContentLoaded", () => {
-            let cachedHtml = localStorage.getItem('canvas_cached_today_results_v11');
-            let cont = document.getElementById('today-container');
-            if (cachedHtml) {
-                cont.innerHTML = cachedHtml;
-            } else {
-                cont.innerHTML = "<div style='text-align:center;color:var(--gold-light);padding:20px;font-weight:800;'>CΛNVΛS 4D LOADING...</div>";
-            }
-
-            let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
-            let archiveInput = document.getElementById('archiveDateSelect');
-            archiveInput.value = todayStr;
-            
-            let minDate = new Date();
-            minDate.setDate(minDate.getDate() - 7);
-            archiveInput.min = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(minDate);
-            archiveInput.max = todayStr;
-
-            updateDateDisplayLabel(todayStr);
-
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-            initApp();
+            firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
+            setTimeout(() => {
+                let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
+                let archiveInput = document.getElementById('archiveDateSelect');
+                archiveInput.value = todayStr;
+                
+                let minDate = new Date(getISTDate());
+                minDate.setDate(minDate.getDate() - 7);
+                archiveInput.min = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(minDate);
+                archiveInput.max = todayStr;
+
+                updateDateDisplayLabel(todayStr);
+                initApp();
+            }, 300);
         });
 
         let currentSeriesFilter = 'all';
@@ -466,6 +840,12 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function outsideClose(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+        async function enableScreenKeepAlive() {
+            try { if ('wakeLock' in navigator) await navigator.wakeLock.request('screen'); } catch(e){}
+            let v = document.getElementById('noSleepVideo'); if (v) v.play().catch(()=>{});
+        }
+        window.addEventListener('load', enableScreenKeepAlive);
 
         function switchSeries(series) {
             currentSeriesFilter = series;
@@ -488,10 +868,10 @@
         }
 
         function getSeededIndex(seedString, maxLimit) {
-            let hash = 2166136261;
+            let hash = 0;
             for (let i = 0; i < seedString.length; i++) {
-                hash ^= seedString.charCodeAt(i);
-                hash = Math.imul(hash, 16777619);
+                hash = (hash << 5) - hash + seedString.charCodeAt(i);
+                hash |= 0;
             }
             return Math.abs(hash) % maxLimit;
         }
@@ -512,19 +892,13 @@
                     let [h, m] = tp.split(':').map(Number);
                     if (mod === 'PM' && h < 12) h += 12;
                     if (mod === 'AM' && h === 12) h = 0;
-                    now.setHours(h, Math.floor(m / 15) * 15, 0, 0);
-                    
-                    let slotDate = new Date(now);
-                    slotDate.setMinutes(Math.floor(m / 15) * 15, 0, 0);
-                    timeString = slotDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                    now.setHours(h, Math.floor(m / 15) * 15, 0);
+                    timeString = customTime;
                 } else {
                     let h = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(now), 10);
                     let m = Math.floor(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(now), 10) / 15) * 15;
-                    now.setHours(h, m, 0, 0);
-                    
-                    let slotDate = new Date(now);
-                    slotDate.setMinutes(m, 0, 0);
-                    timeString = slotDate.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true });
+                    now.setHours(h, m, 0);
+                    timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true });
                 }
 
                 let dateKey = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
@@ -533,7 +907,9 @@
                 let blockRef = firebase.database().ref('resultsData/blocks/' + timeKey);
                 
                 blockRef.once('value').then(existingSnap => {
-                    if (existingSnap.exists() && !customTime) return;
+                    if (existingSnap.exists() && !customTime) {
+                        return;
+                    }
 
                     let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div>`;
                     allSeriesBases.forEach(baseVal => {
@@ -555,7 +931,7 @@
                                 }
                                 if (valid.length === 0) valid = ["20", "55", "77"];
                                 
-                                let seedKey = "CANVAS_RANDOM_SLOT_" + timeKey + "_series_" + baseVal + "_cell_" + i + "_mix_" + (Math.sin(i + 1) * 10000);
+                                let seedKey = timeKey + "_cell_" + baseVal + "_" + i + "_" + (i * 997 + baseVal * 31);
                                 let chosenIndex = getSeededIndex(seedKey, valid.length);
                                 val = prefix + valid[chosenIndex];
                             }
@@ -577,12 +953,12 @@
             let archiveCont = document.getElementById('archive-container');
             document.getElementById('todayMainSection').style.display = "none";
             archiveCont.style.display = "block";
-            archiveCont.innerHTML = "<div style='text-align:center;color:#00d4ff;padding:12px;font-weight:800;'>LOADING RESULT...</div>";
+            archiveCont.innerHTML = "<div style='text-align:center;color:#00d4ff;padding:12px;font-weight:800;letter-spacing:1px;'>LOADING RESULT...</div>";
 
             let p = dateVal.split('-'), y = p[0], mNum = parseInt(p[1], 10), dNum = parseInt(p[2], 10);
             let mn = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][mNum - 1];
             
-            firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(100).once('value').then(snap => {
+            firebase.database().ref('resultsData/blocks').once('value').then(snap => {
                 if (snap.exists()) {
                     let blocks = snap.val(), html = "";
                     Object.keys(blocks).filter(k => {
@@ -611,6 +987,7 @@
                                 while (prev) { let t = prev; prev = prev.previousElementSibling; t.remove(); }
                                 let node = th.previousSibling;
                                 while (node) { let t = node; node = node.previousSibling; if (t.nodeType === Node.TEXT_NODE) t.remove(); }
+                                
                                 th.innerHTML = th.getAttribute('data-time') || th.innerText;
                             }
                         });
@@ -630,7 +1007,7 @@
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
-                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(50).once('value').then(snap => {
+                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(400).once('value').then(snap => {
                         processSnapshotData(snap);
                         icon.classList.remove('spinning');
                     });
@@ -638,7 +1015,7 @@
                     loadArchiveDate(archiveVal);
                     icon.classList.remove('spinning');
                 }
-            }, 300);
+            }, 400);
         }
 
         function processSnapshotData(snapshot) {
@@ -671,6 +1048,7 @@
                 let rawHtml = blockData?.html || blockData?.htmlBlock;
                 if (rawHtml) {
                     let tmp = document.createElement('div'); tmp.innerHTML = rawHtml;
+                    
                     let th = tmp.querySelector('.time-header');
                     if (th) {
                         let prev = th.previousElementSibling;
@@ -686,23 +1064,19 @@
                 }
             });
 
-            if (htmlContent) {
-                todayContainer.innerHTML = htmlContent;
-                localStorage.setItem('canvas_cached_today_results_v11', htmlContent);
-                switchSeries(currentSeriesFilter);
-            }
+            todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:var(--text-muted);padding:12px;'>Waiting for first draw...</div>";
+            switchSeries(currentSeriesFilter);
         }
 
         function initApp() {
             const db = firebase.database();
-            
-            db.ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(50).on('value', snapshot => {
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(400).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
+
                 processSnapshotData(snapshot);
             });
 
@@ -715,11 +1089,9 @@
                 let hCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(nowCheck), 10);
                 let mCheck = Math.floor(parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10) / 15) * 15;
                 let sCheck = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
-                let msCheck = nowCheck.getMilliseconds();
                 
                 let active = (hCheck > 9 || (hCheck === 9 && mCheck >= 0)) && (hCheck < 22 || (hCheck === 22 && mCheck <= 0));
-                
-                if (active && sCheck === 0 && msCheck < 300) {
+                if (active && sCheck === 0) {
                     let dk = nowCheck.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_');
                     let gk = `${dk}-${hCheck}-${mCheck}`;
                     
@@ -742,12 +1114,12 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v3.1-turbo</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.0-eagle</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v3.1-turbo</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.0-eagle</div>`;
                 }
-            }, 200);
+            }, 1000);
         }
     </script>
 </body>
