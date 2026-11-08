@@ -609,7 +609,7 @@
 
         <div class="timer-box" id="timer">
             SYNCHRONIZING SERVER TIME...
-            <div class="banner-version-tag">v1.2.8-limit60</div>
+            <div class="banner-version-tag">v1.2.9-fast4g</div>
         </div>
 
         <div class="series-tabs-wrapper">
@@ -818,7 +818,7 @@
         };
 
         document.addEventListener("DOMContentLoaded", () => {
-            let cachedHtml = localStorage.getItem('canvas_cached_today_results');
+            let cachedHtml = localStorage.getItem('canvas_cached_today_results_v2');
             if (cachedHtml) {
                 let cont = document.getElementById('today-container');
                 if (!cont.innerHTML.trim()) {
@@ -1025,7 +1025,8 @@
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (!archiveVal || archiveVal === todayStr) {
-                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).once('value').then(snap => {
+                    // 4G नेटवर्क को फास्ट रखने के लिए लिमिट को घटाकर 15 कर दिया गया है
+                    firebase.database().ref('resultsData/blocks').orderByChild('timestamp').limitToLast(15).once('value').then(snap => {
                         processSnapshotData(snap);
                         icon.classList.remove('spinning');
                     });
@@ -1087,7 +1088,7 @@
             if (todayContainer.innerHTML.trim() !== finalHtml.trim()) {
                 todayContainer.innerHTML = finalHtml;
                 if (htmlContent) {
-                    localStorage.setItem('canvas_cached_today_results', htmlContent);
+                    localStorage.setItem('canvas_cached_today_results_v2', htmlContent);
                 }
                 switchSeries(currentSeriesFilter);
             }
@@ -1097,7 +1098,8 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(60).on('value', snapshot => {
+            // 4G मोबाइल नेटवर्क पर तुरंत खुलने के लिए लिमिट 15 सेट की गई है
+            db.ref('resultsData/blocks').orderByChild('timestamp').limitToLast(15).on('value', snapshot => {
                 let archiveVal = document.getElementById('archiveDateSelect').value;
                 let todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(getISTDate());
                 if (archiveVal && archiveVal !== todayStr) return;
@@ -1141,10 +1143,10 @@
                     badge.className = "live-badge active-blink"; dot.style.display = "inline-block";
                     let remMin = 14 - (currentMin % 15);
                     let remSec = 59 - currentSec;
-                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.8-limit60</div>`;
+                    timer.innerHTML = `NEXT DRAW IN: ${remMin}m ${remSec}s<div class="banner-version-tag">v1.2.9-fast4g</div>`;
                 } else {
                     badge.className = "live-badge closed-static"; dot.style.display = "none"; 
-                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.8-limit60</div>`;
+                    timer.innerHTML = `MARKET CLOSED<div class="banner-version-tag">v1.2.9-fast4g</div>`;
                 }
             }, 200);
         }
