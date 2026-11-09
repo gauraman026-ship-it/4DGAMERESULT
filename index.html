@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Cache-Control" content="max-age=3600, public">
     <title>CANVAS PLAY NIGHT - KOHINOOR ENTERPRISES</title>
     
-    <!-- Fast Network Preconnect & DNS Prefetch -->
-    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="dns-prefetch" href="https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com">
-
-    <!-- Deferred Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js" defer></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <!-- Minimal Firebase SDKs (Compat only) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
     <style>
         :root {
@@ -26,344 +19,51 @@
           --text-main: #111111;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent !important;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent !important; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-light); color: var(--text-main); font-family: sans-serif; display: flex; flex-direction: column; }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: var(--bg-light);
-            color: var(--text-main);
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            flex-direction: column;
-        }
+        .sticky-top-section { flex-shrink: 0; background: #120c1f; z-index: 1000; width: 100%; border-bottom: 2px solid rgba(197, 160, 89, 0.3); }
+        .header-top-banner { text-align: center; padding: 10px 10px 2px 10px; }
+        .banner-title { font-size: 1.3em; font-weight: 700; color: #ffffff; font-family: serif; }
+        .banner-subtitle { font-size: 0.6em; font-weight: 800; color: #cccccc; letter-spacing: 1px; text-transform: uppercase; margin-top: 1px; }
 
-        #pullRefreshIndicator {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            width: 100%;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #120c1f;
-            color: var(--gold-light);
-            font-size: 0.7em;
-            font-weight: 900;
-            transition: transform 0.2s ease;
-            z-index: 1001;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-        }
+        .next-draw-container { text-align: center; padding: 2px 0 6px 0; }
+        .next-draw-label { font-size: 0.5em; font-weight: 700; color: #aaa; text-transform: uppercase; }
+        .next-draw-timer { font-size: 1em; font-weight: 700; color: #f3df9b; font-family: monospace; }
 
-        .sticky-top-section {
-            flex-shrink: 0;
-            background: #120c1f;
-            z-index: 1000;
-            width: 100%;
-            border-bottom: 2px solid rgba(197, 160, 89, 0.3);
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
+        .filters-bar { display: flex; gap: 8px; padding: 6px 10px; background: #181124; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+        .filter-group-label { font-size: 0.5em; font-weight: 700; color: #999; text-transform: uppercase; padding: 0 2px 2px 2px; }
+        .filter-item { flex: 1; display: flex; flex-direction: column; }
+        .date-picker-wrapper, .series-select { background: #ffffff; border-radius: 6px; padding: 5px 8px; border: 1px solid #443b5e; font-size: 0.7em; font-weight: 700; width: 100%; outline: none; }
 
-        .header-top-banner {
-            text-align: center;
-            padding: 12px 10px 4px 10px;
-        }
+        .completed-bar { display: flex; justify-content: space-between; align-items: center; padding: 5px 12px; background: #0b0714; font-size: 0.6em; font-weight: 700; color: #cccccc; border-top: 1px solid rgba(255,255,255,0.08); }
+        .live-indicator { display: flex; align-items: center; gap: 4px; color: var(--accent-red); font-weight: 900; }
+        .live-dot { height: 6px; width: 6px; background-color: var(--accent-red); border-radius: 50%; }
 
-        .banner-title {
-            font-size: 1.4em;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            font-family: serif;
-        }
+        .main-scroll-viewport { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 8px; width: 100%; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 10px; }
+        .result-block { background: #ffffff; border: 1px solid #d0d0d0; border-radius: 6px; overflow: hidden; width: 100%; margin-bottom: 2px; }
+        .time-header { font-weight: 900; display: flex; align-items: center; justify-content: center !important; background: #1f3b4d !important; color: #ffffff !important; padding: 6px !important; font-size: 0.8em !important; }
+        .chart-table { display: flex; flex-direction: column; width: 100%; background: #ffffff; }
+        .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); width: 100%; }
+        .cell { background: #ffffff !important; padding: 6px 2px !important; text-align: center !important; font-weight: 800 !important; font-size: 11px !important; color: #111111 !important; border: 1px solid #e5e5e5 !important; }
 
-        .banner-subtitle {
-            font-size: 0.65em;
-            font-weight: 800;
-            color: #cccccc;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
+        .site-footer { background: #121212 !important; border-top: 1px solid #333; padding: 6px; text-align: center; width: 100%; font-size: 0.5em; color: #aaa; margin-top: auto; }
+        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 10px; margin-bottom: 3px; }
+        .footer-links a { color: var(--gold-light); text-decoration: none; cursor: pointer; font-weight: 700; }
 
-        .next-draw-container {
-            text-align: center;
-            padding: 4px 0 8px 0;
-            position: relative;
-            background: transparent;
-        }
-
-        .next-draw-label {
-            font-size: 0.55em;
-            font-weight: 700;
-            color: #aaa;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-
-        .next-draw-timer {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: #f3df9b;
-            letter-spacing: 1px;
-            font-family: monospace;
-        }
-
-        /* Filters Bar Layout */
-        .filters-bar {
-            display: flex;
-            gap: 8px;
-            padding: 8px 10px;
-            background: #181124;
-            align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .filter-group-label {
-            font-size: 0.55em;
-            font-weight: 700;
-            color: #999;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 0 2px 2px 2px;
-        }
-
-        .filter-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .date-picker-wrapper {
-            position: relative;
-            background: #ffffff;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            padding: 6px 8px;
-            border: 1px solid #443b5e;
-        }
-
-        .date-input {
-            background: transparent;
-            border: none;
-            color: #111;
-            font-size: 0.75em;
-            font-weight: 700;
-            width: 100%;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .series-select {
-            background: #ffffff;
-            border: 1px solid #443b5e;
-            color: #111;
-            padding: 7px 8px;
-            border-radius: 6px;
-            font-size: 0.75em;
-            font-weight: 700;
-            width: 100%;
-            outline: none;
-            font-family: inherit;
-            cursor: pointer;
-        }
-
-        .completed-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 12px;
-            background: #0b0714;
-            font-size: 0.65em;
-            font-weight: 700;
-            color: #cccccc;
-            border-top: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .live-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: var(--accent-red);
-            font-weight: 900;
-            text-transform: uppercase;
-        }
-
-        .live-dot {
-            height: 6px;
-            width: 6px;
-            background-color: var(--accent-red);
-            border-radius: 50%;
-            box-shadow: 0 0 6px var(--accent-red);
-            animation: pulse-dot 1s infinite;
-        }
-
-        @keyframes pulse-dot { 
-            0% { transform: scale(0.95); opacity: 1; } 
-            70% { transform: scale(1); opacity: 0.4; }
-            100% { transform: scale(0.95); opacity: 1; }
-        }
-
-        .main-scroll-viewport {
-            flex-grow: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 8px;
-            width: 100%;
-            -webkit-overflow-scrolling: touch;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .result-block {
-            background: #ffffff;
-            border: 1px solid #d0d0d0;
-            border-radius: 6px;
-            overflow: hidden;
-            width: 100%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 4px;
-        }
-        
-        .time-header {
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center !important;
-            background: #1f3b4d !important;
-            color: #ffffff !important; 
-            padding: 7px !important; 
-            font-size: 0.85em !important;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .chart-table { 
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            background: #ffffff;
-        }
-
-        .row-grid { 
-            display: grid; 
-            grid-template-columns: repeat(10, 1fr); 
-            width: 100%;
-        }
-        
-        .cell { 
-            background: #ffffff !important;
-            padding: 7px 2px !important; 
-            text-align: center !important; 
-            font-weight: 800 !important; 
-            font-size: 11px !important;
-            color: #111111 !important;
-            border: 1px solid #e5e5e5 !important;
-            letter-spacing: -0.3px !important;
-            white-space: nowrap !important;
-        }
-
-        .site-footer {
-            background: #121212 !important;
-            border-top: 1px solid #333;
-            padding: 8px;
-            text-align: center;
-            width: 100%;
-            font-size: 0.5em;
-            color: #aaa;
-            margin-top: auto;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 4px 10px;
-            margin-bottom: 4px;
-        }
-        .footer-links a {
-            color: var(--gold-light);
-            text-decoration: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
-        .modal-card {
-            background: #1e1e1e;
-            border: 2px solid var(--gold-primary);
-            border-radius: 8px;
-            width: 100%;
-            max-width: 380px;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 15px;
-            color: #fff;
-        }
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.3);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-        }
-        .modal-title { color: var(--gold-primary); font-size: 0.85em; font-weight: 900; text-transform: uppercase; }
-        .modal-close { background: none; border: none; color: var(--accent-red); font-size: 1.2em; font-weight: 900; cursor: pointer; padding: 2px 6px; }
-        .modal-body { color: #ccc; font-size: 0.75em; line-height: 1.4; font-weight: 500; }
-        .modal-body p { margin-bottom: 6px; font-weight: 700; color: var(--gold-light); }
-        
-        .admin-input {
-            width: 100%;
-            background: #111;
-            border: 1px solid var(--gold-primary);
-            color: #fff;
-            padding: 8px;
-            border-radius: 4px;
-            margin-bottom: 8px;
-            font-size: 0.85em;
-        }
-        .admin-btn {
-            font-weight: 900;
-            border: none;
-            padding: 8px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            text-transform: uppercase;
-            font-size: 0.75em;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; padding: 15px; }
+        .modal-card { background: #1e1e1e; border: 2px solid var(--gold-primary); border-radius: 8px; width: 100%; max-width: 380px; max-height: 85vh; overflow-y: auto; padding: 15px; color: #fff; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.3); padding-bottom: 8px; margin-bottom: 10px; }
+        .modal-title { color: var(--gold-primary); font-size: 0.85em; font-weight: 900; }
+        .modal-close { background: none; border: none; color: var(--accent-red); font-size: 1.2em; font-weight: 900; cursor: pointer; }
+        .modal-body { color: #ccc; font-size: 0.75em; line-height: 1.4; }
+        .admin-input { width: 100%; background: #111; border: 1px solid var(--gold-primary); color: #fff; padding: 8px; border-radius: 4px; margin-bottom: 8px; font-size: 0.85em; }
+        .admin-btn { font-weight: 900; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; width: 100%; font-size: 0.75em; }
     </style>
 </head>
 <body>
 
-    <div id="pullRefreshIndicator">🔄 Pull down to refresh...</div>
     <div id="bottomCornerTrigger" style="position: fixed; bottom: 0; right: 0; width: 45px; height: 45px; z-index: 99999; background: transparent;"></div>
-
-    <video id="noSleepVideo" loop muted playsinline style="display:none; width:1px; height:1px;">
-        <source src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc29tYXZjMSF3AAAC..." type="video/mp4">
-    </video>
 
     <div class="sticky-top-section">
         <div class="header-top-banner">
@@ -376,12 +76,11 @@
             <div class="next-draw-timer"><span id="timer">00h 00m 00s</span></div>
         </div>
 
-        <!-- Filters Section (Date & Series Dropdown) -->
         <div class="filters-bar">
             <div class="filter-item">
                 <div class="filter-group-label">Date</div>
                 <div class="date-picker-wrapper">
-                    <input type="date" id="dateFilterInput" class="date-input" onchange="onDateChanged()">
+                    <input type="date" id="dateFilterInput" class="date-picker-wrapper" style="border:none;background:transparent;width:100%;outline:none;" onchange="onDateChanged()">
                 </div>
             </div>
             <div class="filter-item">
@@ -475,30 +174,9 @@
             }
         });
 
-        function sanitizeCells() {
-            document.querySelectorAll('.cell').forEach(c => {
-                let text = c.innerText.trim();
-                if(text.length === 4) {
-                    let p2 = text.slice(2, 4);
-                    if(p2[0] === p2[1]) {
-                        c.setAttribute('style', 'color: #d32f2f !important; font-weight: 900 !important; background: #ffffff !important; border: 1px solid #e5e5e5 !important; display: block !important;');
-                    } else {
-                        c.setAttribute('style', 'color: #111111 !important; font-weight: 800 !important; background: #ffffff !important; border: 1px solid #e5e5e5 !important; display: block !important;');
-                    }
-                }
-            });
-        }
-
-        const observer = new MutationObserver(() => { sanitizeCells(); });
         document.addEventListener("DOMContentLoaded", () => {
-            observer.observe(document.body, { childList: true, subtree: true });
-            setDefaultDate();
+            document.getElementById('dateFilterInput').value = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
         });
-
-        function setDefaultDate() {
-            let todayStr = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
-            document.getElementById('dateFilterInput').value = todayStr;
-        }
 
         function populateTimeDropdowns() {
             let optionsHtml = "";
@@ -548,9 +226,7 @@
             if (mod === 'AM' && h === 12) h = 0;
             let now = getISTDate(); now.setHours(h, m, 0, 0);
             let key = now.toLocaleDateString('en-GB', { timeZone: 'Asia/Kolkata', day: '2-digit', month: 'short', year: 'numeric' }).replace(/ /g, '_') + "_" + String(now.getHours()).padStart(2, '0') + "_" + String(now.getMinutes()).padStart(2, '0');
-            firebase.database().ref('resultsData/blocks/' + key).remove().then(() => {
-                alert('Deleted!');
-            });
+            firebase.database().ref('resultsData/blocks/' + key).remove().then(() => alert('Deleted!'));
         }
 
         let serverTimeOffset = 0;
@@ -566,48 +242,8 @@
         document.addEventListener("DOMContentLoaded", () => {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
-            setTimeout(() => {
-                initApp();
-                initPullToRefresh();
-            }, 300);
+            setTimeout(() => { initApp(); }, 200);
         });
-
-        function initPullToRefresh() {
-            let viewport = document.getElementById('scrollViewport');
-            let indicator = document.getElementById('pullRefreshIndicator');
-            let startY = 0;
-            let pulling = false;
-
-            viewport.addEventListener('touchstart', (e) => {
-                if (viewport.scrollTop === 0) {
-                    startY = e.touches[0].clientY;
-                    pulling = true;
-                }
-            }, {passive: true});
-
-            viewport.addEventListener('touchmove', (e) => {
-                if (!pulling) return;
-                let currentY = e.touches[0].clientY;
-                let diff = currentY - startY;
-                if (diff > 0 && diff < 120) {
-                    indicator.style.transform = `translateY(${diff}px)`;
-                    indicator.innerHTML = diff > 70 ? "Release to refresh..." : "🔄 Pull down to refresh...";
-                }
-            }, {passive: true});
-
-            viewport.addEventListener('touchend', (e) => {
-                if (!pulling) return;
-                let diff = e.changedTouches[0].clientY - startY;
-                pulling = false;
-                if (diff > 70 && viewport.scrollTop === 0) {
-                    indicator.innerHTML = "Refreshing...";
-                    indicator.style.transform = `translateY(40px)`;
-                    setTimeout(() => window.location.reload(), 400);
-                } else {
-                    indicator.style.transform = `translateY(0px)`;
-                }
-            });
-        }
 
         let currentSeriesFilter = 'all';
         const allSeriesBases = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
@@ -617,36 +253,30 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function outsideClose(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
 
-        async function enableScreenKeepAlive() {
-            try { if ('wakeLock' in navigator) await navigator.wakeLock.request('screen'); } catch(e){}
-            let v = document.getElementById('noSleepVideo'); if (v) v.play().catch(()=>{});
-        }
-        window.addEventListener('load', enableScreenKeepAlive);
-
-        // Precise Series Filtering Logic
         function switchSeries(series) {
             currentSeriesFilter = series;
             let cont = document.getElementById('todayMainSection');
-            cont.querySelectorAll('.result-block').forEach(blk => {
-                let rows = blk.querySelectorAll('.row-grid');
-                if (series === 'all') {
-                    rows.forEach(r => r.style.setProperty('display', 'grid', 'important'));
-                    blk.style.setProperty('display', 'block', 'important');
-                } else {
-                    let matchBase = parseInt(series, 10);
-                    let blockHasMatch = false;
-                    rows.forEach((row, idx) => {
-                        if (idx * 10 === matchBase) {
-                            row.style.setProperty('display', 'grid', 'important');
-                            blockHasMatch = true;
-                        } else {
-                            row.style.setProperty('display', 'none', 'important');
-                        }
-                    });
-                    blk.style.setProperty('display', blockHasMatch ? 'block' : 'none', 'important');
-                }
+            requestAnimationFrame(() => {
+                cont.querySelectorAll('.result-block').forEach(blk => {
+                    let rows = blk.querySelectorAll('.row-grid');
+                    if (series === 'all') {
+                        rows.forEach(r => r.style.setProperty('display', 'grid', 'important'));
+                        blk.style.setProperty('display', 'block', 'important');
+                    } else {
+                        let matchBase = parseInt(series, 10);
+                        let blockHasMatch = false;
+                        rows.forEach((row, idx) => {
+                            if (idx * 10 === matchBase) {
+                                row.style.setProperty('display', 'grid', 'important');
+                                blockHasMatch = true;
+                            } else {
+                                row.style.setProperty('display', 'none', 'important');
+                            }
+                        });
+                        blk.style.setProperty('display', blockHasMatch ? 'block' : 'none', 'important');
+                    }
+                });
             });
-            sanitizeCells();
         }
 
         function onDateChanged() {
@@ -695,7 +325,7 @@
                 blockRef.once('value').then(existingSnap => {
                     if (existingSnap.exists() && !customTime) return;
 
-                    let newBlock = `<div class="result-block" id="block-${timeKey}"><div class="time-header" data-time="${timeString}">${timeString}</div><div class="chart-table">`;
+                    let newBlock = `<div class="result-block"><div class="time-header">${timeString}</div><div class="chart-table">`;
                     
                     allSeriesBases.forEach(baseVal => {
                         let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
@@ -723,10 +353,9 @@
                             if (val.length < 4) val = val.padEnd(4, '0');
                             
                             let p2 = val.slice(2, 4);
-                            let textColor = (p2[0] === p2[1]) ? "#d32f2f" : "#111111";
-                            let fontWeight = (p2[0] === p2[1]) ? "900" : "800";
+                            let textColor = (p2[0] === p2[1]) ? "color:#d32f2f !important;font-weight:900 !important;" : "color:#111111 !important;font-weight:800 !important;";
                             
-                            newBlock += `<div class="cell" style="color:${textColor} !important; font-weight:${fontWeight} !important;">${val}</div>`;
+                            newBlock += `<div class="cell" style="${textColor}">${val}</div>`;
                         }
                         newBlock += `</div>`;
                     });
@@ -742,7 +371,7 @@
             let blocksObj = snapshotVal.blocks || snapshotVal;
             if (!blocksObj || typeof blocksObj !== 'object') blocksObj = {};
 
-            let selectedDateVal = document.getElementById('dateFilterInput').value; // e.g. "2026-11-09"
+            let selectedDateVal = document.getElementById('dateFilterInput').value; 
             let targetDay, targetMonthShort, targetYearNum;
 
             if (selectedDateVal) {
@@ -784,17 +413,14 @@
                 if (rawHtml) {
                     let tmp = document.createElement('div'); tmp.innerHTML = rawHtml;
                     let th = tmp.querySelector('.time-header');
-                    if (th) {
-                        let tText = th.innerText.trim();
-                        th.setAttribute('data-time', tText);
-                        th.innerHTML = idx === 0 ? `<span class="live-dot"></span>${tText}` : tText;
+                    if (th && idx === 0) {
+                        th.innerHTML = `<span class="live-dot"></span>` + th.innerText;
                     }
                     htmlContent += tmp.innerHTML;
                 }
             });
 
-            todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:#666;padding:20px;font-weight:900;'>No draws found for selected date...</div>";
-            
+            todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:#666;padding:20px;font-weight:900;'>No draws found...</div>";
             switchSeries(currentSeriesFilter);
         }
 
