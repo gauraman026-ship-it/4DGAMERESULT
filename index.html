@@ -23,25 +23,25 @@
         html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-light); color: var(--text-main); font-family: sans-serif; display: flex; flex-direction: column; }
 
         .sticky-top-section { flex-shrink: 0; background: #120c1f; z-index: 1000; width: 100%; border-bottom: 2px solid rgba(197, 160, 89, 0.3); }
-        .header-top-banner { text-align: center; padding: 10px 10px 4px 10px; }
-        .banner-title { font-size: 1.3em; font-weight: 700; color: #ffffff; font-family: serif; }
-        .banner-subtitle { font-size: 0.6em; font-weight: 800; color: #cccccc; letter-spacing: 1px; text-transform: uppercase; margin-top: 1px; }
+        .header-top-banner { text-align: center; padding: 5px 8px 3px 8px; }
+        .banner-title { font-size: 1.15em; font-weight: 700; color: #ffffff; font-family: serif; line-height: 1.2; }
+        .banner-subtitle { font-size: 0.55em; font-weight: 800; color: #cccccc; letter-spacing: 0.8px; text-transform: uppercase; margin-top: 1px; }
 
-        /* Banner ke theek niche scrolling ticker */
+        /* Slow motion scrolling ticker (45s) */
         .banner-ticker-bar {
           width: 100%;
           background: #0b0714;
           border-top: 1px solid rgba(197, 160, 89, 0.35);
           border-bottom: 1px solid rgba(197, 160, 89, 0.35);
-          padding: 4px 0;
+          padding: 3px 0;
           overflow: hidden;
           white-space: nowrap;
         }
         .ticker-track {
           display: inline-block;
           padding-left: 100%;
-          animation: tickerScroll 26s linear infinite;
-          font-size: 0.65em;
+          animation: tickerScroll 45s linear infinite;
+          font-size: 0.62em;
           font-weight: 800;
           color: #f3df9b;
           letter-spacing: 0.4px;
@@ -51,16 +51,16 @@
           100% { transform: translateX(-100%); }
         }
 
-        .next-draw-container { text-align: center; padding: 4px 0 6px 0; }
-        .next-draw-label { font-size: 0.5em; font-weight: 700; color: #aaa; text-transform: uppercase; }
-        .next-draw-timer { font-size: 1em; font-weight: 700; color: #f3df9b; font-family: monospace; }
+        .next-draw-container { text-align: center; padding: 3px 0 5px 0; }
+        .next-draw-label { font-size: 0.48em; font-weight: 700; color: #aaa; text-transform: uppercase; }
+        .next-draw-timer { font-size: 0.95em; font-weight: 700; color: #f3df9b; font-family: monospace; }
 
-        .filters-bar { display: flex; gap: 8px; padding: 6px 10px; background: #181124; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-        .filter-group-label { font-size: 0.5em; font-weight: 700; color: #999; text-transform: uppercase; padding: 0 2px 2px 2px; }
+        .filters-bar { display: flex; gap: 8px; padding: 5px 10px; background: #181124; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+        .filter-group-label { font-size: 0.48em; font-weight: 700; color: #999; text-transform: uppercase; padding: 0 2px 2px 2px; }
         .filter-item { flex: 1; display: flex; flex-direction: column; }
-        .date-picker-wrapper, .series-select { background: #ffffff; border-radius: 6px; padding: 5px 8px; border: 1px solid #443b5e; font-size: 0.7em; font-weight: 700; width: 100%; outline: none; }
+        .date-picker-wrapper, .series-select { background: #ffffff; border-radius: 6px; padding: 4px 8px; border: 1px solid #443b5e; font-size: 0.7em; font-weight: 700; width: 100%; outline: none; }
 
-        .completed-bar { display: flex; justify-content: space-between; align-items: center; padding: 5px 12px; background: #0b0714; font-size: 0.6em; font-weight: 700; color: #cccccc; border-top: 1px solid rgba(255,255,255,0.08); }
+        .completed-bar { display: flex; justify-content: space-between; align-items: center; padding: 4px 12px; background: #0b0714; font-size: 0.58em; font-weight: 700; color: #cccccc; border-top: 1px solid rgba(255,255,255,0.08); }
         
         @keyframes liveBlink {
           0% { opacity: 1; transform: scale(1); }
@@ -99,14 +99,14 @@
     <div class="sticky-top-section">
         <div class="header-top-banner">
             <div class="banner-title">Canvas Play Night</div>
-            <div class="banner-subtitle" style="color: var(--gold-light); font-size: 0.8em; margin-bottom: 2px;">2D Result</div>
-            <div class="banner-subtitle">Kohinoor Enterprises &bull; Amusement</div>
+            <div class="banner-subtitle" style="color: var(--gold-light); font-size: 0.75em; margin-bottom: 1px;">2D Result</div>
+            <div class="banner-subtitle" style="font-size: 0.52em;">Kohinoor Enterprises &bull; Amusement</div>
         </div>
 
-        <!-- Banner ke theek niche scrolling ticker -->
+        <!-- Banner ke theek niche slow-motion scrolling ticker -->
         <div class="banner-ticker-bar">
             <div class="ticker-track">
-                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™ 👑 | ✨ YOUR ENTERTAINMENT DESTINATION ✨ | 💎 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🔞 STRICTLY 18+ ONLY | ⚠️ PARTICIPATE RESPONSIBLY | 🛡️ FOLLOW ALL RULES &amp; REGULATIONS | 🌟 STAY SAFE • STAY CONNECTED • ENJOY RESPONSIBLY
+                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™  | ✨ YOUR ENTERTAINMENT DESTINATION ✨ | 💎 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🔞 STRICTLY 18+ ONLY | ⚠️ PARTICIPATE RESPONSIBLY | 🛡️ FOLLOW ALL RULES &amp; REGULATIONS | 🌟 STAY SAFE • STAY CONNECTED • ENJOY RESPONSIBLY
             </div>
         </div>
 
