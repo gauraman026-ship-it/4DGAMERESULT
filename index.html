@@ -23,11 +23,35 @@
         html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-light); color: var(--text-main); font-family: sans-serif; display: flex; flex-direction: column; }
 
         .sticky-top-section { flex-shrink: 0; background: #120c1f; z-index: 1000; width: 100%; border-bottom: 2px solid rgba(197, 160, 89, 0.3); }
-        .header-top-banner { text-align: center; padding: 10px 10px 2px 10px; }
+        .header-top-banner { text-align: center; padding: 10px 10px 4px 10px; }
         .banner-title { font-size: 1.3em; font-weight: 700; color: #ffffff; font-family: serif; }
         .banner-subtitle { font-size: 0.6em; font-weight: 800; color: #cccccc; letter-spacing: 1px; text-transform: uppercase; margin-top: 1px; }
 
-        .next-draw-container { text-align: center; padding: 2px 0 6px 0; }
+        /* Banner ke theek niche scrolling ticker */
+        .banner-ticker-bar {
+          width: 100%;
+          background: #0b0714;
+          border-top: 1px solid rgba(197, 160, 89, 0.35);
+          border-bottom: 1px solid rgba(197, 160, 89, 0.35);
+          padding: 4px 0;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        .ticker-track {
+          display: inline-block;
+          padding-left: 100%;
+          animation: tickerScroll 26s linear infinite;
+          font-size: 0.65em;
+          font-weight: 800;
+          color: #f3df9b;
+          letter-spacing: 0.4px;
+        }
+        @keyframes tickerScroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-100%); }
+        }
+
+        .next-draw-container { text-align: center; padding: 4px 0 6px 0; }
         .next-draw-label { font-size: 0.5em; font-weight: 700; color: #aaa; text-transform: uppercase; }
         .next-draw-timer { font-size: 1em; font-weight: 700; color: #f3df9b; font-family: monospace; }
 
@@ -38,7 +62,6 @@
 
         .completed-bar { display: flex; justify-content: space-between; align-items: center; padding: 5px 12px; background: #0b0714; font-size: 0.6em; font-weight: 700; color: #cccccc; border-top: 1px solid rgba(255,255,255,0.08); }
         
-        /* LIVE Blink Animation & Styling */
         @keyframes liveBlink {
           0% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.3; transform: scale(1.15); }
@@ -53,6 +76,7 @@
         .chart-table { display: flex; flex-direction: column; width: 100%; background: #ffffff; }
         .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); width: 100%; }
         .cell { background: #ffffff !important; padding: 6px 2px !important; text-align: center !important; font-weight: 800 !important; font-size: 11px !important; color: #111111 !important; border: 1px solid #e5e5e5 !important; }
+        .red-pair { color: #d32f2f !important; font-weight: 900 !important; }
 
         .site-footer { background: #121212 !important; border-top: 1px solid #333; padding: 6px; text-align: center; width: 100%; font-size: 0.5em; color: #aaa; margin-top: auto; }
         .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 10px; margin-bottom: 3px; }
@@ -75,7 +99,15 @@
     <div class="sticky-top-section">
         <div class="header-top-banner">
             <div class="banner-title">Canvas Play Night</div>
+            <div class="banner-subtitle" style="color: var(--gold-light); font-size: 0.8em; margin-bottom: 2px;">2D Result</div>
             <div class="banner-subtitle">Kohinoor Enterprises &bull; Amusement</div>
+        </div>
+
+        <!-- Banner ke theek niche scrolling ticker -->
+        <div class="banner-ticker-bar">
+            <div class="ticker-track">
+                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™ 👑 | ✨ YOUR ENTERTAINMENT DESTINATION ✨ | 💎 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🔞 STRICTLY 18+ ONLY | ⚠️ PARTICIPATE RESPONSIBLY | 🛡️ FOLLOW ALL RULES &amp; REGULATIONS | 🌟 STAY SAFE • STAY CONNECTED • ENJOY RESPONSIBLY
+            </div>
         </div>
 
         <div class="next-draw-container">
@@ -182,7 +214,14 @@
         });
 
         document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById('dateFilterInput').value = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+            let todayStr = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+            let dateInput = document.getElementById('dateFilterInput');
+            dateInput.value = todayStr;
+            
+            let d = new Date();
+            d.setDate(d.getDate() - 7);
+            dateInput.min = d.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+            dateInput.max = todayStr;
         });
 
         function populateTimeDropdowns() {
@@ -240,10 +279,15 @@
         let globalDatabaseCache = {};
         function getISTDate() { return new Date(Date.now() + serverTimeOffset); }
 
-        const firebaseConfig = { 
-            apiKey: "AIzaSyCNLfjZ0hctznOLuyD6EIg-Z_ef-KO8i3Q", 
-            databaseURL: "https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com", 
-            projectId: "canvas2d-result" 
+        const firebaseConfig = {
+            apiKey: "AIzaSyB177VZR1JOVCXKM2hW19Brbhn6Ozv5SpA",
+            authDomain: "canvas2d-result-f4d7d.firebaseapp.com",
+            databaseURL: "https://canvas2d-result-f4d7d-default-rtdb.firebaseio.com",
+            projectId: "canvas2d-result-f4d7d",
+            storageBucket: "canvas2d-result-f4d7d.firebasestorage.app",
+            messagingSenderId: "848611628724",
+            appId: "1:848611628724:web:15929f30ce2c6118a469e1",
+            measurementId: "G-RVXDKT2FVG"
         };
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -259,6 +303,18 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function outsideClose(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+        function formatCellNumber(val) {
+            let clean = String(val).trim();
+            if (clean.length === 4) {
+                let p1 = clean.slice(0, 2);
+                let p2 = clean.slice(2, 4);
+                if (p2[0] === p2[1]) {
+                    return `${p1}<span class="red-pair">${p2}</span>`;
+                }
+            }
+            return clean;
+        }
 
         function switchSeries(series) {
             currentSeriesFilter = series;
@@ -359,10 +415,8 @@
                             }
                             if (val.length < 4) val = val.padEnd(4, '0');
                             
-                            let p2 = val.slice(2, 4);
-                            let textColor = (p2[0] === p2[1]) ? "color:#d32f2f !important;font-weight:900 !important;" : "color:#111111 !important;font-weight:800 !important;";
-                            
-                            newBlock += `<div class="cell" style="${textColor}">${val}</div>`;
+                            let formattedHtml = formatCellNumber(val);
+                            newBlock += `<div class="cell" style="color:#111111 !important;font-weight:800 !important;">${formattedHtml}</div>`;
                         }
                         newBlock += `</div>`;
                     });
@@ -423,6 +477,12 @@
                     if (th) {
                         th.innerHTML = th.innerText.replace('LIVE', '').replace(/[\s•]+/g, ' ').trim();
                     }
+                    tmp.querySelectorAll('.cell').forEach(cell => {
+                        let numText = cell.innerText.trim();
+                        cell.style.setProperty('color', '#111111', 'important');
+                        cell.style.setProperty('font-weight', '800', 'important');
+                        cell.innerHTML = formatCellNumber(numText);
+                    });
                     htmlContent += tmp.innerHTML;
                 }
             });
@@ -437,7 +497,7 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').on('value', snapshot => {
+            db.ref('resultsData/blocks').orderByKey().limitToLast(400).on('value', snapshot => {
                 globalDatabaseCache = snapshot.exists() ? snapshot.val() : {};
                 processSnapshotData(globalDatabaseCache);
             });
