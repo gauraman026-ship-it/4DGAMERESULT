@@ -11,7 +11,7 @@
 
     <style>
         :root {
-          --bg-light: #f4f5f7;
+          --bg-dark: #120c1f;
           --header-bg: #120c1f;
           --gold-primary: #c5a059;
           --gold-light: #e6c57e;
@@ -20,14 +20,14 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent !important; }
-        html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-light); color: var(--text-main); font-family: sans-serif; display: flex; flex-direction: column; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-dark); color: var(--text-main); font-family: sans-serif; display: flex; flex-direction: column; }
 
         .sticky-top-section { flex-shrink: 0; background: #120c1f; z-index: 1000; width: 100%; border-bottom: 2px solid rgba(197, 160, 89, 0.3); }
         .header-top-banner { text-align: center; padding: 5px 8px 3px 8px; }
         .banner-title { font-size: 1.15em; font-weight: 700; color: #ffffff; font-family: serif; line-height: 1.2; }
         .banner-subtitle { font-size: 0.55em; font-weight: 800; color: #cccccc; letter-spacing: 0.8px; text-transform: uppercase; margin-top: 1px; }
 
-        /* Slow motion scrolling ticker (45s) */
+        /* Super slow motion scrolling ticker (80s) */
         .banner-ticker-bar {
           width: 100%;
           background: #0b0714;
@@ -40,7 +40,7 @@
         .ticker-track {
           display: inline-block;
           padding-left: 100%;
-          animation: tickerScroll 45s linear infinite;
+          animation: tickerScroll 80s linear infinite;
           font-size: 0.62em;
           font-weight: 800;
           color: #f3df9b;
@@ -70,7 +70,7 @@
         .live-indicator { display: flex; align-items: center; gap: 4px; color: var(--accent-red); font-weight: 900; animation: liveBlink 1.2s infinite ease-in-out; }
         .live-dot { height: 6px; width: 6px; background-color: var(--accent-red); border-radius: 50%; display: inline-block; animation: liveBlink 1s infinite ease-in-out; box-shadow: 0 0 6px var(--accent-red); }
 
-        .main-scroll-viewport { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 8px; width: 100%; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 10px; }
+        .main-scroll-viewport { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 8px; width: 100%; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 10px; background: var(--bg-dark); }
         .result-block { background: #ffffff; border: 1px solid #d0d0d0; border-radius: 6px; overflow: hidden; width: 100%; margin-bottom: 2px; }
         .time-header { font-weight: 900; display: flex; align-items: center; justify-content: center !important; background: #1f3b4d !important; color: #ffffff !important; padding: 6px !important; font-size: 0.8em !important; }
         .chart-table { display: flex; flex-direction: column; width: 100%; background: #ffffff; }
@@ -103,10 +103,10 @@
             <div class="banner-subtitle" style="font-size: 0.52em;">Kohinoor Enterprises &bull; Amusement</div>
         </div>
 
-        <!-- Banner ke theek niche slow-motion scrolling ticker -->
+        <!-- Banner ke theek niche super slow-motion scrolling ticker -->
         <div class="banner-ticker-bar">
             <div class="ticker-track">
-                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™  | ✨ YOUR ENTERTAINMENT DESTINATION ✨ | 💎 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🔞 STRICTLY 18+ ONLY | ⚠️ PARTICIPATE RESPONSIBLY | 🛡️ FOLLOW ALL RULES &amp; REGULATIONS | 🌟 STAY SAFE • STAY CONNECTED • ENJOY RESPONSIBLY
+                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™ 🙏 ♠️ ENTER THE WORLD OF PREMIUM GAMING &amp; ENTERTAINMENT | 🏆 BIG EXPERIENCE &bull; BOLD IDENTITY &bull; PROFESSIONAL STANDARD | 💎 TRUST IS OUR FOUNDATION, EXCELLENCE IS OUR COMMITMENT  💎 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🤝 YOUR TRUST &bull; OUR RESPONSIBILITY | 🔞 STRICTLY 18+ ONLY &bull; 🛡️ PLAY RESPONSIBLY &bull; STAY SAFE &bull; FOLLOW THE RULES | 🏆 CΛNVΛS PLAY NIGHT™
             </div>
         </div>
 
@@ -488,7 +488,7 @@
             });
 
             requestAnimationFrame(() => {
-                todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:#666;padding:20px;font-weight:900;'>No draws found...</div>";
+                todayContainer.innerHTML = htmlContent || "<div style='text-align:center;color:#aaa;padding:20px;font-weight:900;'>No draws found...</div>";
                 switchSeries(currentSeriesFilter);
             });
         }
