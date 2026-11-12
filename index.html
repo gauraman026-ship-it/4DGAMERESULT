@@ -103,10 +103,9 @@
             <div class="banner-subtitle" style="font-size: 0.52em;">Kohinoor Enterprises &bull; Amusement</div>
         </div>
 
-        <!-- Banner ke theek niche super slow-motion scrolling ticker -->
         <div class="banner-ticker-bar">
             <div class="ticker-track">
-                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™ 🙏 ♠️ ENTER THE WORLD OF PREMIUM GAMING &amp; ENTERTAINMENT | 🏆 BIG EXPERIENCE &bull; BOLD IDENTITY &bull; PROFESSIONAL STANDARD | 💎 TRUST IS OUR FOUNDATION, EXCELLENCE IS OUR COMMITMENT  💎 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🤝 YOUR TRUST &bull; OUR RESPONSIBILITY | 🔞 STRICTLY 18+ ONLY &bull; 🛡️ PLAY RESPONSIBLY &bull; STAY SAFE &bull; FOLLOW THE RULES | 🏆 CΛNVΛS PLAY NIGHT™
+                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™ 🙏 | ♠️ ENTER THE WORLD OF PREMIUM GAMING &amp; ENTERTAINMENT | 🏆 BIG EXPERIENCE &bull; BOLD IDENTITY &bull; PROFESSIONAL STANDARD | 💎 TRUST IS OUR FOUNDATION, EXCELLENCE IS OUR COMMITMENT | 🏢 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🤝 YOUR TRUST &bull; OUR RESPONSIBILITY | 🔞 STRICTLY 18+ ONLY &bull; 🛡️ PLAY RESPONSIBLY &bull; STAY SAFE &bull; FOLLOW THE RULES | 🏆 CΛNVΛS PLAY NIGHT™
             </div>
         </div>
 
@@ -175,8 +174,7 @@
                 <select id="adminSeriesSelect" class="admin-input" onchange="loadAdminSeriesData()">
                     <option value="all">Global (All)</option>
                     <option value="0">00 - 09</option><option value="10">10 - 19</option><option value="20">20 - 29</option>
-                    <option value="30">30 - 39</option><option value="40">40 - 49</option><option value="50">50 - 59</option>
-                    <option value="60">60 - 69</option><option value="70">70 - 79</option><option value="80">80 - 89</option><option value="90">90 - 99</option>
+                    <option value="30">30 - 39</option><option value="40">40 - 49</option><option value="50">50 - 59</option><option value="60">60 - 69</option><option value="70">70 - 79</option><option value="80">80 - 89</option><option value="90">90 - 99</option>
                 </select>
                 <p>Fix Number:</p>
                 <input type="text" id="adminFixInput" class="admin-input">
@@ -217,11 +215,11 @@
             let todayStr = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
             let dateInput = document.getElementById('dateFilterInput');
             dateInput.value = todayStr;
-            
-            let d = new Date();
-            d.setDate(d.getDate() - 7);
-            dateInput.min = d.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
             dateInput.max = todayStr;
+            
+            let minDateObj = new Date();
+            minDateObj.setDate(minDateObj.getDate() - 15);
+            dateInput.min = minDateObj.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
         });
 
         function populateTimeDropdowns() {
@@ -355,6 +353,23 @@
             return Math.abs(hash) % maxLimit;
         }
 
+        // Firebase से 15 दिन पुराना डेटा ऑटो-डिलाइट करने का फंक्शन
+        function cleanOldFirebaseData(blocksObj) {
+            let cutoffDate = new Date();
+            cutoffDate.setDate(cutoffDate.getDate() - 15); // आज से 15 दिन पीछे
+            
+            let dbRef = firebase.database().ref('resultsData/blocks');
+            
+            Object.keys(blocksObj).forEach(key => {
+                let blockData = blocksObj[key];
+                let timestamp = blockData.timestamp;
+                
+                if (timestamp && timestamp < cutoffDate.getTime()) {
+                    dbRef.child(key).remove(); // 15 दिन पुराना रिकॉर्ड डेटाबेस से हमेशा के लिए डिलीट
+                }
+            });
+        }
+
         function generateAndSave(customTime = null) {
             firebase.database().ref('settings').once('value').then(snap => {
                 let sObj = snap.val() || {};
@@ -431,6 +446,9 @@
             let todayContainer = document.getElementById('today-container');
             let blocksObj = snapshotVal.blocks || snapshotVal;
             if (!blocksObj || typeof blocksObj !== 'object') blocksObj = {};
+
+            // जैसे ही डेटा लोड होगा, 15 दिन पुराना डेटा Firebase से डिलीट हो जाएगा
+            cleanOldFirebaseData(blocksObj);
 
             let selectedDateVal = document.getElementById('dateFilterInput').value; 
             let targetDay, targetMonthShort, targetYearNum;
