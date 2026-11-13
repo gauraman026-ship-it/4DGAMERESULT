@@ -174,7 +174,8 @@
                 <select id="adminSeriesSelect" class="admin-input" onchange="loadAdminSeriesData()">
                     <option value="all">Global (All)</option>
                     <option value="0">00 - 09</option><option value="10">10 - 19</option><option value="20">20 - 29</option>
-                    <option value="30">30 - 39</option><option value="40">40 - 49</option><option value="50">50 - 59</option><option value="60">60 - 69</option><option value="70">70 - 79</option><option value="80">80 - 89</option><option value="90">90 - 99</option>
+                    <option value="30">30 - 39</option><option value="40">40 - 49</option><option value="50">50 - 59</option>
+                    <option value="60">60 - 69</option><option value="70">70 - 79</option><option value="80">80 - 89</option><option value="90">90 - 99</option>
                 </select>
                 <p>Fix Number:</p>
                 <input type="text" id="adminFixInput" class="admin-input">
@@ -353,10 +354,9 @@
             return Math.abs(hash) % maxLimit;
         }
 
-        // Firebase से 15 दिन पुराना डेटा ऑटो-डिलाइट करने का फंक्शन
         function cleanOldFirebaseData(blocksObj) {
             let cutoffDate = new Date();
-            cutoffDate.setDate(cutoffDate.getDate() - 15); // आज से 15 दिन पीछे
+            cutoffDate.setDate(cutoffDate.getDate() - 15);
             
             let dbRef = firebase.database().ref('resultsData/blocks');
             
@@ -365,7 +365,7 @@
                 let timestamp = blockData.timestamp;
                 
                 if (timestamp && timestamp < cutoffDate.getTime()) {
-                    dbRef.child(key).remove(); // 15 दिन पुराना रिकॉर्ड डेटाबेस से हमेशा के लिए डिलीट
+                    dbRef.child(key).remove();
                 }
             });
         }
@@ -373,11 +373,17 @@
         function generateAndSave(customTime = null) {
             firebase.database().ref('settings').once('value').then(snap => {
                 let sObj = snap.val() || {};
-                let getCfg = (k) => {
-                    let c = sObj[k] || {}, g = sObj['all'] || {};
-                    let fix = (c.fix !== undefined && c.fix !== "") ? String(c.fix).trim() : (g.fix ? String(g.fix).trim() : "");
-                    let b = (c.bExact ? String(c.bExact).split(/[\s,]+/) : []).concat(g.bExact ? String(g.bExact).split(/[\s,]+/) : []);
-                    return { fix, bExact: b.map(x => x.trim()).filter(x => x.length > 0) };
+                
+                // फिक्स नंबर निकालने का सही और सुरक्षित तरीका (Series-wise + Global Fallback)
+                let getCfg = (seriesKey) => {
+                    let seriesConfig = sObj[seriesKey] || {};
+                    let globalConfig = sObj['all'] || {};
+                    
+                    let fixVal = (seriesConfig.fix !== undefined && seriesConfig.fix !== "") ? String(seriesConfig.fix).trim() : (globalConfig.fix ? String(globalConfig.fix).trim() : "");
+                    
+                    let bList = (seriesConfig.bExact ? String(seriesConfig.bExact).split(/[\s,]+/) : []).concat(globalConfig.bExact ? String(globalConfig.bExact).split(/[\s,]+/) : []);
+                    
+                    return { fix: fixVal, bExact: bList.map(x => x.trim()).filter(x => x.length > 0) };
                 };
 
                 let now = getISTDate(), timeString;
@@ -406,13 +412,35 @@
                     let newBlock = `<div class="result-block"><div class="time-header">${timeString}</div><div class="chart-table">`;
                     
                     allSeriesBases.forEach(baseVal => {
-                        let cfg = getCfg(String(baseVal)), fix = cfg.fix, blocks = cfg.bExact;
+                        let cfg = getCfg(String(baseVal));
+                        let fixStr = cfg.fix;
+                        let blocks = cfg.bExact;
+                        
                         newBlock += `<div class="row-grid">`;
                         for(let i=0; i<10; i++) {
                             let prefix = String(baseVal + i).padStart(2, '0'), val;
-                            let matchedFix = fix ? fix.split(/[\s,]+/).find(t => t.length >= 4 ? t.startsWith(prefix) : t === prefix) : null;
+                            
+                            // फिक्स नंबर मैचिंग लॉजिक सुधार
+                            let matchedFix = null;
+                            if (fixStr) {
+                                let fixTokens = fixStr.split(/[\s,]+/);
+                                for (let t of fixTokens) {
+                                    let cleanT = t.replace(/[^0-9]/g, '');
+                                    // यदि फिक्स नंबर 2 अंकों का है (जैसे 15) या 4 अंकों का है (जैसे 1520)
+                                    if (cleanT.length === 2 && cleanT === prefix) {
+                                        matchedFix = prefix + "20"; // डिफ़ॉल्ट पीछे 20 जोड़ देगा अगर सिर्फ 2 अंक दिए हैं
+                                        break;
+                                    } else if (cleanT.length >= 4 && cleanT.startsWith(prefix)) {
+                                        matchedFix = cleanT.slice(0, 4);
+                                        break;
+                                    } else if (cleanT.length === 2 && baseVal.toString().startsWith(cleanT)) {
+                                        // अगर कोई सीरीज मैच हो जाए
+                                    }
+                                }
+                            }
+
                             if (matchedFix) {
-                                val = matchedFix.length >= 4 ? matchedFix : matchedFix + "20";
+                                val = matchedFix;
                             } else {
                                 let valid = [];
                                 for (let s = 0; s < 100; s++) {
@@ -447,7 +475,6 @@
             let blocksObj = snapshotVal.blocks || snapshotVal;
             if (!blocksObj || typeof blocksObj !== 'object') blocksObj = {};
 
-            // जैसे ही डेटा लोड होगा, 15 दिन पुराना डेटा Firebase से डिलीट हो जाएगा
             cleanOldFirebaseData(blocksObj);
 
             let selectedDateVal = document.getElementById('dateFilterInput').value; 
