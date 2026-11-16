@@ -27,28 +27,33 @@
         .banner-title { font-size: 1.15em; font-weight: 700; color: #ffffff; font-family: serif; line-height: 1.2; }
         .banner-subtitle { font-size: 0.55em; font-weight: 800; color: #cccccc; letter-spacing: 0.8px; text-transform: uppercase; margin-top: 1px; }
 
-        /* Super slow motion scrolling ticker (80s) */
+        /* Marquee / Ticker CSS */
         .banner-ticker-bar {
           width: 100%;
-          background: #0b0714;
-          border-top: 1px solid rgba(197, 160, 89, 0.35);
-          border-bottom: 1px solid rgba(197, 160, 89, 0.35);
-          padding: 3px 0;
+          background: linear-gradient(90deg,#080808,#251806,#080808);
+          border-top: 1px solid #d6ad55;
+          border-bottom: 1px solid #d6ad55;
+          padding: 6px 0;
           overflow: hidden;
           white-space: nowrap;
         }
         .ticker-track {
-          display: inline-block;
-          padding-left: 100%;
-          animation: tickerScroll 80s linear infinite;
-          font-size: 0.62em;
-          font-weight: 800;
-          color: #f3df9b;
-          letter-spacing: 0.4px;
+          display: flex;
+          width: max-content;
+          animation: canvasMove 45s linear infinite;
         }
-        @keyframes tickerScroll {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-100%); }
+        .ticker-track span {
+          flex-shrink: 0;
+          white-space: nowrap;
+          padding-right: 35px;
+          color: #f5d783;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.8px;
+        }
+        @keyframes canvasMove {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
         }
 
         .next-draw-container { text-align: center; padding: 3px 0 5px 0; }
@@ -103,9 +108,15 @@
             <div class="banner-subtitle" style="font-size: 0.52em;">Kohinoor Enterprises &bull; Amusement</div>
         </div>
 
+        <!-- नवीन Marquee Ticker -->
         <div class="banner-ticker-bar">
             <div class="ticker-track">
-                🙏 WELCOME TO CΛNVΛS PLAY NIGHT™ 🙏 | ♠️ ENTER THE WORLD OF PREMIUM GAMING &amp; ENTERTAINMENT | 🏆 BIG EXPERIENCE &bull; BOLD IDENTITY &bull; PROFESSIONAL STANDARD | 💎 TRUST IS OUR FOUNDATION, EXCELLENCE IS OUR COMMITMENT | 🏢 POWERED BY KOHINOOR ENTERPRISES AMUSEMENT | 🤝 YOUR TRUST &bull; OUR RESPONSIBILITY | 🔞 STRICTLY 18+ ONLY &bull; 🛡️ PLAY RESPONSIBLY &bull; STAY SAFE &bull; FOLLOW THE RULES | 🏆 CΛNVΛS PLAY NIGHT™
+                <span>
+                    👑 WELCOME TO CΛNVΛS PLAY NIGHT™ ✦ LIVE RESULTS ✦ FAST UPDATES ✦ OFFICIAL ANNOUNCEMENTS ✦ PREMIUM ENTERTAINMENT ✦ TRUST • TRANSPARENCY • COMMITMENT ✦ YOUR TRUST IS OUR PRIORITY ✦ POWERED BY KOHINOOR ENTERPRISES AMUSEMENT ✦ STRICTLY 18+ ONLY
+                </span>
+                <span aria-hidden="true">
+                    👑 WELCOME TO CΛNVΛS PLAY NIGHT™ ✦ LIVE RESULTS ✦ FAST UPDATES ✦ OFFICIAL ANNOUNCEMENTS ✦ PREMIUM ENTERTAINMENT ✦ TRUST • TRANSPARENCY • COMMITMENT ✦ YOUR TRUST IS OUR PRIORITY ✦ POWERED BY KOHINOOR ENTERPRISES AMUSEMENT ✦ STRICTLY 18+ ONLY
+                </span>
             </div>
         </div>
 
@@ -140,7 +151,7 @@
         </div>
 
         <div class="completed-bar">
-            <div class="live-indicator"><span class="live-dot"></span> LIVE</div>
+            <div id="liveIndicatorBox" class="live-indicator"><span class="live-dot"></span> LIVE</div>
             <div id="drawsCounterText">Completed: 0 Draws</div>
         </div>
     </div>
@@ -219,7 +230,7 @@
             dateInput.max = todayStr;
             
             let minDateObj = new Date();
-            minDateObj.setDate(minDateObj.getDate() - 15);
+            minDateObj.setDate(minDateObj.getDate() - 7);
             dateInput.min = minDateObj.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
         });
 
@@ -292,7 +303,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
-            setTimeout(() => { initApp(); }, 200);
+            setTimeout(() => { initApp(); }, 100);
         });
 
         let currentSeriesFilter = 'all';
@@ -354,18 +365,20 @@
             return Math.abs(hash) % maxLimit;
         }
 
-        function cleanOldFirebaseData(blocksObj) {
-            let cutoffDate = new Date();
-            cutoffDate.setDate(cutoffDate.getDate() - 15);
-            
+        let cleanupDone = false;
+        function cleanOldFirebaseData() {
+            if (cleanupDone) return;
+            cleanupDone = true;
+            let cutoffTime = Date.now() - (7 * 24 * 60 * 60 * 1000);
             let dbRef = firebase.database().ref('resultsData/blocks');
             
-            Object.keys(blocksObj).forEach(key => {
-                let blockData = blocksObj[key];
-                let timestamp = blockData.timestamp;
-                
-                if (timestamp && timestamp < cutoffDate.getTime()) {
-                    dbRef.child(key).remove();
+            dbRef.orderByChild('timestamp').endAt(cutoffTime).once('value', snap => {
+                if (snap.exists()) {
+                    let updates = {};
+                    snap.forEach(child => {
+                        updates[child.key] = null;
+                    });
+                    dbRef.update(updates);
                 }
             });
         }
@@ -374,15 +387,11 @@
             firebase.database().ref('settings').once('value').then(snap => {
                 let sObj = snap.val() || {};
                 
-                // फिक्स नंबर निकालने का सही और सुरक्षित तरीका (Series-wise + Global Fallback)
                 let getCfg = (seriesKey) => {
                     let seriesConfig = sObj[seriesKey] || {};
                     let globalConfig = sObj['all'] || {};
-                    
                     let fixVal = (seriesConfig.fix !== undefined && seriesConfig.fix !== "") ? String(seriesConfig.fix).trim() : (globalConfig.fix ? String(globalConfig.fix).trim() : "");
-                    
                     let bList = (seriesConfig.bExact ? String(seriesConfig.bExact).split(/[\s,]+/) : []).concat(globalConfig.bExact ? String(globalConfig.bExact).split(/[\s,]+/) : []);
-                    
                     return { fix: fixVal, bExact: bList.map(x => x.trim()).filter(x => x.length > 0) };
                 };
 
@@ -420,21 +429,17 @@
                         for(let i=0; i<10; i++) {
                             let prefix = String(baseVal + i).padStart(2, '0'), val;
                             
-                            // फिक्स नंबर मैचिंग लॉजिक सुधार
                             let matchedFix = null;
                             if (fixStr) {
                                 let fixTokens = fixStr.split(/[\s,]+/);
                                 for (let t of fixTokens) {
                                     let cleanT = t.replace(/[^0-9]/g, '');
-                                    // यदि फिक्स नंबर 2 अंकों का है (जैसे 15) या 4 अंकों का है (जैसे 1520)
                                     if (cleanT.length === 2 && cleanT === prefix) {
-                                        matchedFix = prefix + "20"; // डिफ़ॉल्ट पीछे 20 जोड़ देगा अगर सिर्फ 2 अंक दिए हैं
+                                        matchedFix = prefix + "20";
                                         break;
                                     } else if (cleanT.length >= 4 && cleanT.startsWith(prefix)) {
                                         matchedFix = cleanT.slice(0, 4);
                                         break;
-                                    } else if (cleanT.length === 2 && baseVal.toString().startsWith(cleanT)) {
-                                        // अगर कोई सीरीज मैच हो जाए
                                     }
                                 }
                             }
@@ -474,8 +479,6 @@
             let todayContainer = document.getElementById('today-container');
             let blocksObj = snapshotVal.blocks || snapshotVal;
             if (!blocksObj || typeof blocksObj !== 'object') blocksObj = {};
-
-            cleanOldFirebaseData(blocksObj);
 
             let selectedDateVal = document.getElementById('dateFilterInput').value; 
             let targetDay, targetMonthShort, targetYearNum;
@@ -542,10 +545,15 @@
             const db = firebase.database();
             db.ref('settings').on('value', s => { if(s.exists()) globalSettingsData = s.val(); });
 
-            db.ref('resultsData/blocks').orderByKey().limitToLast(400).on('value', snapshot => {
-                globalDatabaseCache = snapshot.exists() ? snapshot.val() : {};
-                processSnapshotData(globalDatabaseCache);
-            });
+            let sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+            db.ref('resultsData/blocks')
+              .orderByChild('timestamp')
+              .startAt(sevenDaysAgo)
+              .on('value', snapshot => {
+                  globalDatabaseCache = snapshot.exists() ? snapshot.val() : {};
+                  processSnapshotData(globalDatabaseCache);
+                  cleanOldFirebaseData();
+              });
 
             setInterval(() => {
                 let nowCheck = getISTDate();
@@ -569,7 +577,17 @@
                 let currentSec = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', second: 'numeric' }).format(nowCheck), 10);
                 let currentMin = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(nowCheck), 10);
                 let currentHour = parseInt(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }).format(nowCheck), 10);
-                let isActiveNow = (currentHour > 9 || (currentHour === 9 && currentMin >= 0)) && (currentHour < 22 || (currentHour === 22 && currentMin <= 0));
+                
+                let isActiveNow = (currentHour >= 9 && currentHour < 22);
+
+                let liveBox = document.getElementById('liveIndicatorBox');
+                if (liveBox) {
+                    if (isActiveNow) {
+                        liveBox.style.display = 'flex';
+                    } else {
+                        liveBox.style.display = 'none';
+                    }
+                }
 
                 if (isActiveNow) {
                     let remMin = 14 - (currentMin % 15);
