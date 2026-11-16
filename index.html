@@ -92,7 +92,10 @@
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(197, 160, 89, 0.3); padding-bottom: 8px; margin-bottom: 10px; }
         .modal-title { color: var(--gold-primary); font-size: 0.85em; font-weight: 900; }
         .modal-close { background: none; border: none; color: var(--accent-red); font-size: 1.2em; font-weight: 900; cursor: pointer; }
-        .modal-body { color: #ccc; font-size: 0.75em; line-height: 1.4; }
+        .modal-body { color: #ccc; font-size: 0.75em; line-height: 1.5; }
+        .modal-body p { margin-bottom: 8px; }
+        .modal-body ul { padding-left: 15px; margin-bottom: 8px; }
+        
         .admin-input { width: 100%; background: #111; border: 1px solid var(--gold-primary); color: #fff; padding: 8px; border-radius: 4px; margin-bottom: 8px; font-size: 0.85em; }
         .admin-btn { font-weight: 900; border: none; padding: 8px 10px; border-radius: 4px; cursor: pointer; width: 100%; font-size: 0.75em; }
     </style>
@@ -108,7 +111,6 @@
             <div class="banner-subtitle" style="font-size: 0.52em;">Kohinoor Enterprises &bull; Amusement</div>
         </div>
 
-        <!-- नवीन Marquee Ticker -->
         <div class="banner-ticker-bar">
             <div class="ticker-track">
                 <span>
@@ -173,7 +175,7 @@
         </footer>
     </div>
 
-    <!-- Modals -->
+    <!-- Modals with Detailed Content -->
     <div id="adminPanelModal" class="modal-overlay" onclick="outsideClose(event, 'adminPanelModal')">
         <div class="modal-card">
             <div class="modal-header">
@@ -203,11 +205,81 @@
         </div>
     </div>
 
-    <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">About Us</span><button class="modal-close" onclick="closeModal('aboutModal')">&times;</button></div><div class="modal-body"><p>CANVAS PLAY NIGHT skill game.</p></div></div></div>
-    <div id="rulesModal" class="modal-overlay" onclick="outsideClose(event, 'rulesModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Rules</span><button class="modal-close" onclick="closeModal('rulesModal')">&times;</button></div><div class="modal-body"><p>Automated draws between 09:00 AM and 10:00 PM.</p></div></div></div>
-    <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Support</span><button class="modal-close" onclick="closeModal('supportModal')">&times;</button></div><div class="modal-body"><p>Contact support desk for assistance.</p></div></div></div>
-    <div id="privacyModal" class="modal-overlay" onclick="outsideClose(event, 'privacyModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Privacy</span><button class="modal-close" onclick="closeModal('privacyModal')">&times;</button></div><div class="modal-body"><p>Your privacy is protected.</p></div></div></div>
-    <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Terms</span><button class="modal-close" onclick="closeModal('termsModal')">&times;</button></div><div class="modal-body"><p>By accessing portal, you agree to terms.</p></div></div></div>
+    <!-- ABOUT US MODAL -->
+    <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">About Us - Canvas Play Night</span>
+                <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>CANVAS PLAY NIGHT™</strong> एक प्रीमियम स्किल गेमिंग और एंटरटेनमेंट प्लेटफॉर्म है, जिसे पूरी पारदर्शिता और प्रोफेशनलिज्म के साथ डिज़ाइन किया गया है।</p>
+                <p>यह पोर्टल <strong>Kohinoor Enterprises Amusement</strong> द्वारा संचालित किया जाता है। हमारा मुख्य उद्देश्य हमारे यूज़र्स को सबसे तेज़, सटीक और सुरक्षित रियल-टाइम परिणाम प्रदान करना है।</p>
+                <p>हम उच्च मानकों (High Standards), सुरक्षा और भरोसेमंद सर्विस के लिए प्रतिबद्ध हैं।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME RULES MODAL -->
+    <div id="rulesModal" class="modal-overlay" onclick="outsideClose(event, 'rulesModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Game Rules & Guidelines</span>
+                <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>1. ड्रॉ का समय (Draw Timings):</strong> सभी ऑटोमेटेड ड्रॉ रोज़ाना सुबह 09:00 AM से रात 10:00 PM के बीच हर 15 मिनट के अंतराल पर होते हैं।</p>
+                <p><strong>2. आयु सीमा (Age Restriction):</strong> यह पोर्टल और खेल केवल 18 वर्ष से अधिक आयु के वयस्कों के लिए है।</p>
+                <p><strong>3. परिणाम और पारदर्शिता (Results):</strong> सभी परिणाम स्वचालित एल्गोरिदम और निर्धारित मानकों के तहत सुरक्षित रूप से प्रदर्शित किए जाते हैं।</p>
+                <p><strong>4. जिम्मेदारी (Responsible Play):</strong> सभी यूज़र्स से अनुरोध है कि वे नियमों का पालन करें और पूरी सावधानी के साथ मनोरंजन का आनंद लें।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPPORT MODAL -->
+    <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Customer Support</span>
+                <button class="modal-close" onclick="closeModal('supportModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>क्या आपको सहायता की आवश्यकता है या आपके पास कोई सवाल है?</p>
+                <p>हमारी सपोर्ट टीम आपकी मदद के लिए हमेशा तैयार है। आप किसी भी तकनीकी समस्या या जानकारी के लिए हमारे आधिकारिक सपोर्ट डेस्क से संपर्क कर सकते हैं।</p>
+                <p><strong>समय:</strong> सुबह 09:00 AM से रात 10:00 PM तक उपलब्ध।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div id="privacyModal" class="modal-overlay" onclick="outsideClose(event, 'privacyModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Privacy Policy</span>
+                <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>1. डेटा सुरक्षा (Data Security):</strong> आपकी गोपनीयता हमारे लिए अत्यंत महत्वपूर्ण है। हम आपकी किसी भी व्यक्तिगत जानकारी को सुरक्षित रखते हैं और किसी तीसरे पक्ष के साथ साझा नहीं करते।</p>
+                <p><strong>2. कुकीज़ (Cookies):</strong> यह वेबसाइट आपके अनुभव को बेहतर बनाने के लिए बेसिक ब्राउज़र स्टोरेज और कुकीज़ का उपयोग करती है।</p>
+                <p><strong>3. नीति में बदलाव:</strong> हमारी प्राइवेसी पॉलिसी में समय-समय पर अपडेट किए जा सकते हैं, जिसकी सूचना पोर्टल पर दी जाएगी।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS & CONDITIONS MODAL -->
+    <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">Terms & Conditions</span>
+                <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>1. स्वीकृति (Acceptance):</strong> इस वेबसाइट (Canvas Play Night) को एक्सेस करके या उपयोग करके, आप हमारे सभी नियमों और शर्तों से बंधे होने की सहमति देते हैं।</p>
+                <p><strong>2. बौद्धिक संपदा (Intellectual Property):</strong> इस वेबसाइट का डिज़ाइन, लोगो, कोड और कंटेंट Kohinoor Enterprises Amusement की संपत्ति है।</p>
+                <p><strong>3. दायित्व की सीमा:</strong> पोर्टल पर दिए गए परिणामों का उपयोग यूज़र अपने विवेक से करता है। किसी भी तकनीकी त्रुटि के लिए प्रबंधन जिम्मेदार नहीं होगा।</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         let tapCount = 0, tapTimer = null;
