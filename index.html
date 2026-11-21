@@ -22,7 +22,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent !important; }
         html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg-dark); color: var(--text-main); font-family: sans-serif; display: flex; flex-direction: column; }
 
-        .sticky-top-section { flex-shrink: 0; background: #120c1f; z-index: 1000; width: 100%; border-bottom: 2px solid rgba(197, 160, 89, 0.3); }
+        .sticky-top-section { flex-shrink: 0; background: #120c1f; z-index: 1000; width: 100%; border-bottom: 2px solid rgba(197, 160, 89, 0.3); will-change: transform; }
         .header-top-banner { text-align: center; padding: 5px 8px 3px 8px; }
         .banner-title { font-size: 1.15em; font-weight: 700; color: #ffffff; font-family: serif; line-height: 1.2; }
         .banner-subtitle { font-size: 0.55em; font-weight: 800; color: #cccccc; letter-spacing: 0.8px; text-transform: uppercase; margin-top: 1px; }
@@ -75,12 +75,19 @@
         .live-indicator { display: flex; align-items: center; gap: 4px; color: var(--accent-red); font-weight: 900; animation: liveBlink 1.2s infinite ease-in-out; }
         .live-dot { height: 6px; width: 6px; background-color: var(--accent-red); border-radius: 50%; display: inline-block; animation: liveBlink 1s infinite ease-in-out; box-shadow: 0 0 6px var(--accent-red); }
 
-        .main-scroll-viewport { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 8px; width: 100%; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 10px; background: var(--bg-dark); }
-        .result-block { background: #ffffff; border: 1px solid #d0d0d0; border-radius: 6px; overflow: hidden; width: 100%; margin-bottom: 2px; }
-        .time-header { font-weight: 900; display: flex; align-items: center; justify-content: center !important; background: #1f3b4d !important; color: #ffffff !important; padding: 6px !important; font-size: 0.8em !important; }
-        .chart-table { display: flex; flex-direction: column; width: 100%; background: #ffffff; }
+        .main-scroll-viewport { flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 8px; width: 100%; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; gap: 10px; background: var(--bg-dark); contain: content; }
+        
+        /* Result Block & Cream Background Customization */
+        .result-block { background: #fdfbf7 !important; border: 1px solid #dcd6cd; border-radius: 6px; overflow: hidden; width: 100%; margin-bottom: 2px; }
+        
+        /* Attractive Gradient Time Header */
+        .time-header { font-weight: 900; display: flex; align-items: center; justify-content: center !important; background: linear-gradient(135deg, #1d3557, #457b9d) !important; color: #ffffff !important; padding: 6px !important; font-size: 0.8em !important; }
+        
+        .chart-table { display: flex; flex-direction: column; width: 100%; background: #fdfbf7 !important; }
         .row-grid { display: grid; grid-template-columns: repeat(10, 1fr); width: 100%; }
-        .cell { background: #ffffff !important; padding: 6px 2px !important; text-align: center !important; font-weight: 800 !important; font-size: 11px !important; color: #111111 !important; border: 1px solid #e5e5e5 !important; }
+        
+        /* Cells background matching cream theme */
+        .cell { background: #fdfbf7 !important; padding: 6px 2px !important; text-align: center !important; font-weight: 800 !important; font-size: 11px !important; color: #111111 !important; border: 1px solid #eae2d6 !important; }
         .red-pair { color: #d32f2f !important; font-weight: 900 !important; }
 
         .site-footer { background: #121212 !important; border-top: 1px solid #333; padding: 6px; text-align: center; width: 100%; font-size: 0.5em; color: #aaa; margin-top: auto; }
@@ -175,7 +182,7 @@
         </footer>
     </div>
 
-    <!-- Modals with Detailed Content -->
+    <!-- Modals -->
     <div id="adminPanelModal" class="modal-overlay" onclick="outsideClose(event, 'adminPanelModal')">
         <div class="modal-card">
             <div class="modal-header">
@@ -205,81 +212,11 @@
         </div>
     </div>
 
-    <!-- ABOUT US MODAL -->
-    <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">About Us - Canvas Play Night</span>
-                <button class="modal-close" onclick="closeModal('aboutModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>CANVAS PLAY NIGHT™</strong> एक प्रीमियम स्किल गेमिंग और एंटरटेनमेंट प्लेटफॉर्म है, जिसे पूरी पारदर्शिता और प्रोफेशनलिज्म के साथ डिज़ाइन किया गया है।</p>
-                <p>यह पोर्टल <strong>Kohinoor Enterprises Amusement</strong> द्वारा संचालित किया जाता है। हमारा मुख्य उद्देश्य हमारे यूज़र्स को सबसे तेज़, सटीक और सुरक्षित रियल-टाइम परिणाम प्रदान करना है।</p>
-                <p>हम उच्च मानकों (High Standards), सुरक्षा और भरोसेमंद सर्विस के लिए प्रतिबद्ध हैं।</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- GAME RULES MODAL -->
-    <div id="rulesModal" class="modal-overlay" onclick="outsideClose(event, 'rulesModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Game Rules & Guidelines</span>
-                <button class="modal-close" onclick="closeModal('rulesModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>1. ड्रॉ का समय (Draw Timings):</strong> सभी ऑटोमेटेड ड्रॉ रोज़ाना सुबह 09:00 AM से रात 10:00 PM के बीच हर 15 मिनट के अंतराल पर होते हैं।</p>
-                <p><strong>2. आयु सीमा (Age Restriction):</strong> यह पोर्टल और खेल केवल 18 वर्ष से अधिक आयु के वयस्कों के लिए है।</p>
-                <p><strong>3. परिणाम और पारदर्शिता (Results):</strong> सभी परिणाम स्वचालित एल्गोरिदम और निर्धारित मानकों के तहत सुरक्षित रूप से प्रदर्शित किए जाते हैं।</p>
-                <p><strong>4. जिम्मेदारी (Responsible Play):</strong> सभी यूज़र्स से अनुरोध है कि वे नियमों का पालन करें और पूरी सावधानी के साथ मनोरंजन का आनंद लें।</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUPPORT MODAL -->
-    <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Customer Support</span>
-                <button class="modal-close" onclick="closeModal('supportModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>क्या आपको सहायता की आवश्यकता है या आपके पास कोई सवाल है?</p>
-                <p>हमारी सपोर्ट टीम आपकी मदद के लिए हमेशा तैयार है। आप किसी भी तकनीकी समस्या या जानकारी के लिए हमारे आधिकारिक सपोर्ट डेस्क से संपर्क कर सकते हैं।</p>
-                <p><strong>समय:</strong> सुबह 09:00 AM से रात 10:00 PM तक उपलब्ध।</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- PRIVACY POLICY MODAL -->
-    <div id="privacyModal" class="modal-overlay" onclick="outsideClose(event, 'privacyModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Privacy Policy</span>
-                <button class="modal-close" onclick="closeModal('privacyModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>1. डेटा सुरक्षा (Data Security):</strong> आपकी गोपनीयता हमारे लिए अत्यंत महत्वपूर्ण है। हम आपकी किसी भी व्यक्तिगत जानकारी को सुरक्षित रखते हैं और किसी तीसरे पक्ष के साथ साझा नहीं करते।</p>
-                <p><strong>2. कुकीज़ (Cookies):</strong> यह वेबसाइट आपके अनुभव को बेहतर बनाने के लिए बेसिक ब्राउज़र स्टोरेज और कुकीज़ का उपयोग करती है।</p>
-                <p><strong>3. नीति में बदलाव:</strong> हमारी प्राइवेसी पॉलिसी में समय-समय पर अपडेट किए जा सकते हैं, जिसकी सूचना पोर्टल पर दी जाएगी।</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- TERMS & CONDITIONS MODAL -->
-    <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')">
-        <div class="modal-card">
-            <div class="modal-header">
-                <span class="modal-title">Terms & Conditions</span>
-                <button class="modal-close" onclick="closeModal('termsModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>1. स्वीकृति (Acceptance):</strong> इस वेबसाइट (Canvas Play Night) को एक्सेस करके या उपयोग करके, आप हमारे सभी नियमों और शर्तों से बंधे होने की सहमति देते हैं।</p>
-                <p><strong>2. बौद्धिक संपदा (Intellectual Property):</strong> इस वेबसाइट का डिज़ाइन, लोगो, कोड और कंटेंट Kohinoor Enterprises Amusement की संपत्ति है।</p>
-                <p><strong>3. दायित्व की सीमा:</strong> पोर्टल पर दिए गए परिणामों का उपयोग यूज़र अपने विवेक से करता है। किसी भी तकनीकी त्रुटि के लिए प्रबंधन जिम्मेदार नहीं होगा।</p>
-            </div>
-        </div>
-    </div>
+    <div id="aboutModal" class="modal-overlay" onclick="outsideClose(event, 'aboutModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">About Us</span><button class="modal-close" onclick="closeModal('aboutModal')">&times;</button></div><div class="modal-body"><p><strong>CANVAS PLAY NIGHT™</strong> एक प्रीमियम स्किल गेमिंग और एंटरटेनमेंट प्लेटफॉर्म है।</p></div></div></div>
+    <div id="rulesModal" class="modal-overlay" onclick="outsideClose(event, 'rulesModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Rules</span><button class="modal-close" onclick="closeModal('rulesModal')">&times;</button></div><div class="modal-body"><p>सभी ऑटोमेटेड ड्रॉ सुबह 09:00 AM से रात 10:00 PM के बीच होते हैं।</p></div></div></div>
+    <div id="supportModal" class="modal-overlay" onclick="outsideClose(event, 'supportModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Support</span><button class="modal-close" onclick="closeModal('supportModal')">&times;</button></div><div class="modal-body"><p>सपोर्ट डेस्क से संपर्क करें।</p></div></div></div>
+    <div id="privacyModal" class="modal-overlay" onclick="outsideClose(event, 'privacyModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Privacy</span><button class="modal-close" onclick="closeModal('privacyModal')">&times;</button></div><div class="modal-body"><p>आपकी गोपनीयता सुरक्षित है।</p></div></div></div>
+    <div id="termsModal" class="modal-overlay" onclick="outsideClose(event, 'termsModal')"><div class="modal-card"><div class="modal-header"><span class="modal-title">Terms</span><button class="modal-close" onclick="closeModal('termsModal')">&times;</button></div><div class="modal-body"><p>नियम व शर्तें लागू।</p></div></div></div>
 
     <script>
         let tapCount = 0, tapTimer = null;
@@ -375,7 +312,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
             firebase.database().ref(".info/serverTimeOffset").on("value", s => { serverTimeOffset = s.val() || 0; });
-            setTimeout(() => { initApp(); }, 100);
+            setTimeout(() => { initApp(); }, 50);
         });
 
         let currentSeriesFilter = 'all';
@@ -536,7 +473,7 @@
                             if (val.length < 4) val = val.padEnd(4, '0');
                             
                             let formattedHtml = formatCellNumber(val);
-                            newBlock += `<div class="cell" style="color:#111111 !important;font-weight:800 !important;">${formattedHtml}</div>`;
+                            newBlock += `<div class="cell" style="background:#fdfbf7 !important; color:#111111 !important; font-weight:800 !important;">${formattedHtml}</div>`;
                         }
                         newBlock += `</div>`;
                     });
@@ -599,6 +536,7 @@
                     }
                     tmp.querySelectorAll('.cell').forEach(cell => {
                         let numText = cell.innerText.trim();
+                        cell.style.setProperty('background', '#fdfbf7', 'important');
                         cell.style.setProperty('color', '#111111', 'important');
                         cell.style.setProperty('font-weight', '800', 'important');
                         cell.innerHTML = formatCellNumber(numText);
